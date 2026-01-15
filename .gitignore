@@ -1,0 +1,189 @@
+# ==============================================================================
+# PRFusion - Comprehensive .gitignore
+# ==============================================================================
+
+# ==============================================================================
+# PYTHON
+# ==============================================================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# mypy / pytype / pyre
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+cython_debug/
+
+# Environments
+.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ==============================================================================
+# PROJECT-SPECIFIC CACHE & TEMP
+# ==============================================================================
+
+# Cache directories
+Cache/
+.cache/
+.ruff_cache/
+
+# Temporary directories
+temp/
+tmp/
+build_artifacts/
+
+# Logs
+*.log
+joules_runner_execution.log
+
+# ==============================================================================
+# IDE & EDITOR
+# ==============================================================================
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# JetBrains (PyCharm, etc.)
+.idea/
+*.iml
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Spyder
+.spyderproject
+.spyproject
+
+# Rope
+.ropeproject
+
+# ==============================================================================
+# NODE.JS (for Astro websites)
+# ==============================================================================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm/
+.yarn/
+
+# Astro build output
+.astro/
+dist/
+
+# ==============================================================================
+# OS-SPECIFIC
+# ==============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.Trash-*
+
+# ==============================================================================
+# SECRETS & SENSITIVE DATA
+# ==============================================================================
+
+# Environment files (except example)
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# API keys / secrets
+secrets/
+*.pem
+*.key
+
+# ==============================================================================
+# MISC
+# ==============================================================================
+
+# Lock files (uv.lock is tracked, but others aren't)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Documentation build
+docs/_build/
+/site
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# --- PERSISTENT STATE (DO NOT IGNORE) ---
+# These files ARE tracked for GitHub Actions persistence:
+# - state/               (Git-tracked state files)
+# - reports/             (Execution reports)

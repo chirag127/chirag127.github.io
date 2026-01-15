@@ -1,0 +1,219 @@
+[
+  {
+    "name": "Ai-Gas-Sensing-Health-Monitor-Web-App",
+    "url": "https://github.com/chirag127/Ai-Gas-Sensing-Health-Monitor-Web-App",
+    "description": "Real-time breath analysis web app using AI to detect VOCs for non-invasive health monitoring and diagnostics",
+    "created_at": "2025-12-27T14:25:13.804352",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Video-Generator-Web-Platform",
+    "url": "https://github.com/chirag127/Ai-Video-Generator-Web-Platform",
+    "description": "Efficient high-resolution AI video generation web app with optimized rendering for content creators",
+    "created_at": "2025-12-27T14:25:35.066226",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Deepseek-Chat-Ai-Assistant-Web-App",
+    "url": "https://github.com/chirag127/Deepseek-Chat-Ai-Assistant-Web-App",
+    "description": "Interactive web-based AI chat assistant powered by DeepSeek R1 model for intelligent conversations",
+    "created_at": "2025-12-27T14:26:00.136518",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Site-Builder-Generator-Web-Tool",
+    "url": "https://github.com/chirag127/Ai-Site-Builder-Generator-Web-Tool",
+    "description": "AI-powered website builder that generates complete websites from text descriptions and prompts",
+    "created_at": "2025-12-27T14:26:21.194786",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Comic-Generator-Web-Platform",
+    "url": "https://github.com/chirag127/Ai-Comic-Generator-Web-Platform",
+    "description": "Create stunning comics and manga using AI with customizable characters, styles, and storylines",
+    "created_at": "2025-12-27T14:26:40.876654",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Virtual-Try-On-Fashion-Web-App",
+    "url": "https://github.com/chirag127/Ai-Virtual-Try-On-Fashion-Web-App",
+    "description": "AI-powered virtual clothing try-on web app for fashion e-commerce and personal styling",
+    "created_at": "2025-12-27T14:27:08.258790",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Flux-Ai-Image-Generator-Web-Platform",
+    "url": "https://github.com/chirag127/Flux-Ai-Image-Generator-Web-Platform",
+    "description": "Advanced AI image generation web app using Flux model for high-quality visual content creation",
+    "created_at": "2025-12-27T14:27:32.962254",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Music-Generator-Web-Studio",
+    "url": "https://github.com/chirag127/Ai-Music-Generator-Web-Studio",
+    "description": "Create original music tracks using AI with customizable genres, moods, and instruments",
+    "created_at": "2025-12-27T14:27:56.545824",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Video-Assistant-Real-Time-Web-App",
+    "url": "https://github.com/chirag127/Ai-Video-Assistant-Real-Time-Web-App",
+    "description": "Real-time AI video assistant that analyzes and responds to streaming video content interactively",
+    "created_at": "2025-12-27T14:28:21.236817",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Cv-Resume-Builder-Web-App",
+    "url": "https://github.com/chirag127/Ai-Cv-Resume-Builder-Web-App",
+    "description": "Professional AI-powered CV and resume builder with ATS optimization and modern templates",
+    "created_at": "2025-12-27T14:28:46.748744",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Social-Media-Scraper-Web-Tool",
+    "url": "https://github.com/chirag127/Social-Media-Scraper-Web-Tool",
+    "description": "Web-based social media content scraper for analytics and research across multiple platforms",
+    "created_at": "2025-12-27T14:29:09.915310",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Dark-Web-Osint-Scanner-Web-Tool",
+    "url": "https://github.com/chirag127/Dark-Web-Osint-Scanner-Web-Tool",
+    "description": "AI-powered dark web intelligence tool for security research and threat monitoring",
+    "created_at": "2025-12-27T14:29:41.642489",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Rag-Knowledge-Base-Web-Platform",
+    "url": "https://github.com/chirag127/Ai-Rag-Knowledge-Base-Web-Platform",
+    "description": "Efficient AI-powered knowledge base with RAG capabilities for intelligent document search",
+    "created_at": "2025-12-27T14:30:08.245651",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Text-To-Video-Generator-Web-App",
+    "url": "https://github.com/chirag127/Ai-Text-To-Video-Generator-Web-App",
+    "description": "Convert text to engaging videos using AI with fast rendering and multiple style options",
+    "created_at": "2025-12-27T14:30:37.153589",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Browser-Automation-Web-Tool",
+    "url": "https://github.com/chirag127/Ai-Browser-Automation-Web-Tool",
+    "description": "AI-powered browser automation tool for web tasks and workflow optimization",
+    "created_at": "2025-12-27T14:31:01.470876",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Infographic-Generator-Web-App",
+    "url": "https://github.com/chirag127/Ai-Infographic-Generator-Web-App",
+    "description": "Create stunning infographics from data and text using AI with professional templates",
+    "created_at": "2025-12-27T14:31:26.553825",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Market-Prediction-Web-Platform",
+    "url": "https://github.com/chirag127/Ai-Market-Prediction-Web-Platform",
+    "description": "AI-powered market prediction platform analyzing trends and forecasting tech industry movements",
+    "created_at": "2025-12-27T14:31:51.174473",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Operating-Room-Scheduler-Web-App",
+    "url": "https://github.com/chirag127/Ai-Operating-Room-Scheduler-Web-App",
+    "description": "AI-powered operating room scheduling and coordination tool for hospital efficiency optimization",
+    "created_at": "2025-12-27T14:32:20.450413",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Video-Search-Rag-Web-Platform",
+    "url": "https://github.com/chirag127/Ai-Video-Search-Rag-Web-Platform",
+    "description": "Search and analyze video content using AI with RAG technology for intelligent video discovery",
+    "created_at": "2025-12-27T14:32:48.499892",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Ai-Avatar-Generator-Video-Web-App",
+    "url": "https://github.com/chirag127/Ai-Avatar-Generator-Video-Web-App",
+    "description": "Create AI-powered digital avatars and videos from single images for virtual presence",
+    "created_at": "2025-12-27T14:33:13.760166",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Streamgen-Ai-High-Resolution-Video-Generator-Web-App",
+    "url": "https://github.com/chirag127/Streamgen-Ai-High-Resolution-Video-Generator-Web-App",
+    "description": "AI-powered web app for generating high-resolution videos efficiently using advanced diffusion models and optimization techniques",
+    "created_at": "2025-12-27T14:40:02.462537",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Visionbias-Ai-Bias-Detection-Analysis-Tool-Web-App",
+    "url": "https://github.com/chirag127/Visionbias-Ai-Bias-Detection-Analysis-Tool-Web-App",
+    "description": "Web app to detect and analyze popularity bias in vision-language models with interactive visualizations and metrics",
+    "created_at": "2025-12-27T14:40:27.748418",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Comicforge-Ai-Comic-Strip-Generator-Web-Platform",
+    "url": "https://github.com/chirag127/Comicforge-Ai-Comic-Strip-Generator-Web-Platform",
+    "description": "Create AI-generated comic strips and panels with customizable characters, styles, and storylines in your browser",
+    "created_at": "2025-12-27T14:40:56.330137",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Virtualfit-Ai-Clothing-Try-On-Fashion-Web-App",
+    "url": "https://github.com/chirag127/Virtualfit-Ai-Clothing-Try-On-Fashion-Web-App",
+    "description": "AI-powered virtual clothing try-on experience with real-time fashion recommendations and style matching",
+    "created_at": "2025-12-27T14:41:20.527297",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Illusionai-Optical-Art-Generator-Web-Platform",
+    "url": "https://github.com/chirag127/Illusionai-Optical-Art-Generator-Web-Platform",
+    "description": "Create stunning optical illusion art and designs using AI diffusion models with customizable parameters",
+    "created_at": "2025-12-27T14:41:45.540332",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Beatforge-Ai-Music-Generation-Studio-Web-App",
+    "url": "https://github.com/chirag127/Beatforge-Ai-Music-Generation-Studio-Web-App",
+    "description": "AI-powered music generation studio with customizable genres, instruments, and mood controls in your browser",
+    "created_at": "2025-12-27T14:42:09.773261",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Streamo-Ai-Video-Assistant-Real-Time-Analysis-Web-App",
+    "url": "https://github.com/chirag127/Streamo-Ai-Video-Assistant-Real-Time-Analysis-Web-App",
+    "description": "Real-time AI video assistant that analyzes and responds to streaming video content with interactive features",
+    "created_at": "2025-12-27T14:42:33.447410",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Cvforge-Ai-Powered-Resume-Builder-Web-Platform",
+    "url": "https://github.com/chirag127/Cvforge-Ai-Powered-Resume-Builder-Web-Platform",
+    "description": "AI-enhanced resume and CV builder with smart templates, optimization tips, and real-time preview",
+    "created_at": "2025-12-27T14:42:59.546598",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Leanrag-Private-Rag-Knowledge-Base-Web-App",
+    "url": "https://github.com/chirag127/Leanrag-Private-Rag-Knowledge-Base-Web-App",
+    "description": "Build private RAG applications with 97% storage savings using efficient knowledge base management",
+    "created_at": "2025-12-27T14:43:25.487064",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Darkscope-Osint-Web-Intelligence-Platform",
+    "url": "https://github.com/chirag127/Darkscope-Osint-Web-Intelligence-Platform",
+    "description": "Web-based OSINT tool for dark web intelligence gathering with automated monitoring and analysis",
+    "created_at": "2025-12-27T14:43:59.744063",
+    "connected_to_jules": false
+  },
+  {
+    "name": "Swiftrag-Fast-Retrieval-Augmented-Generation-Web-App",
+    "url": "https://github.com/chirag127/Swiftrag-Fast-Retrieval-Augmented-Generation-Web-App",
+    "description": "Lightning-fast RAG implementation for quick document Q&A and knowledge retrieval in the browser",
+    "created_at": "2025-12-27T14:44:27.475402",
+    "connected_to_jules": false
+  }
+]

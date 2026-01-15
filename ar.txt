@@ -1,0 +1,110 @@
+# --- PDF & DOCUMENT CORE (Heavy Logic: pdf-lib, pdf.js) ---
+pdf-merger-splitter-tool
+pdf-compressor-optimizer
+pdf-converter-images
+pdf-converter-office-docs
+pdf-converter-ebooks
+pdf-security-manager       # Protect, Unlock, Sign, Watermark
+pdf-page-editor            # Rotate, Crop, Delete, Rearrange
+pdf-metadata-fixer         # Metadata, Exif, Scrubbing
+pdf-ocr-scanner            # OCR text extraction specific
+scan-to-pdf-camera         # Camera interface to PDF
+
+# --- IMAGE PROCESSING (Heavy Logic: Canvas, ffmpeg.wasm) ---
+image-converter-pro        # JPG, PNG, WEBP, TIFF, BMP conversion
+image-compressor-suite     # Lossy/Lossless compression for all formats
+image-editor-canvas        # Crop, Resize, Rotate, Flip, Draw
+image-filter-studio        # Grayscale, Sepia, Blur, Color adjustment
+vector-svg-tools           # SVG to PNG, SVG optimization, Blob generator
+heic-raw-converter         # Specialized decoders for iPhone/Camera RAW
+gif-maker-editor           # Video to GIF, Images to GIF, Edit GIF
+background-remover-ai      # AI-based background removal logic
+photo-metadata-viewer      # EXIF View/Remove/Edit
+favicon-icon-generator     # ICO, App Icon resizing
+
+# --- TEXT & STRING UTILITIES (Lightweight: pure JS) ---
+text-case-converter        # Upper, Lower, Title, Camel, Snake, etc.
+text-counter-statistics    # Words, Chars, Reading time, Sentences
+text-list-organizer        # Sort, Deduplicate, Shuffle, Alphabetize
+text-cleaner-formatter     # Remove spaces, Remove duplicates, Trim
+text-encoder-decoder       # Base64, URL, HTML Entity, Hex, Binary
+lorem-ipsum-generator      # Text, Sentences, Paragraphs
+diff-checker-tool          # Compare text 1 vs text 2
+regex-tester-builder       # Regex tools and cheat sheet
+markdown-editor-viewer     # MD to HTML, HTML to MD, Preview
+slug-url-cleaner           # String to Slug, URL params cleaner
+
+# --- DEVELOPER TOOLS (Medium Logic: Formatting libs, Crypto) ---
+json-data-tools            # Format, Minify, JSON to CSV/XML/YAML
+xml-data-tools             # Format, Minify, XML to JSON
+sql-query-formatter        # Beautify, Minify, SQL Generator
+code-minifier-pack         # HTML, CSS, JS minifiers combined
+hash-checksum-generator    # MD5, SHA, CRC32 generators
+uuid-guid-generator        # UUID v1-v4, Nanoid, Random Strings
+jwt-token-debugger         # Decode JWT, Inspect Header/Payload
+cron-job-helper            # Generator and explainer
+htaccess-htpasswd-tools    # Server config generators
+qrcode-barcode-suite       # QR Gen, Wifi QR, Barcode Gen
+
+# --- WEB & NETWORK (API based or Browser APIs) ---
+user-agent-ip-checker      # IP, Browser info, Screen resolution
+meta-tag-seo-builder       # OpenGraph, Twitter Cards, Meta tags
+color-picker-converter     # HEX, RGB, HSL, CMYK, Picker
+css-generator-studio       # Box shadow, Gradient, Border radius, Flexbox
+url-shortener-decoder      # Unshorten links, Parse URL params
+domain-dns-lookup          # Whois, DNS propagation (if API available)
+ssl-cert-decoder           # Parse CRT/PEM data
+internet-speed-test        # Basic download/latency check
+curl-command-builder       # CURL to Fetch/Axios/Python
+sitemap-robots-builder     # Generate XML sitemap, Robots.txt
+
+# --- MATH, SCIENCE & UNIT CONVERTERS (Shared Math Logic) ---
+unit-converter-all         # Length, Weight, Volume, Area, Speed
+scientific-calculator      # Scientific functions, Trig, Logs
+programmer-calculator      # Bin, Hex, Oct, Dec converter/math
+date-time-calculator       # Time difference, Add days, Week number, Unix
+percentage-calculator      # % change, % of, what % is
+geometry-solver            # Area, Volume, Perimeter of shapes
+algebra-solver             # Linear equations, Quadratic solver
+physics-calc-suite         # Velocity, Force, Ohm's Law, Power
+fraction-calculator        # Add/Sub/Mult/Div fractions
+number-base-converter      # Roman numerals, Arbitrary base conversion
+
+# --- FINANCE & BUSINESS (Shared Formula Logic) ---
+loan-mortgage-calculator   # Amortization, Monthly payments
+interest-calculator        # Simple, Compound, APY
+investment-planner         # ROI, CAGR, SIP, Lumpsum
+tax-salary-estimator       # Income tax brackets, Hourly vs Salary
+discount-sales-calculator  # Markup, Margin, Discount, VAT/GST
+currency-converter-rates   # Forex rates (needs API)
+inflation-value-calc       # Historical value calculator
+credit-card-payoff         # Debt snowball/avalanche
+business-metric-calc       # CPM, CPC, CTR, Break-even
+
+# --- GAMIFICATION & RANDOM (Lightweight Logic) ---
+random-picker-wheel        # Wheel of fortune, Name picker
+dice-coin-flipper          # 3D Dice, Coin flip, Yes/No
+password-security-suite    # Password Gen, Strength checker
+secure-data-generator      # Mock Data (Name, Address, CC)
+logic-puzzles-games        # Sudoku, Minesweeper, Memory game
+typing-speed-test          # WPM, Accuracy test
+reaction-time-tester       # Click speed, Reaction ms
+magic-8-ball-oracle        # Fun random answers
+biorhythm-astrology        # Zodiac, Biorhythm, Love calc
+
+# --- AUDIO & VIDEO (Specific Browser APIs) ---
+audio-tone-generator       # Hz generator, Sweep, White noise
+bpm-metronome-tool         # Tap BPM, Metronome clicker
+audio-file-converter       # Extract audio, Convert format (ffmpeg)
+video-trimmer-cutter       # Cut start/end of video
+screen-recorder-web        # Browser based screen capture
+microphone-tester          # Visualizer, Input check
+volume-booster-tool        # Gain node manipulation
+
+# --- FILE UTILITIES (Client-Side File API) ---
+file-hash-checksum         # CRC32, MD5, SHA of uploaded files
+csv-excel-viewer           # CSV to Table, JSON to Excel
+zip-unzip-archiver         # JSZip based compression
+mime-type-detector         # Check real file type by magic numbers
+file-renamer-bulk          # Rename list of files
+duplicate-file-finder      # Hash comparison of selected files

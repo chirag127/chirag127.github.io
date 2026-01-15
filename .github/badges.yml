@@ -1,0 +1,33 @@
+badges:
+  - name: Build Status
+    url: https://github.com/chirag127/PRFusion-AI-Powered-GitHub-Automation-CLI-Toolkit/actions/workflows/ci.yml/badge.svg
+    alt: Build Status
+    markdown: "[![Build Status](https://github.com/chirag127/PRFusion-AI-Powered-GitHub-Automation-CLI-Toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/chirag127/PRFusion-AI-Powered-GitHub-Automation-CLI-Toolkit/actions/workflows/ci.yml)"
+  - name: Code Coverage
+    url: https://codecov.io/gh/chirag127/PRFusion-AI-Powered-GitHub-Automation-CLI-Toolkit/branch/main/graph/badge.svg?token=YOUR_CODECOV_TOKEN
+    alt: Code Coverage
+    markdown: "[![Code Coverage](https://codecov.io/gh/chirag127/PRFusion-AI-Powered-GitHub-Automation-CLI-Toolkit/branch/main/graph/badge.svg?token=YOUR_CODECOV_TOKEN)](https://codecov.io/gh/chirag127/PRFusion-AI-Powered-GitHub-Automation-CLI-Toolkit)"
+  - name: Python Version
+    url: https://img.shields.io/badge/Python-3.10%2B-blue?style=flat-square&logo=python&logoColor=white
+    alt: Python Version
+    markdown: "[![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)"
+  - name: AI Model
+    url: https://img.shields.io/badge/AI_Model-Google_Gemini-informational?style=flat-square&logo=google&logoColor=white
+    alt: AI Model
+    markdown: "[![AI Model](https://img.shields.io/badge/AI_Model-Google_Gemini-informational?style=flat-square&logo=google&logoColor=white)](https://ai.google.dev/)"
+  - name: GitHub API
+    url: https://img.shields.io/badge/GitHub_API-REST_v3-darkgreen?style=flat-square&logo=github&logoColor=white
+    alt: GitHub API
+    markdown: "[![GitHub API](https://img.shields.io/badge/GitHub_API-REST_v3-darkgreen?style=flat-square&logo=github&logoColor=white)](https://docs.github.com/en/rest)"
+  - name: Linter
+    url: https://img.shields.io/badge/Linter-Ruff-yellowgreen?style=flat-square&logo=ruff&logoColor=white
+    alt: Linter
+    markdown: "[![Linter](https://img.shields.io/badge/Linter-Ruff-yellowgreen?style=flat-square&logo=ruff&logoColor=white)](https://docs.astral.sh/ruff/)"
+  - name: License
+    url: https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey?style=flat-square
+    alt: License
+    markdown: "[![License](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey?style=flat-square)](https://creativecommons.org/licenses/by-nc/4.0/)"
+  - name: GitHub Stars
+    url: https://img.shields.io/github/stars/chirag127/PRFusion-AI-Powered-GitHub-Automation-CLI-Toolkit?style=flat-square&cacheSeconds=3600
+    alt: GitHub Stars
+    markdown: "[![GitHub Stars](https://img.shields.io/github/stars/chirag127/PRFusion-AI-Powered-GitHub-Automation-CLI-Toolkit?style=flat-square&cacheSeconds=3600)](https://github.com/chirag127/PRFusion-AI-Powered-GitHub-Automation-CLI-Toolkit/stargazers)"

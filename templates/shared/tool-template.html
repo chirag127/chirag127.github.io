@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TOOL_TITLE}} - Free Online Tool by Chirag Singhal</title>
+  <meta name="description" content="{{TOOL_DESCRIPTION}}. Free, fast, no signup. Works in browser.">
+  <meta name="keywords" content="{{TOOL_KEYWORDS}}">
+  <meta name="author" content="Chirag Singhal">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{TOOL_TITLE}} - Free Online Tool">
+  <meta property="og:description" content="{{TOOL_DESCRIPTION}}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chirag127.github.io/{{REPO_NAME}}/">
+  <meta property="og:site_name" content="Chirag Singhal Tools">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{TOOL_TITLE}}">
+  <meta name="twitter:description" content="{{TOOL_DESCRIPTION}}">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://chirag127.github.io/{{REPO_NAME}}/">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://chirag127.github.io/shared/favicon.ico">
+
+  <!--
+    ============================================================
+    CENTRALIZED RESOURCES - LOADED FROM MAIN HUB
+    Change once at chirag127.github.io → Updates everywhere
+    ============================================================
+  -->
+  <!-- Analytics (10 trackers) -->
+  <script src="https://chirag127.github.io/shared/analytics.js" defer></script>
+
+  <!-- Styles -->
+  <style>
+    /* Critical CSS inline for fast rendering */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent: #0ea5e9;
+      --accent-hover: #38bdf8;
+      --gradient: linear-gradient(135deg, #0ea5e9, #6366f1);
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+
+    /* Tool Container */
+    .tool-hero {
+      padding: 4rem 0 2rem;
+      text-align: center;
+      background: radial-gradient(ellipse at top, rgba(14, 165, 233, 0.15) 0%, transparent 60%);
+    }
+
+    .tool-hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    .tool-hero p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Tool Area */
+    .tool-area {
+      background: var(--bg-secondary);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 900px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: var(--gradient);
+      color: white;
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    /* File Input */
+    .file-drop {
+      border: 2px dashed rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .file-drop:hover { border-color: var(--accent); background: rgba(14, 165, 233, 0.05); }
+    .file-drop.dragover { border-color: var(--accent); background: rgba(14, 165, 233, 0.1); }
+
+    /* Features */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 3rem 0;
+    }
+
+    .feature {
+      background: var(--bg-secondary);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .feature h3 { color: var(--accent); margin-bottom: 0.5rem; font-size: 1.1rem; }
+    .feature p { color: var(--text-secondary); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <!-- Header - Loaded from central hub -->
+  <div id="central-header-container"></div>
+
+  <!-- Hero -->
+  <section class="tool-hero">
+    <div class="container">
+      <h1>{{TOOL_TITLE}}</h1>
+      <p>{{TOOL_DESCRIPTION}}</p>
+    </div>
+  </section>
+
+  <!-- Tool Area -->
+  <main class="container">
+    <div class="tool-area">
+      <!-- File Drop Zone -->
+      <div class="file-drop" id="dropZone">
+        <p style="font-size: 2rem; margin-bottom: 1rem;">📁</p>
+        <p style="font-size: 1.1rem; color: var(--text-primary);">Drop your file here or click to browse</p>
+        <p style="margin-top: 0.5rem;">Supports: {{SUPPORTED_FORMATS}}</p>
+        <input type="file" id="fileInput" style="display: none;" accept="{{FILE_ACCEPT}}">
+      </div>
+
+      <!-- Action Button -->
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button class="btn btn-primary" id="processBtn" disabled>
+          🚀 Process File
+        </button>
+      </div>
+
+      <!-- Results Area -->
+      <div id="results" style="margin-top: 2rem; display: none;">
+        <h3 style="margin-bottom: 1rem;">Results</h3>
+        <div id="resultsContent"></div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <section class="features">
+      <div class="feature">
+        <h3>🔒 100% Private</h3>
+        <p>All processing happens in your browser. Files never leave your device.</p>
+      </div>
+      <div class="feature">
+        <h3>⚡ Lightning Fast</h3>
+        <p>No uploads, no waiting. Instant results using modern browser APIs.</p>
+      </div>
+      <div class="feature">
+        <h3>🆓 Completely Free</h3>
+        <p>No signup, no limits, no hidden fees. Free forever.</p>
+      </div>
+      <div class="feature">
+        <h3>📱 Works Everywhere</h3>
+        <p>Desktop, tablet, mobile. Any modern browser.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer - Loaded from central hub -->
+  <div id="central-footer-container"></div>
+
+  <!--
+    ============================================================
+    CENTRALIZED SCRIPTS - LOADED FROM MAIN HUB
+    ============================================================
+  -->
+  <!-- Monetization (Ads, BMC) -->
+  <script src="https://chirag127.github.io/shared/monetization.js" defer></script>
+
+  <!-- Load Header/Footer -->
+  <script>
+    // Load shared components from central hub
+    async function loadSharedComponents() {
+      try {
+        // Load header
+        const headerRes = await fetch('https://chirag127.github.io/shared/header.html');
+        const headerHtml = await headerRes.text();
+        document.getElementById('central-header-container').innerHTML = headerHtml;
+
+        // Load footer
+        const footerRes = await fetch('https://chirag127.github.io/shared/footer.html');
+        const footerHtml = await footerRes.text();
+        document.getElementById('central-footer-container').innerHTML = footerHtml;
+      } catch (err) {
+        console.warn('[Shared] Failed to load from hub, using fallback');
+      }
+    }
+
+    loadSharedComponents();
+  </script>
+
+  <!-- Tool Logic -->
+  <script>
+    // File drop zone
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const processBtn = document.getElementById('processBtn');
+    const results = document.getElementById('results');
+    const resultsContent = document.getElementById('resultsContent');
+
+    let selectedFile = null;
+
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      handleFiles(e.target.files);
+    });
+
+    function handleFiles(files) {
+      if (files.length > 0) {
+        selectedFile = files[0];
+        dropZone.innerHTML = `
+          <p style="font-size: 2rem; margin-bottom: 1rem;">✅</p>
+          <p style="font-size: 1.1rem; color: var(--text-primary);">${selectedFile.name}</p>
+          <p style="margin-top: 0.5rem;">${(selectedFile.size / 1024).toFixed(1)} KB</p>
+        `;
+        processBtn.disabled = false;
+
+        // Track event
+        if (window.trackEvent) {
+          trackEvent('file_selected', {
+            file_type: selectedFile.type,
+            file_size: selectedFile.size
+          });
+        }
+      }
+    }
+
+    processBtn.addEventListener('click', async () => {
+      if (!selectedFile) return;
+
+      processBtn.innerHTML = '⏳ Processing...';
+      processBtn.disabled = true;
+
+      try {
+        // TODO: Implement tool-specific logic here
+        await processFile(selectedFile);
+
+        // Track success
+        if (window.trackEvent) {
+          trackEvent('file_processed', { success: true });
+        }
+      } catch (err) {
+        resultsContent.innerHTML = `<p style="color: #ef4444;">Error: ${err.message}</p>`;
+        results.style.display = 'block';
+
+        // Track error
+        if (window.trackEvent) {
+          trackEvent('file_processed', { success: false, error: err.message });
+        }
+      }
+
+      processBtn.innerHTML = '🚀 Process File';
+      processBtn.disabled = false;
+    });
+
+    async function processFile(file) {
+      // TODO: Tool-specific implementation
+      // This is a placeholder that should be replaced by the actual tool logic
+
+      results.style.display = 'block';
+      resultsContent.innerHTML = `
+        <p>File: ${file.name}</p>
+        <p>Size: ${(file.size / 1024).toFixed(1)} KB</p>
+        <p>Type: ${file.type || 'Unknown'}</p>
+        <p style="margin-top: 1rem; color: var(--accent);">
+          Implementation pending. This tool will be fully functional soon!
+        </p>
+      `;
+    }
+  </script>
+</body>
+</html>

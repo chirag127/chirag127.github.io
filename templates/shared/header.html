@@ -1,0 +1,97 @@
+/**
+ * Centralized Header Component
+ *
+ * Fetch and inject:
+ * fetch('https://chirag127.github.io/shared/header.html')
+ *   .then(r => r.text())
+ *   .then(html => document.getElementById('header').innerHTML = html);
+ */
+
+<!-- Header Component - Loaded from Central Hub -->
+<header id="central-header" style="
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 0 1rem;
+">
+  <nav style="
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+  ">
+    <!-- Logo -->
+    <a href="https://chirag127.github.io" style="
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+    ">
+      <div style="
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #0ea5e9, #6366f1);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1rem;
+      ">CS</div>
+      <span>Chirag Singhal</span>
+    </a>
+
+    <!-- Navigation Links -->
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <a href="https://chirag127.github.io" style="
+        padding: 8px 16px;
+        color: #94a3b8;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.2s;
+      " onmouseover="this.style.color='white';this.style.background='rgba(255,255,255,0.1)'"
+         onmouseout="this.style.color='#94a3b8';this.style.background='transparent'">
+        Tools
+      </a>
+      <a href="https://chirag127.github.io/about" style="
+        padding: 8px 16px;
+        color: #94a3b8;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.2s;
+      " onmouseover="this.style.color='white';this.style.background='rgba(255,255,255,0.1)'"
+         onmouseout="this.style.color='#94a3b8';this.style.background='transparent'">
+        About
+      </a>
+      <a href="https://github.com/chirag127" target="_blank" style="
+        padding: 8px 16px;
+        color: #94a3b8;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.2s;
+      " onmouseover="this.style.color='white';this.style.background='rgba(255,255,255,0.1)'"
+         onmouseout="this.style.color='#94a3b8';this.style.background='transparent'">
+        GitHub
+      </a>
+      <a href="https://github.com/sponsors/chirag127" target="_blank" style="
+        padding: 8px 16px;
+        background: linear-gradient(135deg, #db61a2, #ff6b9d);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: opacity 0.2s;
+      " onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+        ❤️ Sponsor
+      </a>
+    </div>
+  </nav>
+</header>
