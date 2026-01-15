@@ -1,338 +1,385 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{TOOL_TITLE}} - Free Online Tool by Chirag Singhal</title>
-  <meta name="description" content="{{TOOL_DESCRIPTION}}. Free, fast, no signup. Works in browser.">
+  <title>{{TOOL_TITLE}} - Free Online Tool</title>
+  <meta name="description" content="{{TOOL_DESCRIPTION}}">
   <meta name="keywords" content="{{TOOL_KEYWORDS}}">
   <meta name="author" content="Chirag Singhal">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="{{TOOL_TITLE}} - Free Online Tool">
+  <meta property="og:title" content="{{TOOL_TITLE}}">
   <meta property="og:description" content="{{TOOL_DESCRIPTION}}">
-  <meta property="og:type" content="website">
   <meta property="og:url" content="https://chirag127.github.io/{{REPO_NAME}}/">
-  <meta property="og:site_name" content="Chirag Singhal Tools">
+  <meta property="og:site_name" content="Chirag Tools">
+  <meta property="og:type" content="website">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{TOOL_TITLE}}">
-  <meta name="twitter:description" content="{{TOOL_DESCRIPTION}}">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <!-- Canonical -->
-  <link rel="canonical" href="https://chirag127.github.io/{{REPO_NAME}}/">
-
-  <!-- Favicon -->
-  <link rel="icon" href="https://chirag127.github.io/shared/favicon.ico">
-
-  <!--
-    ============================================================
-    CENTRALIZED RESOURCES - LOADED FROM MAIN HUB
-    Change once at chirag127.github.io → Updates everywhere
-    ============================================================
-  -->
-  <!-- Analytics (10 trackers) -->
+  <!-- Analytics -->
   <script src="https://chirag127.github.io/shared/analytics.js" defer></script>
 
-  <!-- Styles -->
+  <!-- Tailwind (CDN for simplicity in single-file tools, or use custom CSS) -->
+  <!-- Using custom CSS for maximum control and speed as requested -->
   <style>
-    /* Critical CSS inline for fast rendering */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg-primary: #0f172a;
-      --bg-secondary: #1e293b;
-      --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
-      --accent: #0ea5e9;
-      --accent-hover: #38bdf8;
-      --gradient: linear-gradient(135deg, #0ea5e9, #6366f1);
+      /* Cosmic Theme Palette */
+      --bg-dark: #030712;
+      --bg-card: rgba(17, 24, 39, 0.7);
+      --bg-card-hover: rgba(31, 41, 55, 0.8);
+
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+
+      --primary: #6366f1; /* Indigo 500 */
+      --primary-glow: rgba(99, 102, 241, 0.4);
+      --secondary: #a855f7; /* Purple 500 */
+      --accent: #0ea5e9; /* Sky 500 */
+
+      --success: #10b981;
+      --error: #ef4444;
+
+      --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+      --glass-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+      --radius-lg: 1rem;
+      --radius-md: 0.75rem;
+      --radius-sm: 0.5rem;
+
+      --font-body: 'Outfit', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
 
     body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      min-height: 100vh;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
       line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.15) 0%, transparent 25%);
     }
 
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
-
-    /* Tool Container */
-    .tool-hero {
-      padding: 4rem 0 2rem;
-      text-align: center;
-      background: radial-gradient(ellipse at top, rgba(14, 165, 233, 0.15) 0%, transparent 60%);
+    /* Layout */
+    .app-max-width {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      width: 100%;
     }
 
-    .tool-hero h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 800;
-      background: var(--gradient);
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 { font-weight: 700; letter-spacing: -0.025em; line-height: 1.2; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--text-main) 0%, #cbd5e1 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 1rem;
+      background-clip: text;
     }
 
-    .tool-hero p {
-      color: var(--text-secondary);
-      font-size: 1.1rem;
-      max-width: 600px;
-      margin: 0 auto;
+    .gradient-text-primary {
+      background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    /* Tool Area */
-    .tool-area {
-      background: var(--bg-secondary);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 2rem;
-      margin: 2rem auto;
+    /* Header */
+    #central-header-container {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    /* Main Content */
+    main {
+      flex: 1;
+      padding: 3rem 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Tool Card */
+    .tool-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      width: 100%;
       max-width: 900px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
     }
+
+    /* Decorative Glow for Card */
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent);
+    }
+
+    /* File Drop Zone */
+    .drop-zone {
+      border: 2px dashed rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-md);
+      padding: 4rem 2rem;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.02);
+      position: relative;
+    }
+
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.2);
+    }
+
+    .drop-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-muted);
+      transition: color 0.3s;
+    }
+
+    .drop-zone:hover .drop-icon { color: var(--primary); }
 
     /* Buttons */
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      border-radius: 10px;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 1rem 2rem;
       font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: none;
       font-size: 1rem;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      border: none;
+      position: relative;
+      overflow: hidden;
     }
 
     .btn-primary {
-      background: var(--gradient);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: white;
+      box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
     }
 
-    .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
-
-    /* File Input */
-    .file-drop {
-      border: 2px dashed rgba(255,255,255,0.2);
-      border-radius: 12px;
-      padding: 3rem 2rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      background: rgba(255,255,255,0.02);
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.5);
     }
 
-    .file-drop:hover { border-color: var(--accent); background: rgba(14, 165, 233, 0.05); }
-    .file-drop.dragover { border-color: var(--accent); background: rgba(14, 165, 233, 0.1); }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      filter: grayscale(0.5);
+    }
 
-    /* Features */
-    .features {
+    /* Features Grid */
+    .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.5rem;
-      margin: 3rem 0;
+      margin-top: 4rem;
+      width: 100%;
     }
 
-    .feature {
-      background: var(--bg-secondary);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
+    .feature-card {
+      background: var(--bg-card);
+      border: var(--glass-border);
       padding: 1.5rem;
+      border-radius: var(--radius-md);
+      transition: transform 0.2s, background 0.2s;
     }
 
-    .feature h3 { color: var(--accent); margin-bottom: 0.5rem; font-size: 1.1rem; }
-    .feature p { color: var(--text-secondary); font-size: 0.9rem; }
+    .feature-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      font-size: 1.25rem;
+    }
+
+    /* Results Area */
+    #results {
+      margin-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 2rem;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+
+    /* Footer container adjustment */
+    #central-footer-container {
+      margin-top: auto;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      background: rgba(3, 7, 18, 0.8);
+      backdrop-filter: blur(12px);
+    }
+
+    /* Helper Classes */
+    .text-center { text-align: center; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mb-8 { margin-bottom: 2rem; }
+    .hidden { display: none; }
+    .flex-center { display: flex; align-items: center; justify-content: center; }
   </style>
+
+  <!-- IMPORTANT: Tool specific CSS hook -->
+  {{TOOL_CSS}}
 </head>
 <body>
-  <!-- Header - Loaded from central hub -->
+
+  <!-- Shared Header -->
   <div id="central-header-container"></div>
 
-  <!-- Hero -->
-  <section class="tool-hero">
-    <div class="container">
-      <h1>{{TOOL_TITLE}}</h1>
-      <p>{{TOOL_DESCRIPTION}}</p>
+  <main class="app-max-width">
+
+    <!-- Hero Section -->
+    <div class="text-center mb-8" style="padding: 4rem 0 2rem;">
+      <h1 class="gradient-text-primary" style="font-size: 3.5rem; margin-bottom: 1rem; letter-spacing: -0.05em;">
+        {{TOOL_TITLE}}
+      </h1>
+      <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin: 0 auto;">
+        {{TOOL_DESCRIPTION}}
+      </p>
     </div>
-  </section>
 
-  <!-- Tool Area -->
-  <main class="container">
-    <div class="tool-area">
-      <!-- File Drop Zone -->
-      <div class="file-drop" id="dropZone">
-        <p style="font-size: 2rem; margin-bottom: 1rem;">📁</p>
-        <p style="font-size: 1.1rem; color: var(--text-primary);">Drop your file here or click to browse</p>
-        <p style="margin-top: 0.5rem;">Supports: {{SUPPORTED_FORMATS}}</p>
-        <input type="file" id="fileInput" style="display: none;" accept="{{FILE_ACCEPT}}">
-      </div>
+    <!-- Main Tool Interface -->
+    <div class="tool-card">
+      <!-- Tool Logic Container -->
+      <div id="tool-interface">
+        <label class="drop-zone" id="dropZone">
+           <div class="drop-icon">📂</div>
+           <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Drop files here to start</h3>
+           <p style="color: var(--text-dim); font-size: 0.9rem;">or click to browse from your device</p>
+           <input type="file" id="fileInput" hidden multiple>
+        </label>
 
-      <!-- Action Button -->
-      <div style="text-align: center; margin-top: 1.5rem;">
-        <button class="btn btn-primary" id="processBtn" disabled>
-          🚀 Process File
-        </button>
+        <!-- Status / Output -->
+        <div id="statusArea" class="hidden" style="margin-top: 2rem;">
+          <!-- Content injected by JS -->
+        </div>
+
+        <!-- Actions -->
+        <div class="text-center" style="margin-top: 2rem;">
+          <button id="actionBtn" class="btn btn-primary" disabled>
+            Start Processing
+          </button>
+        </div>
       </div>
 
       <!-- Results Area -->
-      <div id="results" style="margin-top: 2rem; display: none;">
-        <h3 style="margin-bottom: 1rem;">Results</h3>
+      <div id="results" class="hidden">
+        <h3>Results</h3>
         <div id="resultsContent"></div>
       </div>
     </div>
 
-    <!-- Features -->
-    <section class="features">
-      <div class="feature">
-        <h3>🔒 100% Private</h3>
-        <p>All processing happens in your browser. Files never leave your device.</p>
+    <!-- Features Section -->
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h4>100% Private</h4>
+        <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.5rem;">
+          Files are processed entirely in your browser. No data is ever uploaded to a server.
+        </p>
       </div>
-      <div class="feature">
-        <h3>⚡ Lightning Fast</h3>
-        <p>No uploads, no waiting. Instant results using modern browser APIs.</p>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h4>Instant Speed</h4>
+        <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.5rem;">
+          Powered by WebAssembly and modern browser APIs for native-like performance.
+        </p>
       </div>
-      <div class="feature">
-        <h3>🆓 Completely Free</h3>
-        <p>No signup, no limits, no hidden fees. Free forever.</p>
+      <div class="feature-card">
+        <div class="feature-icon">💎</div>
+        <h4>Free Forever</h4>
+        <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.5rem;">
+          No usage limits, no watermarks, and no sign-up required. Just pure utility.
+        </p>
       </div>
-      <div class="feature">
-        <h3>📱 Works Everywhere</h3>
-        <p>Desktop, tablet, mobile. Any modern browser.</p>
-      </div>
-    </section>
+    </div>
+
   </main>
 
-  <!-- Footer - Loaded from central hub -->
+  <!-- Shared Footer -->
   <div id="central-footer-container"></div>
 
-  <!--
-    ============================================================
-    CENTRALIZED SCRIPTS - LOADED FROM MAIN HUB
-    ============================================================
-  -->
-  <!-- Monetization (Ads, BMC) -->
+  <!-- Shared Scripts -->
   <script src="https://chirag127.github.io/shared/monetization.js" defer></script>
 
-  <!-- Load Header/Footer -->
   <script>
-    // Load shared components from central hub
-    async function loadSharedComponents() {
+    // Component Loader with Caching Strategy
+    async function loadComponent(id, url) {
       try {
-        // Load header
-        const headerRes = await fetch('https://chirag127.github.io/shared/header.html');
-        const headerHtml = await headerRes.text();
-        document.getElementById('central-header-container').innerHTML = headerHtml;
-
-        // Load footer
-        const footerRes = await fetch('https://chirag127.github.io/shared/footer.html');
-        const footerHtml = await footerRes.text();
-        document.getElementById('central-footer-container').innerHTML = footerHtml;
-      } catch (err) {
-        console.warn('[Shared] Failed to load from hub, using fallback');
+        const cached = sessionStorage.getItem(url);
+        if (cached) {
+          document.getElementById(id).innerHTML = cached;
+          return;
+        }
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Load failed');
+        const html = await response.text();
+        document.getElementById(id).innerHTML = html;
+        sessionStorage.setItem(url, html);
+      } catch (e) {
+        console.error(`Failed to load ${url}`, e);
+        document.getElementById(id).innerHTML = `<div style="padding: 1rem; color: #ef4444;">Failed to load component.</div>`;
       }
     }
 
-    loadSharedComponents();
+    Promise.all([
+      loadComponent('central-header-container', 'https://chirag127.github.io/shared/header.html'),
+      loadComponent('central-footer-container', 'https://chirag127.github.io/shared/footer.html')
+    ]);
   </script>
 
-  <!-- Tool Logic -->
+  <!-- Tool Logic - Injected by Generator -->
   <script>
-    // File drop zone
-    const dropZone = document.getElementById('dropZone');
-    const fileInput = document.getElementById('fileInput');
-    const processBtn = document.getElementById('processBtn');
-    const results = document.getElementById('results');
-    const resultsContent = document.getElementById('resultsContent');
-
-    let selectedFile = null;
-
-    dropZone.addEventListener('click', () => fileInput.click());
-
-    dropZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropZone.classList.add('dragover');
-    });
-
-    dropZone.addEventListener('dragleave', () => {
-      dropZone.classList.remove('dragover');
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropZone.classList.remove('dragover');
-      handleFiles(e.dataTransfer.files);
-    });
-
-    fileInput.addEventListener('change', (e) => {
-      handleFiles(e.target.files);
-    });
-
-    function handleFiles(files) {
-      if (files.length > 0) {
-        selectedFile = files[0];
-        dropZone.innerHTML = `
-          <p style="font-size: 2rem; margin-bottom: 1rem;">✅</p>
-          <p style="font-size: 1.1rem; color: var(--text-primary);">${selectedFile.name}</p>
-          <p style="margin-top: 0.5rem;">${(selectedFile.size / 1024).toFixed(1)} KB</p>
-        `;
-        processBtn.disabled = false;
-
-        // Track event
-        if (window.trackEvent) {
-          trackEvent('file_selected', {
-            file_type: selectedFile.type,
-            file_size: selectedFile.size
-          });
-        }
-      }
-    }
-
-    processBtn.addEventListener('click', async () => {
-      if (!selectedFile) return;
-
-      processBtn.innerHTML = '⏳ Processing...';
-      processBtn.disabled = true;
-
-      try {
-        // TODO: Implement tool-specific logic here
-        await processFile(selectedFile);
-
-        // Track success
-        if (window.trackEvent) {
-          trackEvent('file_processed', { success: true });
-        }
-      } catch (err) {
-        resultsContent.innerHTML = `<p style="color: #ef4444;">Error: ${err.message}</p>`;
-        results.style.display = 'block';
-
-        // Track error
-        if (window.trackEvent) {
-          trackEvent('file_processed', { success: false, error: err.message });
-        }
-      }
-
-      processBtn.innerHTML = '🚀 Process File';
-      processBtn.disabled = false;
-    });
-
-    async function processFile(file) {
-      // TODO: Tool-specific implementation
-      // This is a placeholder that should be replaced by the actual tool logic
-
-      results.style.display = 'block';
-      resultsContent.innerHTML = `
-        <p>File: ${file.name}</p>
-        <p>Size: ${(file.size / 1024).toFixed(1)} KB</p>
-        <p>Type: ${file.type || 'Unknown'}</p>
-        <p style="margin-top: 1rem; color: var(--accent);">
-          Implementation pending. This tool will be fully functional soon!
-        </p>
-      `;
-    }
+    {{TOOL_SCRIPT}}
   </script>
+
 </body>
 </html>

@@ -1,66 +1,57 @@
-<!-- Footer Component - Loaded from Central Hub -->
-<footer id="central-footer" style="
-  background: rgba(15, 23, 42, 0.8);
-  border-top: 1px solid rgba(255,255,255,0.1);
-  padding: 3rem 1rem 8rem;
-  margin-top: 4rem;
-  color: #94a3b8;
-  font-family: system-ui, -apple-system, sans-serif;
+<!-- Footer Component -->
+<footer style="
+  padding: 4rem 0;
+  color: #9ca3af;
+  font-family: var(--font-body, system-ui);
 ">
-  <div style="max-width: 1200px; margin: 0 auto;">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
-
-      <!-- About -->
+  <div style="
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  ">
+    <div style="
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 3rem;
+      margin-bottom: 3rem;
+    ">
+      <!-- Brand -->
       <div>
-        <h4 style="color: white; margin-bottom: 1rem; font-size: 1rem;">Chirag Singhal</h4>
-        <p style="font-size: 0.875rem; line-height: 1.6;">
-          Software Engineer specializing in Backend & GenAI. Building free tools for everyone.
+        <h4 style="color: white; font-weight: 700; margin-bottom: 1rem; font-size: 1.1rem;">Chirag Singhal</h4>
+        <p style="line-height: 1.6; font-size: 0.95rem;">
+          Building high-quality, free developer tools powered by modern web technologies.
         </p>
       </div>
 
-      <!-- Quick Links -->
+      <!-- Links -->
       <div>
-        <h4 style="color: white; margin-bottom: 1rem; font-size: 1rem;">Quick Links</h4>
-        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-          <a href="https://chirag127.github.io" style="color: #94a3b8; text-decoration: none; font-size: 0.875rem;">All Tools</a>
-          <a href="https://chirag127.github.io/about" style="color: #94a3b8; text-decoration: none; font-size: 0.875rem;">About Me</a>
-          <a href="https://chirag127.github.io/privacy" style="color: #94a3b8; text-decoration: none; font-size: 0.875rem;">Privacy Policy</a>
-          <a href="https://chirag127.github.io/terms" style="color: #94a3b8; text-decoration: none; font-size: 0.875rem;">Terms of Service</a>
+        <h4 style="color: white; font-weight: 600; margin-bottom: 1rem;">Project</h4>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <a href="https://chirag127.github.io" style="color: inherit; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">All Tools</a>
+          <a href="https://github.com/chirag127" style="color: inherit; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">Source Code</a>
+          <a href="https://chirag127.github.io/about" style="color: inherit; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">About</a>
         </div>
       </div>
 
-      <!-- Connect -->
+      <!-- Legal -->
       <div>
-        <h4 style="color: white; margin-bottom: 1rem; font-size: 1rem;">Connect</h4>
-        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-          <a href="https://github.com/chirag127" target="_blank" style="color: #94a3b8; text-decoration: none; font-size: 0.875rem;">GitHub</a>
-          <a href="https://linkedin.com/in/chirag-singhal1" target="_blank" style="color: #94a3b8; text-decoration: none; font-size: 0.875rem;">LinkedIn</a>
-          <a href="mailto:whyiswhen@gmail.com" style="color: #94a3b8; text-decoration: none; font-size: 0.875rem;">Email</a>
-        </div>
-      </div>
-
-      <!-- Support -->
-      <div>
-        <h4 style="color: white; margin-bottom: 1rem; font-size: 1rem;">Support</h4>
-        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-          <a href="https://buymeacoffee.com/chirag127" target="_blank" style="color: #fbbf24; text-decoration: none; font-size: 0.875rem;">☕ Buy Me a Coffee</a>
-          <a href="https://github.com/sponsors/chirag127" target="_blank" style="color: #f472b6; text-decoration: none; font-size: 0.875rem;">❤️ GitHub Sponsors</a>
+        <h4 style="color: white; font-weight: 600; margin-bottom: 1rem;">Legal</h4>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <a href="#" style="color: inherit; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">Privacy Policy</a>
+          <a href="#" style="color: inherit; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='inherit'">Terms of Service</a>
         </div>
       </div>
     </div>
 
     <!-- Copyright -->
     <div style="
-      margin-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
       padding-top: 2rem;
-      border-top: 1px solid rgba(255,255,255,0.1);
       text-align: center;
-      font-size: 0.875rem;
+      font-size: 0.9rem;
+      color: #6b7280;
     ">
-      <p>© 2026 Chirag Singhal. All rights reserved.</p>
-      <p style="margin-top: 0.5rem; font-size: 0.75rem; color: #64748b;">
-        Made with ❤️ in India
-      </p>
+      <p>&copy; 2026 Chirag Singhal. All rights reserved.</p>
     </div>
   </div>
 </footer>

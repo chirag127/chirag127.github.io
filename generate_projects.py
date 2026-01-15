@@ -28,7 +28,6 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from apex_optimizer.ai.unified_client import UnifiedAIClient
 
-
 # =============================================================================
 # CONFIGURATION
 # =============================================================================
@@ -41,6 +40,7 @@ ROOT = Path(__file__).parent
 TOOLS_FILE = ROOT / "ar.txt"
 STATE_FILE = ROOT / "state" / "tools_generated.json"
 TEMP_DIR = ROOT / ".temp"
+TEMPLATE_FILE = ROOT / "shared" / "tool-template.html"
 
 STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
 
@@ -234,296 +234,93 @@ def git_push(name: str, files: dict[str, str]) -> bool:
 # =============================================================================
 
 def generate_single_html(tool: dict, ai: UnifiedAIClient) -> str:
-    """Generate complete single-file HTML with inline CSS and JS."""
+    """Generate complete single-file HTML using shared/tool-template.html and AI."""
 
     name = tool["name"]
     title = tool["title"]
     desc = tool["description"]
     features = tool["features"]
     keywords = tool["keywords"]
-    cdn = tool.get("cdn", "")
     url = f"{CENTRAL_HUB}/{name}/"
 
-    # AI prompt for JavaScript logic
-    prompt = f"""Create JavaScript for: {title}
-Description: {desc}
-Features: {', '.join(features)}
+    # 1. Load Template
+    if not TEMPLATE_FILE.exists():
+        print(f"Error: Template file not found at {TEMPLATE_FILE}")
+        return f"<h1>Error: Template not found at {TEMPLATE_FILE}</h1>"
 
-Requirements:
-- Pure JS ES6+
-- Handle file input/drop
-- Progress indicator
-- Download results
-- Error handling
+    template = TEMPLATE_FILE.read_text(encoding="utf-8")
 
-Output ONLY JavaScript code (no markdown).
-"""
+    # 2. AI Prompt
+    prompt = f"""You are an Expert Frontend Developer.
+    TASK: Write the **JavaScript logic** (and optional CSS) for a new web tool: "{title}".
 
-    result = ai.generate(prompt=prompt, max_tokens=8000, min_model_size=32)
-    js_code = result.content if result.success else get_fallback_js(tool)
+    TOOL INFO:
+    - Description: {desc}
+    - Features: {', '.join(features)}
 
-    # Clean markdown
-    if "```" in js_code:
-        lines = [l for l in js_code.split("\n") if not l.strip().startswith("```")]
-        js_code = "\n".join(lines)
+    HTML STRUCTURE (Do NOT output HTML, it exists):
+    - <input type="file" id="fileInput">
+    - <label id="dropZone"> (Drop area)
+    - <button id="actionBtn"> (Click to process - Disabled by default)
+    - <div id="statusArea"> (Inject dynamic UI here: options, progress bars)
+    - <div id="resultsContent"> (Inject final results here)
+    - <div id="results"> (Container of resultsContent, hidden by default)
 
-    # SEO structured data
-    seo_data = json.dumps({
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": title,
-        "description": desc,
-        "url": url,
-        "applicationCategory": "UtilityApplication",
-        "offers": {"@type": "Offer", "price": "0"},
-        "author": {"@type": "Person", "name": "Chirag Singhal"}
-    })
+    REQUIREMENTS:
+    1. Listen for file selection (drop or click).
+    2. Enable "actionBtn" when file is selected. Update dropZone UI to show file name.
+    3. On click, process the file (Client-side ONLY).
+       - Use browser APIs (FileReader, Canvas) or CDN libraries if strictly necessary.
+       - If complex (like PDF merge), simulate the process with a progress bar and fake "success" if true client-side is too large for this snippet, BUT prefer real implementation if possible within 8000 tokens.
+    4. Inject progress bars or status messages into `statusArea`.
+    5. Reveal `results` (remove .hidden class from #results or set style.display) and show output.
+    6. **THEME**: Use CSS variables: var(--primary), var(--bg-card).
 
-    features_html = "\n".join(f"<li>{f}</li>" for f in features)
-    cdn_script = f'<script src="{cdn}"></script>' if cdn else ""
-
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title} - Free Online Tool</title>
-  <meta name="description" content="{desc}">
-  <meta name="keywords" content="{', '.join(keywords)}">
-  <meta name="author" content="Chirag Singhal">
-  <meta property="og:title" content="{title}">
-  <meta property="og:description" content="{desc}">
-  <meta property="og:url" content="{url}">
-  <link rel="canonical" href="{url}">
-  <script type="application/ld+json">{seo_data}</script>
-  <script src="{CENTRAL_HUB}/shared/analytics.js" defer></script>
-  <style>
-:root {{
-  --bg: #0f172a;
-  --bg2: #1e293b;
-  --text: #f8fafc;
-  --text2: #94a3b8;
-  --accent: #0ea5e9;
-  --accent2: #8b5cf6;
-  --success: #22c55e;
-}}
-* {{ box-sizing: border-box; margin: 0; padding: 0; }}
-body {{
-  font-family: system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  min-height: 100vh;
-}}
-.container {{ max-width: 800px; margin: 0 auto; padding: 0 20px; }}
-.header {{
-  background: var(--bg2);
-  padding: 16px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}}
-.header .container {{ display: flex; justify-content: space-between; align-items: center; }}
-.logo {{ color: var(--text); text-decoration: none; font-weight: 700; }}
-.header nav a {{ color: var(--text2); text-decoration: none; margin-left: 20px; }}
-.header nav a:hover {{ color: var(--accent); }}
-.hero {{ text-align: center; padding: 60px 0 40px; }}
-.hero h1 {{
-  font-size: 2.5rem;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}}
-.hero p {{ color: var(--text2); margin-top: 16px; max-width: 600px; margin-left: auto; margin-right: auto; }}
-.tool-section {{ padding-bottom: 60px; }}
-.tool-card {{
-  background: rgba(30,41,59,0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  padding: 32px;
-}}
-.drop-zone {{
-  border: 2px dashed rgba(255,255,255,0.2);
-  border-radius: 12px;
-  padding: 48px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s;
-}}
-.drop-zone:hover {{ border-color: var(--accent); background: rgba(14,165,233,0.1); }}
-.drop-zone svg {{ color: var(--text2); margin-bottom: 16px; }}
-#fileList {{ margin-top: 16px; }}
-.file-item {{
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px; background: var(--bg2); border-radius: 8px; margin-top: 8px;
-}}
-.file-item .name {{ flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
-.file-item .size {{ color: var(--text2); font-size: 0.875rem; }}
-.btn-primary {{
-  width: 100%; margin-top: 24px; padding: 16px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  color: white; border: none; border-radius: 12px;
-  font-size: 1rem; font-weight: 600; cursor: pointer;
-  transition: all 0.3s;
-}}
-.btn-primary:disabled {{ opacity: 0.5; cursor: not-allowed; }}
-.btn-primary:hover:not(:disabled) {{ transform: translateY(-2px); box-shadow: 0 10px 30px rgba(14,165,233,0.3); }}
-.progress-bar {{ height: 8px; background: var(--bg2); border-radius: 4px; margin-top: 24px; overflow: hidden; }}
-.progress-fill {{ height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); width: 0%; transition: width 0.3s; }}
-#progressText {{ text-align: center; margin-top: 8px; color: var(--text2); }}
-#results {{ margin-top: 24px; }}
-.result-item {{
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 16px; background: rgba(34,197,94,0.1);
-  border: 1px solid rgba(34,197,94,0.2); border-radius: 12px; margin-top: 8px;
-}}
-.download-btn {{
-  background: var(--success); color: white; border: none;
-  padding: 8px 16px; border-radius: 8px; cursor: pointer;
-}}
-.features, .privacy {{ padding: 60px 0; }}
-.features h2, .privacy h2 {{ text-align: center; margin-bottom: 32px; }}
-.features-list {{
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px; list-style: none;
-}}
-.features-list li {{
-  background: rgba(30,41,59,0.8); border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px; padding: 16px;
-}}
-.privacy {{ text-align: center; }}
-.privacy p {{ color: var(--text2); max-width: 600px; margin: 0 auto; }}
-.footer {{ padding: 40px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }}
-.footer a {{ color: var(--accent); text-decoration: none; }}
-  </style>
-</head>
-<body>
-  <header class="header">
-    <div class="container">
-      <a href="{CENTRAL_HUB}" class="logo">Chirag Tools</a>
-      <nav>
-        <a href="https://github.com/chirag127/{name}">GitHub</a>
-        <a href="https://buymeacoffee.com/chirag127">Support</a>
-      </nav>
-    </div>
-  </header>
-
-  <section class="hero">
-    <div class="container">
-      <h1>{title}</h1>
-      <p>{desc}</p>
-    </div>
-  </section>
-
-  <main class="tool-section">
-    <div class="container">
-      <div class="tool-card">
-        <div class="drop-zone" id="dropZone">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="17 8 12 3 7 8"/>
-            <line x1="12" y1="3" x2="12" y2="15"/>
-          </svg>
-          <p>Drop files here or click to browse</p>
-          <input type="file" id="fileInput" multiple hidden>
-        </div>
-        <div id="fileList"></div>
-        <button class="btn-primary" id="processBtn" disabled>Process Files</button>
-        <div id="progress" hidden>
-          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-          <p id="progressText">Processing...</p>
-        </div>
-        <div id="results"></div>
-      </div>
-    </div>
-  </main>
-
-  <section class="features">
-    <div class="container">
-      <h2>Features</h2>
-      <ul class="features-list">{features_html}</ul>
-    </div>
-  </section>
-
-  <section class="privacy">
-    <div class="container">
-      <h2>100% Private</h2>
-      <p>All processing happens in your browser. Files never leave your device.</p>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2026 <a href="https://github.com/chirag127">Chirag Singhal</a></p>
-    </div>
-  </footer>
-
-  {cdn_script}
-  <script>
-{js_code}
-  </script>
-  <script src="{CENTRAL_HUB}/shared/monetization.js" defer></script>
-</body>
-</html>'''
-
-
-def get_fallback_js(tool: dict) -> str:
-    return f'''// {tool["title"]} - Main Logic
-document.addEventListener('DOMContentLoaded', () => {{
-  const dropZone = document.getElementById('dropZone');
-  const fileInput = document.getElementById('fileInput');
-  const fileList = document.getElementById('fileList');
-  const processBtn = document.getElementById('processBtn');
-  const progress = document.getElementById('progress');
-  const progressFill = document.getElementById('progressFill');
-  const progressText = document.getElementById('progressText');
-  const results = document.getElementById('results');
-
-  let files = [];
-
-  dropZone.onclick = () => fileInput.click();
-  dropZone.ondragover = e => {{ e.preventDefault(); dropZone.style.borderColor = '#0ea5e9'; }};
-  dropZone.ondragleave = () => dropZone.style.borderColor = '';
-  dropZone.ondrop = e => {{ e.preventDefault(); dropZone.style.borderColor = ''; addFiles(e.dataTransfer.files); }};
-  fileInput.onchange = e => addFiles(e.target.files);
-
-  function addFiles(newFiles) {{
-    files = [...files, ...Array.from(newFiles)];
-    renderFiles();
-    processBtn.disabled = files.length === 0;
-  }}
-
-  function renderFiles() {{
-    fileList.innerHTML = files.map((f, i) => `
-      <div class="file-item">
-        <span class="name">${{f.name}}</span>
-        <span class="size">${{(f.size/1024).toFixed(1)}} KB</span>
-      </div>
-    `).join('');
-  }}
-
-  processBtn.onclick = async () => {{
-    processBtn.disabled = true;
-    progress.hidden = false;
-    results.innerHTML = '';
-
-    for (let i = 0; i < files.length; i++) {{
-      progressFill.style.width = ((i+1)/files.length*100) + '%';
-      progressText.textContent = `Processing ${{i+1}}/${{files.length}}...`;
-      await new Promise(r => setTimeout(r, 500));
-
-      results.innerHTML += `
-        <div class="result-item">
-          <span>Done: ${{files[i].name}}</span>
-          <button class="download-btn">Download</button>
-        </div>
-      `;
+    OUTPUT JSON FORMAT:
+    {{
+      "js": "/* Pure JS code here */",
+      "css": "/* Optional CSS for new elements */"
     }}
+    """
 
-    progressText.textContent = 'Complete!';
-    processBtn.disabled = false;
-  }};
-}});'''
+    print(f"  Generating logic for {name}...")
+    result = ai.generate_json(prompt=prompt, max_tokens=8000, min_model_size=32)
+
+    js_code = ""
+    css_code = ""
+
+    if result.success and result.json_content:
+        js_code = result.json_content.get("js", "// No JS generated")
+        css_code = result.json_content.get("css", "")
+        print("  + AI Logic Generated")
+
+        # Fallback Cleanup
+        if "```" in js_code:
+            js_code = js_code.replace("```javascript", "").replace("```", "")
+    else:
+        print(f"  x AI Generation Failed: {result.error}")
+        js_code = "console.error('AI Logic Generation Failed'); alert('AI Logic Generation Failed');"
+
+    # 3. Inject Content into Template
+    html = template.replace("{{TOOL_TITLE}}", title)
+    html = html.replace("{{TOOL_DESCRIPTION}}", desc)
+    html = html.replace("{{TOOL_KEYWORDS}}", ", ".join(keywords))
+    html = html.replace("{{REPO_NAME}}", name)
+
+    # Supported formats for display
+    formats = "Files"
+    if "pdf" in name: formats = "PDF"
+    elif "image" in name: formats = "Images (PNG, JPG, WEBP)"
+    elif "video" in name: formats = "Video (MP4, WEBM)"
+
+    html = html.replace("{{SUPPORTED_FORMATS}}", formats)
+    html = html.replace("{{FILE_ACCEPT}}", "*/*")
+
+    # Scripts
+    html = html.replace("{{TOOL_SCRIPT}}", js_code)
+    html = html.replace("{{TOOL_CSS}}", f"<style>{css_code}</style>" if css_code else "")
+
+    return html
 
 
 # =============================================================================
@@ -541,7 +338,6 @@ def generate_tool(tool: dict) -> bool:
     ai = UnifiedAIClient()
     html_content = generate_single_html(tool, ai)
 
-    # Only 2 files: index.html and README.md (no .gitignore)
     files = {
         "index.html": html_content,
         "README.md": f'''# {tool["title"]}

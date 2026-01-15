@@ -1,9 +1,5 @@
 /**
  * Centralized Monetization - Ads, Donations, Affiliate
- *
- * Include in ALL projects:
- * <script src="https://chirag127.github.io/shared/monetization.js" defer></script>
- *
  * UPDATE THIS FILE ONCE → CHANGES APPLY EVERYWHERE
  */
 
@@ -11,7 +7,7 @@
   'use strict';
 
   // =========================================================================
-  // CONFIGURATION - UPDATE ONLY HERE
+  // CONFIGURATION
   // =========================================================================
 
   const CONFIG = {
@@ -24,7 +20,7 @@
     // Buy Me a Coffee
     buymeacoffee: {
       username: 'chirag127',
-      color: '#5F7FFF',
+      color: '#6366f1', // Indigo to match theme
       message: 'Thank you for using this tool!',
       enabled: true
     },
@@ -33,12 +29,6 @@
     githubSponsors: {
       username: 'chirag127',
       enabled: true
-    },
-
-    // Amazon Affiliate
-    amazon: {
-      storeId: 'chirag127-21',
-      enabled: false // Enable when needed
     }
   };
 
@@ -48,23 +38,25 @@
 
   function injectAAdsBanner() {
     if (!CONFIG.aads.enabled) return;
-
-    // Check if already exists
     if (document.getElementById('centralized-aads-banner')) return;
 
     const banner = document.createElement('div');
     banner.id = 'centralized-aads-banner';
+    // Glassmorphism, blurred, dark theme
     banner.style.cssText = `
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       z-index: 9998;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(8px);
-      padding: 8px;
+      background: rgba(3, 7, 18, 0.85); /* Matches new dark theme */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 10px;
       text-align: center;
-      border-top: 1px solid rgba(255,255,255,0.1);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
     `;
 
     const iframe = document.createElement('iframe');
@@ -78,12 +70,14 @@
       height: 90px;
       display: block;
       margin: 0 auto;
+      border-radius: 8px; /* Slight roundness */
+      background: rgba(255,255,255,0.02);
     `;
 
     banner.appendChild(iframe);
     document.body.appendChild(banner);
 
-    // Add padding to body to prevent content overlap
+    // Padding for content
     document.body.style.paddingBottom = '110px';
   }
 
@@ -93,8 +87,6 @@
 
   function injectBuyMeACoffee() {
     if (!CONFIG.buymeacoffee.enabled) return;
-
-    // Check if already exists
     if (document.querySelector('script[data-name="BMC-Widget"]')) return;
 
     const script = document.createElement('script');
@@ -107,13 +99,13 @@
     script.setAttribute('data-color', CONFIG.buymeacoffee.color);
     script.setAttribute('data-position', 'Right');
     script.setAttribute('data-x_margin', '18');
-    script.setAttribute('data-y_margin', '108');
+    script.setAttribute('data-y_margin', '125'); // Moved up to avoid banner
 
     document.body.appendChild(script);
   }
 
   // =========================================================================
-  // INJECT SUPPORT LINKS
+  // INJECT SUPPORT LINKS (Mobile/Custom)
   // =========================================================================
 
   function createSupportSection() {
@@ -123,7 +115,7 @@
       <style>
         #centralized-support-btn {
           position: fixed;
-          bottom: 120px;
+          bottom: 125px; /* Above banner */
           left: 20px;
           z-index: 9997;
           background: linear-gradient(135deg, #FF6B6B, #FF8E53);
@@ -136,6 +128,7 @@
           box-shadow: 0 4px 15px rgba(255,107,107,0.3);
           transition: all 0.3s ease;
           font-family: system-ui, sans-serif;
+          display: flex; align-items: center; gap: 8px;
         }
         #centralized-support-btn:hover {
           transform: translateY(-2px);
@@ -147,36 +140,44 @@
           bottom: 180px;
           left: 20px;
           z-index: 9999;
-          background: #1e293b;
+          background: rgba(30, 41, 59, 0.95);
+          backdrop-filter: blur(12px);
           border-radius: 16px;
           padding: 20px;
           min-width: 280px;
           box-shadow: 0 20px 50px rgba(0,0,0,0.5);
           border: 1px solid rgba(255,255,255,0.1);
+          animation: slideIn 0.2s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         #support-modal.show { display: block; }
         #support-modal h3 {
           margin: 0 0 15px 0;
           color: white;
-          font-size: 18px;
+          font-size: 1.1rem;
+          font-family: system-ui, sans-serif;
         }
         .support-link {
           display: flex;
           align-items: center;
-          gap: 10px;
-          padding: 10px 15px;
+          gap: 12px;
+          padding: 12px 15px;
           margin: 8px 0;
           background: rgba(255,255,255,0.05);
           border-radius: 10px;
-          color: white;
+          color: #e2e8f0;
           text-decoration: none;
-          transition: background 0.2s;
+          transition: all 0.2s;
+          font-family: system-ui, sans-serif;
+          font-size: 0.95rem;
         }
-        .support-link:hover { background: rgba(255,255,255,0.1); }
-        .support-link span { font-size: 20px; }
+        .support-link:hover { background: rgba(255,255,255,0.1); color: white; transform: translateX(5px); }
       </style>
 
-      <button id="centralized-support-btn">❤️ Support</button>
+      <button id="centralized-support-btn"><span>❤️</span> Support</button>
 
       <div id="support-modal">
         <h3>Support This Project</h3>
@@ -197,7 +198,10 @@
     // Toggle modal
     const btn = document.getElementById('centralized-support-btn');
     const modal = document.getElementById('support-modal');
-    btn.addEventListener('click', () => modal.classList.toggle('show'));
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        modal.classList.toggle('show');
+    });
 
     // Close on outside click
     document.addEventListener('click', (e) => {
@@ -206,10 +210,6 @@
       }
     });
   }
-
-  // =========================================================================
-  // INITIALIZATION
-  // =========================================================================
 
   function init() {
     if (document.readyState === 'loading') {
@@ -223,7 +223,6 @@
     injectAAdsBanner();
     injectBuyMeACoffee();
     createSupportSection();
-    console.log('[Monetization] Injected from central hub');
   }
 
   init();
