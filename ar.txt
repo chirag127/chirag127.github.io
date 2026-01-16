@@ -108,3 +108,94 @@ zip-unzip-archiver         # JSZip based compression
 mime-type-detector         # Check real file type by magic numbers
 file-renamer-bulk          # Rename list of files
 duplicate-file-finder      # Hash comparison of selected files
+
+# --- KEYBOARD & HARDWARE TESTING (Browser APIs) ---
+keyboard-test-suite        # Key rollover, Ghosting test, Latency check
+mouse-polling-rate         # Check Hz of mouse, Double click tester
+gamepad-joystick-tester    # Visualize controller inputs (HTML5 Gamepad API)
+screen-dead-pixel-fixer    # Flashing colors to unstuck pixels
+display-hz-checker         # Check monitor refresh rate (vsync test)
+webcam-mirror-test         # Check camera quality, mirror view, freeze frame
+printer-test-pages         # CMYK test patterns, Alignment grids (CSS print)
+
+# --- NETWORK & PRIVACY (Client-Side Logic) ---
+subnet-mask-calculator     # IP range, CIDR to Netmask, Broadcast IP
+mac-address-lookup         # Vendor lookup (static DB of OUI prefixes)
+password-leak-checker      # Hash prefix check (k-anonymity API like PwnedPasswords)
+browser-fingerprint-check  # Show Canvas hash, Audio fingerprint, Font list
+local-storage-viewer       # View/Clear Cookies, LocalStorage, SessionStorage
+http-header-parser         # Parse raw header strings into JSON
+adblock-detector-test      # Simple script to check if ads are blocked
+
+# --- DEVELOPER HELPERS (Niche) ---
+crontab-generator-gui      # Visual cron schedule builder (* * * * *)
+chmod-calculator-gui       # Visual checkboxes (rwx) to Octal (755)
+regex-visualizer-tool      # Visual marble diagram of RegEx matches
+json-schema-generator      # Paste JSON -> Generate Schema/TypeScript Interface
+git-ignore-generator       # Select OS/Language -> Generate .gitignore file
+docker-compose-builder     # visual UI to generate docker-compose.yml
+curl-to-code-converter     # Convert Curl to Fetch, Python, Node, Go
+ascii-table-generator      # Text to ASCII table borders (MySQL style)
+
+# --- TEXT & CONTENT (Creative) ---
+zalgo-glitch-text-gen      # Add "curse" marks to text (H̷e̷l̷l̷o̷)
+ascii-art-banner-gen       # Large text banners using symbols
+fancy-font-generator       # Normal text to Unicode (ℋ𝓮𝓵𝓵𝓸 𝕎𝕠𝕣𝕝𝕕)
+emoji-mixer-maker          # Combine two emojis (Google Emoji Kitchen logic)
+spoiler-text-generator     # Create ||spoiler|| tags for Discord/Reddit
+kaomoji-emoticon-list      # Click to copy (╯°□°)╯︵ ┻━┻
+screenplay-formatter       # Auto-format text to Fountain/Script standard
+
+# --- SOCIAL MEDIA UTILITIES ---
+youtube-thumbnail-grabber  # Extract max-res image from Video ID
+instagram-caption-spacer   # Add invisible characters for line breaks
+tweet-thread-preview       # Visualizer for long threads
+link-in-bio-builder        # Static page generator for social links
+youtube-tag-extractor      # Extract keywords from video page source
+social-post-mockup         # Fake Tweet/Insta/FB post generator (for memes)
+hashtag-mixer-shuffler     # Randomize and limit hashtag lists
+
+# --- MATH & LOGIC (Education) ---
+truth-table-generator      # Logic gates (AND, OR, NOT) -> Table
+matrix-calculator-pro      # Add, Multiply, Transpose, Inverse Matrices
+polynomial-root-finder     # Solve cubic/quartic equations
+prime-factorization-tool   # Break numbers into primes (visual tree)
+statistics-calculator      # Mean, Median, Mode, Std Dev, Variance
+set-theory-calculator      # Union, Intersection, Difference of sets
+base64-image-decoder       # Paste Base64 string -> View Image
+
+# --- AUDIO & MUSIC (Web Audio) ---
+guitar-tuner-web           # Mic input -> Pitch detection (autocorrelation)
+ear-training-interval      # Play two notes -> User guesses interval
+sheet-music-blank          # Generate printable staff paper (PDF/SVG)
+chords-scale-finder        # Select root -> Show chords/scales (Piano/Guitar)
+bpm-counter-tapper         # Tap spacebar -> Calculate Tempo
+morse-code-audio-gen       # Text -> Beep sequences
+
+# --- EVERYDAY CONVENIENCE ---
+qr-wifi-connector          # Generate QR code for WiFi login
+vcard-contact-builder      # Form -> .vcf file download
+calendar-invite-maker      # Form -> .ics file download
+pomodoro-focus-timer       # 25/5 interval timer with notifications
+recipe-scaler-tool         # Paste ingredients -> Multiply amounts
+unit-price-comparator      # Price A/Size A vs Price B/Size B
+fuel-cost-trip-calc        # Distance / MPG * Price
+grocery-list-organizer     # Text list -> Group by category
+
+# --- IMAGE & GRAPHICS (Specific) ---
+placeholder-image-gen      # Solid color with text (Canvas export)
+social-image-resizer       # Crop to OG tags, Insta Story, Twitter Header
+meme-maker-simple          # Top/Bottom text on uploaded image
+color-palette-extractor    # Upload image -> Get dominant Hex codes
+svg-blob-maker             # Generate organic shapes (random path)
+css-pattern-generator      # Polka dots, stripes, checkerboard (CSS code)
+image-histogram-viewer     # View RGB distribution graph
+
+# --- GAMES & RANDOM (Simple JS) ---
+sudoku-solver-visual       # Backtracking algorithm visualizer
+wordle-helper-solver       # Enter known letters -> Filter word list
+crossword-puzzle-maker     # Input words -> Generate grid
+maze-generator-print       # Generate random mazes to print
+bingo-card-generator       # Random numbers/words on grid
+lottery-number-picker      # Random pick from pool (visual balls)
+decision-maker-wheel       # Input options -> Spin animation

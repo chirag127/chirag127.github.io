@@ -7,6 +7,7 @@ Creates single-file HTML tools (inline CSS + JS):
 - No build step, no separate files
 - Direct GitHub Pages deployment
 - Central hub analytics integration
+- AI-generated metadata (title, description, keywords, features)
 
 Usage:
   python generate_projects.py                    # Generate next tool
@@ -27,6 +28,7 @@ import requests
 sys.path.insert(0, str(Path(__file__).parent))
 
 from apex_optimizer.ai.unified_client import UnifiedAIClient
+from apex_optimizer.prompts import get_tool_metadata_prompt
 
 # =============================================================================
 # CONFIGURATION
@@ -46,63 +48,7 @@ STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
 
 
 # =============================================================================
-# TOOL METADATA
-# =============================================================================
-
-TOOL_INFO = {
-    "pdf-merger-splitter-tool": {
-        "title": "PDF Merger & Splitter",
-        "description": "Merge multiple PDFs or split PDF into pages. 100% client-side.",
-        "features": ["Merge PDFs", "Split by pages", "Drag-drop", "Preview", "ZIP download"],
-        "keywords": ["pdf merger", "pdf splitter", "combine pdf", "split pdf"],
-        "cdn": "https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js",
-    },
-    "pdf-compressor-optimizer": {
-        "title": "PDF Compressor",
-        "description": "Compress PDF files to reduce size while keeping quality.",
-        "features": ["3 compression levels", "Batch compress", "Size preview"],
-        "keywords": ["compress pdf", "pdf optimizer", "reduce pdf size"],
-        "cdn": "https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js",
-    },
-    "image-converter-pro": {
-        "title": "Image Converter",
-        "description": "Convert images between JPG, PNG, WEBP, GIF formats.",
-        "features": ["10+ formats", "Batch convert", "Quality control", "Resize"],
-        "keywords": ["image converter", "jpg to png", "webp converter"],
-        "cdn": "",
-    },
-    "json-data-tools": {
-        "title": "JSON Tools",
-        "description": "Format, minify, validate JSON. Convert to CSV/XML.",
-        "features": ["Format", "Minify", "Validate", "Convert"],
-        "keywords": ["json formatter", "json validator", "json to csv"],
-        "cdn": "",
-    },
-    "qrcode-barcode-suite": {
-        "title": "QR & Barcode Generator",
-        "description": "Generate QR codes for URLs, WiFi, vCards and more.",
-        "features": ["QR codes", "WiFi QR", "vCard", "Barcodes", "Custom colors"],
-        "keywords": ["qr generator", "barcode maker", "wifi qr"],
-        "cdn": "https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js",
-    },
-}
-
-
-def get_tool_info(name: str) -> dict:
-    if name in TOOL_INFO:
-        return TOOL_INFO[name]
-    title = name.replace("-", " ").title()
-    return {
-        "title": title,
-        "description": f"Free online {title.lower()} tool. Fast and secure.",
-        "features": ["Client-side", "Fast", "Free", "No signup", "Mobile ready"],
-        "keywords": [name.replace("-", " "), f"online {name}", f"free {name}"],
-        "cdn": "",
-    }
-
-
-# =============================================================================
-# STATE
+# STATE MANAGEMENT
 # =============================================================================
 
 def load_state() -> dict:
@@ -111,7 +57,7 @@ def load_state() -> dict:
             return json.loads(STATE_FILE.read_text(encoding="utf-8"))
         except:
             pass
-    return {"generated": [], "failed": []}
+    return {"generated": [], "failed": [], "metadata_cache": {}}
 
 
 def save_state(state: dict):
@@ -119,7 +65,54 @@ def save_state(state: dict):
 
 
 # =============================================================================
-# PARSE TOOLS
+# AI-POWERED METADATA GENERATION
+# =============================================================================
+
+def generate_tool_metadata(name: str, ai: UnifiedAIClient, state: dict) -> dict:
+    """Generate tool metadata using AI, with caching."""
+
+    # Check cache first
+    if name in state.get("metadata_cache", {}):
+        print(f"  Using cached metadata for {name}")
+        return state["metadata_cache"][name]
+
+    print(f"  Generating metadata for {name}...")
+    prompt = get_tool_metadata_prompt(name)
+
+    result = ai.generate_json(prompt=prompt, max_tokens=1000, min_model_size=8)
+
+    if result.success and result.json_content:
+        metadata = {
+            "title": result.json_content.get("title", name.replace("-", " ").title()),
+            "description": result.json_content.get("description", f"Free online {name} tool."),
+            "features": result.json_content.get("features", ["Fast", "Free", "Secure", "Private", "Mobile"]),
+            "keywords": result.json_content.get("keywords", [name.replace("-", " ")]),
+            "category": result.json_content.get("category", "Utilities"),
+        }
+        print(f"  + Metadata generated: {metadata['title']}")
+
+        # Cache it
+        if "metadata_cache" not in state:
+            state["metadata_cache"] = {}
+        state["metadata_cache"][name] = metadata
+        save_state(state)
+
+        return metadata
+    else:
+        print(f"  x Metadata generation failed: {result.error}")
+        # Fallback to simple generation
+        title = name.replace("-", " ").title()
+        return {
+            "title": title,
+            "description": f"Free online {title.lower()} tool. Fast and secure.",
+            "features": ["Client-side", "Fast", "Free", "No signup", "Mobile ready"],
+            "keywords": [name.replace("-", " "), f"online {name}", f"free {name}"],
+            "category": "Utilities",
+        }
+
+
+# =============================================================================
+# PARSE TOOLS FROM ar.txt
 # =============================================================================
 
 def parse_tools() -> list[dict]:
@@ -139,8 +132,7 @@ def parse_tools() -> list[dict]:
 
         name = line.split("#")[0].strip()
         if name:
-            info = get_tool_info(name)
-            tools.append({"name": name, "category": category, **info})
+            tools.append({"name": name, "category": category})
 
     return tools
 
@@ -234,7 +226,7 @@ def git_push(name: str, files: dict[str, str]) -> bool:
 # =============================================================================
 
 def generate_single_html(tool: dict, ai: UnifiedAIClient) -> str:
-    """Generate complete single-file HTML using shared/tool-template.html and AI."""
+    """Generate complete single-file HTML using template and AI."""
 
     name = tool["name"]
     title = tool["title"]
@@ -250,38 +242,35 @@ def generate_single_html(tool: dict, ai: UnifiedAIClient) -> str:
 
     template = TEMPLATE_FILE.read_text(encoding="utf-8")
 
-    # 2. AI Prompt
+    # 2. AI Prompt for Tool Logic
     prompt = f"""You are an Expert Frontend Developer.
-    TASK: Write the **JavaScript logic** (and optional CSS) for a new web tool: "{title}".
 
-    TOOL INFO:
-    - Description: {desc}
-    - Features: {', '.join(features)}
+TASK: Write JavaScript logic (and optional CSS) for: "{title}"
 
-    HTML STRUCTURE (Do NOT output HTML, it exists):
-    - <input type="file" id="fileInput">
-    - <label id="dropZone"> (Drop area)
-    - <button id="actionBtn"> (Click to process - Disabled by default)
-    - <div id="statusArea"> (Inject dynamic UI here: options, progress bars)
-    - <div id="resultsContent"> (Inject final results here)
-    - <div id="results"> (Container of resultsContent, hidden by default)
+DESCRIPTION: {desc}
+FEATURES: {', '.join(features)}
 
-    REQUIREMENTS:
-    1. Listen for file selection (drop or click).
-    2. Enable "actionBtn" when file is selected. Update dropZone UI to show file name.
-    3. On click, process the file (Client-side ONLY).
-       - Use browser APIs (FileReader, Canvas) or CDN libraries if strictly necessary.
-       - If complex (like PDF merge), simulate the process with a progress bar and fake "success" if true client-side is too large for this snippet, BUT prefer real implementation if possible within 8000 tokens.
-    4. Inject progress bars or status messages into `statusArea`.
-    5. Reveal `results` (remove .hidden class from #results or set style.display) and show output.
-    6. **THEME**: Use CSS variables: var(--primary), var(--bg-card).
+HTML STRUCTURE (Already exists, DO NOT output HTML):
+- <input type="file" id="fileInput">
+- <label id="dropZone"> (Drop area)
+- <button id="actionBtn"> (Process button - disabled by default)
+- <div id="statusArea"> (For progress bars, options)
+- <div id="resultsContent"> (For final output)
+- <div id="results"> (Container, hidden by default)
 
-    OUTPUT JSON FORMAT:
-    {{
-      "js": "/* Pure JS code here */",
-      "css": "/* Optional CSS for new elements */"
-    }}
-    """
+REQUIREMENTS:
+1. Handle file selection (drag-drop or click).
+2. Enable actionBtn when file is selected.
+3. Process files CLIENT-SIDE ONLY.
+4. Show progress in statusArea.
+5. Display results in resultsContent.
+6. Use CSS variables: var(--primary), var(--bg-card).
+
+OUTPUT JSON:
+{{
+  "js": "/* Pure JS code */",
+  "css": "/* Optional CSS */"
+}}"""
 
     print(f"  Generating logic for {name}...")
     result = ai.generate_json(prompt=prompt, max_tokens=8000, min_model_size=32)
@@ -294,12 +283,11 @@ def generate_single_html(tool: dict, ai: UnifiedAIClient) -> str:
         css_code = result.json_content.get("css", "")
         print("  + AI Logic Generated")
 
-        # Fallback Cleanup
         if "```" in js_code:
             js_code = js_code.replace("```javascript", "").replace("```", "")
     else:
         print(f"  x AI Generation Failed: {result.error}")
-        js_code = "console.error('AI Logic Generation Failed'); alert('AI Logic Generation Failed');"
+        js_code = "console.error('AI Logic Generation Failed'); alert('Logic generation failed');"
 
     # 3. Inject Content into Template
     html = template.replace("{{TOOL_TITLE}}", title)
@@ -307,7 +295,7 @@ def generate_single_html(tool: dict, ai: UnifiedAIClient) -> str:
     html = html.replace("{{TOOL_KEYWORDS}}", ", ".join(keywords))
     html = html.replace("{{REPO_NAME}}", name)
 
-    # Supported formats for display
+    # Format hints
     formats = "Files"
     if "pdf" in name: formats = "PDF"
     elif "image" in name: formats = "Images (PNG, JPG, WEBP)"
@@ -315,8 +303,6 @@ def generate_single_html(tool: dict, ai: UnifiedAIClient) -> str:
 
     html = html.replace("{{SUPPORTED_FORMATS}}", formats)
     html = html.replace("{{FILE_ACCEPT}}", "*/*")
-
-    # Scripts
     html = html.replace("{{TOOL_SCRIPT}}", js_code)
     html = html.replace("{{TOOL_CSS}}", f"<style>{css_code}</style>" if css_code else "")
 
@@ -324,18 +310,21 @@ def generate_single_html(tool: dict, ai: UnifiedAIClient) -> str:
 
 
 # =============================================================================
-# MAIN
+# MAIN GENERATION FLOW
 # =============================================================================
 
-def generate_tool(tool: dict) -> bool:
+def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict) -> bool:
     print(f"\n{'='*50}")
     print(f"Generating: {tool['name']}")
     print(f"{'='*50}")
 
+    # Generate metadata first
+    metadata = generate_tool_metadata(tool["name"], ai, state)
+    tool.update(metadata)
+
     if not create_repo(tool["name"], tool["description"]):
         return False
 
-    ai = UnifiedAIClient()
     html_content = generate_single_html(tool, ai)
 
     files = {
@@ -369,7 +358,6 @@ All processing happens in your browser. Your files never leave your device.
     time.sleep(2)
     enable_pages(tool["name"])
 
-    state = load_state()
     if tool["name"] not in state["generated"]:
         state["generated"].append(tool["name"])
     save_state(state)
@@ -382,9 +370,11 @@ def show_status():
     tools = parse_tools()
     state = load_state()
     done = len(state["generated"])
+    cached = len(state.get("metadata_cache", {}))
     print(f"\n{'='*50}")
     print(f"Progress: {done}/{len(tools)} ({done/len(tools)*100:.0f}%)")
     print(f"Remaining: {len(tools) - done}")
+    print(f"Cached Metadata: {cached}")
     print(f"{'='*50}")
 
 
@@ -394,13 +384,14 @@ def main():
         sys.exit(1)
 
     args = sys.argv[1:]
+    state = load_state()
+    ai = UnifiedAIClient()
 
     if "--status" in args:
         show_status()
         return
 
     tools = parse_tools()
-    state = load_state()
 
     if "--tool" in args:
         idx = args.index("--tool")
@@ -408,7 +399,7 @@ def main():
             name = args[idx + 1]
             tool = next((t for t in tools if t["name"] == name), None)
             if tool:
-                generate_tool(tool)
+                generate_tool(tool, ai, state)
             else:
                 print(f"Tool not found: {name}")
         return
@@ -416,14 +407,14 @@ def main():
     if "--all" in args:
         remaining = [t for t in tools if t["name"] not in state["generated"]]
         for tool in remaining:
-            generate_tool(tool)
+            generate_tool(tool, ai, state)
             time.sleep(5)
         return
 
     # Default: generate next tool
     for tool in tools:
         if tool["name"] not in state["generated"]:
-            generate_tool(tool)
+            generate_tool(tool, ai, state)
             return
 
     print("All tools generated!")
