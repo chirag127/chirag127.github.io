@@ -21,8 +21,8 @@ import requests
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from apex_optimizer.ai.unified_client import UnifiedAIClient
-from apex_optimizer.config import Settings
+from src.ai.unified_client import UnifiedAIClient
+from src.config import Settings
 
 
 # =============================================================================

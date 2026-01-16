@@ -34,17 +34,19 @@ class SearXNGClient:
     No API key required - uses public instances.
     """
 
-    # Public SearXNG instances (fallback chain) - Updated Jan 2026
-    # Tested instances: working ones first
+    # Public SearXNG instances - Verified Jan 16, 2026
+    # Sorted by speed (fastest first), all A+ TLS, 100% uptime
     PUBLIC_INSTANCES = [
-        "https://search.inetol.net",     # Verified working
-        "https://priv.au",               # Verified working
-        "https://paulgo.io",             # Rate limited but works
-        "https://searx.tiekoetter.com",  # Rate limited but works
-        "https://search.sapti.me",       # Rate limited but works
-        "https://searxng.ch",            # Backup
-        "https://searx.be",              # May be down
-        "https://search.bus-hit.me",     # May be down
+        "https://searx.rhscz.eu",         # 0.458s, 100%, A+ TLS, CZ
+        "https://search.rhscz.eu",        # 0.472s, 100%, A+ TLS, NL
+        "https://searx.tiekoetter.com",   # 0.484s, 100%, A+ TLS, DE
+        "https://priv.au",                # 0.485s, 100%, A+ TLS, AU
+        "https://search.hbubli.cc",       # 0.520s, 99%, A+ TLS, DE
+        "https://search.inetol.net",      # 0.572s, 100%, A+ TLS, ES
+        "https://opnxng.com",             # 0.791s, 100%, A+ TLS, SG
+        "https://searxng.canine.tools",   # 0.926s, 100%, A+ TLS, US
+        "https://searx.namejeff.xyz",     # 0.945s, 100%, A+ TLS, CH
+        "https://searx.dresden.network",  # 1.094s, 100%, A+ TLS, DE
     ]
 
     def __init__(self, base_url: str | None = None):

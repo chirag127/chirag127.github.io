@@ -1,0 +1,28 @@
+{
+  "generated": [
+    "PDF-Merge-And-Split"
+  ],
+  "failed": [],
+  "metadata_cache": {
+    "PDF-Merge-And-Split": {
+      "title": "PDF Merger & Splitter Pro",
+      "description": "Free PDF merge & split tool. No upload required. Complete privacy - files never leave your device.",
+      "features": [
+        "Combine multiple PDFs into one document instantly",
+        "Split PDFs into separate files with precision",
+        "Drag-and-drop interface for effortless file handling",
+        "100% client-side processing ensures absolute privacy",
+        "Works on all devices and browsers without installation"
+      ],
+      "keywords": [
+        "PDF merger",
+        "PDF splitter",
+        "merge PDF",
+        "split PDF",
+        "PDF tools",
+        "privacy"
+      ],
+      "category": "Document"
+    }
+  }
+}

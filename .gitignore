@@ -185,3 +185,4 @@ pip-delete-this-directory.txt
 # - state/               (Git-tracked state files)
 # - reports/             (Execution reports)
 temp_output.html
+a.txt

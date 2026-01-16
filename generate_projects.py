@@ -28,9 +28,9 @@ import requests
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from apex_optimizer.ai.unified_client import UnifiedAIClient
-from apex_optimizer.prompts import get_tool_metadata_prompt
-from apex_optimizer.clients.searxng import SearXNGClient
+from src.ai.unified_client import UnifiedAIClient
+from src.prompts import get_tool_metadata_prompt
+from src.clients.searxng import SearXNGClient
 
 # Configure logging
 logging.basicConfig(
