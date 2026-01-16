@@ -440,13 +440,17 @@ REQUIREMENTS:
    - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>
    - DO NOT generate <header> or <footer> tags (The Universal Engine injects them).
    - ALL content must be wrapped in <main> tag.
-3. CONFIGURATION: Use `window.SITE_CONFIG` for any external service keys.
-4. AESTHETICS: **Apex 2026 Spatial-Adaptive**.
-   - Use CSS variables from style.css (--bg-card, --accent-primary).
+3. LIBRARY SELECTION (THE MENU):
+   - Consult "12. APEX APPROVED CLIENT-SIDE ENGINES" in the System Context.
+   - For PDF tools, you MUST use `PDF-lib` or `pdf-merger-js`.
+   - For Video tools, you MUST use `FFmpeg.wasm`.
+   - LOAD LIBRARIES VIA CDN (cdnjs/unpkg).
+4. CONFIGURATION: Use `window.SITE_CONFIG` for any external service keys.
+5. AESTHETICS: **Apex 2026 Spatial-Adaptive**.
    - "Spatial Glass" look (backdrop-filter: blur).
    - "Bento Grid" layouts.
-5. LOGIC: Robust, error-handled JavaScript (IIFE).
-6. FORMAT: Return ONLY the HTML code block within ```html flags.
+6. LOGIC: Robust, error-handled JavaScript (IIFE).
+7. FORMAT: Return ONLY the HTML code block within ```html flags.
 """
 
     logger.info(f"  🧠 Generative UI Engine engaged for {tool['name']}...")

@@ -144,7 +144,102 @@ Visual Language:
 4. Responsive Fluidity: Layouts must work on 300px (Mobile) to 4000px (Ultrawide).
 5. Touch-First: 44px minimum touch targets for Mobile/PWA.
 
-## 12. DOCUMENTATION & VERSION CONTROL
+## 12. APEX APPROVED CLIENT-SIDE ENGINES (THE MENU)
+*The AI MUST select from this list to implement specific functionality.*
+
+### F. PDF Tools
+67. **PDF-lib:** Create/Edit/Merge/Split PDFs.
+68. **PDF.js:** View/Render PDFs.
+69. **jsPDF:** Generate PDF from HTML.
+70. **html2pdf.js:** Wrapper for jsPDF.
+71. **pdfmake:** Client-side PDF generation.
+72. **Tesseract.js:** OCR (Image to Text).
+73. **pdf-merger-js:** Specific merge tool.
+74. **download.js:** Helper to trigger downloads.
+75. **print-js:** Helper to print PDFs.
+
+### G. Image & Graphics
+76. **Pica:** High quality resize.
+77. **Cropper.js:** Image cropping UI.
+78. **Compressor.js:** Image compression.
+79. **Fabric.js:** Canvas object model (Add text/shapes).
+80. **Konva.js:** 2D Canvas library.
+81. **CamanJS:** Image filters (Instagram style).
+82. **Pixi.js:** 2D WebGL renderer.
+83. **Three.js:** 3D WebGL renderer.
+84. **Heic2any:** Convert HEIC to JPG.
+85. **Browser-image-compression:** Lossy compression.
+86. **Merge-images:** Combine images.
+87. **Dom-to-image:** Screenshot HTML elements.
+88. **Html2canvas:** Screenshot HTML elements.
+89. **Color-thief:** Extract colors from image.
+90. **Smartcrop.js:** Content-aware cropping.
+100. **Exif-js:** Read Image Metadata (EXIF).
+
+### H. Video & Audio
+103. **FFmpeg.wasm:** Video/Audio conversion in browser.
+104. **RecordRTC:** WebRTC recording (Screen/Cam/Mic).
+105. **WaveSurfer.js:** Audio waveform visualization.
+106. **Howler.js:** Audio playback library.
+107. **Tone.js:** Web Audio synthesis (Music).
+108. **Plyr:** Custom media player.
+109. **Video.js:** Custom media player.
+110. **Lottie-web:** Render After Effects animations.
+113. **Vmsg:** MP3 recorder (WASM).
+115. **Hls.js:** Stream HLS video.
+
+### I. File Handling
+117. **PapaParse:** CSV parser.
+118. **SheetJS (XLSX):** Excel parser/generator.
+119. **JSZip:** ZIP file creation.
+120. **FileSaver.js:** Save file to disk.
+121. **Mammoth.js:** DOCX to HTML.
+122. **PptxGenJS:** Create PowerPoints.
+125. **Dropzone:** Drag and drop uploads.
+129. **Mime-types:** Detect file types.
+130. **StreamSaver.js:** Handle large file saves.
+
+### J. Code & Text
+131. **Marked:** Markdown to HTML.
+135. **Prism.js:** Syntax highlighting.
+137. **Prettier:** Code formatter (browser version).
+143. **Diff:** Text diff engine.
+146. **CodeMirror:** Code editor widget.
+147. **Monaco Editor:** VS Code editor widget.
+148. **Quill:** Rich text editor.
+154. **DOMPurify:** HTML sanitizer (Security).
+160. **Uuid:** Generate UUIDs.
+162. **CryptoJS:** Encryption standards.
+
+### K. Math & Science
+170. **Math.js:** Advanced math.
+176. **Katex:** Math typesetting (faster MathJax).
+178. **Plotly.js:** Scientific graphing.
+179. **Chart.js:** Simple charts.
+184. **D3.js:** Data driven documents.
+188. **Leaflet:** Maps (Lib).
+191. **Turf.js:** Geospatial analysis.
+
+### L. UI/UX Helpers
+198. **Day.js:** Modern Date/Time.
+205. **SweetAlert2:** Beautiful popups.
+206. **Toastify-js:** Notifications.
+208. **Hotkeys-js:** Keyboard shortcuts.
+210. **Clipboard.js:** Copy to clipboard.
+211. **Tippy.js:** Tooltips.
+213. **Interact.js:** Drag and drop / Resizing.
+215. **SortableJS:** Reorder lists.
+219. **Anime.js:** Animations.
+232. **AOS:** Animate On Scroll.
+237. **Cleave.js:** Input masking.
+240. **Flatpickr:** Date picker.
+247. **Swiper:** Touch slider.
+
+### M. CSS Frameworks (Use with Care)
+269. **TailwindCSS:** Utility-first (CDN).
+286. **Animate.css:** Animation library.
+
+## 13. DOCUMENTATION & VERSION CONTROL
 Docs: Hero-Tier README, ASCII Tree.
 Git: Conventional Commits.
 
