@@ -1,201 +1,388 @@
-# --- PDF & DOCUMENT CORE (Heavy Logic: pdf-lib, pdf.js) ---
-pdf-merger-splitter-tool
-pdf-compressor-optimizer
-pdf-converter-images
-pdf-converter-office-docs
-pdf-converter-ebooks
-pdf-security-manager       # Protect, Unlock, Sign, Watermark
-pdf-page-editor            # Rotate, Crop, Delete, Rearrange
-pdf-metadata-fixer         # Metadata, Exif, Scrubbing
-pdf-ocr-scanner            # OCR text extraction specific
-scan-to-pdf-camera         # Camera interface to PDF
-
-# --- IMAGE PROCESSING (Heavy Logic: Canvas, ffmpeg.wasm) ---
-image-converter-pro        # JPG, PNG, WEBP, TIFF, BMP conversion
-image-compressor-suite     # Lossy/Lossless compression for all formats
-image-editor-canvas        # Crop, Resize, Rotate, Flip, Draw
-image-filter-studio        # Grayscale, Sepia, Blur, Color adjustment
-vector-svg-tools           # SVG to PNG, SVG optimization, Blob generator
-heic-raw-converter         # Specialized decoders for iPhone/Camera RAW
-gif-maker-editor           # Video to GIF, Images to GIF, Edit GIF
-background-remover-ai      # AI-based background removal logic
-photo-metadata-viewer      # EXIF View/Remove/Edit
-favicon-icon-generator     # ICO, App Icon resizing
-
-# --- TEXT & STRING UTILITIES (Lightweight: pure JS) ---
-text-case-converter        # Upper, Lower, Title, Camel, Snake, etc.
-text-counter-statistics    # Words, Chars, Reading time, Sentences
-text-list-organizer        # Sort, Deduplicate, Shuffle, Alphabetize
-text-cleaner-formatter     # Remove spaces, Remove duplicates, Trim
-text-encoder-decoder       # Base64, URL, HTML Entity, Hex, Binary
-lorem-ipsum-generator      # Text, Sentences, Paragraphs
-diff-checker-tool          # Compare text 1 vs text 2
-regex-tester-builder       # Regex tools and cheat sheet
-markdown-editor-viewer     # MD to HTML, HTML to MD, Preview
-slug-url-cleaner           # String to Slug, URL params cleaner
-
-# --- DEVELOPER TOOLS (Medium Logic: Formatting libs, Crypto) ---
-json-data-tools            # Format, Minify, JSON to CSV/XML/YAML
-xml-data-tools             # Format, Minify, XML to JSON
-sql-query-formatter        # Beautify, Minify, SQL Generator
-code-minifier-pack         # HTML, CSS, JS minifiers combined
-hash-checksum-generator    # MD5, SHA, CRC32 generators
-uuid-guid-generator        # UUID v1-v4, Nanoid, Random Strings
-jwt-token-debugger         # Decode JWT, Inspect Header/Payload
-cron-job-helper            # Generator and explainer
-htaccess-htpasswd-tools    # Server config generators
-qrcode-barcode-suite       # QR Gen, Wifi QR, Barcode Gen
-
-# --- WEB & NETWORK (API based or Browser APIs) ---
-user-agent-ip-checker      # IP, Browser info, Screen resolution
-meta-tag-seo-builder       # OpenGraph, Twitter Cards, Meta tags
-color-picker-converter     # HEX, RGB, HSL, CMYK, Picker
-css-generator-studio       # Box shadow, Gradient, Border radius, Flexbox
-url-shortener-decoder      # Unshorten links, Parse URL params
-domain-dns-lookup          # Whois, DNS propagation (if API available)
-ssl-cert-decoder           # Parse CRT/PEM data
-internet-speed-test        # Basic download/latency check
-curl-command-builder       # CURL to Fetch/Axios/Python
-sitemap-robots-builder     # Generate XML sitemap, Robots.txt
-
-# --- MATH, SCIENCE & UNIT CONVERTERS (Shared Math Logic) ---
-unit-converter-all         # Length, Weight, Volume, Area, Speed
-scientific-calculator      # Scientific functions, Trig, Logs
-programmer-calculator      # Bin, Hex, Oct, Dec converter/math
-date-time-calculator       # Time difference, Add days, Week number, Unix
-percentage-calculator      # % change, % of, what % is
-geometry-solver            # Area, Volume, Perimeter of shapes
-algebra-solver             # Linear equations, Quadratic solver
-physics-calc-suite         # Velocity, Force, Ohm's Law, Power
-fraction-calculator        # Add/Sub/Mult/Div fractions
-number-base-converter      # Roman numerals, Arbitrary base conversion
-
-# --- FINANCE & BUSINESS (Shared Formula Logic) ---
-loan-mortgage-calculator   # Amortization, Monthly payments
-interest-calculator        # Simple, Compound, APY
-investment-planner         # ROI, CAGR, SIP, Lumpsum
-tax-salary-estimator       # Income tax brackets, Hourly vs Salary
-discount-sales-calculator  # Markup, Margin, Discount, VAT/GST
-currency-converter-rates   # Forex rates (needs API)
-inflation-value-calc       # Historical value calculator
-credit-card-payoff         # Debt snowball/avalanche
-business-metric-calc       # CPM, CPC, CTR, Break-even
-
-# --- GAMIFICATION & RANDOM (Lightweight Logic) ---
-random-picker-wheel        # Wheel of fortune, Name picker
-dice-coin-flipper          # 3D Dice, Coin flip, Yes/No
-password-security-suite    # Password Gen, Strength checker
-secure-data-generator      # Mock Data (Name, Address, CC)
-logic-puzzles-games        # Sudoku, Minesweeper, Memory game
-typing-speed-test          # WPM, Accuracy test
-reaction-time-tester       # Click speed, Reaction ms
-magic-8-ball-oracle        # Fun random answers
-biorhythm-astrology        # Zodiac, Biorhythm, Love calc
-
-# --- AUDIO & VIDEO (Specific Browser APIs) ---
-audio-tone-generator       # Hz generator, Sweep, White noise
-bpm-metronome-tool         # Tap BPM, Metronome clicker
-audio-file-converter       # Extract audio, Convert format (ffmpeg)
-video-trimmer-cutter       # Cut start/end of video
-screen-recorder-web        # Browser based screen capture
-microphone-tester          # Visualizer, Input check
-volume-booster-tool        # Gain node manipulation
-
-# --- FILE UTILITIES (Client-Side File API) ---
-file-hash-checksum         # CRC32, MD5, SHA of uploaded files
-csv-excel-viewer           # CSV to Table, JSON to Excel
-zip-unzip-archiver         # JSZip based compression
-mime-type-detector         # Check real file type by magic numbers
-file-renamer-bulk          # Rename list of files
-duplicate-file-finder      # Hash comparison of selected files
-
-# --- KEYBOARD & HARDWARE TESTING (Browser APIs) ---
-keyboard-test-suite        # Key rollover, Ghosting test, Latency check
-mouse-polling-rate         # Check Hz of mouse, Double click tester
-gamepad-joystick-tester    # Visualize controller inputs (HTML5 Gamepad API)
-screen-dead-pixel-fixer    # Flashing colors to unstuck pixels
-display-hz-checker         # Check monitor refresh rate (vsync test)
-webcam-mirror-test         # Check camera quality, mirror view, freeze frame
-printer-test-pages         # CMYK test patterns, Alignment grids (CSS print)
-
-# --- NETWORK & PRIVACY (Client-Side Logic) ---
-subnet-mask-calculator     # IP range, CIDR to Netmask, Broadcast IP
-mac-address-lookup         # Vendor lookup (static DB of OUI prefixes)
-password-leak-checker      # Hash prefix check (k-anonymity API like PwnedPasswords)
-browser-fingerprint-check  # Show Canvas hash, Audio fingerprint, Font list
-local-storage-viewer       # View/Clear Cookies, LocalStorage, SessionStorage
-http-header-parser         # Parse raw header strings into JSON
-adblock-detector-test      # Simple script to check if ads are blocked
-
-# --- DEVELOPER HELPERS (Niche) ---
-crontab-generator-gui      # Visual cron schedule builder (* * * * *)
-chmod-calculator-gui       # Visual checkboxes (rwx) to Octal (755)
-regex-visualizer-tool      # Visual marble diagram of RegEx matches
-json-schema-generator      # Paste JSON -> Generate Schema/TypeScript Interface
-git-ignore-generator       # Select OS/Language -> Generate .gitignore file
-docker-compose-builder     # visual UI to generate docker-compose.yml
-curl-to-code-converter     # Convert Curl to Fetch, Python, Node, Go
-ascii-table-generator      # Text to ASCII table borders (MySQL style)
-
-# --- TEXT & CONTENT (Creative) ---
-zalgo-glitch-text-gen      # Add "curse" marks to text (H̷e̷l̷l̷o̷)
-ascii-art-banner-gen       # Large text banners using symbols
-fancy-font-generator       # Normal text to Unicode (ℋ𝓮𝓵𝓵𝓸 𝕎𝕠𝕣𝕝𝕕)
-emoji-mixer-maker          # Combine two emojis (Google Emoji Kitchen logic)
-spoiler-text-generator     # Create ||spoiler|| tags for Discord/Reddit
-kaomoji-emoticon-list      # Click to copy (╯°□°)╯︵ ┻━┻
-screenplay-formatter       # Auto-format text to Fountain/Script standard
-
-# --- SOCIAL MEDIA UTILITIES ---
-youtube-thumbnail-grabber  # Extract max-res image from Video ID
-instagram-caption-spacer   # Add invisible characters for line breaks
-tweet-thread-preview       # Visualizer for long threads
-link-in-bio-builder        # Static page generator for social links
-youtube-tag-extractor      # Extract keywords from video page source
-social-post-mockup         # Fake Tweet/Insta/FB post generator (for memes)
-hashtag-mixer-shuffler     # Randomize and limit hashtag lists
-
-# --- MATH & LOGIC (Education) ---
-truth-table-generator      # Logic gates (AND, OR, NOT) -> Table
-matrix-calculator-pro      # Add, Multiply, Transpose, Inverse Matrices
-polynomial-root-finder     # Solve cubic/quartic equations
-prime-factorization-tool   # Break numbers into primes (visual tree)
-statistics-calculator      # Mean, Median, Mode, Std Dev, Variance
-set-theory-calculator      # Union, Intersection, Difference of sets
-base64-image-decoder       # Paste Base64 string -> View Image
-
-# --- AUDIO & MUSIC (Web Audio) ---
-guitar-tuner-web           # Mic input -> Pitch detection (autocorrelation)
-ear-training-interval      # Play two notes -> User guesses interval
-sheet-music-blank          # Generate printable staff paper (PDF/SVG)
-chords-scale-finder        # Select root -> Show chords/scales (Piano/Guitar)
-bpm-counter-tapper         # Tap spacebar -> Calculate Tempo
-morse-code-audio-gen       # Text -> Beep sequences
-
-# --- EVERYDAY CONVENIENCE ---
-qr-wifi-connector          # Generate QR code for WiFi login
-vcard-contact-builder      # Form -> .vcf file download
-calendar-invite-maker      # Form -> .ics file download
-pomodoro-focus-timer       # 25/5 interval timer with notifications
-recipe-scaler-tool         # Paste ingredients -> Multiply amounts
-unit-price-comparator      # Price A/Size A vs Price B/Size B
-fuel-cost-trip-calc        # Distance / MPG * Price
-grocery-list-organizer     # Text list -> Group by category
-
-# --- IMAGE & GRAPHICS (Specific) ---
-placeholder-image-gen      # Solid color with text (Canvas export)
-social-image-resizer       # Crop to OG tags, Insta Story, Twitter Header
-meme-maker-simple          # Top/Bottom text on uploaded image
-color-palette-extractor    # Upload image -> Get dominant Hex codes
-svg-blob-maker             # Generate organic shapes (random path)
-css-pattern-generator      # Polka dots, stripes, checkerboard (CSS code)
-image-histogram-viewer     # View RGB distribution graph
-
-# --- GAMES & RANDOM (Simple JS) ---
-sudoku-solver-visual       # Backtracking algorithm visualizer
-wordle-helper-solver       # Enter known letters -> Filter word list
-crossword-puzzle-maker     # Input words -> Generate grid
-maze-generator-print       # Generate random mazes to print
-bingo-card-generator       # Random numbers/words on grid
-lottery-number-picker      # Random pick from pool (visual balls)
-decision-maker-wheel       # Input options -> Spin animation
+PDF-Merge-And-Split
+PDF-Compressor-And-Optimizer
+Universal-Document-To-PDF
+PDF-To-Image-And-Text
+PDF-Page-Rotator-And-Organizer
+PDF-Security-Password-Locker
+PDF-Metadata-Editor-Cleaner
+PDF-Watermark-Stamper
+PDF-Signature-And-Annotation
+PDF-OCR-Text-Recognition
+PDF-Compare-Diff-Viewer
+PDF-Grayscale-Color-Inverter
+Webpage-HTML-To-PDF-Render
+PDF-Form-Filler-Editor
+PDF-A-Validator-Converter
+Scan-To-PDF-Camera-Capture
+Repair-Corrupt-PDF-File
+Crop-PDF-Margins-Pages
+Extract-PDF-Images-Assets
+Flat-PDF-Flattener
+Bulk-Image-Format-Converter
+Lossless-Image-Compressor
+Online-Photo-Editor-Filter
+Background-Remover-Transparent-Maker
+Image-Resizer-And-Cropper
+Image-Metadata-Exif-Viewer
+Image-Color-Picker-Palette
+SVG-Vector-Editor-Optimizer
+GIF-Maker-And-Editor
+HEIC-To-JPG-PNG-Converter
+Base64-Image-Encoder-Decoder
+Favicon-App-Icon-Generator
+Image-Upscaler-Enhancer
+Pixel-Art-Maker-Editor
+Meme-Generator-Caption-Maker
+Social-Media-Image-Cropper
+Blurred-Image-Restoration
+Photo-Collage-Grid-Maker
+Image-Histogram-Analysis-Viewer
+Watermark-Image-Creator
+Video-Trimmer-Cutter-Merger
+Video-To-GIF-Converter
+Video-Format-Converter-MP4-WebM
+Extract-Audio-From-Video
+Audio-Cutter-Trimmer-Joiner
+Audio-Volume-Booster-Equalizer
+Microphone-Webcam-Testing
+Screen-Recorder-Capture
+BPM-Counter-Metronome
+Audio-Tone-Frequency-Generator
+Video-Compressor-Resizer
+Voice-Recorder-Memo
+Subtitle-Editor-Generator
+Video-Frame-Grabber-Snapshot
+Youtube-Thumbnail-Downloader
+Text-Case-Converter-Formatter
+Word-Character-Line-Counter
+Lorem-Ipsum-Text-Generator
+Text-Diff-Checker-Comparator
+Remove-Duplicate-Lines-Cleaner
+String-List-Sorter-Randomizer
+Find-And-Replace-Text-Bulk
+Text-To-Binary-Hex-Base64
+Slug-Url-Generator-Cleaner
+Morse-Code-Translator-Player
+Unicode-Fancy-Text-Generator
+Zalgo-Glitch-Text-Maker
+Text-Repeater-Spammer
+Reading-Time-Speech-Calculator
+ASCII-Art-Banner-Generator
+Markdown-To-HTML-Preview
+Regex-Tester-Visualizer
+Email-Extractor-Obfuscator
+Phonetic-Alphabet-Translator
+Text-Encryption-Decryption
+JSON-XML-Data-Formatter
+SQL-Query-Formatter-Minifier
+HTML-CSS-JS-Minifier
+UUID-GUID-Key-Generator
+File-Hash-Checksum-Calculator
+Cron-Job-Schedule-Generator
+HTPasswd-HTAccess-Generator
+Meta-Tag-OpenGraph-Builder
+QR-Code-Barcode-Generator
+URL-Encoder-Decoder-Parser
+My-IP-Address-Checker
+JWT-Token-Decoder-Debugger
+Color-Format-Converter
+CSS-Box-Shadow-Generator
+CSS-Gradient-Pattern-Maker
+Wait-Cursor-Spinners-CSS
+Git-Ignore-File-Generator
+Docker-Compose-File-Builder
+Subnet-Mask-CIDR-Calculator
+Unix-Timestamp-Converter
+Universal-Unit-Converter
+Scientific-Graphing-Calculator
+Geometry-Shape-Area-Volume
+Algebra-Equation-Solver
+Percentage-Ratio-Calculator
+Date-Time-Difference-Calculator
+Fraction-Math-Calculator
+Binary-Hex-Octal-Converter
+Prime-Number-Factorization
+Standard-Deviation-Statistics
+Physics-Formulas-Calculator
+Electrical-Ohms-Law-Calculator
+Resistor-Color-Code-Calculator
+Body-Mass-Index-Calculator
+BMR-TDEE-Health-Calculator
+Pregnancy-Due-Date-Calculator
+Age-Chronological-Calculator
+Random-Number-Dice-Generator
+Permutation-Combination-Calc
+Triangle-Hypotenuse-Solver
+Loan-Mortgage-Amortization
+Compound-Interest-Planner
+Discount-Margin-Markup
+Salary-Paycheck-Tax-Estimator
+Currency-Exchange-Rate
+Inflation-Purchasing-Power
+Credit-Card-Payoff-Planner
+ROI-Investment-Calculator
+Business-Break-Even-Analysis
+Sales-Tax-VAT-GST
+Tip-Bill-Splitter
+Fuel-Cost-Trip-Calculator
+Retirement-Savings-Planner
+Stock-Profit-Loss-Calculator
+SaaS-Metric-Calculator
+Freelance-Hourly-Rate-Calc
+Real-Estate-Rental-Yield
+Simple-Interest-Calculator
+Auto-Loan-Payment-Estimator
+Crypto-Profit-Fee-Calculator
+CSV-Excel-Viewer-Converter
+Zip-File-Extractor-Archiver
+MIME-Type-Detector
+VCard-Contact-File-Generator
+ICS-Calendar-Event-Maker
+File-Size-Unit-Converter
+Duplicate-File-Finder
+Bulk-File-Renaming
+JSON-To-Excel-CSV
+XML-To-JSON-CSV
+Secure-Password-Generator
+Wheel-Of-Fortune-Decider
+Random-Name-Team-Picker
+Sudoku-Solver-Generator
+Wordle-Helper-Solver
+Crossword-Puzzle-Maker
+Tic-Tac-Toe-Game
+Rock-Paper-Scissors-Game
+Typing-Speed-WPM-Test
+Reaction-Time-Tester
+Biorhythm-Zodiac-Calculator
+Love-Compatibility-Tester
+Magic-8-Ball-Oracle
+Bingo-Card-Generator
+Memory-Card-Matching
+Stopwatch-Timer-Countdown
+World-Clock-Time-Zone
+Internet-Speed-Test
+Screen-Resolution-Checker
+Keyboard-Key-Tester
+PDF-To-Word-Converter
+PDF-To-Excel-Converter
+PDF-To-PowerPoint-Converter
+PDF-To-Epub-Ebook-Converter
+Word-To-PDF-Converter
+Excel-To-PDF-Converter
+PowerPoint-To-PDF-Converter
+Text-File-To-PDF-Converter
+HTML-File-To-PDF-Converter
+Markdown-To-PDF-Converter
+JPG-To-PDF-Converter
+PNG-To-PDF-Converter
+HEIC-To-PDF-Converter
+WEBP-To-PDF-Converter
+PDF-To-JPG-Extractor
+PDF-To-PNG-Extractor
+PDF-To-WEBP-Extractor
+PDF-To-SVG-Extractor
+EPUB-To-PDF-Converter
+MOBI-To-PDF-Converter
+AZW3-To-PDF-Converter
+PDF-To-EPUB-Converter
+PDF-To-MOBI-Converter
+PDF-To-AZW3-Converter
+Delete-PDF-Pages
+Extract-PDF-Pages
+Reorder-PDF-Pages
+Rotate-PDF-Pages
+Unlock-PDF-Password
+Protect-PDF-Password
+Flatten-PDF-Forms
+Repair-Damaged-PDF
+Compare-PDF-Files
+Add-Page-Numbers-PDF
+Add-Header-Footer-PDF
+Compress-JPG-Image
+Compress-PNG-Image
+Compress-WEBP-Image
+Resize-JPG-Image
+Resize-PNG-Image
+Crop-JPG-Image
+Crop-PNG-Image
+Convert-JPG-To-PNG
+Convert-PNG-To-JPG
+Convert-WEBP-To-JPG
+Convert-JPG-To-WEBP
+Convert-HEIC-To-JPG
+Convert-HEIC-To-PNG
+Convert-SVG-To-PNG
+Convert-SVG-To-JPG
+Rotate-Image-90-Degrees
+Flip-Image-Horizontal-Vertical
+Make-Image-Background-Transparent
+Generate-Color-Palette-Image
+Extract-Text-From-Image
+Blur-Image-Faces
+Pixelate-Image-Area
+Round-Image-Corners
+Add-Text-To-Image
+Add-Sticker-To-Image
+Generate-Meme-From-Image
+Convert-Image-To-Base64
+Convert-Base64-To-Image
+Convert-Image-To-ICO
+Convert-ICO-To-PNG
+Video-To-Audio-MP3
+Trim-Video-Segment
+Crop-Video-Dimensions
+Rotate-Video-Orientation
+Mute-Video-Audio
+Add-Audio-To-Video
+Change-Video-Speed
+Compress-MP4-Video
+Convert-MOV-To-MP4
+Convert-AVI-To-MP4
+Convert-MKV-To-MP4
+Convert-WEBM-To-MP4
+Convert-MP4-To-GIF
+Convert-GIF-To-MP4
+Reverse-Video-Playback
+Loop-Video-Playback
+Change-Video-Volume
+Fade-In-Out-Audio
+Join-Audio-Files
+Cut-Audio-Segment
+Convert-WAV-To-MP3
+Convert-MP3-To-WAV
+Convert-M4A-To-MP3
+Record-Voice-Microphone
+Test-Microphone-Input
+Test-Webcam-Input
+Record-Screen-Video
+Capture-Webcam-Photo
+Count-Words-Characters
+Count-Lines-Paragraphs
+Convert-Text-To-Upper
+Convert-Text-To-Lower
+Convert-Text-To-Title
+Convert-Text-To-Camel
+Convert-Text-To-Kebab
+Convert-Text-To-Snake
+Reverse-Text-String
+Remove-Extra-Spaces
+Remove-Empty-Lines
+Shuffle-Text-Lines
+Sort-Text-Alphabetical
+Sort-Text-Numerical
+Add-Prefix-Suffix-Lines
+Number-List-Lines
+Encode-URL-String
+Decode-URL-String
+Encode-Base64-String
+Decode-Base64-String
+Convert-Text-To-Binary
+Convert-Binary-To-Text
+Convert-Text-To-Hex
+Convert-Hex-To-Text
+Convert-Text-To-Morse
+Convert-Morse-To-Text
+Generate-Random-String
+Generate-Random-Password
+Check-Password-Strength
+Generate-UUID-V4
+Generate-MD5-Hash
+Generate-SHA256-Hash
+Format-JSON-Code
+Validate-JSON-Code
+Convert-JSON-To-XML
+Convert-XML-To-JSON
+Convert-JSON-To-YAML
+Convert-YAML-To-JSON
+Convert-CSV-To-JSON
+Convert-JSON-To-CSV
+Minify-JSON-Code
+Format-SQL-Query
+Minify-SQL-Query
+Format-XML-Code
+Minify-XML-Code
+Format-CSS-Code
+Minify-CSS-Code
+Format-HTML-Code
+Minify-HTML-Code
+Format-Javascript-Code
+Minify-Javascript-Code
+Generate-QR-Code
+Generate-WiFi-QR
+Generate-Barcode
+Read-QR-Code
+Generate-Slug-URL
+Parse-URL-Parameters
+Check-User-Agent
+Check-My-IP
+Check-DNS-Records
+Check-SSL-Certificate
+Calculate-Subnet-Mask
+Calculate-CIDR-Range
+Convert-Unix-Time
+Convert-Date-Time
+Calculate-Age-Date
+Calculate-Date-Difference
+Add-Days-To-Date
+Subtract-Days-Date
+Check-Leap-Year
+Get-Week-Number
+Convert-Length-Unit
+Convert-Weight-Unit
+Convert-Volume-Unit
+Convert-Area-Unit
+Convert-Temperature-Unit
+Convert-Speed-Unit
+Convert-Time-Unit
+Convert-Pressure-Unit
+Convert-Power-Unit
+Convert-Energy-Unit
+Convert-Data-Unit
+Calculate-Percentage
+Calculate-Percentage-Change
+Calculate-Percentage-Of
+Calculate-Circle-Area
+Calculate-Square-Area
+Calculate-Rectangle-Area
+Calculate-Triangle-Area
+Solve-Quadratic-Equation
+Solve-Linear-Equation
+Calculate-Standard-Deviation
+Calculate-Mean-Median-Mode
+Calculate-Compound-Interest
+Calculate-Loan-Payment
+Calculate-Mortgage-Payment
+Calculate-Auto-Loan
+Calculate-BMI-Metric
+Calculate-BMI-Imperial
+Calculate-BMR-Calories
+Calculate-Body-Fat
+Calculate-Ideal-Weight
+Calculate-Water-Intake
+Calculate-Pregnancy-Due
+Calculate-Ovulation
+Flip-Coin-Simulator
+Roll-Dice-Simulator
+Pick-Random-Name
+Generate-Random-Team
+Play-Rock-Paper-Scissors
+Play-Tic-Tac-Toe
+Solve-Sudoku-Puzzle
+Generate-Sudoku-Puzzle
+Solve-Wordle-Game
+Make-Crossword-Puzzle
+Test-Typing-Speed
+Test-Reaction-Time
+Check-Screen-Pixels
+Test-Keyboard-Keys
+Test-Mouse-Buttons
+Check-Internet-Speed
+Generate-Biorhythm-Chart
+Check-Zodiac-Sign
+Check-Love-Match
+Ask-Magic-8-Ball
+Generate-Bingo-Cards
+Match-Memory-Cards
+Set-Countdown-Timer
+Use-Stopwatch-Timer
+Check-World-Clock
