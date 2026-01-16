@@ -184,3 +184,4 @@ pip-delete-this-directory.txt
 # These files ARE tracked for GitHub Actions persistence:
 # - state/               (Git-tracked state files)
 # - reports/             (Execution reports)
+temp_output.html
