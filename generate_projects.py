@@ -222,6 +222,8 @@ def set_github_topics(name: str, topics: list[str]):
             logger.info(f"  ✅ Topics set: {len(clean_topics)}")
         else:
             logger.warning(f"  ⚠️ Topics API: {r.status_code}")
+    except Exception as e:
+        logger.error(f"  ❌ Topics error: {e}")
 
 
 def git_push(name: str, files: dict[str, str]) -> bool:
