@@ -26,6 +26,100 @@ Output: EXECUTION-ONLY. Production-ready code. No placeholders. No chatter."""
 
 
 # =============================================================================
+# CATEGORY DETECTION & SPECIALIZED PROMPTS (NEW)
+# =============================================================================
+
+# Tool category detection based on name prefixes
+TOOL_CATEGORIES = {
+    "pdf": ["PDF-", "Document-", "Merge-", "Split-", "Compress-PDF", "Extract-PDF"],
+    "image": ["Image-", "Photo-", "Background-", "Crop-", "Resize-", "Convert-JPG", "Convert-PNG", "HEIC-", "SVG-", "Base64-Image", "Meme-", "Watermark-", "Color-Palette", "Blur-", "Pixelate-"],
+    "video": ["Video-", "Screen-", "Record-", "Trim-Video", "Convert-MP4", "Convert-MOV", "Convert-AVI", "Convert-MKV", "Convert-WEBM", "GIF-"],
+    "audio": ["Audio-", "Voice-", "BPM-", "Microphone-", "Tone-", "Music-", "Convert-WAV", "Convert-MP3", "Convert-M4A"],
+    "text": ["Text-", "Word-", "Lorem-", "Diff-", "Remove-", "Slug-", "Morse-", "Unicode-", "Zalgo-", "Repeater-", "ASCII-", "Markdown-", "Regex-", "Email-", "Phonetic-", "Encrypt-", "Count-"],
+    "dev": ["JSON-", "XML-", "SQL-", "HTML-", "CSS-", "JS-", "UUID-", "Hash-", "Cron-", "HTPasswd-", "Meta-Tag", "Git-", "Docker-", "JWT-", "Minify-", "Format-"],
+    "calc": ["Calculate-", "Calculator-", "Percentage-", "Geometry-", "Algebra-", "Fraction-", "Binary-", "Prime-", "Standard-", "Physics-", "Electrical-", "Resistor-", "Permutation-", "Triangle-"],
+    "finance": ["Loan-", "Mortgage-", "Interest-", "Discount-", "Salary-", "Currency-", "Inflation-", "Credit-", "ROI-", "Break-Even", "Tax-", "Tip-", "Fuel-", "Retirement-", "Stock-", "SaaS-", "Freelance-", "Real-Estate", "Crypto-"],
+    "convert": ["Convert-", "Converter-", "Encoder-", "Decoder-", "EPUB-", "MOBI-", "AZW3-", "WEBP-", "Unit-"],
+    "game": ["Game-", "Sudoku-", "Wordle-", "Crossword-", "Tic-Tac-", "Rock-Paper-", "Typing-", "Reaction-", "Biorhythm-", "Love-", "Magic-8-", "Bingo-", "Memory-", "Stopwatch-", "Timer-", "Dice-", "Coin-", "Random-", "Wheel-"],
+    "utility": ["QR-", "Barcode-", "URL-", "IP-", "Password-", "Subnet-", "Unix-", "Date-", "Time-", "Age-", "Clock-", "Speed-Test", "Screen-", "Keyboard-", "File-", "ZIP-", "MIME-", "VCard-", "ICS-", "Duplicate-", "Bulk-"]
+}
+
+# Category-specific libraries and UI elements
+CATEGORY_CONFIGS = {
+    "pdf": {
+        "libraries": ["pdf-lib (https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js)"],
+        "ui_elements": "PDF page preview canvas, page thumbnails, page reordering",
+        "file_types": ".pdf"
+    },
+    "image": {
+        "libraries": ["Cropper.js for crop", "FileSaver.js for download"],
+        "ui_elements": "Image preview canvas, before/after slider, zoom controls",
+        "file_types": ".jpg,.jpeg,.png,.webp,.gif,.svg,.heic"
+    },
+    "video": {
+        "libraries": ["ffmpeg.wasm for processing (OPTIONAL - use native if possible)"],
+        "ui_elements": "Video preview, timeline scrubber, frame selector",
+        "file_types": ".mp4,.webm,.mov,.avi,.mkv"
+    },
+    "audio": {
+        "libraries": ["WaveSurfer.js for waveform, Howler.js for playback"],
+        "ui_elements": "Waveform display, playback controls, time markers",
+        "file_types": ".mp3,.wav,.ogg,.m4a,.flac"
+    },
+    "text": {
+        "libraries": [],
+        "ui_elements": "Large textarea input, live output panel, copy button, character counter",
+        "file_types": "none"
+    },
+    "dev": {
+        "libraries": ["Prism.js for syntax highlighting", "CodeMirror for editing"],
+        "ui_elements": "Code editor with line numbers, syntax highlighting, format/minify toggles",
+        "file_types": "none"
+    },
+    "calc": {
+        "libraries": ["Math.js for complex calculations"],
+        "ui_elements": "Input fields with labels, formula display, result with copy",
+        "file_types": "none"
+    },
+    "finance": {
+        "libraries": ["Chart.js for graphs"],
+        "ui_elements": "Input fields, calculation result, optional chart visualization",
+        "file_types": "none"
+    },
+    "convert": {
+        "libraries": ["Various per format"],
+        "ui_elements": "Dual panel (input/output), swap button, format selector",
+        "file_types": "varies"
+    },
+    "game": {
+        "libraries": [],
+        "ui_elements": "Game canvas, score display, restart button, instructions",
+        "file_types": "none"
+    },
+    "utility": {
+        "libraries": ["QRCode.js for QR", "JsBarcode for barcodes"],
+        "ui_elements": "Tool-specific interface, result display, download/copy",
+        "file_types": "varies"
+    }
+}
+
+
+def detect_category(tool_name: str) -> str:
+    """Detect tool category from its name."""
+    name_upper = tool_name.upper()
+    for category, prefixes in TOOL_CATEGORIES.items():
+        for prefix in prefixes:
+            if name_upper.startswith(prefix.upper()) or prefix.upper() in name_upper:
+                return category
+    return "utility"  # Default fallback
+
+
+def get_category_config(category: str) -> dict:
+    """Get configuration for a tool category."""
+    return CATEGORY_CONFIGS.get(category, CATEGORY_CONFIGS["utility"])
+
+
+# =============================================================================
 # TOOL METADATA GENERATION PROMPT
 # =============================================================================
 
@@ -179,13 +273,27 @@ def get_tool_metadata_prompt(tool_name: str) -> str:
 
 
 def get_tool_logic_prompt(title: str, description: str, features: list,
-                          research_context: str = "") -> str:
-    """Generate prompt for tool JavaScript logic with research context."""
+                          research_context: str = "", tool_name: str = "") -> str:
+    """Generate prompt for tool JavaScript logic with research context and category-specific info."""
+
+    # Detect category and get config
+    category = detect_category(tool_name) if tool_name else "utility"
+    config = get_category_config(category)
+
+    # Build category-specific context
+    category_context = f"""
+DETECTED CATEGORY: {category.upper()}
+RECOMMENDED LIBRARIES: {', '.join(config['libraries']) if config['libraries'] else 'None required'}
+UI ELEMENTS FOR THIS CATEGORY: {config['ui_elements']}
+FILE TYPES: {config['file_types']}"""
+
+    full_research = f"{research_context}\n{category_context}" if research_context else category_context
+
     return TOOL_LOGIC_PROMPT.format(
         title=title,
         description=description,
         features=", ".join(features),
-        research_context=research_context or "Use general best practices."
+        research_context=full_research
     )
 
 
