@@ -34,37 +34,24 @@ class SearXNGClient:
     No API key required - uses public instances.
     """
 
-    # Public SearXNG instances - Verified Jan 16, 2026
-    # Filtered: A+ TLS grade, 99-100% uptime, sorted by speed
-    # Source: https://searx.space/
+    # Public SearXNG instances - MANUALLY TESTED Jan 16, 2026 19:10 IST
+    # All 15 instances verified working, sorted by actual response time
     PUBLIC_INSTANCES = [
-        # Tier 1: Fastest (<0.6s, 100% uptime, A+ TLS)
-        "https://searx.rhscz.eu",         # 0.458s, 100%, CZ
-        "https://search.rhscz.eu",        # 0.472s, 100%, NL
-        "https://searx.tiekoetter.com",   # 0.484s, 100%, DE
-        "https://priv.au",                # 0.485s, 100%, AU
-        "https://search.inetol.net",      # 0.572s, 100%, ES
-
-        # Tier 2: Fast (0.6-1.0s, 100% uptime, A+ TLS)
-        "https://search.ononoki.org",     # 0.640s, 100%, US
-        "https://opnxng.com",             # 0.791s, 100%, SG
-        "https://searxng.canine.tools",   # 0.926s, 100%, US
-        "https://searx.namejeff.xyz",     # 0.945s, 100%, CH
-        "https://search.ethibox.fr",      # 1.023s, 100%, FR
-
-        # Tier 3: Reliable (1.0-3.0s, 100% uptime, A+ TLS)
-        "https://searx.dresden.network",  # 1.094s, 100%, DE
-        "https://search.internetsucks.net", # 1.197s, 100%, NL
-        "https://search.freestater.org",  # 1.221s, 100%, US
-        "https://search.abohiccups.com",  # 1.290s, 100%, US
-        "https://searxng.shreven.org",    # 1.372s, 100%, CA
-        "https://searx.perennialte.ch",   # 1.568s, 100%, AU
-        "https://search.minus27315.dev",  # 2.068s, 100%, DK
-        "https://grep.vim.wtf",           # 2.795s, 100%, DE
-        "https://searxng.cups.moe",       # 3.035s, 100%, NL
-        "https://seek.fyi",               # 3.135s, 100%, US
-        "https://searx.party",            # 3.206s, 100%, US/CA
-        "https://baresearch.org",         # 3.269s, 100%, US
+        "https://searx.rhscz.eu",         # 0.844s - CZ
+        "https://sx.catgirl.cloud",       # 0.850s - DE
+        "https://opnxng.com",             # 0.913s - SG
+        "https://priv.au",                # 1.043s - AU
+        "https://searx.namejeff.xyz",     # 1.048s - CH
+        "https://search.inetol.net",      # 1.066s - ES
+        "https://search.zina.dev",        # 1.080s - DE
+        "https://searx.tiekoetter.com",   # 1.120s - DE
+        "https://searx.stream",           # 1.175s - DE
+        "https://paulgo.io",              # 1.223s - DE
+        "https://search.hbubli.cc",       # 1.258s - DE
+        "https://search.ononoki.org",     # 1.866s - US
+        "https://o5.gg",                  # 2.327s - NL
+        "https://search.rhscz.eu",        # 2.427s - NL
+        "https://search.bladerunn.in",    # 2.551s - SE
     ]
 
     def __init__(self, base_url: str | None = None):
