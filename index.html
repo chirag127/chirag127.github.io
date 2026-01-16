@@ -1,52 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chirag Hub - Free Online Tools | PDF, Image, Developer Utilities</title>
-  <meta name="description" content="Free, privacy-focused online tools. PDF merger, image converter, developer utilities, and more. 100% client-side processing - your files never leave your device.">
-  <meta name="keywords" content="online tools, pdf tools, image converter, free utilities, privacy tools, developer tools, web apps">
+  <meta name="description" content="Free, privacy-focused online tools. PDF merger, image converter, developer utilities. 100% client-side - your files never leave your device.">
+  <meta name="keywords" content="online tools, pdf tools, image converter, free utilities, privacy tools, developer tools, web apps, chirag singhal">
   <meta name="author" content="Chirag Singhal">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://chirag127.github.io/">
-
-  <!-- Open Graph -->
   <meta property="og:title" content="Chirag Hub - Free Online Tools">
-  <meta property="og:description" content="Free, privacy-focused online tools. PDF, Image, Developer utilities and more.">
+  <meta property="og:description" content="Free, privacy-focused online tools. PDF, Image, Developer utilities.">
   <meta property="og:url" content="https://chirag127.github.io/">
-  <meta property="og:site_name" content="Chirag Hub">
   <meta property="og:type" content="website">
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Integrations -->
   <script src="https://chirag127.github.io/shared/integrations.js" defer></script>
-
   <style>
     :root {
       --bg-dark: #030712;
-      --bg-card: rgba(17, 24, 39, 0.7);
-      --bg-card-hover: rgba(31, 41, 55, 0.9);
+      --bg-card: rgba(17, 24, 39, 0.6);
+      --bg-card-hover: rgba(31, 41, 55, 0.85);
+      --bg-glass: rgba(255, 255, 255, 0.03);
       --text-main: #f9fafb;
       --text-muted: #9ca3af;
       --text-dim: #6b7280;
       --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.4);
       --secondary: #a855f7;
       --accent: #0ea5e9;
       --success: #10b981;
       --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      --radius-xl: 1.5rem;
       --radius-lg: 1rem;
       --radius-md: 0.75rem;
-      --font-body: 'Outfit', sans-serif;
+      --font-body: 'Outfit', system-ui, sans-serif;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: var(--bg-dark);
+      background: var(--bg-dark);
       color: var(--text-main);
       font-family: var(--font-body);
       line-height: 1.6;
@@ -54,206 +48,72 @@
       display: flex;
       flex-direction: column;
       background-image:
-        radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.12) 0%, transparent 30%),
-        radial-gradient(circle at 85% 20%, rgba(168, 85, 247, 0.12) 0%, transparent 30%);
+        radial-gradient(ellipse 80% 50% at 20% 40%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 30% at 50% 80%, rgba(14, 165, 233, 0.08) 0%, transparent 50%);
     }
+    main { flex: 1; max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; width: 100%; }
 
-    main {
-      flex: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      width: 100%;
-    }
-
-    /* Hero */
+    /* Hero - Spatial Glass */
     .hero {
       text-align: center;
-      padding: 5rem 0 3rem;
+      padding: 6rem 0 4rem;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+      filter: blur(80px);
+      z-index: -1;
     }
     .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-size: clamp(3rem, 8vw, 5rem);
       font-weight: 800;
-      background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #38bdf8 100%);
+      background: linear-gradient(135deg, #818cf8 0%, #c084fc 40%, #38bdf8 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
+      letter-spacing: -0.04em;
       margin-bottom: 1rem;
-      letter-spacing: -0.03em;
+      animation: fadeInUp 0.8s ease-out;
     }
     .hero p {
       font-size: 1.25rem;
       color: var(--text-muted);
       max-width: 600px;
-      margin: 0 auto 2rem;
+      margin: 0 auto 2.5rem;
+      animation: fadeInUp 0.8s ease-out 0.1s both;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Search */
-    .search-container {
-      max-width: 600px;
-      margin: 0 auto 3rem;
-    }
-    .search-box {
-      display: flex;
-      gap: 0.75rem;
-      background: var(--bg-card);
-      border: var(--glass-border);
-      border-radius: var(--radius-lg);
-      padding: 0.75rem 1rem;
-    }
-    .search-input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: var(--text-main);
-      font-size: 1rem;
-      font-family: inherit;
-    }
-    .search-input::placeholder { color: var(--text-dim); }
-    .search-input:focus { outline: none; }
-
-    /* Filters */
-    .filters {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 2rem;
-    }
-    .filter-btn {
-      padding: 0.5rem 1.25rem;
-      background: var(--bg-card);
-      border: var(--glass-border);
-      border-radius: 50px;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      background: rgba(99, 102, 241, 0.2);
-      border-color: var(--primary);
-      color: var(--text-main);
-    }
-
-    /* Sort */
-    .sort-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      color: var(--text-dim);
-      font-size: 0.9rem;
-    }
-    .sort-select {
-      background: var(--bg-card);
-      border: var(--glass-border);
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
-      color: var(--text-main);
-      font-family: inherit;
-    }
-
-    /* Tools Grid */
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 4rem;
-    }
-
-    .tool-card {
-      background: var(--bg-card);
-      border: var(--glass-border);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      transition: all 0.3s;
-      text-decoration: none;
-      display: block;
-      position: relative;
-      overflow: hidden;
-    }
-    .tool-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .tool-card:hover {
-      background: var(--bg-card-hover);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    }
-    .tool-card:hover::before { opacity: 1; }
-
-    .tool-icon {
-      width: 48px; height: 48px;
-      background: rgba(99, 102, 241, 0.15);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-    .tool-title {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 0.5rem;
-    }
-    .tool-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-      line-height: 1.5;
-    }
-    .tool-meta {
-      display: flex;
-      gap: 1rem;
-      font-size: 0.8rem;
-      color: var(--text-dim);
-    }
-    .tool-meta span {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    /* Loading */
-    .loading {
-      text-align: center;
-      padding: 4rem;
-      color: var(--text-muted);
-    }
-    .spinner {
-      width: 40px; height: 40px;
-      border: 3px solid rgba(99, 102, 241, 0.2);
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 1rem;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 4rem;
-      color: var(--text-muted);
-    }
-
-    /* Stats */
+    /* Stats - Bento Style */
     .stats {
       display: flex;
       justify-content: center;
-      gap: 3rem;
+      gap: 1.5rem;
       margin-bottom: 3rem;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
     }
     .stat {
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border: var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 2.5rem;
       text-align: center;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+    }
+    .stat:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
     }
     .stat-value {
       font-size: 2.5rem;
@@ -263,31 +123,226 @@
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .stat-label {
-      font-size: 0.9rem;
+    .stat-label { font-size: 0.9rem; color: var(--text-dim); margin-top: 0.25rem; }
+
+    /* Search - Glass Morphism */
+    .search-container {
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      animation: fadeInUp 0.8s ease-out 0.3s both;
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      border: var(--glass-border);
+      border-radius: 100px;
+      padding: 1rem 1.5rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .search-box:focus-within {
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+    .search-icon { color: var(--text-dim); flex-shrink: 0; }
+    .search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.1rem;
+      font-family: inherit;
+    }
+    .search-input::placeholder { color: var(--text-dim); }
+    .search-input:focus { outline: none; }
+    .search-count {
       color: var(--text-dim);
+      font-size: 0.9rem;
+      white-space: nowrap;
     }
 
+    /* Filters - Kinetic Pills */
+    .filters {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+    .filter-btn {
+      padding: 0.6rem 1.25rem;
+      background: var(--bg-glass);
+      backdrop-filter: blur(8px);
+      border: var(--glass-border);
+      border-radius: 100px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .filter-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(99, 102, 241, 0.15);
+      color: var(--text-main);
+    }
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 4px 15px var(--primary-glow);
+    }
+
+    /* Sort Bar */
+    .sort-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding: 0 0.5rem;
+    }
+    .result-count { color: var(--text-dim); font-size: 0.95rem; }
+    .sort-select {
+      background: var(--bg-glass);
+      backdrop-filter: blur(8px);
+      border: var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 0.6rem 1rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    /* Tools Grid - Bento Layout */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 4rem;
+    }
+
+    /* Tool Card - Depth Stacking */
+    .tool-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: 1.75rem;
+      text-decoration: none;
+      display: block;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .tool-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      background: var(--bg-card-hover);
+      box-shadow: var(--glass-shadow), 0 0 60px rgba(99, 102, 241, 0.1);
+    }
+    .tool-card:hover::before { opacity: 1; }
+    .tool-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; }
+    .tool-icon {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.1));
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .tool-info { flex: 1; min-width: 0; }
+    .tool-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tool-category {
+      font-size: 0.8rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tool-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .tool-meta {
+      display: flex;
+      gap: 1.25rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+    .tool-meta span { display: flex; align-items: center; gap: 5px; }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 5rem;
+      color: var(--text-muted);
+    }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 3px solid rgba(99, 102, 241, 0.2);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1.5rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 5rem;
+      color: var(--text-muted);
+    }
+    .empty-state svg { width: 64px; height: 64px; margin-bottom: 1.5rem; opacity: 0.5; }
+
+    /* Responsive */
     @media (max-width: 768px) {
-      .hero h1 { font-size: 2rem; }
+      .hero h1 { font-size: 2.5rem; }
       .hero p { font-size: 1rem; }
-      .stats { gap: 1.5rem; }
-      .stat-value { font-size: 1.75rem; }
+      .stats { gap: 1rem; }
+      .stat { padding: 1rem 1.5rem; }
+      .stat-value { font-size: 2rem; }
+      .tools-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
   <div id="header-container"></div>
 
   <main>
-    <!-- Hero -->
     <section class="hero">
       <h1>Chirag Hub</h1>
       <p>Free, privacy-focused online tools. All processing happens in your browser. Your files never leave your device.</p>
     </section>
 
-    <!-- Stats -->
     <div class="stats">
       <div class="stat">
         <div class="stat-value" id="toolCount">--</div>
@@ -295,26 +350,25 @@
       </div>
       <div class="stat">
         <div class="stat-value" id="starCount">--</div>
-        <div class="stat-label">Stars</div>
+        <div class="stat-label">GitHub Stars</div>
       </div>
       <div class="stat">
         <div class="stat-value">100%</div>
-        <div class="stat-label">Private</div>
+        <div class="stat-label">Privacy</div>
       </div>
     </div>
 
-    <!-- Search -->
     <div class="search-container">
       <div class="search-box">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-dim)">
+        <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" class="search-input" id="searchInput" placeholder="Search tools...">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search all repositories...">
+        <span class="search-count" id="searchCount"></span>
       </div>
     </div>
 
-    <!-- Filters -->
     <div class="filters">
       <button class="filter-btn active" data-category="all">All</button>
       <button class="filter-btn" data-category="pdf">📄 PDF</button>
@@ -323,169 +377,229 @@
       <button class="filter-btn" data-category="text">📝 Text</button>
       <button class="filter-btn" data-category="audio">🎵 Audio</button>
       <button class="filter-btn" data-category="utility">⚡ Utility</button>
+      <button class="filter-btn" data-category="extension">🧩 Extensions</button>
     </div>
 
-    <!-- Sort Bar -->
     <div class="sort-bar">
-      <span id="resultCount">Loading tools...</span>
+      <span class="result-count" id="resultCount">Loading...</span>
       <select class="sort-select" id="sortSelect">
-        <option value="stars">Sort by Stars</option>
-        <option value="recent">Sort by Recent</option>
-        <option value="name">Sort by Name</option>
+        <option value="stars">⭐ Most Stars</option>
+        <option value="recent">🕐 Recently Updated</option>
+        <option value="name">🔤 Name A-Z</option>
+        <option value="created">🆕 Newest First</option>
       </select>
     </div>
 
-    <!-- Tools Grid -->
     <div class="tools-grid" id="toolsGrid">
       <div class="loading">
         <div class="spinner"></div>
-        <p>Loading tools...</p>
+        <p>Fetching all repositories...</p>
       </div>
     </div>
   </main>
 
-  <!-- Footer -->
   <div id="footer-container"></div>
 
   <script>
     // State
-    let allTools = [];
-    let filteredTools = [];
+    let allRepos = [];
+    let filteredRepos = [];
     let currentCategory = 'all';
     let currentSort = 'stars';
 
-    // Category mappings
-    const categoryMap = {
-      pdf: ['pdf', 'document', 'word', 'excel'],
-      image: ['image', 'photo', 'png', 'jpg', 'webp', 'svg', 'icon', 'color', 'palette'],
-      dev: ['json', 'yaml', 'xml', 'regex', 'code', 'git', 'docker', 'curl', 'chmod', 'cron', 'base64'],
-      text: ['text', 'markdown', 'string', 'lorem', 'case', 'diff', 'zalgo', 'ascii', 'font', 'emoji'],
-      audio: ['audio', 'music', 'sound', 'mp3', 'wav', 'guitar', 'bpm', 'morse'],
-      utility: ['qr', 'barcode', 'timer', 'calculator', 'converter', 'generator', 'random']
+    // Category Detection
+    const categoryKeywords = {
+      pdf: ['pdf', 'document', 'word', 'excel', 'merge', 'split', 'compress'],
+      image: ['image', 'photo', 'png', 'jpg', 'jpeg', 'webp', 'svg', 'icon', 'color', 'palette', 'resize', 'convert'],
+      dev: ['json', 'yaml', 'xml', 'regex', 'code', 'git', 'docker', 'curl', 'chmod', 'cron', 'base64', 'api', 'debug', 'lint'],
+      text: ['text', 'markdown', 'string', 'lorem', 'case', 'diff', 'zalgo', 'ascii', 'font', 'emoji', 'unicode'],
+      audio: ['audio', 'music', 'sound', 'mp3', 'wav', 'guitar', 'bpm', 'morse', 'tuner'],
+      utility: ['qr', 'barcode', 'timer', 'calculator', 'converter', 'generator', 'random', 'password', 'hash'],
+      extension: ['extension', 'chrome', 'browser', 'addon', 'plugin']
     };
 
-    // Load components
+    const categoryIcons = {
+      pdf: '📄', image: '🖼️', dev: '🛠️', text: '📝', audio: '🎵', utility: '⚡', extension: '🧩', other: '🔧'
+    };
+
+    // Load Shared Components
     async function loadComponent(id, url) {
       try {
         const res = await fetch(url);
-        document.getElementById(id).innerHTML = await res.text();
-      } catch (e) {
-        console.error('Failed to load:', url);
-      }
+        if (res.ok) document.getElementById(id).innerHTML = await res.text();
+      } catch (e) { console.error('Component load failed:', url); }
     }
 
-    // Fetch tools from GitHub
-    async function fetchTools() {
-      try {
-        const res = await fetch('https://api.github.com/users/chirag127/repos?per_page=100&sort=updated');
-        const repos = await res.json();
+    // Fetch ALL repositories with pagination
+    async function fetchAllRepos() {
+      const repos = [];
+      let page = 1;
+      const perPage = 100;
 
-        // Filter to tool repos (have github.io page)
-        allTools = repos
-          .filter(r => !r.fork && r.has_pages && r.name !== 'chirag127.github.io')
+      while (true) {
+        try {
+          const res = await fetch(
+            `https://api.github.com/users/chirag127/repos?per_page=${perPage}&page=${page}&sort=updated`
+          );
+          if (!res.ok) break;
+
+          const data = await res.json();
+          if (data.length === 0) break;
+
+          repos.push(...data);
+          page++;
+
+          // Safety limit (5 pages = 500 repos max)
+          if (page > 5) break;
+        } catch (e) {
+          console.error('Fetch error:', e);
+          break;
+        }
+      }
+
+      return repos;
+    }
+
+    // Initialize Tools
+    async function initTools() {
+      try {
+        const repos = await fetchAllRepos();
+
+        allRepos = repos
+          .filter(r => !r.fork && r.name !== 'chirag127.github.io' && r.name !== 'chirag127')
           .map(r => ({
             name: r.name,
-            title: r.name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+            title: formatTitle(r.name),
             description: r.description || 'A useful online tool',
             stars: r.stargazers_count,
+            forks: r.forks_count,
             updated: new Date(r.pushed_at),
-            url: `https://chirag127.github.io/${r.name}/`,
+            created: new Date(r.created_at),
+            url: r.has_pages ? `https://chirag127.github.io/${r.name}/` : r.html_url,
             repoUrl: r.html_url,
-            topics: r.topics || []
+            topics: r.topics || [],
+            hasPages: r.has_pages,
+            language: r.language
           }));
 
-        // Update stats
-        document.getElementById('toolCount').textContent = allTools.length;
-        const totalStars = allTools.reduce((sum, t) => sum + t.stars, 0);
-        document.getElementById('starCount').textContent = totalStars > 1000 ? (totalStars/1000).toFixed(1) + 'k' : totalStars;
+        // Update Stats
+        document.getElementById('toolCount').textContent = allRepos.length;
+        const totalStars = allRepos.reduce((sum, r) => sum + r.stars, 0);
+        document.getElementById('starCount').textContent = totalStars > 999
+          ? (totalStars / 1000).toFixed(1) + 'k'
+          : totalStars;
 
         applyFilters();
       } catch (e) {
-        console.error('Failed to fetch repos:', e);
-        document.getElementById('toolsGrid').innerHTML = '<div class="empty-state"><p>Failed to load tools. Please try again later.</p></div>';
+        console.error('Init error:', e);
+        document.getElementById('toolsGrid').innerHTML =
+          '<div class="empty-state"><p>Failed to load repositories. Please refresh.</p></div>';
       }
     }
 
-    // Get category for a tool
-    function getToolCategory(tool) {
-      const name = tool.name.toLowerCase();
-      const desc = (tool.description || '').toLowerCase();
-      const topics = tool.topics.join(' ').toLowerCase();
-      const combined = `${name} ${desc} ${topics}`;
+    // Format title from repo name
+    function formatTitle(name) {
+      return name
+        .replace(/-/g, ' ')
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, c => c.toUpperCase());
+    }
 
-      for (const [cat, keywords] of Object.entries(categoryMap)) {
-        if (keywords.some(kw => combined.includes(kw))) {
-          return cat;
-        }
+    // Detect category
+    function detectCategory(repo) {
+      const haystack = `${repo.name} ${repo.description || ''} ${repo.topics.join(' ')}`.toLowerCase();
+
+      for (const [cat, keywords] of Object.entries(categoryKeywords)) {
+        if (keywords.some(kw => haystack.includes(kw))) return cat;
       }
-      return 'utility';
+      return 'other';
     }
 
-    // Get icon for category
-    function getIcon(tool) {
-      const cat = getToolCategory(tool);
-      const icons = {
-        pdf: '📄', image: '🖼️', dev: '🛠️', text: '📝', audio: '🎵', utility: '⚡'
-      };
-      return icons[cat] || '🔧';
-    }
-
-    // Apply filters and sort
+    // Apply Filters
     function applyFilters() {
-      const search = document.getElementById('searchInput').value.toLowerCase();
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
 
-      filteredTools = allTools.filter(tool => {
-        // Search filter
-        if (search && !tool.name.toLowerCase().includes(search) &&
-            !(tool.description || '').toLowerCase().includes(search)) {
-          return false;
+      filteredRepos = allRepos.filter(repo => {
+        // Search
+        if (query) {
+          const haystack = `${repo.name} ${repo.title} ${repo.description} ${repo.topics.join(' ')}`.toLowerCase();
+          if (!haystack.includes(query)) return false;
         }
 
-        // Category filter
-        if (currentCategory !== 'all' && getToolCategory(tool) !== currentCategory) {
-          return false;
+        // Category
+        if (currentCategory !== 'all') {
+          const cat = detectCategory(repo);
+          if (cat !== currentCategory) return false;
         }
 
         return true;
       });
 
       // Sort
-      filteredTools.sort((a, b) => {
-        if (currentSort === 'stars') return b.stars - a.stars;
-        if (currentSort === 'recent') return b.updated - a.updated;
-        if (currentSort === 'name') return a.name.localeCompare(b.name);
-        return 0;
+      filteredRepos.sort((a, b) => {
+        switch (currentSort) {
+          case 'stars': return b.stars - a.stars;
+          case 'recent': return b.updated - a.updated;
+          case 'name': return a.name.localeCompare(b.name);
+          case 'created': return b.created - a.created;
+          default: return 0;
+        }
       });
 
-      renderTools();
+      renderGrid();
     }
 
-    // Render tools grid
-    function renderTools() {
+    // Render Grid
+    function renderGrid() {
       const grid = document.getElementById('toolsGrid');
-      document.getElementById('resultCount').textContent = `${filteredTools.length} tools`;
+      const countEl = document.getElementById('resultCount');
+      const searchCountEl = document.getElementById('searchCount');
 
-      if (filteredTools.length === 0) {
-        grid.innerHTML = '<div class="empty-state"><p>No tools found matching your criteria.</p></div>';
+      countEl.textContent = `${filteredRepos.length} repositories`;
+      searchCountEl.textContent = filteredRepos.length !== allRepos.length
+        ? `${filteredRepos.length}/${allRepos.length}`
+        : '';
+
+      if (filteredRepos.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <p>No repositories match your search.</p>
+          </div>`;
         return;
       }
 
-      grid.innerHTML = filteredTools.map(tool => `
-        <a href="${tool.url}" class="tool-card">
-          <div class="tool-icon">${getIcon(tool)}</div>
-          <div class="tool-title">${tool.title}</div>
-          <div class="tool-desc">${(tool.description || '').substring(0, 100)}${tool.description?.length > 100 ? '...' : ''}</div>
-          <div class="tool-meta">
-            <span>⭐ ${tool.stars}</span>
-            <span>📅 ${tool.updated.toLocaleDateString()}</span>
-          </div>
-        </a>
-      `).join('');
+      grid.innerHTML = filteredRepos.map(repo => {
+        const cat = detectCategory(repo);
+        const icon = categoryIcons[cat] || '🔧';
+        const catLabel = cat.charAt(0).toUpperCase() + cat.slice(1);
+
+        return `
+          <a href="${repo.url}" class="tool-card" target="${repo.hasPages ? '_self' : '_blank'}">
+            <div class="tool-header">
+              <div class="tool-icon">${icon}</div>
+              <div class="tool-info">
+                <div class="tool-title">${repo.title}</div>
+                <div class="tool-category">${catLabel}</div>
+              </div>
+            </div>
+            <div class="tool-desc">${repo.description}</div>
+            <div class="tool-meta">
+              <span>⭐ ${repo.stars}</span>
+              <span>🍴 ${repo.forks}</span>
+              <span>📅 ${repo.updated.toLocaleDateString()}</span>
+            </div>
+          </a>`;
+      }).join('');
     }
 
-    // Event listeners
+    // Event Listeners
     document.getElementById('searchInput').addEventListener('input', applyFilters);
-    document.getElementById('sortSelect').addEventListener('change', (e) => {
+
+    document.getElementById('sortSelect').addEventListener('change', e => {
       currentSort = e.target.value;
       applyFilters();
     });
@@ -503,7 +617,7 @@
     Promise.all([
       loadComponent('header-container', 'https://chirag127.github.io/shared/header.html'),
       loadComponent('footer-container', 'https://chirag127.github.io/shared/footer.html'),
-      fetchTools()
+      initTools()
     ]);
   </script>
 </body>
