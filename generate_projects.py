@@ -237,11 +237,12 @@ def git_push(name: str, files: dict[str, str]) -> bool:
 
 def research_tool(name: str, search_client: SearXNGClient) -> dict:
     """
-    Research libraries and best practices for a tool using SearXNG.
+    Research libraries, features, and best practices for a tool using SearXNG.
 
     Returns context for AI prompt including:
     - Recommended libraries
     - Implementation best practices
+    - Feature ideas from competitors
     - Existing examples
     """
     logger.info(f"🔍 Researching: {name}")
@@ -252,6 +253,7 @@ def research_tool(name: str, search_client: SearXNGClient) -> dict:
     research = {
         'libraries': [],
         'best_practices': [],
+        'features': [],
         'examples': [],
         'search_successful': False
     }
@@ -269,7 +271,23 @@ def research_tool(name: str, search_client: SearXNGClient) -> dict:
         else:
             logger.warning(f"  ⚠️ No library results")
 
-        # 2. How to build tutorials
+        # 2. Search for FEATURES from competitors
+        logger.info(f"  ⭐ Searching features for: {topic}")
+        feature_results = search_client.search(
+            f"best {topic} tool features what can it do",
+            categories=['general'],
+            max_results=10
+        )
+        if feature_results:
+            research['features'] = [
+                {'title': r.get('title', ''), 'content': r.get('content', '')[:300]}
+                for r in feature_results[:5]
+            ]
+            logger.info(f"  ✅ Found {len(research['features'])} feature sources")
+        else:
+            logger.warning(f"  ⚠️ No feature results")
+
+        # 3. How to build tutorials
         logger.info(f"  📖 Searching tutorials for: {topic}")
         how_to = search_client.research_how_to_build(topic, max_results=8)
         if how_to:
@@ -281,7 +299,7 @@ def research_tool(name: str, search_client: SearXNGClient) -> dict:
         else:
             logger.warning(f"  ⚠️ No tutorial results")
 
-        # 3. Existing examples
+        # 4. Existing examples
         logger.info(f"  🔎 Searching examples for: {topic}")
         examples = search_client.search(
             f"{topic} javascript github example",
@@ -295,7 +313,7 @@ def research_tool(name: str, search_client: SearXNGClient) -> dict:
             ]
             logger.info(f"  ✅ Found {len(research['examples'])} examples")
 
-        research['search_successful'] = bool(lib_results or how_to or examples)
+        research['search_successful'] = bool(lib_results or how_to or examples or feature_results)
 
     except Exception as e:
         logger.error(f"  ❌ Research failed: {e}")
@@ -310,11 +328,17 @@ def format_research_context(research: dict) -> str:
 
     context_parts = []
 
-    if research['libraries']:
+    # Include discovered features first (most important)
+    if research.get('features'):
+        feature_text = "\n".join([f"  - {f['content'][:150]}..." for f in research['features'][:3] if f.get('content')])
+        if feature_text:
+            context_parts.append(f"COMPETITOR FEATURES (implement these):\n{feature_text}")
+
+    if research.get('libraries'):
         libs = "\n".join([f"  - {l['title']}: {l['url']}" for l in research['libraries'][:3]])
         context_parts.append(f"RECOMMENDED LIBRARIES:\n{libs}")
 
-    if research['best_practices']:
+    if research.get('best_practices'):
         practices = "\n".join([f"  - {p['title']}" for p in research['best_practices'][:3]])
         context_parts.append(f"IMPLEMENTATION GUIDES:\n{practices}")
 

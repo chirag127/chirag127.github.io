@@ -2,19 +2,61 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{TOOL_TITLE}} - Free Online Tool</title>
-  <meta name="description" content="{{TOOL_DESCRIPTION}}">
-  <meta name="keywords" content="{{TOOL_KEYWORDS}}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>{{TOOL_TITLE}} - Free Online Tool | Chirag Hub</title>
+  <meta name="description" content="{{TOOL_DESCRIPTION}} Free, privacy-focused. All processing happens in your browser - your files never leave your device.">
+  <meta name="keywords" content="{{TOOL_KEYWORDS}}, free online tool, browser tool, no upload, privacy, client-side">
   <meta name="author" content="Chirag Singhal">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://chirag127.github.io/{{REPO_NAME}}/">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="{{TOOL_TITLE}}">
-  <meta property="og:description" content="{{TOOL_DESCRIPTION}}">
-  <meta property="og:url" content="https://chirag127.github.io/{{REPO_NAME}}/">
-  <meta property="og:site_name" content="Chirag Tools">
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
+  <meta property="og:title" content="{{TOOL_TITLE}} - Free Online Tool">
+  <meta property="og:description" content="{{TOOL_DESCRIPTION}} 100% client-side processing.">
+  <meta property="og:url" content="https://chirag127.github.io/{{REPO_NAME}}/">
+  <meta property="og:site_name" content="Chirag Hub">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{TOOL_TITLE}}">
+  <meta name="twitter:description" content="{{TOOL_DESCRIPTION}}">
+  <meta name="twitter:creator" content="@chirag127">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "{{TOOL_TITLE}}",
+    "description": "{{TOOL_DESCRIPTION}}",
+    "url": "https://chirag127.github.io/{{REPO_NAME}}/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Chirag Singhal",
+      "url": "https://github.com/chirag127"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Chirag Hub",
+      "url": "https://chirag127.github.io"
+    }
+  }
+  </script>
+
+  <!-- Mobile / PWA -->
+  <meta name="theme-color" content="#030712">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,6 +65,7 @@
 
   <!-- Integrations Loader (Analytics, Chat, etc.) -->
   <script src="https://chirag127.github.io/shared/integrations.js" defer></script>
+
 
   <!-- Tailwind (CDN for simplicity in single-file tools, or use custom CSS) -->
   <!-- Using custom CSS for maximum control and speed as requested -->
