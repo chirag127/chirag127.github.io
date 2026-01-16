@@ -190,6 +190,40 @@ def enable_pages(name: str):
         print("  + Pages enabled")
 
 
+def set_github_topics(name: str, topics: list[str]):
+    """Set repository topics (tags) via GitHub API."""
+    if not topics:
+        return
+
+    # Clean topics: lowercase, alphanumeric + hyphens only, max 20 topics
+    clean_topics = []
+    for topic in topics[:20]:
+        clean = topic.lower().replace(" ", "-").replace("_", "-")
+        clean = "".join(c for c in clean if c.isalnum() or c == "-")
+        if clean and len(clean) <= 50:
+            clean_topics.append(clean)
+
+    if not clean_topics:
+        return
+
+    logger.info(f"  🏷️ Setting topics: {', '.join(clean_topics[:5])}...")
+
+    # Use special Accept header for topics API
+    url = f"https://api.github.com/repos/{GH_USERNAME}/{name}/topics"
+    headers = {
+        "Authorization": f"Bearer {GH_TOKEN}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28"
+    }
+
+    try:
+        r = requests.put(url, headers=headers, json={"names": clean_topics}, timeout=30)
+        if r.status_code in [200, 204]:
+            logger.info(f"  ✅ Topics set: {len(clean_topics)}")
+        else:
+            logger.warning(f"  ⚠️ Topics API: {r.status_code}")
+
+
 def git_push(name: str, files: dict[str, str]) -> bool:
     if TEMP_DIR.exists():
         shutil.rmtree(TEMP_DIR, ignore_errors=True)
@@ -514,6 +548,10 @@ All processing happens in your browser. Your files never leave your device.
 
     time.sleep(2)
     enable_pages(tool["name"])
+
+    # Set GitHub topics from keywords
+    topics = tool.get("keywords", []) + [tool.get("category", "").lower()]
+    set_github_topics(tool["name"], topics)
 
     if tool["name"] not in state["generated"]:
         state["generated"].append(tool["name"])

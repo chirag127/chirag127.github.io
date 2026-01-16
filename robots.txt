@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://chirag127.github.io/sitemap.xml
+
+# Crawl-delay (be nice to servers)
+Crawl-delay: 1
+
+# Disallow system files
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /state/
+Disallow: /.temp/
+Disallow: /apex_optimizer/
+Disallow: /tests/
