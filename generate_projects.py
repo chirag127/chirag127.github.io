@@ -273,7 +273,8 @@ OUTPUT JSON:
 }}"""
 
     print(f"  Generating logic for {name}...")
-    result = ai.generate_json(prompt=prompt, max_tokens=8000, min_model_size=32)
+    # Use 70B+ models for complex tool logic generation
+    result = ai.generate_json(prompt=prompt, max_tokens=8000, min_model_size=70)
 
     js_code = ""
     css_code = ""

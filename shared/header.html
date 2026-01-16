@@ -4,7 +4,7 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(3, 7, 18, 0.8);
+      background: rgba(3, 7, 18, 0.85);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -19,7 +19,6 @@
       justify-content: space-between;
       align-items: center;
     }
-    /* Logo */
     .logo-link {
       display: flex;
       align-items: center;
@@ -27,15 +26,15 @@
       text-decoration: none;
     }
     .logo-icon {
-      width: 36px; height: 36px;
+      width: 38px; height: 38px;
       background: linear-gradient(135deg, #6366f1, #a855f7);
       border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
       color: white; font-weight: 800; font-size: 14px;
-      box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
     }
     .logo-text {
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       font-weight: 700;
       background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
       -webkit-background-clip: text;
@@ -43,8 +42,6 @@
       -webkit-text-fill-color: transparent;
       letter-spacing: -0.02em;
     }
-
-    /* Nav */
     .nav-menu {
       display: flex;
       gap: 2rem;
@@ -56,24 +53,17 @@
       font-size: 0.95rem;
       font-weight: 500;
       transition: color 0.2s;
-      position: relative;
     }
-    .nav-link:hover {
-      color: white;
-    }
-
-    /* Dropdown */
-    .dropdown {
-      position: relative;
-    }
+    .nav-link:hover { color: white; }
+    .dropdown { position: relative; }
     .dropdown-content {
       display: none;
       position: absolute;
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      min-width: 200px;
-      background: rgba(30, 41, 59, 0.95);
+      min-width: 220px;
+      background: rgba(30, 41, 59, 0.98);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
@@ -90,16 +80,14 @@
       padding: 10px 16px;
       color: #cbd5e1;
       text-decoration: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 0.9rem;
       transition: background 0.2s;
     }
     .dropdown-item:hover {
-      background: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.08);
       color: white;
     }
-
-    /* Actions */
     .header-actions {
       display: flex;
       gap: 12px;
@@ -109,72 +97,64 @@
       width: 40px; height: 40px;
       display: flex; align-items: center; justify-content: center;
       border-radius: 8px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
       color: #94a3b8;
       transition: all 0.2s;
       cursor: pointer;
     }
     .btn-icon:hover {
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.1);
       color: white;
     }
     .btn-primary-sm {
       background: linear-gradient(135deg, #6366f1, #8b5cf6);
       color: white;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 1.25rem;
       border-radius: 8px;
       font-size: 0.9rem;
-      font-weight: 500;
+      font-weight: 600;
       text-decoration: none;
-      transition: opacity 0.2s;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
     }
-    .btn-primary-sm:hover { opacity: 0.9; }
-
+    .btn-primary-sm:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+    }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
       to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
-
     @media (max-width: 768px) {
       .nav-menu { display: none; }
+      .header-container { height: 60px; }
     }
   </style>
 
   <div class="header-container">
-    <!-- Logo -->
     <a href="https://chirag127.github.io" class="logo-link">
-      <div class="logo-icon">CS</div>
-      <span class="logo-text">Chirag Tools</span>
+      <div class="logo-icon">CH</div>
+      <span class="logo-text">Chirag Hub</span>
     </a>
 
-    <!-- Nav -->
     <nav class="nav-menu">
       <div class="dropdown">
         <a href="#" class="nav-link">Categories ▾</a>
         <div class="dropdown-content">
-          <a href="#" class="dropdown-item">📄 PDF Tools</a>
-          <a href="#" class="dropdown-item">🖼️ Image Tools</a>
-          <a href="#" class="dropdown-item">🛠️ Developer Utilities</a>
-          <a href="#" class="dropdown-item">📝 Text Tools</a>
+          <a href="https://chirag127.github.io/#pdf" class="dropdown-item">📄 PDF Tools</a>
+          <a href="https://chirag127.github.io/#image" class="dropdown-item">🖼️ Image Tools</a>
+          <a href="https://chirag127.github.io/#dev" class="dropdown-item">🛠️ Developer Utils</a>
+          <a href="https://chirag127.github.io/#text" class="dropdown-item">📝 Text Tools</a>
+          <a href="https://chirag127.github.io/#audio" class="dropdown-item">🎵 Audio Tools</a>
         </div>
       </div>
       <a href="https://chirag127.github.io" class="nav-link">All Tools</a>
-      <a href="https://chromewebstore.google.com/" class="nav-link">Extensions</a>
       <a href="https://github.com/chirag127" target="_blank" class="nav-link">GitHub</a>
+      <a href="https://chirag127.github.io/about.html" class="nav-link">About</a>
     </nav>
 
-    <!-- Actions -->
     <div class="header-actions">
-      <!-- Search (Visual Placeholder) -->
-      <div class="btn-icon" onclick="alert('Search coming soon!')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </div>
-
-      <!-- Support CTA -->
       <a href="https://buymeacoffee.com/chirag127" target="_blank" class="btn-primary-sm">
         💖 Support
       </a>
