@@ -35,18 +35,36 @@ class SearXNGClient:
     """
 
     # Public SearXNG instances - Verified Jan 16, 2026
-    # Sorted by speed (fastest first), all A+ TLS, 100% uptime
+    # Filtered: A+ TLS grade, 99-100% uptime, sorted by speed
+    # Source: https://searx.space/
     PUBLIC_INSTANCES = [
-        "https://searx.rhscz.eu",         # 0.458s, 100%, A+ TLS, CZ
-        "https://search.rhscz.eu",        # 0.472s, 100%, A+ TLS, NL
-        "https://searx.tiekoetter.com",   # 0.484s, 100%, A+ TLS, DE
-        "https://priv.au",                # 0.485s, 100%, A+ TLS, AU
-        "https://search.hbubli.cc",       # 0.520s, 99%, A+ TLS, DE
-        "https://search.inetol.net",      # 0.572s, 100%, A+ TLS, ES
-        "https://opnxng.com",             # 0.791s, 100%, A+ TLS, SG
-        "https://searxng.canine.tools",   # 0.926s, 100%, A+ TLS, US
-        "https://searx.namejeff.xyz",     # 0.945s, 100%, A+ TLS, CH
-        "https://searx.dresden.network",  # 1.094s, 100%, A+ TLS, DE
+        # Tier 1: Fastest (<0.6s, 100% uptime, A+ TLS)
+        "https://searx.rhscz.eu",         # 0.458s, 100%, CZ
+        "https://search.rhscz.eu",        # 0.472s, 100%, NL
+        "https://searx.tiekoetter.com",   # 0.484s, 100%, DE
+        "https://priv.au",                # 0.485s, 100%, AU
+        "https://search.inetol.net",      # 0.572s, 100%, ES
+
+        # Tier 2: Fast (0.6-1.0s, 100% uptime, A+ TLS)
+        "https://search.ononoki.org",     # 0.640s, 100%, US
+        "https://opnxng.com",             # 0.791s, 100%, SG
+        "https://searxng.canine.tools",   # 0.926s, 100%, US
+        "https://searx.namejeff.xyz",     # 0.945s, 100%, CH
+        "https://search.ethibox.fr",      # 1.023s, 100%, FR
+
+        # Tier 3: Reliable (1.0-3.0s, 100% uptime, A+ TLS)
+        "https://searx.dresden.network",  # 1.094s, 100%, DE
+        "https://search.internetsucks.net", # 1.197s, 100%, NL
+        "https://search.freestater.org",  # 1.221s, 100%, US
+        "https://search.abohiccups.com",  # 1.290s, 100%, US
+        "https://searxng.shreven.org",    # 1.372s, 100%, CA
+        "https://searx.perennialte.ch",   # 1.568s, 100%, AU
+        "https://search.minus27315.dev",  # 2.068s, 100%, DK
+        "https://grep.vim.wtf",           # 2.795s, 100%, DE
+        "https://searxng.cups.moe",       # 3.035s, 100%, NL
+        "https://seek.fyi",               # 3.135s, 100%, US
+        "https://searx.party",            # 3.206s, 100%, US/CA
+        "https://baresearch.org",         # 3.269s, 100%, US
     ]
 
     def __init__(self, base_url: str | None = None):
