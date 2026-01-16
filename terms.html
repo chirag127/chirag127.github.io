@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service - Chirag Hub</title>
+  <meta name="description" content="Terms of Service for Chirag Hub free online tools.">
+  <link rel="canonical" href="https://chirag127.github.io/terms.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://chirag127.github.io/shared/integrations.js" defer></script>
+
+  <style>
+    :root {
+      --bg-dark: #030712;
+      --bg-card: rgba(17, 24, 39, 0.7);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --primary: #6366f1;
+      --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+      --font-body: 'Outfit', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      flex: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .last-updated { color: var(--text-muted); margin-bottom: 3rem; }
+    h2 { font-size: 1.5rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+    p, ul { margin-bottom: 1.5rem; color: var(--text-muted); }
+    ul { padding-left: 1.5rem; }
+    li { margin-bottom: 0.5rem; }
+    strong { color: var(--text-main); }
+    a { color: var(--primary); }
+  </style>
+</head>
+<body>
+  <div id="header-container"></div>
+
+  <main>
+    <h1>Terms of Service</h1>
+    <p class="last-updated">Last updated: January 2026</p>
+
+    <h2>Acceptance of Terms</h2>
+    <p>By accessing and using Chirag Hub ("the Service"), you accept and agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.</p>
+
+    <h2>Description of Service</h2>
+    <p>Chirag Hub provides free, browser-based tools for file processing, including but not limited to:</p>
+    <ul>
+      <li>PDF manipulation (merge, split, compress)</li>
+      <li>Image conversion and editing</li>
+      <li>Developer utilities</li>
+      <li>Text processing tools</li>
+    </ul>
+
+    <h2>Free Service</h2>
+    <p>All tools are provided <strong>free of charge</strong>. We may display advertisements to support ongoing development and hosting costs.</p>
+
+    <h2>No Warranty</h2>
+    <p>The Service is provided "as is" without warranty of any kind. We do not guarantee:</p>
+    <ul>
+      <li>Uninterrupted availability</li>
+      <li>Error-free operation</li>
+      <li>Fitness for a particular purpose</li>
+      <li>Accuracy of output</li>
+    </ul>
+
+    <h2>Limitation of Liability</h2>
+    <p>We shall not be liable for any direct, indirect, incidental, special, or consequential damages resulting from your use of the Service.</p>
+
+    <h2>User Responsibility</h2>
+    <p>You are responsible for:</p>
+    <ul>
+      <li>Backing up your original files before processing</li>
+      <li>Ensuring you have rights to files you process</li>
+      <li>Using the tools for lawful purposes only</li>
+    </ul>
+
+    <h2>Intellectual Property</h2>
+    <p>The tools and their original content are owned by Chirag Singhal. Most tools are open-source under the MIT License. Source code is available on <a href="https://github.com/chirag127" target="_blank">GitHub</a>.</p>
+
+    <h2>Changes to Terms</h2>
+    <p>We reserve the right to modify these terms at any time. Continued use after changes constitutes acceptance of the new terms.</p>
+
+    <h2>Contact</h2>
+    <p>Questions? Email: <a href="mailto:whyiswhen@gmail.com">whyiswhen@gmail.com</a></p>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script>
+    async function loadComponent(id, url) {
+      try {
+        const res = await fetch(url);
+        document.getElementById(id).innerHTML = await res.text();
+      } catch (e) {}
+    }
+    loadComponent('header-container', 'https://chirag127.github.io/shared/header.html');
+    loadComponent('footer-container', 'https://chirag127.github.io/shared/footer.html');
+  </script>
+</body>
+</html>

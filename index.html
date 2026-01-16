@@ -1,37 +1,510 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chirag Singhal - Software Engineer | Backend & GenAI</title>
-  <meta name="description" content="Software Engineer specializing in Backend Development and Generative AI. Building free online tools.">
+  <title>Chirag Hub - Free Online Tools | PDF, Image, Developer Utilities</title>
+  <meta name="description" content="Free, privacy-focused online tools. PDF merger, image converter, developer utilities, and more. 100% client-side processing - your files never leave your device.">
+  <meta name="keywords" content="online tools, pdf tools, image converter, free utilities, privacy tools, developer tools, web apps">
+  <meta name="author" content="Chirag Singhal">
+  <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://chirag127.github.io/">
-  <script src="/shared/analytics.js" defer></script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6591377352847343"
-     crossorigin="anonymous"></script>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Chirag Hub - Free Online Tools">
+  <meta property="og:description" content="Free, privacy-focused online tools. PDF, Image, Developer utilities and more.">
+  <meta property="og:url" content="https://chirag127.github.io/">
+  <meta property="og:site_name" content="Chirag Hub">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Integrations -->
+  <script src="https://chirag127.github.io/shared/integrations.js" defer></script>
+
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --bg: #0f172a; --text: #f8fafc; --accent: #0ea5e9; }
-    body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; }
-    h1 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; background: linear-gradient(135deg, #0ea5e9, #6366f1); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
-    .subtitle { font-size: 1.25rem; color: #94a3b8; margin-bottom: 2rem; }
-    .links { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-    .btn { padding: 12px 24px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.2s; }
-    .btn-primary { background: linear-gradient(135deg, #0ea5e9, #6366f1); color: white; }
-    .btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
-    .btn:hover { transform: translateY(-2px); }
+    :root {
+      --bg-dark: #030712;
+      --bg-card: rgba(17, 24, 39, 0.7);
+      --bg-card-hover: rgba(31, 41, 55, 0.9);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      --primary: #6366f1;
+      --secondary: #a855f7;
+      --accent: #0ea5e9;
+      --success: #10b981;
+      --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+      --radius-lg: 1rem;
+      --radius-md: 0.75rem;
+      --font-body: 'Outfit', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image:
+        radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.12) 0%, transparent 30%),
+        radial-gradient(circle at 85% 20%, rgba(168, 85, 247, 0.12) 0%, transparent 30%);
+    }
+
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 5rem 0 3rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+      letter-spacing: -0.03em;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    /* Search */
+    .search-container {
+      max-width: 600px;
+      margin: 0 auto 3rem;
+    }
+    .search-box {
+      display: flex;
+      gap: 0.75rem;
+      background: var(--bg-card);
+      border: var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 0.75rem 1rem;
+    }
+    .search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    .search-input::placeholder { color: var(--text-dim); }
+    .search-input:focus { outline: none; }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .filter-btn {
+      padding: 0.5rem 1.25rem;
+      background: var(--bg-card);
+      border: var(--glass-border);
+      border-radius: 50px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: var(--primary);
+      color: var(--text-main);
+    }
+
+    /* Sort */
+    .sort-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+    .sort-select {
+      background: var(--bg-card);
+      border: var(--glass-border);
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      color: var(--text-main);
+      font-family: inherit;
+    }
+
+    /* Tools Grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .tool-card {
+      background: var(--bg-card);
+      border: var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .tool-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .tool-card:hover::before { opacity: 1; }
+
+    .tool-icon {
+      width: 48px; height: 48px;
+      background: rgba(99, 102, 241, 0.15);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .tool-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+    .tool-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .tool-meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+    .tool-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 4rem;
+      color: var(--text-muted);
+    }
+    .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(99, 102, 241, 0.2);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 4rem;
+      color: var(--text-muted);
+    }
+
+    /* Stats */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      .stats { gap: 1.5rem; }
+      .stat-value { font-size: 1.75rem; }
+    }
   </style>
 </head>
 <body>
-  <section class="hero">
-    <h1>Chirag Singhal</h1>
-    <p class="subtitle">Software Engineer | Backend & GenAI</p>
-    <div class="links">
-      <a href="https://github.com/chirag127" class="btn btn-primary" target="_blank">GitHub</a>
-      <a href="https://linkedin.com/in/chirag-singhal1" class="btn btn-secondary" target="_blank">LinkedIn</a>
-      <a href="https://buymeacoffee.com/chirag127" class="btn btn-secondary" target="_blank">Support</a>
+  <!-- Header -->
+  <div id="header-container"></div>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <h1>Chirag Hub</h1>
+      <p>Free, privacy-focused online tools. All processing happens in your browser. Your files never leave your device.</p>
+    </section>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value" id="toolCount">--</div>
+        <div class="stat-label">Tools</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="starCount">--</div>
+        <div class="stat-label">Stars</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">Private</div>
+      </div>
     </div>
-  </section>
-  <script src="/shared/monetization.js" defer></script>
+
+    <!-- Search -->
+    <div class="search-container">
+      <div class="search-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-dim)">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search tools...">
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <button class="filter-btn active" data-category="all">All</button>
+      <button class="filter-btn" data-category="pdf">📄 PDF</button>
+      <button class="filter-btn" data-category="image">🖼️ Image</button>
+      <button class="filter-btn" data-category="dev">🛠️ Developer</button>
+      <button class="filter-btn" data-category="text">📝 Text</button>
+      <button class="filter-btn" data-category="audio">🎵 Audio</button>
+      <button class="filter-btn" data-category="utility">⚡ Utility</button>
+    </div>
+
+    <!-- Sort Bar -->
+    <div class="sort-bar">
+      <span id="resultCount">Loading tools...</span>
+      <select class="sort-select" id="sortSelect">
+        <option value="stars">Sort by Stars</option>
+        <option value="recent">Sort by Recent</option>
+        <option value="name">Sort by Name</option>
+      </select>
+    </div>
+
+    <!-- Tools Grid -->
+    <div class="tools-grid" id="toolsGrid">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>Loading tools...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <div id="footer-container"></div>
+
+  <script>
+    // State
+    let allTools = [];
+    let filteredTools = [];
+    let currentCategory = 'all';
+    let currentSort = 'stars';
+
+    // Category mappings
+    const categoryMap = {
+      pdf: ['pdf', 'document', 'word', 'excel'],
+      image: ['image', 'photo', 'png', 'jpg', 'webp', 'svg', 'icon', 'color', 'palette'],
+      dev: ['json', 'yaml', 'xml', 'regex', 'code', 'git', 'docker', 'curl', 'chmod', 'cron', 'base64'],
+      text: ['text', 'markdown', 'string', 'lorem', 'case', 'diff', 'zalgo', 'ascii', 'font', 'emoji'],
+      audio: ['audio', 'music', 'sound', 'mp3', 'wav', 'guitar', 'bpm', 'morse'],
+      utility: ['qr', 'barcode', 'timer', 'calculator', 'converter', 'generator', 'random']
+    };
+
+    // Load components
+    async function loadComponent(id, url) {
+      try {
+        const res = await fetch(url);
+        document.getElementById(id).innerHTML = await res.text();
+      } catch (e) {
+        console.error('Failed to load:', url);
+      }
+    }
+
+    // Fetch tools from GitHub
+    async function fetchTools() {
+      try {
+        const res = await fetch('https://api.github.com/users/chirag127/repos?per_page=100&sort=updated');
+        const repos = await res.json();
+
+        // Filter to tool repos (have github.io page)
+        allTools = repos
+          .filter(r => !r.fork && r.has_pages && r.name !== 'chirag127.github.io')
+          .map(r => ({
+            name: r.name,
+            title: r.name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+            description: r.description || 'A useful online tool',
+            stars: r.stargazers_count,
+            updated: new Date(r.pushed_at),
+            url: `https://chirag127.github.io/${r.name}/`,
+            repoUrl: r.html_url,
+            topics: r.topics || []
+          }));
+
+        // Update stats
+        document.getElementById('toolCount').textContent = allTools.length;
+        const totalStars = allTools.reduce((sum, t) => sum + t.stars, 0);
+        document.getElementById('starCount').textContent = totalStars > 1000 ? (totalStars/1000).toFixed(1) + 'k' : totalStars;
+
+        applyFilters();
+      } catch (e) {
+        console.error('Failed to fetch repos:', e);
+        document.getElementById('toolsGrid').innerHTML = '<div class="empty-state"><p>Failed to load tools. Please try again later.</p></div>';
+      }
+    }
+
+    // Get category for a tool
+    function getToolCategory(tool) {
+      const name = tool.name.toLowerCase();
+      const desc = (tool.description || '').toLowerCase();
+      const topics = tool.topics.join(' ').toLowerCase();
+      const combined = `${name} ${desc} ${topics}`;
+
+      for (const [cat, keywords] of Object.entries(categoryMap)) {
+        if (keywords.some(kw => combined.includes(kw))) {
+          return cat;
+        }
+      }
+      return 'utility';
+    }
+
+    // Get icon for category
+    function getIcon(tool) {
+      const cat = getToolCategory(tool);
+      const icons = {
+        pdf: '📄', image: '🖼️', dev: '🛠️', text: '📝', audio: '🎵', utility: '⚡'
+      };
+      return icons[cat] || '🔧';
+    }
+
+    // Apply filters and sort
+    function applyFilters() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+
+      filteredTools = allTools.filter(tool => {
+        // Search filter
+        if (search && !tool.name.toLowerCase().includes(search) &&
+            !(tool.description || '').toLowerCase().includes(search)) {
+          return false;
+        }
+
+        // Category filter
+        if (currentCategory !== 'all' && getToolCategory(tool) !== currentCategory) {
+          return false;
+        }
+
+        return true;
+      });
+
+      // Sort
+      filteredTools.sort((a, b) => {
+        if (currentSort === 'stars') return b.stars - a.stars;
+        if (currentSort === 'recent') return b.updated - a.updated;
+        if (currentSort === 'name') return a.name.localeCompare(b.name);
+        return 0;
+      });
+
+      renderTools();
+    }
+
+    // Render tools grid
+    function renderTools() {
+      const grid = document.getElementById('toolsGrid');
+      document.getElementById('resultCount').textContent = `${filteredTools.length} tools`;
+
+      if (filteredTools.length === 0) {
+        grid.innerHTML = '<div class="empty-state"><p>No tools found matching your criteria.</p></div>';
+        return;
+      }
+
+      grid.innerHTML = filteredTools.map(tool => `
+        <a href="${tool.url}" class="tool-card">
+          <div class="tool-icon">${getIcon(tool)}</div>
+          <div class="tool-title">${tool.title}</div>
+          <div class="tool-desc">${(tool.description || '').substring(0, 100)}${tool.description?.length > 100 ? '...' : ''}</div>
+          <div class="tool-meta">
+            <span>⭐ ${tool.stars}</span>
+            <span>📅 ${tool.updated.toLocaleDateString()}</span>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    // Event listeners
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.getElementById('sortSelect').addEventListener('change', (e) => {
+      currentSort = e.target.value;
+      applyFilters();
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.category;
+        applyFilters();
+      });
+    });
+
+    // Init
+    Promise.all([
+      loadComponent('header-container', 'https://chirag127.github.io/shared/header.html'),
+      loadComponent('footer-container', 'https://chirag127.github.io/shared/footer.html'),
+      fetchTools()
+    ]);
+  </script>
 </body>
 </html>

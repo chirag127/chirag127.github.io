@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - Chirag Hub</title>
+  <meta name="description" content="About Chirag Hub - Free, privacy-focused online tools built by Chirag Singhal.">
+  <link rel="canonical" href="https://chirag127.github.io/about.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://chirag127.github.io/shared/integrations.js" defer></script>
+
+  <style>
+    :root {
+      --bg-dark: #030712;
+      --bg-card: rgba(17, 24, 39, 0.7);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --primary: #6366f1;
+      --secondary: #a855f7;
+      --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+      --font-body: 'Outfit', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      flex: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+    .hero {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .avatar {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      border: 3px solid var(--primary);
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #818cf8, #c084fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+    }
+    h2 { font-size: 1.75rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+    p { margin-bottom: 1.5rem; color: var(--text-muted); }
+    .links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+    }
+    .btn-secondary {
+      background: var(--bg-card);
+      color: white;
+      border: var(--glass-border);
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .mission-card {
+      background: var(--bg-card);
+      border: var(--glass-border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+    .values {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .value-card {
+      background: var(--bg-card);
+      border: var(--glass-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .value-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    .value-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .value-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div id="header-container"></div>
+
+  <main>
+    <div class="hero">
+      <img src="https://github.com/chirag127.png" alt="Chirag Singhal" class="avatar">
+      <h1>Chirag Singhal</h1>
+      <p class="subtitle">Software Engineer | Backend & GenAI</p>
+
+      <div class="links">
+        <a href="https://github.com/chirag127" target="_blank" class="btn btn-primary">GitHub</a>
+        <a href="https://linkedin.com/in/chirag-singhal1" target="_blank" class="btn btn-secondary">LinkedIn</a>
+        <a href="https://buymeacoffee.com/chirag127" target="_blank" class="btn btn-secondary">☕ Support</a>
+      </div>
+    </div>
+
+    <h2>About Chirag Hub</h2>
+    <p>Chirag Hub is a collection of free, privacy-focused online tools. Every tool is designed to process your files entirely in your browser - nothing is ever uploaded to a server.</p>
+
+    <div class="mission-card">
+      <h3 style="margin-bottom: 1rem;">Mission</h3>
+      <p style="margin: 0;">To provide high-quality, free tools that respect user privacy. In a world where most online tools harvest your data, we believe you deserve better.</p>
+    </div>
+
+    <h2>Core Values</h2>
+    <div class="values">
+      <div class="value-card">
+        <div class="value-icon">🔒</div>
+        <div class="value-title">Privacy First</div>
+        <div class="value-desc">Your files never leave your device</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">💰</div>
+        <div class="value-title">Forever Free</div>
+        <div class="value-desc">No paywalls, no subscriptions</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">⚡</div>
+        <div class="value-title">Fast & Modern</div>
+        <div class="value-desc">Built with latest web technologies</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🌐</div>
+        <div class="value-title">Open Source</div>
+        <div class="value-desc">Transparent and community-driven</div>
+      </div>
+    </div>
+
+    <h2>Tech Stack</h2>
+    <p>All tools are built with vanilla HTML, CSS, and JavaScript. No heavy frameworks, no complex build processes - just clean, performant code that works in any modern browser.</p>
+    <p>Key libraries used include PDF-lib for PDF manipulation, JSZip for compression, and various Canvas APIs for image processing.</p>
+
+    <h2>Support the Project</h2>
+    <p>If you find these tools useful, consider supporting the project:</p>
+    <ul style="color: var(--text-muted); padding-left: 1.5rem;">
+      <li>⭐ Star the repositories on GitHub</li>
+      <li>☕ Buy me a coffee</li>
+      <li>🐛 Report bugs and suggest features</li>
+      <li>📢 Share with friends and colleagues</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:whyiswhen@gmail.com" style="color: var(--primary);">whyiswhen@gmail.com</a></p>
+  </main>
+
+  <div id="footer-container"></div>
+
+  <script>
+    async function loadComponent(id, url) {
+      try {
+        const res = await fetch(url);
+        document.getElementById(id).innerHTML = await res.text();
+      } catch (e) {}
+    }
+    loadComponent('header-container', 'https://chirag127.github.io/shared/header.html');
+    loadComponent('footer-container', 'https://chirag127.github.io/shared/footer.html');
+  </script>
+</body>
+</html>
