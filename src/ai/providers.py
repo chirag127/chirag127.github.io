@@ -7,7 +7,7 @@ import logging
 import os
 import requests
 from typing import Any, Dict, Optional
-from ..base import AIProvider, CompletionResult, ProviderStatus
+from .base import AIProvider, CompletionResult, ProviderStatus, ProviderConfig
 
 logger = logging.getLogger("AI.Providers")
 
@@ -20,7 +20,12 @@ class CerebrasProvider(AIProvider):
     BASE_URL = "https://api.cerebras.ai/v1/chat/completions"
 
     def __init__(self):
-        super().__init__()
+        config = ProviderConfig(
+            name="cerebras",
+            base_url=self.BASE_URL,
+            api_key_env="CEREBRAS_API_KEY"
+        )
+        super().__init__(config)
         self.api_key = os.environ.get("CEREBRAS_API_KEY")
         if self.api_key:
             self.status = ProviderStatus.AVAILABLE
@@ -99,7 +104,12 @@ class GroqProvider(AIProvider):
     BASE_URL = "https://api.groq.com/openai/v1/chat/completions"
 
     def __init__(self):
-        super().__init__()
+        config = ProviderConfig(
+            name="groq",
+            base_url=self.BASE_URL,
+            api_key_env="GROQ_API_KEY"
+        )
+        super().__init__(config)
         self.api_key = os.environ.get("GROQ_API_KEY")
         if self.api_key:
             self.status = ProviderStatus.AVAILABLE
@@ -193,7 +203,12 @@ class NVIDIAProvider(AIProvider):
     BASE_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 
     def __init__(self):
-        super().__init__()
+        config = ProviderConfig(
+            name="nvidia",
+            base_url=self.BASE_URL,
+            api_key_env="NVIDIA_API_KEY"
+        )
+        super().__init__(config)
         self.api_key = os.environ.get("NVIDIA_API_KEY")
         if self.api_key:
             self.status = ProviderStatus.AVAILABLE
@@ -275,7 +290,12 @@ class MistralProvider(AIProvider):
     BASE_URL = "https://api.mistral.ai/v1/chat/completions"
 
     def __init__(self):
-        super().__init__()
+        config = ProviderConfig(
+            name="mistral",
+            base_url=self.BASE_URL,
+            api_key_env="MISTRAL_API_KEY"
+        )
+        super().__init__(config)
         self.api_key = os.environ.get("MISTRAL_API_KEY")
         if self.api_key:
             self.status = ProviderStatus.AVAILABLE
@@ -369,7 +389,12 @@ class GeminiProvider(AIProvider):
     BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 
     def __init__(self):
-        super().__init__()
+        config = ProviderConfig(
+            name="gemini",
+            base_url=self.BASE_URL,
+            api_key_env="GEMINI_API_KEY"
+        )
+        super().__init__(config)
         self.api_key = os.environ.get("GEMINI_API_KEY")
         if self.api_key:
             self.status = ProviderStatus.AVAILABLE
@@ -462,7 +487,12 @@ class CloudflareProvider(AIProvider):
     """Cloudflare Workers AI Provider."""
 
     def __init__(self):
-        super().__init__()
+        config = ProviderConfig(
+            name="cloudflare",
+            base_url="https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/",
+            api_key_env="CLOUDFLARE_API_KEY"
+        )
+        super().__init__(config)
         self.api_key = os.environ.get("CLOUDFLARE_API_KEY")
         self.account_id = os.environ.get("CLOUDFLARE_ACCOUNT_ID")
 
