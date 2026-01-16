@@ -16,6 +16,7 @@ Usage:
 """
 
 import json
+import logging
 import os
 import shutil
 import subprocess
@@ -29,6 +30,15 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from apex_optimizer.ai.unified_client import UnifiedAIClient
 from apex_optimizer.prompts import get_tool_metadata_prompt
+from apex_optimizer.clients.searxng import SearXNGClient
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(name)s] %(levelname)s: %(message)s',
+    datefmt='%H:%M:%S'
+)
+logger = logging.getLogger('ToolGenerator')
 
 # =============================================================================
 # CONFIGURATION
@@ -222,11 +232,101 @@ def git_push(name: str, files: dict[str, str]) -> bool:
 
 
 # =============================================================================
+# WEB SEARCH RESEARCH (SearXNG Integration)
+# =============================================================================
+
+def research_tool(name: str, search_client: SearXNGClient) -> dict:
+    """
+    Research libraries and best practices for a tool using SearXNG.
+
+    Returns context for AI prompt including:
+    - Recommended libraries
+    - Implementation best practices
+    - Existing examples
+    """
+    logger.info(f"🔍 Researching: {name}")
+
+    # Extract the main functionality from name
+    topic = name.replace('-tool', '').replace('-', ' ')
+
+    research = {
+        'libraries': [],
+        'best_practices': [],
+        'examples': [],
+        'search_successful': False
+    }
+
+    try:
+        # 1. Find JavaScript libraries
+        logger.info(f"  📚 Searching libraries for: {topic}")
+        lib_results = search_client.find_libraries(topic, max_results=8)
+        if lib_results:
+            research['libraries'] = [
+                {'title': r.get('title', ''), 'url': r.get('url', ''), 'content': r.get('content', '')[:200]}
+                for r in lib_results[:5]
+            ]
+            logger.info(f"  ✅ Found {len(research['libraries'])} libraries")
+        else:
+            logger.warning(f"  ⚠️ No library results")
+
+        # 2. How to build tutorials
+        logger.info(f"  📖 Searching tutorials for: {topic}")
+        how_to = search_client.research_how_to_build(topic, max_results=8)
+        if how_to:
+            research['best_practices'] = [
+                {'title': r.get('title', ''), 'url': r.get('url', ''), 'content': r.get('content', '')[:200]}
+                for r in how_to[:5]
+            ]
+            logger.info(f"  ✅ Found {len(research['best_practices'])} tutorials")
+        else:
+            logger.warning(f"  ⚠️ No tutorial results")
+
+        # 3. Existing examples
+        logger.info(f"  🔎 Searching examples for: {topic}")
+        examples = search_client.search(
+            f"{topic} javascript github example",
+            categories=['it'],
+            max_results=5
+        )
+        if examples:
+            research['examples'] = [
+                {'title': r.get('title', ''), 'url': r.get('url', '')}
+                for r in examples[:3]
+            ]
+            logger.info(f"  ✅ Found {len(research['examples'])} examples")
+
+        research['search_successful'] = bool(lib_results or how_to or examples)
+
+    except Exception as e:
+        logger.error(f"  ❌ Research failed: {e}")
+
+    return research
+
+
+def format_research_context(research: dict) -> str:
+    """Format research results into context for AI prompt."""
+    if not research.get('search_successful'):
+        return "No web research available - use general best practices."
+
+    context_parts = []
+
+    if research['libraries']:
+        libs = "\n".join([f"  - {l['title']}: {l['url']}" for l in research['libraries'][:3]])
+        context_parts.append(f"RECOMMENDED LIBRARIES:\n{libs}")
+
+    if research['best_practices']:
+        practices = "\n".join([f"  - {p['title']}" for p in research['best_practices'][:3]])
+        context_parts.append(f"IMPLEMENTATION GUIDES:\n{practices}")
+
+    return "\n\n".join(context_parts) if context_parts else "Use common JavaScript libraries."
+
+
+# =============================================================================
 # GENERATE SINGLE HTML FILE
 # =============================================================================
 
-def generate_single_html(tool: dict, ai: UnifiedAIClient) -> str:
-    """Generate complete single-file HTML using template and AI."""
+def generate_single_html(tool: dict, ai: UnifiedAIClient, search_client: SearXNGClient = None) -> str:
+    """Generate complete single-file HTML using template and AI with web research."""
 
     name = tool["name"]
     title = tool["title"]
@@ -235,41 +335,60 @@ def generate_single_html(tool: dict, ai: UnifiedAIClient) -> str:
     keywords = tool["keywords"]
     url = f"{CENTRAL_HUB}/{name}/"
 
+    # 0. Research best practices via web search
+    research_context = ""
+    if search_client:
+        research = research_tool(name, search_client)
+        research_context = format_research_context(research)
+        logger.info(f"  📋 Research context generated: {len(research_context)} chars")
+
     # 1. Load Template
     if not TEMPLATE_FILE.exists():
-        print(f"Error: Template file not found at {TEMPLATE_FILE}")
+        logger.error(f"Template file not found at {TEMPLATE_FILE}")
         return f"<h1>Error: Template not found at {TEMPLATE_FILE}</h1>"
 
     template = TEMPLATE_FILE.read_text(encoding="utf-8")
 
-    # 2. AI Prompt for Tool Logic
-    prompt = f"""You are an Expert Frontend Developer.
+    # 2. AI Prompt for Tool Logic (Enhanced with Web Research)
+    prompt = f"""You are an Expert Frontend Developer (Jan 2026 Standards).
 
-TASK: Write JavaScript logic (and optional CSS) for: "{title}"
+TASK: Write production-ready JavaScript for: "{title}"
 
 DESCRIPTION: {desc}
 FEATURES: {', '.join(features)}
 
-HTML STRUCTURE (Already exists, DO NOT output HTML):
-- <input type="file" id="fileInput">
-- <label id="dropZone"> (Drop area)
-- <button id="actionBtn"> (Process button - disabled by default)
-- <div id="statusArea"> (For progress bars, options)
-- <div id="resultsContent"> (For final output)
-- <div id="results"> (Container, hidden by default)
+{research_context}
 
-REQUIREMENTS:
-1. Handle file selection (drag-drop or click).
-2. Enable actionBtn when file is selected.
-3. Process files CLIENT-SIDE ONLY.
-4. Show progress in statusArea.
-5. Display results in resultsContent.
-6. Use CSS variables: var(--primary), var(--bg-card).
+HTML ELEMENTS (Already exist in template):
+- <input type="file" id="fileInput"> (Hidden file input)
+- <label id="dropZone"> (Drag-drop area, triggers fileInput)
+- <button id="actionBtn"> (Main action button - disabled by default)
+- <div id="statusArea"> (Progress, options, file list display)
+- <div id="resultsContent"> (Output display)
+- <div id="results" class="hidden"> (Results container)
 
-OUTPUT JSON:
+REQUIREMENTS (CRITICAL):
+1. ALL PROCESSING MUST BE CLIENT-SIDE (no fetch to external APIs unless research suggests specific library CDNs)
+2. Use EVENT DELEGATION on document.addEventListener('DOMContentLoaded', ...)
+3. Handle drag-drop on dropZone (dragover, dragleave, drop events)
+4. Show file names in statusArea when files are selected
+5. Enable actionBtn only when valid files are selected
+6. Show progress percentage during processing
+7. Display downloadable results in resultsContent
+8. Use CSS variables: var(--primary), var(--bg-card), var(--success), var(--text-main)
+9. Include necessary library CDN in a comment at top if needed (pdf-lib, jszip, etc.)
+10. Clean error handling with try/catch
+
+UI/UX (2026 Standards):
+- Kinetic feedback on button clicks (scale transform)
+- Smooth transitions (0.3s ease)
+- Progress bars with gradient background
+- File list with remove buttons
+
+OUTPUT FORMAT (JSON only, no markdown):
 {{
-  "js": "/* Pure JS code */",
-  "css": "/* Optional CSS */"
+  "js": "/* Complete JavaScript code with all event handlers */",
+  "css": "/* Optional additional CSS for custom elements */"
 }}"""
 
     print(f"  Generating logic for {name}...")
@@ -325,10 +444,11 @@ OUTPUT JSON:
 # MAIN GENERATION FLOW
 # =============================================================================
 
-def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict) -> bool:
-    print(f"\n{'='*50}")
-    print(f"Generating: {tool['name']}")
-    print(f"{'='*50}")
+def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict, search_client: SearXNGClient = None) -> bool:
+    """Generate a tool with AI and optional web research."""
+    logger.info(f"\n{'='*50}")
+    logger.info(f"Generating: {tool['name']}")
+    logger.info(f"{'='*50}")
 
     # Generate metadata first
     metadata = generate_tool_metadata(tool["name"], ai, state)
@@ -337,7 +457,8 @@ def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict) -> bool:
     if not create_repo(tool["name"], tool["description"]):
         return False
 
-    html_content = generate_single_html(tool, ai)
+    # Generate HTML with web research
+    html_content = generate_single_html(tool, ai, search_client)
 
     files = {
         "index.html": html_content,
@@ -363,7 +484,7 @@ All processing happens in your browser. Your files never leave your device.
 ''',
     }
 
-    print(f"  Writing {len(files)} files...")
+    logger.info(f"  Writing {len(files)} files...")
     if not git_push(tool["name"], files):
         return False
 
@@ -374,30 +495,44 @@ All processing happens in your browser. Your files never leave your device.
         state["generated"].append(tool["name"])
     save_state(state)
 
-    print(f"\n+ Complete: {CENTRAL_HUB}/{tool['name']}/")
+    logger.info(f"\n✅ Complete: {CENTRAL_HUB}/{tool['name']}/")
     return True
 
 
 def show_status():
+    """Show generation progress status."""
     tools = parse_tools()
     state = load_state()
     done = len(state["generated"])
     cached = len(state.get("metadata_cache", {}))
-    print(f"\n{'='*50}")
-    print(f"Progress: {done}/{len(tools)} ({done/len(tools)*100:.0f}%)")
-    print(f"Remaining: {len(tools) - done}")
-    print(f"Cached Metadata: {cached}")
-    print(f"{'='*50}")
+    logger.info(f"\n{'='*50}")
+    logger.info(f"Progress: {done}/{len(tools)} ({done/len(tools)*100:.0f}%)")
+    logger.info(f"Remaining: {len(tools) - done}")
+    logger.info(f"Cached Metadata: {cached}")
+    logger.info(f"{'='*50}")
 
 
 def main():
+    """Main entry point for tool generation."""
     if not GH_TOKEN:
-        print("Error: GH_TOKEN not set")
+        logger.error("Error: GH_TOKEN not set")
         sys.exit(1)
 
     args = sys.argv[1:]
     state = load_state()
+
+    # Initialize AI client
     ai = UnifiedAIClient()
+
+    # Initialize SearXNG client for web research
+    search_client = SearXNGClient()
+
+    # Test SearXNG availability
+    if search_client.is_available():
+        logger.info("🔍 SearXNG search: AVAILABLE")
+    else:
+        logger.warning("⚠️ SearXNG search: UNAVAILABLE (will use AI only)")
+        search_client = None
 
     if "--status" in args:
         show_status()
@@ -411,25 +546,25 @@ def main():
             name = args[idx + 1]
             tool = next((t for t in tools if t["name"] == name), None)
             if tool:
-                generate_tool(tool, ai, state)
+                generate_tool(tool, ai, state, search_client)
             else:
-                print(f"Tool not found: {name}")
+                logger.error(f"Tool not found: {name}")
         return
 
     if "--all" in args:
         remaining = [t for t in tools if t["name"] not in state["generated"]]
         for tool in remaining:
-            generate_tool(tool, ai, state)
+            generate_tool(tool, ai, state, search_client)
             time.sleep(5)
         return
 
     # Default: generate next tool
     for tool in tools:
         if tool["name"] not in state["generated"]:
-            generate_tool(tool, ai, state)
+            generate_tool(tool, ai, state, search_client)
             return
 
-    print("All tools generated!")
+    logger.info("All tools generated!")
 
 
 if __name__ == "__main__":
