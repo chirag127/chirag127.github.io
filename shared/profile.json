@@ -3,48 +3,207 @@
     "title": "Software Engineer | Backend & GenAI",
     "email": "whyiswhen@gmail.com",
     "github": "chirag127",
-    "github_url": "https://github.com/chirag127",
-    "linkedin": "chirag-singhal1",
-    "linkedin_url": "https://linkedin.com/in/chirag-singhal1",
-    "portfolio_url": "https://chirag127.github.io",
-    "location": "Bhubaneswar, Odisha, India",
-    "education": {
-        "degree": "B.Tech in Computer Science & Engineering",
-        "university": "Dr. A.P.J. Abdul Kalam Technical University",
-        "years": "2020 - 2024",
-        "cgpa": "8.81"
-    },
+    "username": "chirag127",
     "bio": "Software Engineer specializing in Backend Development and Generative AI. Building intelligent tools that solve real-world problems.",
-    "skills": [
-        "Python",
-        "TypeScript",
-        "JavaScript",
-        "React",
-        "Next.js",
-        "Node.js",
-        "PostgreSQL",
-        "GenAI/LLMs",
-        "GitHub Actions"
-    ],
+    "location": "Bhubaneswar, Odisha, India",
     "social": {
         "github": "https://github.com/chirag127",
         "linkedin": "https://linkedin.com/in/chirag-singhal1",
-        "buymeacoffee": "https://buymeacoffee.com/chirag127",
-        "github_sponsors": "https://github.com/sponsors/chirag127",
-        "email": "mailto:whyiswhen@gmail.com"
+        "website": "https://chirag127.github.io"
     },
-    "monetization": {
-        "aads_unit_id": "2424216",
-        "buymeacoffee": "chirag127",
-        "github_sponsors": "chirag127",
-        "amazon_affiliate": "chirag127-21",
-        "upi_id": "jiochirag127@ybl",
-        "crypto": {
-            "btc": "bc1qextzy9thrsta6l355kuwdvggehkkmky0zzjnfl",
-            "eth": "0xee4e65aa41bfb2d6649c9d3787ff4747704198de",
-            "sol": "C4nXxdbUrpTHsEHm5kPfqCVgVbx5cbD5yZNeBbyzyQSi"
+    "config": {
+        "monetization": {
+            "google_adsense": {
+                "publisher_id": "",
+                "enabled": false
+            },
+            "buymeacoffee": {
+                "username": "chirag127",
+                "enabled": true
+            },
+            "ko_fi": {
+                "widget_id": "",
+                "enabled": false
+            },
+            "lemon_squeezy": {
+                "store_url": "",
+                "enabled": false
+            },
+            "patreon": {
+                "username": "",
+                "enabled": false
+            },
+            "propellerads": {
+                "zone_id": "",
+                "enabled": false
+            },
+            "aads": {
+                "unit_id": "2424216",
+                "enabled": true
+            },
+            "github_sponsors": {
+                "username": "chirag127",
+                "enabled": true
+            },
+            "crypto": {
+                "btc": "bc1qextzy9thrsta6l355kuwdvggehkkmky0zzjnfl",
+                "eth": "0xee4e65aa41bfb2d6649c9d3787ff4747704198de",
+                "sol": "C4nXxdbUrpTHsEHm5kPfqCVgVbx5cbD5yZNeBbyzyQSi",
+                "enabled": true
+            }
+        },
+        "analytics": {
+            "google_analytics_4": {
+                "measurement_id": "",
+                "enabled": false
+            },
+            "yandex_metrica": {
+                "tag_id": "",
+                "enabled": false
+            },
+            "microsoft_clarity": {
+                "project_id": "",
+                "enabled": false
+            },
+            "posthog": {
+                "api_key": "",
+                "host": "",
+                "enabled": false
+            },
+            "mixpanel": {
+                "project_token": "",
+                "enabled": false
+            },
+            "amplitude": {
+                "api_key": "",
+                "enabled": false
+            },
+            "cloudflare_web_analytics": {
+                "beacon_token": "",
+                "enabled": false
+            },
+            "umami": {
+                "website_id": "",
+                "src": "https://cloud.umami.is/script.js",
+                "enabled": false
+            },
+            "goatcounter": {
+                "code": "",
+                "enabled": false
+            },
+            "woopra": {
+                "domain": "",
+                "enabled": false
+            },
+            "heap": {
+                "app_id": "",
+                "enabled": false
+            }
+        },
+        "bug_tracking": {
+            "sentry": {
+                "dsn": "",
+                "enabled": false
+            },
+            "honeybadger": {
+                "api_key": "",
+                "enabled": false
+            },
+            "rollbar": {
+                "access_token": "",
+                "enabled": false
+            },
+            "bugsnag": {
+                "api_key": "",
+                "enabled": false
+            },
+            "logrocket": {
+                "app_id": "",
+                "enabled": false
+            },
+            "glitchtip": {
+                "dsn": "",
+                "enabled": false
+            }
+        },
+        "chat": {
+            "tawk_to": {
+                "property_id": "",
+                "widget_id": "",
+                "enabled": false
+            },
+            "crisp": {
+                "website_id": "",
+                "enabled": false
+            },
+            "giscus": {
+                "repo_id": "",
+                "category_id": "",
+                "enabled": false
+            },
+            "disqus": {
+                "shortname": "",
+                "enabled": false
+            },
+            "discord_webhook": {
+                "url": "",
+                "enabled": false
+            },
+            "slack_webhook": {
+                "url": "",
+                "enabled": false
+            }
+        },
+        "forms": {
+            "tally": {
+                "form_id": "",
+                "enabled": false
+            },
+            "formspree": {
+                "form_id": "",
+                "enabled": false
+            },
+            "getform": {
+                "unique_id": "",
+                "enabled": false
+            },
+            "emailjs": {
+                "public_key": "",
+                "enabled": false
+            },
+            "supabase": {
+                "url": "",
+                "key": "",
+                "enabled": false
+            },
+            "firebase": {
+                "config": {},
+                "enabled": false
+            },
+            "appwrite": {
+                "project_id": "",
+                "endpoint": "",
+                "enabled": false
+            }
+        },
+        "utilities": {
+            "userway": {
+                "account_id": "",
+                "enabled": false
+            },
+            "fingerprintjs": {
+                "public_key": "",
+                "enabled": false
+            },
+            "unsplash": {
+                "access_key": "",
+                "enabled": false
+            },
+            "openweathermap": {
+                "api_key": "",
+                "enabled": false
+            }
         }
     },
-    "copyright": "© 2026 Chirag Singhal. All rights reserved.",
-    "updated_at": "2026-01-15T18:00:00Z"
+    "updated_at": "2026-01-16T08:00:00Z"
 }
