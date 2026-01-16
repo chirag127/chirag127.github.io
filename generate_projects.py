@@ -283,8 +283,19 @@ OUTPUT JSON:
         css_code = result.json_content.get("css", "")
         print("  + AI Logic Generated")
 
+        # Clean up markdown artifacts
         if "```" in js_code:
             js_code = js_code.replace("```javascript", "").replace("```", "")
+
+        # CRITICAL: Escape </script> to prevent premature script tag closure
+        # This is a common issue when AI generates comments mentioning script tags
+        js_code = js_code.replace("</script>", "<\\/script>")
+        js_code = js_code.replace("</Script>", "<\\/Script>")
+        js_code = js_code.replace("</SCRIPT>", "<\\/SCRIPT>")
+
+        # Also escape in CSS if present
+        if css_code:
+            css_code = css_code.replace("</style>", "<\\/style>")
     else:
         print(f"  x AI Generation Failed: {result.error}")
         js_code = "console.error('AI Logic Generation Failed'); alert('Logic generation failed');"
