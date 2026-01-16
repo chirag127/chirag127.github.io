@@ -6,11 +6,10 @@ AI providers are in apex_optimizer/ai/providers/ - NOT here.
 
 from .github import GitHubClient
 from .jules import JulesClient
-from .searxng import SearXNGClient, get_searxng_client
+from .web_search import WebSearchClient
 
 __all__ = [
     "GitHubClient",
     "JulesClient",
-    "SearXNGClient",
-    "get_searxng_client",
+    "WebSearchClient",
 ]

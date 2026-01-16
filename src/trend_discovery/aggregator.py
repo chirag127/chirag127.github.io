@@ -12,25 +12,14 @@ from dataclasses import dataclass
 
 from .base import TrendItem, TrendSource
 
-# Research Paper Sources (No Keys Required)
-from .arxiv import ArxivSource
-from .papers_with_code import PapersWithCodeSource
-from .semantic_scholar import SemanticScholarSource
-
-# Tech Community Sources (No Keys Required)
-from .devto import DevToSource
-from .github_trending import GitHubTrendingSource
-from .hacker_news import HackerNewsSource
-from .hashnode import HashnodeSource
-from .lobsters import LobstersSource
-from .reddit import RedditSource
-from .stack_overflow import StackOverflowSource
-
-# Optional API Sources (Keys Required)
-from .hugging_face import HuggingFaceSource
-from .kaggle import KaggleSource
-from .news_sources import NewsAPISource, TechCrunchRSSSource
-from .product_hunt import ProductHuntSource
+# Unified Sources Import
+from .sources import (
+    ArxivSource, PapersWithCodeSource, SemanticScholarSource,
+    DevToSource, GitHubTrendingSource, HackerNewsSource,
+    HashnodeSource, LobstersSource, RedditSource, StackOverflowSource,
+    HuggingFaceSource, KaggleSource, NewsAPISource,
+    ProductHuntSource, TechCrunchRSSSource
+)
 
 logger = logging.getLogger("TrendDiscovery.Aggregator")
 

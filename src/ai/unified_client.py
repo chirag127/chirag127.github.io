@@ -24,12 +24,14 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from .base import AIProvider, CompletionResult, ProviderStatus
-from .providers.cerebras import CerebrasProvider
-from .providers.groq import GroqProvider
-from .providers.gemini import GeminiProvider
-from .providers.mistral import MistralProvider
-from .providers.nvidia import NVIDIAProvider
-from .providers.cloudflare import CloudflareProvider
+from .providers import (
+    CerebrasProvider,
+    GroqProvider,
+    GeminiProvider,
+    MistralProvider,
+    NVIDIAProvider,
+    CloudflareProvider
+)
 
 
 logger = logging.getLogger("AI.UnifiedClient")
@@ -59,27 +61,63 @@ class ProviderStats:
 # ============================================================================
 
 UNIFIED_MODEL_CHAIN: list[UnifiedModel] = [
-    # Tier 1: God-Class (400B+) - Complex Reasoning & Architecture
-    # Note: Using 70B variants where 405B is unavailable/unstable
-    UnifiedModel("nvidia/llama-3.1-nemotron-70b-instruct", "nvidia", 70, "Nemotron 70B (NVIDIA)", max_tokens=4096),
-    UnifiedModel("llama-3.3-70b-versatile", "groq", 70, "Llama 3.3 70B (Groq)", max_tokens=8192),
+    # =========================================================================
+    # TIER 1: GOD-CLASS (>400B Parameters)
+    # The absolute peak of intelligence. Use for Architecture, Reasoning, and Complex Logic.
+    # =========================================================================
+    UnifiedModel("meta/llama-3.1-405b-instruct", "nvidia", 405, "Llama 3.1 405B (NVIDIA)", max_tokens=4096),
+    # Note: Groq 405B is often rate-limited, but we try it.
+    UnifiedModel("llama-3.1-405b-reasoning", "groq", 405, "Llama 3.1 405B (Groq)", max_tokens=8192),
+
+    # Mistral Large 2 (123B) - Often outperforms 400B+ models in coding.
+    # User requested "Mistral Large 3", mapping to latest available large endpoint.
+    UnifiedModel("mistralai/mistral-large-2411", "nvidia", 123, "Mistral Large 2 (NVIDIA)", max_tokens=8192),
+    UnifiedModel("mistral-large-latest", "mistral", 123, "Mistral Large 2 (Native)", max_tokens=32768),
+
+    # =========================================================================
+    # TIER 2: HYPER-CLASS (200B - 400B)
+    # Huge context and specialized knowledge.
+    # =========================================================================
+    UnifiedModel("qwen-3-235b-instruct", "cerebras", 235, "Qwen 3 235B (Cerebras)", max_tokens=8192),
+    UnifiedModel("z-ai-glm-4-7", "cerebras", 355, "GLM 4.7 (Cerebras)", max_tokens=8192),
+
+    # =========================================================================
+    # TIER 3: SUPER-CLASS (100B - 199B)
+    # =========================================================================
+    UnifiedModel("gpt-oss-120b", "cerebras", 120, "GPT-OSS 120B (Cerebras)", max_tokens=8192),
+
+    # =========================================================================
+    # TIER 4: HIGH-END (70B - 99B)
+    # The workhorses. fast and very capable.
+    # =========================================================================
+    # Llama 3.3 70B
     UnifiedModel("llama-3.3-70b", "cerebras", 70, "Llama 3.3 70B (Cerebras)", max_tokens=8192),
-    UnifiedModel("gemini-1.5-pro", "gemini", 1000, "Gemini 1.5 Pro", max_tokens=8192),
+    UnifiedModel("llama-3.3-70b-versatile", "groq", 70, "Llama 3.3 70B (Groq)", max_tokens=32768),
+    UnifiedModel("meta/llama-3.3-70b-instruct", "nvidia", 70, "Llama 3.3 70B (NVIDIA)", max_tokens=4096),
 
-    # Tier 2: High-End (70B-100B) - Content Generation
-    UnifiedModel("mistral-large-latest", "mistral", 123, "Mistral Large (Mistral)", max_tokens=8192),
+    # Llama 3.1 70B
     UnifiedModel("llama-3.1-70b-versatile", "groq", 70, "Llama 3.1 70B (Groq)", max_tokens=8192),
-    UnifiedModel("meta/llama-3.1-70b-instruct", "nvidia", 70, "Llama 3.1 70B (meta/Nvidia)", max_tokens=4096),
+    UnifiedModel("meta/llama-3.1-70b-instruct", "nvidia", 70, "Llama 3.1 70B (NVIDIA)", max_tokens=4096),
 
-    # Tier 3: Mid-Range (30B-70B) - Code & Logic
-    UnifiedModel("gemini-1.5-flash", "google", 30, "Gemini 1.5 Flash", max_tokens=8192),
+    # Qwen 2.5 72B
+    UnifiedModel("qwen2.5-72b-instruct", "nvidia", 72, "Qwen 2.5 72B (NVIDIA)", max_tokens=4096),
+
+    # =========================================================================
+    # TIER 5: EFFICIENCY (<70B)
+    # Fast inference for simple tasks.
+    # =========================================================================
+    # Mixtral 8x7B
     UnifiedModel("mixtral-8x7b-32768", "groq", 45, "Mixtral 8x7B (Groq)", max_tokens=32768),
 
-    # Tier 4: Efficiency (8B-30B) - fast tasks
+    # Qwen 32B
+    UnifiedModel("qwen-3-32b", "cerebras", 32, "Qwen 3 32B (Cerebras)", max_tokens=8192),
+
+    # Gemini Flash (High Context, Low Latency)
+    UnifiedModel("gemini-1.5-flash", "gemini", 30, "Gemini 1.5 Flash", max_tokens=8192),
+
+    # Llama 3.1 8B
     UnifiedModel("llama-3.1-8b-instant", "groq", 8, "Llama 3.1 8B (Groq)", max_tokens=8192),
     UnifiedModel("llama3.1-8b", "cerebras", 8, "Llama 3.1 8B (Cerebras)", max_tokens=8192),
-
-    # Tier 5: Edge / Fallback
     UnifiedModel("@cf/meta/llama-3.1-8b-instruct", "cloudflare", 8, "Llama 3.1 8B (Cloudflare)", max_tokens=2048),
 ]
 

@@ -95,8 +95,10 @@ class Settings:
             ModelConfig("@cf/meta/llama-3.1-8b-instruct", 1, "Llama 3.1 8B"),
         ]
 
-        # === SEARXNG (FREE SEARCH) ===
-        self.SEARXNG_URL: str = os.getenv("SEARXNG_URL", "https://searx.be/search")
+        # === SEARCH APIs (Multi-Provider Fallback) ===
+        self.BRAVE_API_KEY: str | None = os.getenv("BRAVE_API_KEY")
+        self.EXA_API_KEY: str | None = os.getenv("EXA_API_KEY")
+        self.TAVILY_API_KEY: str | None = os.getenv("TAVILY_API_KEY")
 
         # === TREND DISCOVERY APIS ===
         self.PRODUCT_HUNT_API_KEY: str | None = os.getenv("PRODUCT_HUNT_API_KEY")

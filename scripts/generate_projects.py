@@ -397,8 +397,49 @@ def format_research_context(research: dict) -> str:
 
 
 # =============================================================================
-# GENERATE SINGLE HTML FILE
+# PROMPT OPTIMIZATION (THE "PROMPTING THE PROMPTER" LAYER)
 # =============================================================================
+
+def optimize_prompt(tool: dict, research_context: str, agents_context: str, ai: UnifiedAIClient) -> str:
+    """
+    Step 2 in the Pipeline: Ask a 'smart' model to write the perfect system instructions
+    for the 'coding' model.
+    """
+    logger.info("  ✨ Optimizing Instruction Sets...")
+
+    meta_prompt = f"""
+ROLE: Chief AI Prompt Engineer (World Class).
+CONTEXT: You are orchestrating the creation of a high-end web tool: "{tool['name']}".
+INPUT:
+- Tool Metadata: {json.dumps(tool, indent=2)}
+- Research: {research_context[:4000]}
+- System Architecture: {agents_context[:4000]} ... (truncated)
+
+TASK:
+Write a STACK-RANKED, PERFECTIONIST CODING PROMPT for an AI Developer.
+The output prompt must encompass:
+1. Exact Library choices from the System Architecture (e.g. PDF-lib for PDFs).
+2. UI/UX Mandates (Apex 2026 Spatial Glass).
+3. Step-by-Step implementation logic (IIFE, Error handling, DOM structure).
+4. Critical Constraints (No Headers, Single File, Config Injection).
+
+Your output should be the EXACT PROMPT string I will paste to the coding AI.
+Start with "Role: Expert..." and end with "...implementation."
+"""
+
+    result = ai.generate(
+        prompt=meta_prompt,
+        max_tokens=2000,
+        min_model_size=70 # Use a smart model for planning
+    )
+
+    if result.success:
+        logger.info("  ✨ Prompt Optimized.")
+        return result.content
+    else:
+        logger.warning(f"  ⚠️ Prompt Optimization Failed: {result.error}")
+        return "" # Fallback to default
+
 
 def generate_single_html(tool: dict, ai: UnifiedAIClient, search_client: SearXNGClient = None) -> str:
     """
@@ -425,11 +466,32 @@ def generate_single_html(tool: dict, ai: UnifiedAIClient, search_client: SearXNG
         except Exception as e:
             logger.warning(f"  ⚠️ Research failed: {e}")
 
-    # 2. Construct The Prompt
-    prompt = f"""
+    # 2. PROMPT OPTIMIZATION (New Step)
+    optimized_instructions = optimize_prompt(tool, research_context, agents_context, ai)
+
+    # 3. Construct The Final Prompt
+    if optimized_instructions:
+        # Use the optimized instructions as the core
+        prompt = f"""
+SYSTEM INSTRUCTION: IMPLEMENT THE FOLLOWING SPECIFICATION EXACTLY.
+
+{optimized_instructions}
+
+CRITICAL OVERRIDE:
+- OUTPUT: A SINGLE `index.html` file containing ALL HTML, CSS, and JavaScript.
+- UNIVERSAL ARCHITECTURE:
+  - MUST include in <head>: <script src="https://chirag127.github.io/universal/config.js"></script>
+  - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>
+  - DO NOT generate <header> or <footer>.
+  - Wrap content in <main>.
+- FORMAT: Return ONLY the HTML code block within ```html flags.
+"""
+    else:
+        # Fallback to standard prompt
+        prompt = f"""
 TASK: GENERATE THE COMPLETE SOURCE CODE FOR: "{tool.get('title', tool['name'])}"
 DESCRIPTION: {tool.get('description', '')}
-FEATURES: {json.dumps(tool.get('features', []), indent=2)}
+Features: {json.dumps(tool.get('features', []), indent=2)}
 
 {research_context}
 
@@ -567,15 +629,9 @@ def main():
     # Initialize AI client
     ai = UnifiedAIClient()
 
-    # Initialize SearXNG client for web research
-    search_client = SearXNGClient()
-
-    # Test SearXNG availability
-    if search_client.is_available():
-        logger.info("🔍 SearXNG search: AVAILABLE")
-    else:
-        logger.warning("⚠️ SearXNG search: UNAVAILABLE (will use AI only)")
-        search_client = None
+    # Initialize Web Search client
+    search_client = WebSearchClient()
+    logger.info("🔍 Web Search Client: INITIALIZED")
 
     if "--status" in args:
         show_status()

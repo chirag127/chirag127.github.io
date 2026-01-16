@@ -44,36 +44,18 @@ Logic:
 *The system must traverse this list top-to-bottom until success.*
 
 **TIER 1: GOD-CLASS (>400B)**
-1. **675B**: mistral-large-3-675b-instruct-2512 [Provider: NVIDIA]
-2. **480B**: qwen3-coder-480b-a35b-instruct [Provider: NVIDIA]
-3. **405B**: llama-3.1-405b-instruct [Providers: NVIDIA, Groq, Cloudflare]
+1. **405B**: meta/llama-3.1-405b-instruct [Provider: NVIDIA]
+2. **405B**: llama-3.1-405b-reasoning [Provider: Groq]
+3. **355B**: z-ai-glm-4-7 [Provider: Cerebras]
 
 **TIER 2: HYPER-CLASS (200B - 400B)**
-4. **253B**: llama-3.1-nemotron-ultra-253b-v1 [Provider: NVIDIA]
-5. **235B**: qwen-3-235b-a22b [Providers: Cerebras, NVIDIA]
-6. **230B**: minimax-m2 [Provider: NVIDIA]
+4. **235B**: qwen-3-235b-instruct [Provider: Cerebras]
+5. **123B**: mistralai/mistral-large-2411 [Provider: NVIDIA] / mistral-large-latest [Provider: Mistral]
 
 **TIER 3: SUPER-CLASS (70B - 199B)**
-7. **123B**: devstral-2-123b / mistral-large-3 [Providers: NVIDIA, Mistral]
-8. **120B**: gpt-oss-120b [Providers: Cerebras, NVIDIA, Groq, Cloudflare]
-9. **80B**: qwen3-next-80b-a3b-instruct [Provider: NVIDIA]
-10. **70B**: llama-3.3-70b-instruct [Providers: Cerebras, NVIDIA, Groq, Cloudflare]
-
-**TIER 4: HIGH-EFFICIENCY (20B - 69B)**
-11. **49B**: llama-3.3-nemotron-super-49b-v1 [Provider: NVIDIA]
-12. **36B**: seed-oss-36b-instruct [Provider: NVIDIA]
-13. **34B**: cosmos-nemotron-34b [Provider: NVIDIA]
-14. **32B**: qwen-3-32b [Providers: Cerebras, NVIDIA, Groq, Cloudflare]
-15. **27B**: gemma-3-27b-instruct [Provider: Google]
-16. **24B**: mistral-small-3.1-24b-instruct [Provider: Mistral]
-
-**TIER 5: EDGE/SPEED (<20B)**
-17. **12B**: gemma-3-12b-instruct [Provider: Google] / open-mistral-nemo [Mistral]
-18. **8B**: llama-3.1-8b [Providers: Cerebras, Groq]
-19. **4B**: gemma-3-4b-instruct [Provider: Google]
-20. **1B**: gemma-3-1b-instruct [Provider: Google]
-
-*(Provider Connection Details remain available for reference as per previous instruction)*
+6. **120B**: gpt-oss-120b [Provider: Cerebras]
+7. **70B**: llama-3.3-70b [Providers: Cerebras, Groq, NVIDIA]
+8. **72B**: qwen2.5-72b-instruct [Provider: NVIDIA]
 
 ## 4. REPO STRUCTURE & HYGIENE
 Mandate: Clean root.
