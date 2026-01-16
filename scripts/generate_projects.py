@@ -66,11 +66,10 @@ GH_USERNAME = "chirag127"
 CENTRAL_HUB = "https://chirag127.github.io"
 
 # Use ROOT_DIR defined at top of file
-TOOLS_FILE = ROOT_DIR / "ar.txt"
+TOOLS_FILE = ROOT_DIR / "config" / "ar.txt"
 STATE_FILE = ROOT_DIR / "state" / "tools_generated.json"
 TEMP_DIR = ROOT_DIR / ".temp"
-TEMPLATE_DIR = ROOT_DIR / "shared" / "templates"
-DEFAULT_TEMPLATE = TEMPLATE_DIR / "default.html"
+AGENTS_FILE = ROOT_DIR / "docs" / "AGENTS.md"
 
 STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
 
@@ -404,133 +403,74 @@ def format_research_context(research: dict) -> str:
 # =============================================================================
 
 def generate_single_html(tool: dict, ai: UnifiedAIClient, search_client: SearXNGClient = None) -> str:
-    """Generate complete single-file HTML using template and AI with web research."""
+    """
+    Generate a SINGLE-FILE tool (HTML+CSS+JS) using the Generative UI Engine.
+    Uses AGENTS.md as the system prompt (Apex Technical Authority).
+    """
+    start_time = time.time()
 
-    name = tool["name"]
-    title = tool["title"]
-    desc = tool["description"]
-    features = tool["features"]
-    keywords = tool["keywords"]
-    url = f"{CENTRAL_HUB}/{name}/"
+    # 0. Load Agents Context (The "Brain")
+    if not AGENTS_FILE.exists():
+        logger.error(f"AGENTS.md not found at {AGENTS_FILE}")
+        return "<h1>Error: System Brain Missing (AGENTS.md)</h1>"
 
-    # 0. Research best practices via web search
+    agents_context = AGENTS_FILE.read_text(encoding="utf-8")
+
+    # 1. Research
     research_context = ""
-    if search_client:
-        research = research_tool(name, search_client)
-        research_context = format_research_context(research)
-        logger.info(f"  📋 Research context generated: {len(research_context)} chars")
+    if search_client and search_client.is_available():
+        logger.info("  🔍 Researching tool requirements...")
+        try:
+            research_results = search_client.search(f"{tool['name']} web tool features design inspiration")
+            research_context = format_research_context(research_results)
+            logger.info(f"  📋 Research context generated: {len(research_context)} chars")
+        except Exception as e:
+            logger.warning(f"  ⚠️ Research failed: {e}")
 
-    # 1. Load Template
-    category_slug = tool.get("category", "utilities").lower()
-    template_file = TEMPLATE_DIR / f"{category_slug}.html"
-
-    # Try finding mapped template
-    if not template_file.exists():
-        found = False
-        for t_path in TEMPLATE_DIR.glob("*.html"):
-            if category_slug.startswith(t_path.stem):
-                template_file = t_path
-                found = True
-                break
-        if not found:
-            template_file = DEFAULT_TEMPLATE
-
-    if not template_file.exists():
-        logger.error(f"Template file not found at {template_file}")
-        return f"<h1>Error: Template not found at {template_file}</h1>"
-
-    logger.info(f"  🎨 Using template: {template_file.name}")
-    template = template_file.read_text(encoding="utf-8")
-
-    # 2. AI Prompt for Tool Logic (Enhanced with Web Research)
-    prompt = f"""You are an Expert Frontend Developer (Jan 2026 Standards).
-
-TASK: Write production-ready JavaScript for: "{title}"
-
-DESCRIPTION: {desc}
-FEATURES: {', '.join(features)}
+    # 2. Construct The Prompt
+    prompt = f"""
+TASK: GENERATE THE COMPLETE SOURCE CODE FOR: "{tool.get('title', tool['name'])}"
+DESCRIPTION: {tool.get('description', '')}
+FEATURES: {json.dumps(tool.get('features', []), indent=2)}
 
 {research_context}
 
-HTML ELEMENTS (Already exist in template):
-- <input type="file" id="fileInput"> (Hidden file input)
-- <label id="dropZone"> (Drag-drop area, triggers fileInput)
-- <button id="actionBtn"> (Main action button - disabled by default)
-- <div id="statusArea"> (Progress, options, file list display)
-- <div id="resultsContent"> (Output display)
-- <div id="results" class="hidden"> (Results container)
+REQUIREMENTS:
+1. OUTPUT: A SINGLE `index.html` file containing ALL HTML, CSS, and JavaScript.
+2. ARCHITECTURE: Client-side ONLY. No backend. No external file requests (except CDNs).
+3. AESTHETICS: **Apex 2026 Spatial-Adaptive**. Use the "UI/UX AESTHETIC SINGULARITY" guidelines from the System Context.
+   - Spatial Glass (Blur, thin borders)
+   - Kinetic Typography
+   - Bento Grids
+   - Deep Cosmos/Neon Theme
+4. LOGIC: Robust, error-handled JavaScript. Use IIFE.
+5. FORMAT: Return ONLY the HTML code block within ```html flags.
+"""
 
-REQUIREMENTS (CRITICAL):
-1. ALL PROCESSING MUST BE CLIENT-SIDE (no fetch to external APIs unless research suggests specific library CDNs)
-2. Use EVENT DELEGATION on document.addEventListener('DOMContentLoaded', ...)
-3. Handle drag-drop on dropZone (dragover, dragleave, drop events)
-4. Show file names in statusArea when files are selected
-5. Enable actionBtn only when valid files are selected
-6. Show progress percentage during processing
-7. Display downloadable results in resultsContent
-8. Use CSS variables: var(--primary), var(--bg-card), var(--success), var(--text-main)
-9. Include necessary library CDN in a comment at top if needed (pdf-lib, jszip, etc.)
-10. Clean error handling with try/catch
+    logger.info(f"  🧠 Generative UI Engine engaged for {tool['name']}...")
 
-UI/UX (2026 Standards):
-- Kinetic feedback on button clicks (scale transform)
-- Smooth transitions (0.3s ease)
-- Progress bars with gradient background
-- File list with remove buttons
+    # 3. Generate Content (Using Large Model)
+    result = ai.generate(
+        prompt=prompt,
+        system_prompt=agents_context,
+        max_tokens=20000, # Large buffer for full file
+        min_model_size=70,
+        temperature=0.7
+    )
 
-OUTPUT FORMAT (JSON only, no markdown):
-{{
-  "js": "/* Complete JavaScript code with all event handlers */",
-  "css": "/* Optional additional CSS for custom elements */"
-}}"""
+    if not result.success:
+        logger.error(f"AI Generation Failed: {result.error}")
+        return f"<h1>Generation Failed</h1><p>{result.error}</p>"
 
-    print(f"  Generating logic for {name}...")
-    # Use 70B+ models for complex tool logic generation
-    result = ai.generate_json(prompt=prompt, max_tokens=8000, min_model_size=70)
+    # 4. Extract Code
+    content = result.content
+    if "```html" in content:
+        content = content.split("```html")[1].split("```")[0].strip()
+    elif "```" in content:
+        content = content.split("```")[1].split("```")[0].strip()
 
-    js_code = ""
-    css_code = ""
-
-    if result.success and result.json_content:
-        js_code = result.json_content.get("js", "// No JS generated")
-        css_code = result.json_content.get("css", "")
-        print("  + AI Logic Generated")
-
-        # Clean up markdown artifacts
-        if "```" in js_code:
-            js_code = js_code.replace("```javascript", "").replace("```", "")
-
-        # CRITICAL: Escape </script> to prevent premature script tag closure
-        # This is a common issue when AI generates comments mentioning script tags
-        js_code = js_code.replace("</script>", "<\\/script>")
-        js_code = js_code.replace("</Script>", "<\\/Script>")
-        js_code = js_code.replace("</SCRIPT>", "<\\/SCRIPT>")
-
-        # Also escape in CSS if present
-        if css_code:
-            css_code = css_code.replace("</style>", "<\\/style>")
-    else:
-        print(f"  x AI Generation Failed: {result.error}")
-        js_code = "console.error('AI Logic Generation Failed'); alert('Logic generation failed');"
-
-    # 3. Inject Content into Template
-    html = template.replace("{{TOOL_TITLE}}", title)
-    html = html.replace("{{TOOL_DESCRIPTION}}", desc)
-    html = html.replace("{{TOOL_KEYWORDS}}", ", ".join(keywords))
-    html = html.replace("{{REPO_NAME}}", name)
-
-    # Format hints
-    formats = "Files"
-    if "pdf" in name: formats = "PDF"
-    elif "image" in name: formats = "Images (PNG, JPG, WEBP)"
-    elif "video" in name: formats = "Video (MP4, WEBM)"
-
-    html = html.replace("{{SUPPORTED_FORMATS}}", formats)
-    html = html.replace("{{FILE_ACCEPT}}", "*/*")
-    html = html.replace("{{TOOL_SCRIPT}}", js_code)
-    html = html.replace("{{TOOL_CSS}}", f"<style>{css_code}</style>" if css_code else "")
-
-    return html
+    logger.info(f"  ✅ Generated {len(content)} bytes of HTML")
+    return content
 
 
 # =============================================================================

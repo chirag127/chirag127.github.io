@@ -19,10 +19,11 @@ from pathlib import Path
 
 import requests
 
-sys.path.insert(0, str(Path(__file__).parent))
+# Add Root to Path
+sys.path.append(str(Path(__file__).parent.parent))
 
 from src.ai.unified_client import UnifiedAIClient
-from src.config import Settings
+from src.core.config import Settings
 
 
 # =============================================================================
