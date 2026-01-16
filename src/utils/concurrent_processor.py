@@ -10,8 +10,8 @@ import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Any
 
-from .session_manager import SessionManager
-from .cache import CacheManager
+from src.core.session_manager import SessionManager
+from src.core.cache import CacheManager
 
 logger = logging.getLogger("ConcurrentProcessor")
 

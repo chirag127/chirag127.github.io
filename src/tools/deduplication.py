@@ -11,7 +11,16 @@ from enum import Enum
 
 from rapidfuzz import fuzz, process
 
-from .trend_discovery.base import TrendItem
+# from .trend_discovery.base import TrendItem
+
+@dataclass
+class TrendItem:
+    """Trend item for deduplication."""
+    title: str
+    description: str
+    url: str = ""
+    source: str = ""
+    score: float = 0.0
 
 logger = logging.getLogger("Deduplication")
 

@@ -7,9 +7,9 @@ from typing import Any
 
 import requests
 
-from ..cache import CacheManager
-from ..config import Settings
-from ..utils import retry_with_backoff
+from src.core.cache import CacheManager
+from src.core.config import Settings
+from src.utils.general import retry_with_backoff
 
 logger = logging.getLogger("ApexOptimizer")
 

@@ -15,23 +15,13 @@ Components:
 from .budget_manager import BudgetManager
 from .cache import CacheManager
 from .config import Settings
-from .deduplication import ClassifiedTrend, TaskType, TrendDeduplicator
-from .prompt_generator import PromptGenerator
-from .repository_analyzer import RepositoryAnalyzer
-from .repository_factory import RepositoryFactory
 from .session_manager import SessionManager
 
 __all__ = [
     "BudgetManager",
     "CacheManager",
-    "ClassifiedTrend",
-    "PromptGenerator",
-    "RepositoryAnalyzer",
-    "RepositoryFactory",
     "SessionManager",
     "Settings",
-    "TaskType",
-    "TrendDeduplicator",
 ]
 
 __version__ = "2.0.0"

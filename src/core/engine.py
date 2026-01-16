@@ -22,8 +22,8 @@ from pathlib import Path
 from typing import Any
 
 from .cache import CacheManager
-from .ai.unified_client import UnifiedAIClient
-from .clients.github import GitHubClient
+from src.ai.unified_client import UnifiedAIClient
+from src.clients.github import GitHubClient
 from .config import Settings
 
 # =============================================================================

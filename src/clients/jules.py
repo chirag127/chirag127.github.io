@@ -14,7 +14,7 @@ from typing import Any
 
 import requests
 
-from ..config import Settings
+from src.core.config import Settings
 
 logger = logging.getLogger("JulesOptimizer")
 

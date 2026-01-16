@@ -19,7 +19,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any
 
-from .clients.jules import JulesClient
+from src.clients.jules import JulesClient
 from .session_manager import SessionManager
 
 logger = logging.getLogger("SessionOrchestrator")

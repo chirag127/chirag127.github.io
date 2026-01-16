@@ -1,0 +1,48 @@
+{
+  "generated": [
+    "PDF-Merge-And-Split",
+    "Markdown-To-HTML-Preview"
+  ],
+  "failed": [],
+  "metadata_cache": {
+    "PDF-Merge-And-Split": {
+      "title": "PDF Merge & Split \u2013 Free, Secure & Fast",
+      "description": "Free client\u2011side PDF merger and splitter \u2013 no upload, full privacy, instant results on any device.",
+      "features": [
+        "Merge multiple PDFs in seconds with drag\u2011and\u2011drop simplicity",
+        "Split pages or extract ranges instantly without leaving your browser",
+        "All processing runs locally \u2013 your files never leave the device",
+        "No registration required; start merging or splitting for free",
+        "Works on all modern browsers and operating systems, no plugins needed"
+      ],
+      "keywords": [
+        "PDF merge",
+        "PDF split",
+        "online PDF tool",
+        "free PDF editor",
+        "client-side PDF",
+        "privacy PDF"
+      ],
+      "category": "Document"
+    },
+    "Markdown-To-HTML-Preview": {
+      "title": "Markdown Preview Pro",
+      "description": "Free, no upload, privacy-focused Markdown to HTML preview tool",
+      "features": [
+        "Instantly preview Markdown files without uploading",
+        "Convert Markdown to HTML with a single click",
+        "Easy to use, no coding knowledge required",
+        "All processing happens locally, ensuring your files' privacy",
+        "Works on any device with a modern web browser"
+      ],
+      "keywords": [
+        "Markdown converter",
+        "HTML preview",
+        "free online tool",
+        "client-side processing",
+        "privacy-focused"
+      ],
+      "category": "Developer"
+    }
+  }
+}

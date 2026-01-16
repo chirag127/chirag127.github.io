@@ -24,9 +24,9 @@ logger = logging.getLogger("AI.NVIDIA")
 
 # NVIDIA NIM model configurations (Dec 2025)
 NVIDIA_MODELS = [
-    ModelConfig("meta/llama-3.1-405b-instruct", 1, "Llama 3.1 405B", max_tokens=4096),
-    ModelConfig("qwen/qwen3-235b-a22b-instruct", 2, "Qwen 3 235B", max_tokens=4096),
-    ModelConfig("meta/llama-3.3-70b-instruct", 3, "Llama 3.3 70B", max_tokens=4096),
+    ModelConfig("nvidia/llama-3.1-nemotron-70b-instruct", 1, "Nemotron 70B", max_tokens=4096),
+    ModelConfig("meta/llama-3.1-70b-instruct", 2, "Llama 3.1 70B", max_tokens=4096),
+    ModelConfig("meta/llama-3.1-8b-instruct", 3, "Llama 3.1 8B", max_tokens=4096),
 ]
 
 

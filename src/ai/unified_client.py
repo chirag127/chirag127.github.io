@@ -57,56 +57,30 @@ class ProviderStats:
 
 
 # ============================================================================
-# UNIFIED MODEL REGISTRY - Sorted by Model Size (Largest First)
-# VERIFIED via web search December 2025
-# ============================================================================
 
 UNIFIED_MODEL_CHAIN: list[UnifiedModel] = [
-    # === Tier 1: 300B+ Models (Cerebras Only - others deprecated/unavailable) ===
-    UnifiedModel("zai-glm-4.6", "cerebras", 357, "Z.ai GLM 4.6 (Cerebras)"),
+    # Tier 1: God-Class (400B+) - Complex Reasoning & Architecture
+    # Note: Using 70B variants where 405B is unavailable/unstable
+    UnifiedModel("nvidia/llama-3.1-nemotron-70b-instruct", "nvidia", 70, "Nemotron 70B (NVIDIA)", max_tokens=4096),
+    UnifiedModel("llama-3.3-70b-versatile", "groq", 70, "Llama 3.3 70B (Groq)", max_tokens=8192),
+    UnifiedModel("llama-3.3-70b", "cerebras", 70, "Llama 3.3 70B (Cerebras)", max_tokens=8192),
+    UnifiedModel("gemini-1.5-pro", "gemini", 1000, "Gemini 1.5 Pro", max_tokens=8192),
 
-    # === Tier 2: 230B+ Models ===
-    UnifiedModel("qwen-3-235b-a22b-instruct-2507", "cerebras", 235, "Qwen 3 235B (Cerebras)"),
+    # Tier 2: High-End (70B-100B) - Content Generation
+    UnifiedModel("mistral-large-latest", "mistral", 123, "Mistral Large (Mistral)", max_tokens=8192),
+    UnifiedModel("llama-3.1-70b-versatile", "groq", 70, "Llama 3.1 70B (Groq)", max_tokens=8192),
+    UnifiedModel("meta/llama-3.1-70b-instruct", "nvidia", 70, "Llama 3.1 70B (meta/Nvidia)", max_tokens=4096),
 
-    # === Tier 3: 120B Models ===
-    UnifiedModel("gpt-oss-120b", "cerebras", 120, "GPT OSS 120B (Cerebras)"),
-    UnifiedModel("openai/gpt-oss-120b", "groq", 120, "GPT OSS 120B (Groq)"),
+    # Tier 3: Mid-Range (30B-70B) - Code & Logic
+    UnifiedModel("gemini-1.5-flash", "google", 30, "Gemini 1.5 Flash", max_tokens=8192),
+    UnifiedModel("mixtral-8x7b-32768", "groq", 45, "Mixtral 8x7B (Groq)", max_tokens=32768),
 
-    # === Tier 4: 70B Models (Primary workhorses) ===
-    UnifiedModel("llama-3.3-70b", "cerebras", 70, "Llama 3.3 70B (Cerebras)"),
-    UnifiedModel("llama-3.3-70b-versatile", "groq", 70, "Llama 3.3 70B (Groq)"),
-    UnifiedModel("meta/llama-3.3-70b-instruct", "nvidia", 70, "Llama 3.3 70B (NVIDIA)"),
+    # Tier 4: Efficiency (8B-30B) - fast tasks
+    UnifiedModel("llama-3.1-8b-instant", "groq", 8, "Llama 3.1 8B (Groq)", max_tokens=8192),
+    UnifiedModel("llama3.1-8b", "cerebras", 8, "Llama 3.1 8B (Cerebras)", max_tokens=8192),
 
-    # === Tier 5: 32B Models ===
-    UnifiedModel("qwen-3-32b", "cerebras", 32, "Qwen 3 32B (Cerebras)"),
-    UnifiedModel("qwen/qwen3-32b", "groq", 32, "Qwen 3 32B (Groq)"),
-
-    # === Tier 6: 27B Models ===
-    UnifiedModel("gemma-3-27b-it", "gemini", 27, "Gemma 3 27B (Gemini)"),
-
-    # === Tier 7: 24B Models ===
-    UnifiedModel("mistral-saba-24b", "groq", 24, "Mistral Saba 24B (Groq)"),
-
-    # === Tier 8: 17B Models (Llama 4 Scout) ===
-    UnifiedModel("meta-llama/llama-4-scout-17b-16e-instruct", "groq", 17, "Llama 4 Scout 17B (Groq)"),
-
-    # === Tier 9: 12B Models ===
-    UnifiedModel("gemma-3-12b-it", "gemini", 12, "Gemma 3 12B (Gemini)"),
-
-    # === Tier 10: 9B Models ===
-    UnifiedModel("gemma2-9b-it", "groq", 9, "Gemma 2 9B (Groq)"),
-
-    # === Tier 11: 8B Models (Fast Fallback) ===
-    UnifiedModel("llama3.1-8b", "cerebras", 8, "Llama 3.1 8B (Cerebras)"),
-    UnifiedModel("llama-3.1-8b-instant", "groq", 8, "Llama 3.1 8B Instant (Groq)"),
-    UnifiedModel("@cf/meta/llama-3.1-8b-instruct", "cloudflare", 8, "Llama 3.1 8B (Cloudflare)"),
-    UnifiedModel("@cf/meta/llama-3-8b-instruct", "cloudflare", 8, "Llama 3 8B (Cloudflare)"),
-
-    # === Tier 12: 4B Models ===
-    UnifiedModel("gemma-3-4b-it", "gemini", 4, "Gemma 3 4B (Gemini)"),
-
-    # === Tier 13: 1B Models (Ultimate Fallback) ===
-    UnifiedModel("gemma-3-1b-it", "gemini", 1, "Gemma 3 1B (Gemini)"),
+    # Tier 5: Edge / Fallback
+    UnifiedModel("@cf/meta/llama-3.1-8b-instruct", "cloudflare", 8, "Llama 3.1 8B (Cloudflare)", max_tokens=2048),
 ]
 
 

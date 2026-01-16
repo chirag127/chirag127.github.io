@@ -40,8 +40,6 @@ from src.ai.unified_client import UnifiedAIClient
 # User list showed src\prompts.py. I didn't move it yet.
 from src.ai.prompts import (
     get_tool_metadata_prompt,
-    get_tool_idea_prompt,
-    get_tool_structure_prompt,
     get_tool_logic_prompt,
     detect_category,
     TOOL_CATEGORIES,
@@ -437,14 +435,18 @@ FEATURES: {json.dumps(tool.get('features', []), indent=2)}
 
 REQUIREMENTS:
 1. OUTPUT: A SINGLE `index.html` file containing ALL HTML, CSS, and JavaScript.
-2. ARCHITECTURE: Client-side ONLY. No backend. No external file requests (except CDNs).
-3. AESTHETICS: **Apex 2026 Spatial-Adaptive**. Use the "UI/UX AESTHETIC SINGULARITY" guidelines from the System Context.
-   - Spatial Glass (Blur, thin borders)
-   - Kinetic Typography
-   - Bento Grids
-   - Deep Cosmos/Neon Theme
-4. LOGIC: Robust, error-handled JavaScript. Use IIFE.
-5. FORMAT: Return ONLY the HTML code block within ```html flags.
+2. UNIVERSAL ARCHITECTURE (CRITICAL):
+   - MUST include in <head>: <script src="https://chirag127.github.io/universal/config.js"></script>
+   - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>
+   - DO NOT generate <header> or <footer> tags (The Universal Engine injects them).
+   - ALL content must be wrapped in <main> tag.
+3. CONFIGURATION: Use `window.SITE_CONFIG` for any external service keys.
+4. AESTHETICS: **Apex 2026 Spatial-Adaptive**.
+   - Use CSS variables from style.css (--bg-card, --accent-primary).
+   - "Spatial Glass" look (backdrop-filter: blur).
+   - "Bento Grid" layouts.
+5. LOGIC: Robust, error-handled JavaScript (IIFE).
+6. FORMAT: Return ONLY the HTML code block within ```html flags.
 """
 
     logger.info(f"  🧠 Generative UI Engine engaged for {tool['name']}...")

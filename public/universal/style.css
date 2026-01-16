@@ -1,0 +1,173 @@
+/*
+   APEX 2026 DESIGN SYSTEM
+   Theme: Spatial Glass + Kinetic Typography
+*/
+
+:root {
+    /* Core Colors */
+    --bg-dark: #0a0a0a;
+    --bg-card: rgba(20, 20, 20, 0.6);
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --accent-primary: #3b82f6; /* Electric Blue */
+    --accent-secondary: #8b5cf6; /* Cyber Purple */
+    --border-glass: rgba(255, 255, 255, 0.1);
+
+    /* Spacing */
+    --nav-height: 64px;
+    --footer-height: 300px;
+
+    /* Effects */
+    --glass-blur: blur(12px);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Light Theme Variables */
+body.light-theme {
+    --bg-dark: #f8fafc;
+    --bg-card: rgba(255, 255, 255, 0.8);
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-glass: rgba(0, 0, 0, 0.05);
+}
+
+/* Base Reset */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.apex-header {
+    height: var(--nav-height);
+    background: var(--bg-card);
+    backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid var(--border-glass);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.apex-nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.apex-logo {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.apex-nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 24px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+.apex-nav-links a:hover {
+    color: var(--accent-primary);
+}
+
+/* Controls */
+#apex-theme-toggle {
+    background: transparent;
+    border: 1px solid var(--border-glass);
+    color: var(--text-primary);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+#apex-theme-toggle:hover {
+    background: var(--border-glass);
+}
+
+/* Main Content Area (Tools inject here) */
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Footer */
+.apex-footer {
+    background: var(--bg-card);
+    border-top: 1px solid var(--border-glass);
+    padding: 60px 20px 20px;
+    margin-top: 80px;
+}
+.apex-footer-content {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+.apex-footer-col h4 {
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+.apex-footer-col a {
+    display: block;
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-bottom: 12px;
+    transition: color 0.2s;
+}
+.apex-footer-col a:hover { color: var(--accent-primary); }
+.apex-copyright {
+    text-align: center;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-glass);
+    padding-top: 20px;
+    font-size: 0.9rem;
+}
+
+/* Utility Classes for Tools */
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    border-radius: 24px;
+    padding: 32px;
+}

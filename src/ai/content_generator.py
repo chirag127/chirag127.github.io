@@ -16,8 +16,8 @@ CENTRAL HUB (chirag127.github.io/shared/):
 import logging
 from typing import Any
 
-from .ai.unified_client import UnifiedAIClient
-from .monetization import MONETIZATION
+from src.ai.unified_client import UnifiedAIClient
+from src.core.monetization import MONETIZATION
 
 logger = logging.getLogger("ApexContentGenerator")
 

@@ -11,16 +11,23 @@ Core Mandates:
 3. Client-Side Absolutism: All software (Web, Mobile, Extension) MUST be architected to run entirely on the client. Maximize local computing power. Minimize network dependency.
 4. Universal Compatibility: Solutions must be "Write Once, Run Everywhere" via standard Web Technologies.
 
-## 2. UNIVERSAL FRONTEND-ONLY ARCHITECTURE
-Constraint: ALL repositories MUST be serverless and frontend-only.
+## 2. UNIVERSAL FRONTEND-ONLY ARCHITECTURE (UPDATED JAN 2026)
+Constraint: ALL repositories MUST be serverless and frontend-only, using the APEX UNIVERSAL ENGINE.
 Rationale: Maximum portability, security, and performance.
 Implementation Rules:
-1. Direct REST Calls: All AI/external services MUST be called directly from the client (fetch/axios). NO SDKs.
-2. User-Provided Keys: Users enter API keys in UI. NEVER hardcode.
-3. On-Device Intelligence: Logic runs in browser. Use Web Workers for heavy lifting.
-4. Static Hosting: GitHub Pages, Vercel, Netlify.
-5. No Server Dependencies: Zero Node.js/Python servers/SQL.
-6. Env Vars: Use .env.example. Keys entered at runtime via UI settings.
+1.  **Universal Engine**: All pages MUST import:
+    ```html
+    <script src="https://chirag127.github.io/universal/config.js"></script>
+    <script src="https://chirag127.github.io/universal/core.js"></script>
+    ```
+2.  **No Headers/Footers**: DO NOT generate `<header>` or `<footer>`. The `core.js` engine injects these automatically.
+3.  **Main Content Only**: Focus purely on the `<main>` content and tool logic.
+4.  **Universal Config**: Use `window.SITE_CONFIG` for all settings (Analytics, Ads, etc.). DO NOT hardcode GA4/AdSense IDs.
+5.  **Direct REST Calls**: All AI/external services MUST be called directly from the client (fetch/axios). NO SDKs.
+6.  **User-Provided Keys**: Users enter API keys in UI. NEVER hardcode private keys.
+7.  **On-Device Intelligence**: Logic runs in browser. Use Web Workers for heavy lifting.
+8.  **Static Hosting**: GitHub Pages, Vercel, Netlify.
+9.  **No Server Dependencies**: Zero Node.js/Python servers/SQL.
 Forbidden: Express/Flask/Django, Backend Routes, SSR, DB Connections, Server Auth.
 
 ## 3. AI ORCHESTRATION: GLOBAL SIZE-BASED WATERFALL

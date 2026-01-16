@@ -9,8 +9,8 @@ import logging
 import time
 from typing import Any
 
-from .ai import UnifiedAIClient
-from .clients.jules import JulesClient
+from src.ai.unified_client import UnifiedAIClient
+from src.clients.jules import JulesClient
 
 logger = logging.getLogger("SessionManager")
 
