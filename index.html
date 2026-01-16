@@ -4,55 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chirag Hub - Free Online Tools | PDF, Image, Developer Utilities</title>
-  <meta name="description" content="Free, privacy-focused online tools. PDF merger, image converter, developer utilities. 100% client-side - your files never leave your device.">
-  <meta name="keywords" content="online tools, pdf tools, image converter, free utilities, privacy tools, developer tools, web apps, chirag singhal">
+  <meta name="description" content="Chirag Hub: 450+ Free, privacy-focused online tools. PDF editors, Image converters, Developer utilities, Financial calculators, Math solvers, Health trackers, and Games. 100% client-side.">
+  <meta name="keywords" content="pdf tools, image converter, online tools, developer utilities, math calculator, finance calculators, health calculators, free web games, privacy tools, client-side, chirag singhal">
   <meta name="author" content="Chirag Singhal">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://chirag127.github.io/">
-  <meta property="og:title" content="Chirag Hub - Free Online Tools">
-  <meta property="og:description" content="Free, privacy-focused online tools. PDF, Image, Developer utilities.">
+  <meta property="og:title" content="Chirag Hub - 450+ Free Client-Side Tools">
+  <meta property="og:description" content="The ultimate collection of free, privacy-first online tools. PDF, Image, Dev, Math, Finance, Health, and more.">
   <meta property="og:url" content="https://chirag127.github.io/">
   <meta property="og:type" content="website">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://chirag127.github.io/shared/integrations.js" defer></script>
+<meta name='admaven-placement' content=Bqjw7qjU7>
+  <!-- UNIVERSAL ENGINE LOADER -->
+  <script src="universal/config.js"></script>
+  <script src="universal/core.js"></script>
+
   <style>
-    :root {
-      --bg-dark: #030712;
-      --bg-card: rgba(17, 24, 39, 0.6);
-      --bg-card-hover: rgba(31, 41, 55, 0.85);
-      --bg-glass: rgba(255, 255, 255, 0.03);
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --text-dim: #6b7280;
-      --primary: #6366f1;
-      --primary-glow: rgba(99, 102, 241, 0.4);
-      --secondary: #a855f7;
-      --accent: #0ea5e9;
-      --success: #10b981;
-      --glass-border: 1px solid rgba(255, 255, 255, 0.08);
-      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-      --radius-xl: 1.5rem;
-      --radius-lg: 1rem;
-      --radius-md: 0.75rem;
-      --font-body: 'Outfit', system-ui, sans-serif;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg-dark);
-      color: var(--text-main);
-      font-family: var(--font-body);
-      line-height: 1.6;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background-image:
-        radial-gradient(ellipse 80% 50% at 20% 40%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
-        radial-gradient(ellipse 40% 30% at 50% 80%, rgba(14, 165, 233, 0.08) 0%, transparent 50%);
-    }
-    main { flex: 1; max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; width: 100%; }
+    /*
+       Note: Global vars and Main Header/Footer styles are provided by universal/style.css
+       This block handles Hub-specific styles (Hero, Bento Grid, Search).
+    */
 
     /* Hero - Spatial Glass */
     .hero {
@@ -262,6 +232,7 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 1.5rem;
       flex-shrink: 0;
+      user-select: none;
     }
     .tool-info { flex: 1; min-width: 0; }
     .tool-title {
@@ -323,7 +294,6 @@
     }
     .empty-state svg { width: 64px; height: 64px; margin-bottom: 1.5rem; opacity: 0.5; }
 
-    /* Responsive */
     @media (max-width: 768px) {
       .hero h1 { font-size: 2.5rem; }
       .hero p { font-size: 1rem; }
@@ -335,12 +305,12 @@
   </style>
 </head>
 <body>
-  <div id="header-container"></div>
+  <!-- HEADER INJECTED BY CORE.JS -->
 
   <main>
     <section class="hero">
       <h1>Chirag Hub</h1>
-      <p>Free, privacy-focused online tools. All processing happens in your browser. Your files never leave your device.</p>
+      <p>The Singularity of Free Tools. 450+ privacy-focused utilities running entirely in your browser.</p>
     </section>
 
     <div class="stats">
@@ -353,8 +323,8 @@
         <div class="stat-label">GitHub Stars</div>
       </div>
       <div class="stat">
-        <div class="stat-value">100%</div>
-        <div class="stat-label">Privacy</div>
+        <div class="stat-value">Zero</div>
+        <div class="stat-label">Data Tracking</div>
       </div>
     </div>
 
@@ -364,7 +334,7 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" class="search-input" id="searchInput" placeholder="Search all repositories...">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search 450+ tools (e.g. 'merge pdf', 'calculate bmi')...">
         <span class="search-count" id="searchCount"></span>
       </div>
     </div>
@@ -373,32 +343,37 @@
       <button class="filter-btn active" data-category="all">All</button>
       <button class="filter-btn" data-category="pdf">📄 PDF</button>
       <button class="filter-btn" data-category="image">🖼️ Image</button>
-      <button class="filter-btn" data-category="dev">🛠️ Developer</button>
+      <button class="filter-btn" data-category="media">⏯️ Media</button>
+      <button class="filter-btn" data-category="dev">🛠️ Dev</button>
       <button class="filter-btn" data-category="text">📝 Text</button>
-      <button class="filter-btn" data-category="audio">🎵 Audio</button>
-      <button class="filter-btn" data-category="utility">⚡ Utility</button>
-      <button class="filter-btn" data-category="extension">🧩 Extensions</button>
+      <button class="filter-btn" data-category="math">🧮 Math</button>
+      <button class="filter-btn" data-category="finance">💰 Finance</button>
+      <button class="filter-btn" data-category="health">❤️ Health</button>
+      <button class="filter-btn" data-category="converter">🔄 Convert</button>
+      <button class="filter-btn" data-category="security">🔒 Security</button>
+      <button class="filter-btn" data-category="game">🎮 Games</button>
+      <button class="filter-btn" data-category="utility">⚡ Other</button>
     </div>
 
     <div class="sort-bar">
       <span class="result-count" id="resultCount">Loading...</span>
       <select class="sort-select" id="sortSelect">
         <option value="stars">⭐ Most Stars</option>
-        <option value="recent">🕐 Recently Updated</option>
-        <option value="name">🔤 Name A-Z</option>
-        <option value="created">🆕 Newest First</option>
+        <option value="recent">🕐 Updated</option>
+        <option value="name">🔤 Name</option>
+        <option value="created">🆕 Newest</option>
       </select>
     </div>
 
     <div class="tools-grid" id="toolsGrid">
       <div class="loading">
         <div class="spinner"></div>
-        <p>Fetching all repositories...</p>
+        <p>Initializing Nexus...</p>
       </div>
     </div>
   </main>
 
-  <div id="footer-container"></div>
+  <!-- FOOTER INJECTED BY CORE.JS -->
 
   <script>
     // State
@@ -407,27 +382,43 @@
     let currentCategory = 'all';
     let currentSort = 'stars';
 
-    // Category Detection
+    // EXTENDED CATEGORY LOGIC
     const categoryKeywords = {
-      pdf: ['pdf', 'document', 'word', 'excel', 'merge', 'split', 'compress'],
-      image: ['image', 'photo', 'png', 'jpg', 'jpeg', 'webp', 'svg', 'icon', 'color', 'palette', 'resize', 'convert'],
-      dev: ['json', 'yaml', 'xml', 'regex', 'code', 'git', 'docker', 'curl', 'chmod', 'cron', 'base64', 'api', 'debug', 'lint'],
-      text: ['text', 'markdown', 'string', 'lorem', 'case', 'diff', 'zalgo', 'ascii', 'font', 'emoji', 'unicode'],
-      audio: ['audio', 'music', 'sound', 'mp3', 'wav', 'guitar', 'bpm', 'morse', 'tuner'],
-      utility: ['qr', 'barcode', 'timer', 'calculator', 'converter', 'generator', 'random', 'password', 'hash'],
-      extension: ['extension', 'chrome', 'browser', 'addon', 'plugin']
+      pdf: ['pdf', 'document', 'page', 'split', 'merge', 'compress'],
+      image: ['image', 'photo', 'picture', 'png', 'jpg', 'jpeg', 'webp', 'heic', 'svg', 'icon', 'blur', 'pixel', 'resize', 'crop', 'filter', 'meme', 'collage', 'watermark', 'gif', 'base64-image', 'favicon', 'upscaler'],
+      media: ['video', 'audio', 'mp4', 'mp3', 'wav', 'mov', 'avi', 'mkv', 'webm', 'trim', 'cut', 'screen', 'subtitle', 'youtube', 'microphone', 'webcam', 'recorder', 'music', 'bpm', 'tone', 'volume'],
+      dev: ['json', 'xml', 'sql', 'html', 'css', 'javascript', 'js', 'regex', 'git', 'docker', 'uuid', 'guid', 'code', 'minif', 'formatter', 'lint', 'cron', 'htpasswd', 'meta-tag', 'qr', 'barcode', 'slug', 'url', 'dns', 'ssl', 'ip-address', 'user-agent', 'jwt', 'box-shadow', 'gradient', 'spinner', 'api', 'hash', 'checksum', 'base64'],
+      text: ['text', 'string', 'word', 'line', 'lorem', 'case', 'diff', 'duplicate', 'sort', 'replace', 'binary', 'hex', 'morse', 'unicode', 'fancy', 'zalgo', 'spam', 'ascii', 'markdown', 'phonetic', 'typing', 'read'],
+      math: ['math', 'calculator', 'algebra', 'geometry', 'equation', 'percentage', 'fraction', 'ratio', 'area', 'volume', 'prime', 'factor', 'deviation', 'statistics', 'physics', 'ohm', 'resistor', 'triangle', 'hypotenuse', 'graphing', 'decimal', 'binary-hex'],
+      finance: ['loan', 'mortgage', 'interest', 'discount', 'salary', 'tax', 'currency', 'inflation', 'credit', 'roi', 'break-even', 'bill', 'fuel', 'stock', 'saas', 'freelance', 'rental', 'crypto', 'vat', 'gst', 'amortization'],
+      health: ['bmi', 'bmr', 'tdee', 'calorie', 'pregnancy', 'due-date', 'age', 'body', 'fat', 'water', 'ovulation', 'ideal-weight'],
+      converter: ['convert', 'unit', 'length', 'weight', 'volume', 'area', 'temperature', 'speed', 'time', 'pressure', 'power', 'energy', 'data', 'file-size', 'csv-excel', 'xml-json', 'yaml'],
+      security: ['password', 'encryption', 'decryption', 'md5', 'sha', 'secure', 'protect', 'unlock', 'lock'],
+      game: ['game', 'sudoku', 'wordle', 'crossword', 'tic-tac-toe', 'rock-paper', 'reaction', 'puzzle', 'bingo', 'memory', 'dice', 'coin', 'wheel', 'picker', 'name-team', 'magic-8'],
+      utility: ['weather', 'map', 'biorhythm', 'zodiac', 'compatibility', 'stopwatch', 'timer', 'clock', 'date', 'calendar', 'wait', 'test', 'check', 'generator']
     };
 
     const categoryIcons = {
-      pdf: '📄', image: '🖼️', dev: '🛠️', text: '📝', audio: '🎵', utility: '⚡', extension: '🧩', other: '🔧'
+      pdf: '📄',
+      image: '🖼️',
+      media: '⏯️',
+      dev: '🛠️',
+      text: '📝',
+      math: '🧮',
+      finance: '💰',
+      health: '❤️',
+      converter: '🔄',
+      security: '🔒',
+      game: '🎮',
+      utility: '⚡',
+      other: '🔧'
     };
 
-    // Load Shared Components
-    async function loadComponent(id, url) {
-      try {
-        const res = await fetch(url);
-        if (res.ok) document.getElementById(id).innerHTML = await res.text();
-      } catch (e) { console.error('Component load failed:', url); }
+    // Initialize Hub
+    async function initHub() {
+      // Core UI is already handled by core.js (Header/Footer)
+      // We directly start data fetching
+      await initTools();
     }
 
     // Fetch ALL repositories with pagination
@@ -448,19 +439,16 @@
 
           repos.push(...data);
           page++;
-
-          // Safety limit (5 pages = 500 repos max)
-          if (page > 5) break;
+          if (page > 5) break; // Safety limit
         } catch (e) {
           console.error('Fetch error:', e);
           break;
         }
       }
-
       return repos;
     }
 
-    // Initialize Tools
+    // Initialize Tools Logic
     async function initTools() {
       try {
         const repos = await fetchAllRepos();
@@ -475,6 +463,7 @@
             forks: r.forks_count,
             updated: new Date(r.pushed_at),
             created: new Date(r.created_at),
+            // Link directly to the repo's GitHub Pages or Tool URL
             url: r.has_pages ? `https://chirag127.github.io/${r.name}/` : r.html_url,
             repoUrl: r.html_url,
             topics: r.topics || [],
@@ -497,7 +486,7 @@
       }
     }
 
-    // Format title from repo name
+    // Helpers
     function formatTitle(name) {
       return name
         .replace(/-/g, ' ')
@@ -505,37 +494,29 @@
         .replace(/\b\w/g, c => c.toUpperCase());
     }
 
-    // Detect category
     function detectCategory(repo) {
       const haystack = `${repo.name} ${repo.description || ''} ${repo.topics.join(' ')}`.toLowerCase();
-
       for (const [cat, keywords] of Object.entries(categoryKeywords)) {
         if (keywords.some(kw => haystack.includes(kw))) return cat;
       }
       return 'other';
     }
 
-    // Apply Filters
     function applyFilters() {
       const query = document.getElementById('searchInput').value.toLowerCase().trim();
 
       filteredRepos = allRepos.filter(repo => {
-        // Search
         if (query) {
           const haystack = `${repo.name} ${repo.title} ${repo.description} ${repo.topics.join(' ')}`.toLowerCase();
           if (!haystack.includes(query)) return false;
         }
-
-        // Category
         if (currentCategory !== 'all') {
           const cat = detectCategory(repo);
           if (cat !== currentCategory) return false;
         }
-
         return true;
       });
 
-      // Sort
       filteredRepos.sort((a, b) => {
         switch (currentSort) {
           case 'stars': return b.stars - a.stars;
@@ -549,7 +530,6 @@
       renderGrid();
     }
 
-    // Render Grid
     function renderGrid() {
       const grid = document.getElementById('toolsGrid');
       const countEl = document.getElementById('resultCount');
@@ -567,7 +547,7 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <p>No repositories match your search.</p>
+            <p>No repositories match.</p>
           </div>`;
         return;
       }
@@ -598,12 +578,10 @@
 
     // Event Listeners
     document.getElementById('searchInput').addEventListener('input', applyFilters);
-
     document.getElementById('sortSelect').addEventListener('change', e => {
       currentSort = e.target.value;
       applyFilters();
     });
-
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -613,18 +591,12 @@
       });
     });
 
-    // Init
-    Promise.all([
-      loadComponent('header-container', 'https://chirag127.github.io/shared/header.html'),
-      loadComponent('footer-container', 'https://chirag127.github.io/shared/footer.html'),
-      initTools()
-    ]);
+    // Start
+    document.addEventListener('DOMContentLoaded', initHub);
 
-    // Register Service Worker for PWA
+    // Register Service Worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .then(reg => console.log('SW registered:', reg.scope))
-        .catch(err => console.log('SW registration failed:', err));
+      navigator.serviceWorker.register('/sw.js').catch(console.error);
     }
   </script>
 </body>
