@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>{{TOOL_TITLE}} | Apex Series</title>
+  <meta name="description" content="{{TOOL_DESCRIPTION}}">
+  <meta name="keywords" content="{{TOOL_KEYWORDS}}, privacy-first, client-side, apex tools">
+  <meta name="author" content="Chirag Singhal">
+  <link rel="canonical" href="https://chirag127.github.io/{{REPO_NAME}}/">
+
+  <!-- SEO & Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{TOOL_TITLE}}">
+  <meta property="og:description" content="{{TOOL_DESCRIPTION}}">
+  <meta property="og:url" content="https://chirag127.github.io/{{REPO_NAME}}/">
+  <meta property="og:image" content="https://og-image.vercel.app/{{TOOL_TITLE}}%20%7C%20Apex%20Hub.png?theme=dark&md=1&fontSize=100px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fhyper-color-logo.svg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Fonts (Outfit + JetBrains Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Integrations -->
+  <script src="https://chirag127.github.io/shared/integrations.js" defer></script>
+
+  <style>
+    :root {
+      /* APEX 2026 COSMIC PALETTE */
+      --bg-deep: #000206;
+      --bg-plasma: #0a0f1d;
+
+      --glass-surface: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-highlight: rgba(255, 255, 255, 0.15);
+
+      --primary: #6366f1;
+      --primary-glow: rgba(99, 102, 241, 0.5);
+      --secondary: #ec4899;
+      --accent: #06b6d4;
+
+      --text-main: #ffffff;
+      --text-muted: #94a3b8;
+      --text-dim: #475569;
+
+      --radius-xl: 24px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+
+      --ease-elastic: cubic-bezier(0.4, 0, 0.2, 1);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* BACKGROUND MESH GRADIENT */
+    .cosmos-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.08) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .noise-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* TYPOGRAPHY */
+    h1, h2, h3 { font-weight: 700; letter-spacing: -0.03em; }
+
+    .kinetic-text {
+      background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textShimmer 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes textShimmer {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff 30%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 40px rgba(99, 102, 241, 0.2);
+    }
+
+    /* LAYOUT */
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 4rem;
+      padding-bottom: 6rem;
+    }
+
+    /* GLASS CARD (SPATIAL) */
+    .glass-panel {
+      background: rgba(10, 15, 29, 0.6);
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
+      border: 1px solid var(--glass-border);
+      box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-xl);
+    }
+
+    .tool-stage {
+      width: 100%;
+      max-width: 900px;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 4rem;
+    }
+
+    .tool-stage::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--primary-glow), transparent);
+      opacity: 0.5;
+    }
+
+    /* DROP ZONE (PORTAL) */
+    .drop-portal {
+      border: 2px dashed var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 4rem 2rem;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.01);
+      transition: all 0.3s var(--ease-elastic);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .drop-portal:hover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.2);
+    }
+
+    .drop-portal.dragover {
+      border-color: var(--accent);
+      background: rgba(6, 182, 212, 0.05);
+      transform: scale(0.98);
+    }
+
+    .portal-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
+      transition: transform 0.3s var(--ease-bounce);
+    }
+
+    .drop-portal:hover .portal-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    /* BUTTONS (TACTILE) */
+    .btn-apex {
+      appearance: none;
+      border: none;
+      background: var(--text-main);
+      color: var(--bg-deep);
+      font-weight: 700;
+      padding: 1rem 2.5rem;
+      border-radius: 99px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s var(--ease-elastic);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.2), 0 10px 20px -5px rgba(255,255,255,0.2);
+    }
+
+    .btn-apex:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 0 1px #fff, 0 15px 30px -5px rgba(255,255,255,0.3);
+    }
+
+    .btn-apex:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .btn-apex:disabled {
+      background: var(--glass-highlight);
+      color: var(--text-muted);
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* BENTO GRID FEATURES */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1000px;
+      margin-top: 2rem;
+    }
+
+    .bento-card {
+      background: var(--glass-surface);
+      border: 1px solid var(--glass-border);
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      transition: all 0.3s ease;
+    }
+
+    .bento-card:hover {
+      background: var(--glass-highlight);
+      border-color: var(--glass-highlight);
+      transform: translateY(-4px);
+    }
+
+    .bento-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.5rem; }
+      .bento-grid { grid-template-columns: 1fr; }
+      .tool-stage { padding: 1.5rem; }
+    }
+
+    /* UTILS */
+    .hidden { display: none !important; }
+    .fade-in { animation: fadeIn 0.4s var(--ease-bounce) forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+
+  {{TOOL_CSS}}
+</head>
+<body>
+
+  <div class="cosmos-bg"></div>
+  <div class="noise-overlay"></div>
+
+  <!-- Dynamic Header -->
+  <div id="central-header-container"></div>
+
+  <main class="app-container">
+
+    <!-- Header Section -->
+    <div style="text-align: center; margin-bottom: 4rem;">
+      <div style="font-family: 'JetBrains Mono'; color: var(--accent); font-size: 0.9rem; letter-spacing: 0.1em; margin-bottom: 1rem; text-transform: uppercase;">Apex Series Tool</div>
+      <h1 class="hero-title">{{TOOL_TITLE}}</h1>
+      <p style="color: var(--text-muted); font-size: 1.25rem; max-width: 600px; margin: 0 auto;">{{TOOL_DESCRIPTION}}</p>
+    </div>
+
+    <!-- Main Tool Interface (Glass Panel) -->
+    <div class="glass-panel tool-stage">
+      <div id="tool-interface">
+
+        <!-- Drop Portal -->
+        <label class="drop-portal" id="dropZone">
+          <div class="portal-icon">✨</div>
+          <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Initialize Sequence</h3>
+          <p style="color: var(--text-muted);">Drop files or access local storage</p>
+          <input type="file" id="fileInput" hidden multiple>
+        </label>
+
+        <!-- Dynamic Status -->
+        <div id="statusArea" class="hidden fade-in" style="margin-top: 2rem; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px;"></div>
+
+        <!-- Action Deck -->
+        <div style="text-align: center; margin-top: 3rem;">
+          <button id="actionBtn" class="btn-apex" disabled>Execute Model</button>
+        </div>
+
+      </div>
+
+      <!-- Results View -->
+      <div id="results" class="hidden fade-in" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--glass-border);">
+        <h3 style="margin-bottom: 1.5rem;">Output Artifacts</h3>
+        <div id="resultsContent"></div>
+      </div>
+    </div>
+
+    <!-- Bento Features -->
+    <div class="bento-grid">
+      <div class="bento-card">
+        <div class="bento-icon">🔒</div>
+        <h3>Zero-Trust Privacy</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+          Client-side execution. Files never leave your local environment.
+        </p>
+      </div>
+      <div class="bento-card">
+        <div class="bento-icon">⚡</div>
+        <h3>Hyper-Velocity</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+          Powered by WebAssembly & Graphics Memory for instant processing.
+        </p>
+      </div>
+      <div class="bento-card">
+        <div class="bento-icon">♾️</div>
+        <h3>Perpetual Free</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+          Open access utility. No paywalls, no limits, no registration.
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Dynamic Footer -->
+  <div id="central-footer-container"></div>
+
+  <!-- Component Loader -->
+  <script>
+    async function loadComponent(id, url) {
+      try {
+        const cached = sessionStorage.getItem(url);
+        if (cached) { document.getElementById(id).innerHTML = cached; return; }
+        const res = await fetch(url);
+        if(!res.ok) throw new Error('Load failed');
+        const html = await res.text();
+        document.getElementById(id).innerHTML = html;
+        sessionStorage.setItem(url, html);
+      } catch (e) { console.error(e); }
+    }
+    Promise.all([
+      loadComponent('central-header-container', 'https://chirag127.github.io/shared/header.html'),
+      loadComponent('central-footer-container', 'https://chirag127.github.io/shared/footer.html')
+    ]);
+  </script>
+
+  <script>
+    {{TOOL_SCRIPT}}
+  </script>
+
+</body>
+</html>

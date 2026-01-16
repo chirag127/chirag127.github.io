@@ -1,6 +1,7 @@
 {
   "generated": [
-    "PDF-Merge-And-Split"
+    "PDF-Merge-And-Split",
+    "Image-Resizer-And-Cropper"
   ],
   "failed": [],
   "metadata_cache": {
@@ -23,6 +24,25 @@
         "privacy"
       ],
       "category": "Document"
+    },
+    "Image-Resizer-And-Cropper": {
+      "title": "Image Resizer & Cropper Pro",
+      "description": "Free online image resizer and cropper. No upload required. Edit images with complete privacy on your device.",
+      "features": [
+        "Resize images to any dimensions instantly",
+        "Crop with precision using drag-and-drop controls",
+        "Batch process multiple images at once",
+        "100% private - images never leave your device",
+        "Supports JPG, PNG, WebP, and GIF formats"
+      ],
+      "keywords": [
+        "image resizer",
+        "image cropper",
+        "resize image online",
+        "crop image",
+        "photo editor"
+      ],
+      "category": "Image"
     }
   }
 }

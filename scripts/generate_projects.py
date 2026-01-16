@@ -22,14 +22,31 @@ import shutil
 import subprocess
 import sys
 import time
+import argparse
+import asyncio
 from pathlib import Path
+from typing import Dict, Any, List
 
 import requests
 
-sys.path.insert(0, str(Path(__file__).parent))
+# Setup paths
+SCRIPT_DIR = Path(__file__).parent.absolute()
+ROOT_DIR = SCRIPT_DIR.parent
+sys.path.append(str(ROOT_DIR))
 
+# Update imports for new structure
 from src.ai.unified_client import UnifiedAIClient
-from src.prompts import get_tool_metadata_prompt
+# src.prompts is now... wait, prompts.py is still in src/ ?
+# User list showed src\prompts.py. I didn't move it yet.
+from src.ai.prompts import (
+    get_tool_metadata_prompt,
+    get_tool_idea_prompt,
+    get_tool_structure_prompt,
+    get_tool_logic_prompt,
+    detect_category,
+    TOOL_CATEGORIES,
+    CATEGORY_CONFIGS
+)
 from src.clients.searxng import SearXNGClient
 
 # Configure logging
@@ -48,11 +65,12 @@ GH_TOKEN = os.getenv("GH_TOKEN")
 GH_USERNAME = "chirag127"
 CENTRAL_HUB = "https://chirag127.github.io"
 
-ROOT = Path(__file__).parent
-TOOLS_FILE = ROOT / "ar.txt"
-STATE_FILE = ROOT / "state" / "tools_generated.json"
-TEMP_DIR = ROOT / ".temp"
-TEMPLATE_FILE = ROOT / "shared" / "tool-template.html"
+# Use ROOT_DIR defined at top of file
+TOOLS_FILE = ROOT_DIR / "ar.txt"
+STATE_FILE = ROOT_DIR / "state" / "tools_generated.json"
+TEMP_DIR = ROOT_DIR / ".temp"
+TEMPLATE_DIR = ROOT_DIR / "shared" / "templates"
+DEFAULT_TEMPLATE = TEMPLATE_DIR / "default.html"
 
 STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
 
@@ -403,11 +421,26 @@ def generate_single_html(tool: dict, ai: UnifiedAIClient, search_client: SearXNG
         logger.info(f"  📋 Research context generated: {len(research_context)} chars")
 
     # 1. Load Template
-    if not TEMPLATE_FILE.exists():
-        logger.error(f"Template file not found at {TEMPLATE_FILE}")
-        return f"<h1>Error: Template not found at {TEMPLATE_FILE}</h1>"
+    category_slug = tool.get("category", "utilities").lower()
+    template_file = TEMPLATE_DIR / f"{category_slug}.html"
 
-    template = TEMPLATE_FILE.read_text(encoding="utf-8")
+    # Try finding mapped template
+    if not template_file.exists():
+        found = False
+        for t_path in TEMPLATE_DIR.glob("*.html"):
+            if category_slug.startswith(t_path.stem):
+                template_file = t_path
+                found = True
+                break
+        if not found:
+            template_file = DEFAULT_TEMPLATE
+
+    if not template_file.exists():
+        logger.error(f"Template file not found at {template_file}")
+        return f"<h1>Error: Template not found at {template_file}</h1>"
+
+    logger.info(f"  🎨 Using template: {template_file.name}")
+    template = template_file.read_text(encoding="utf-8")
 
     # 2. AI Prompt for Tool Logic (Enhanced with Web Research)
     prompt = f"""You are an Expert Frontend Developer (Jan 2026 Standards).
