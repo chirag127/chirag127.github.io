@@ -206,11 +206,9 @@ var(--success), var(--error)
 var(--bg-card), var(--bg-dark)
 var(--text-main), var(--text-muted)
 
-OUTPUT FORMAT (JSON only, no markdown):
-{{
-  "js": "/* Complete JavaScript with CDN comment at top */",
-  "css": "/* Additional CSS for custom elements */"
-}}"""
+OUTPUT FORMAT:
+Return A SINGLE `index.html` file containing ALL HTML, CSS (in <style>), and JavaScript (in <script>).
+NO external files. NO JSON. Enclose in ```html``` block."""
 
 
 # =============================================================================

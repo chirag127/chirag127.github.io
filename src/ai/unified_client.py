@@ -65,6 +65,7 @@ UNIFIED_MODEL_CHAIN: list[UnifiedModel] = [
     # TIER 1: GOD-CLASS (>400B Parameters)
     # The absolute peak of intelligence. Use for Architecture, Reasoning, and Complex Logic.
     # =========================================================================
+    UnifiedModel("deepseek-ai/deepseek-r1", "nvidia", 671, "DeepSeek R1 (NVIDIA)", max_tokens=16384),
     UnifiedModel("meta/llama-3.1-405b-instruct", "nvidia", 405, "Llama 3.1 405B (NVIDIA)", max_tokens=4096),
     # Note: Groq 405B is often rate-limited, but we try it.
     UnifiedModel("llama-3.1-405b-reasoning", "groq", 405, "Llama 3.1 405B (Groq)", max_tokens=8192),

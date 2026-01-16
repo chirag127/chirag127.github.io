@@ -314,10 +314,10 @@ def research_tool(name: str, search_client: WebSearchClient) -> dict:
         return research
 
     try:
-        # 1. Find JavaScript libraries
-        logger.info(f"  📚 Searching libraries for: {topic}")
-        # WebSearchClient.search returns list of SearchResult objects
-        lib_results = search_client.search(f"best javascript libraries for {topic}", limit=5)
+        # 1. Start with Implementation Resources (Free/APIs)
+        logger.info(f"  📚 Searching free implementation resources for: {topic}")
+        # Strictly search for free resources/APIs as requested
+        lib_results = search_client.search(f"how to implement {topic} javascript free open source library api", limit=3)
         if lib_results:
             research['libraries'] = [
                 {'title': r.title, 'url': r.url, 'content': r.description[:200]}
@@ -327,9 +327,9 @@ def research_tool(name: str, search_client: WebSearchClient) -> dict:
         else:
             logger.warning(f"  ⚠️ No library results")
 
-        # 2. Search for FEATURES from competitors
-        logger.info(f"  ⭐ Searching features for: {topic}")
-        feature_results = search_client.search(f"best {topic} tool features list", limit=5)
+        # 2. Search for Advanced Core Extensions
+        logger.info(f"  ⭐ Searching advanced core extensions for: {topic}")
+        feature_results = search_client.search(f"advanced {topic} algorithms implementation javascript free", limit=3)
         if feature_results:
             research['features'] = [
                 {'title': r.title, 'content': r.description[:300]}
@@ -338,28 +338,6 @@ def research_tool(name: str, search_client: WebSearchClient) -> dict:
             logger.info(f"  ✅ Found {len(research['features'])} feature sources")
         else:
             logger.warning(f"  ⚠️ No feature results")
-
-        # 3. How to build tutorials
-        logger.info(f"  📖 Searching tutorials for: {topic}")
-        how_to = search_client.search(f"how to build {topic} with javascript tutorial", limit=5)
-        if how_to:
-            research['best_practices'] = [
-                {'title': r.title, 'url': r.url, 'content': r.description[:200]}
-                for r in how_to
-            ]
-            logger.info(f"  ✅ Found {len(research['best_practices'])} tutorials")
-        else:
-            logger.warning(f"  ⚠️ No tutorial results")
-
-        # 4. Existing examples
-        logger.info(f"  🔎 Searching examples for: {topic}")
-        examples = search_client.search(f"{topic} javascript github example", limit=3)
-        if examples:
-            research['examples'] = [
-                {'title': r.title, 'url': r.url}
-                for r in examples
-            ]
-            logger.info(f"  ✅ Found {len(research['examples'])} examples")
 
         research['search_successful'] = True
 
@@ -418,7 +396,9 @@ The output prompt must encompass:
 1. Exact Library choices from the System Architecture (e.g. PDF-lib for PDFs).
 2. UI/UX Mandates (Apex 2026 Spatial Glass).
 3. Step-by-Step implementation logic (IIFE, Error handling, DOM structure).
-4. Critical Constraints (No Headers, Single File, Config Injection).
+4. Critical Constraints (No Headers, Single File, Config Injection, INLINE CSS/JS).
+5. CORE EXTENSION ONLY: Advanced features must be extensions of the main purpose (e.g. PDF Merge -> Sort is good. PDF Merge -> Games is BAD).
+6. STRICTLY FREE: Use only free APIs/Libraries. No paid services.
 
 Your output should be the EXACT PROMPT string I will paste to the coding AI.
 Start with "Role: Expert..." and end with "...implementation."
@@ -477,6 +457,10 @@ SYSTEM INSTRUCTION: IMPLEMENT THE FOLLOWING SPECIFICATION EXACTLY.
 
 CRITICAL OVERRIDE:
 - OUTPUT: A SINGLE `index.html` file containing ALL HTML, CSS, and JavaScript.
+- STYLE/SCRIPT ENFORCEMENT:
+  - CSS MUST be inside <style> tags in the <head>.
+  - JavaScript MUST be inside <script> tags at the end of <body>.
+  - NO external .css or .js files (except the Universal Config/Core scripts below).
 - UNIVERSAL ARCHITECTURE:
   - MUST include in <head>: <script src="https://chirag127.github.io/universal/config.js"></script>
   - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>

@@ -21,6 +21,7 @@ class ProviderStatus(Enum):
     RATE_LIMITED = "rate_limited"
     ERROR = "error"
     DISABLED = "disabled"
+    UNCONFIGURED = "unconfigured"
 
 
 @dataclass
