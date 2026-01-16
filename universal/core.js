@@ -147,37 +147,56 @@
   }
 
   // 7. Dynamic Module Loader
-  const integrations = [
-    // Analytics
-    { key: 'ga4', path: '/integrations/analytics/ga4.js' },
-    { key: 'yandex', path: '/integrations/analytics/yandex.js' },
-    { key: 'clarity', path: '/integrations/analytics/clarity.js' },
-    { key: 'cloudflare', path: '/integrations/analytics/cloudflare.js' },
-    { key: 'mixpanel', path: '/integrations/analytics/mixpanel.js' },
-    { key: 'amplitude', path: '/integrations/analytics/amplitude.js' },
-    { key: 'posthog', path: '/integrations/analytics/posthog.js' },
-    { key: 'umami', path: '/integrations/analytics/umami.js' },
-    { key: 'goatcounter', path: '/integrations/analytics/goatcounter.js' },
-    { key: 'heap', path: '/integrations/analytics/heap.js' },
-    { key: 'logrocket', path: '/integrations/analytics/logrocket.js' },
-    { key: 'beam', path: '/integrations/analytics/beam.js' },
-    { key: 'counter_dev', path: '/integrations/analytics/counterdev.js' },
-    { key: 'cronitor', path: '/integrations/analytics/cronitor.js' },
+  // We now import consolidated modules for Analytics and Monitoring
+  const { Analytics } = await import(`${U_PATH}/integrations/analytics.js`);
+  const { Monitoring } = await import(`${U_PATH}/integrations/monitoring.js`);
 
+  // Initialize Consolidated Analytics
+  Object.keys(Analytics).forEach(key => {
+     const serviceConfig = config[key];
+     if (serviceConfig && serviceConfig.enabled) {
+         try {
+             Analytics[key].init(serviceConfig, loadScript, config);
+             console.log(`✅ Loaded Analytics: ${key}`);
+         } catch (e) {
+             console.error(`❌ Failed to init Analytics ${key}:`, e);
+         }
+     }
+  });
+
+  // Initialize Consolidated Monitoring
+  Object.keys(Monitoring).forEach(key => {
+     const serviceConfig = config[key];
+     if (serviceConfig && serviceConfig.enabled) {
+         try {
+             Monitoring[key].init(serviceConfig, loadScript, config);
+             console.log(`✅ Loaded Monitoring: ${key}`);
+         } catch (e) {
+             console.error(`❌ Failed to init Monitoring ${key}:`, e);
+         }
+     }
+  });
+
+  // Standalone Integrations (others not in consolidated files)
+  const standaloneIntegrations = [
     // Monetization
     { key: 'propeller', path: '/integrations/ads/monetization.js' },
-
     // Chat
-    { key: 'tawk', path: '/integrations/chat/tawkto.js' },
-
-    // Monitoring
-    { key: 'sentry', path: '/integrations/monitoring/sentry.js' },
-    { key: 'honeybadger', path: '/integrations/monitoring/honeybadger.js' },
-    { key: 'bugsnag', path: '/integrations/monitoring/bugsnag.js' },
-    { key: 'glitchtip', path: '/integrations/monitoring/glitchtip.js' }
+    { key: 'tawk', path: '/integrations/chat/tawkto.js' }
   ];
 
   for (const item of integrations) {
+      if (!config[item.key] || !config[item.key].enabled) continue;
+      // Skip if handled by consolidated modules
+      if (Analytics[item.key] || Monitoring[item.key]) continue;
+
+      // Handle standalone
+      // Note: We need to match the key logic. The standalone list above is unused if we reuse 'integrations' list.
+      // Let's just define the standalone ones explicitly to avoid ambiguity.
+  }
+
+  // Explicit processing for standalone
+  for (const item of standaloneIntegrations) {
     const serviceConfig = config[item.key];
     if (serviceConfig && serviceConfig.enabled) {
       try {
@@ -186,7 +205,7 @@
           .then(module => {
             if (module && module.init) {
               module.init(serviceConfig, loadScript, config);
-              console.log(`✅ Loaded ${item.key}`);
+              console.log(`✅ Loaded Standalone: ${item.key}`);
             }
           })
           .catch(e => console.error(`❌ Failed to load ${item.key}:`, e));

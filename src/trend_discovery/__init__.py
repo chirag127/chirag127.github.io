@@ -26,12 +26,14 @@ Sources (Optional API Keys):
 from .aggregator import TrendAggregator, AggregatorConfig
 from .base import TrendItem, TrendSource, TrendCategory
 from .selector import TrendSelector, SelectedTrend
-from .devto import DevToSource
-from .github_trending import GitHubTrendingSource
-from .hacker_news import HackerNewsSource
-from .hashnode import HashnodeSource
-from .reddit import RedditSource
-from .stack_overflow import StackOverflowSource
+from .sources import (
+    DevToSource,
+    GitHubTrendingSource,
+    HackerNewsSource,
+    HashnodeSource,
+    RedditSource,
+    StackOverflowSource
+)
 
 __all__ = [
     # Core

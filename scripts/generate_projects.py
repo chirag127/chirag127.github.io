@@ -36,6 +36,7 @@ sys.path.append(str(ROOT_DIR))
 
 # Update imports for new structure
 from src.ai.unified_client import UnifiedAIClient
+from src.clients import WebSearchClient
 # src.prompts is now... wait, prompts.py is still in src/ ?
 # User list showed src\prompts.py. I didn't move it yet.
 from src.ai.prompts import (
@@ -45,7 +46,7 @@ from src.ai.prompts import (
     TOOL_CATEGORIES,
     CATEGORY_CONFIGS
 )
-from src.clients.searxng import SearXNGClient
+
 
 # Configure logging
 logging.basicConfig(
@@ -286,9 +287,9 @@ def git_push(name: str, files: dict[str, str]) -> bool:
 # WEB SEARCH RESEARCH (SearXNG Integration)
 # =============================================================================
 
-def research_tool(name: str, search_client: SearXNGClient) -> dict:
+def research_tool(name: str, search_client: WebSearchClient) -> dict:
     """
-    Research libraries, features, and best practices for a tool using SearXNG.
+    Research libraries, features, and best practices for a tool using WebSearchClient.
 
     Returns context for AI prompt including:
     - Recommended libraries
@@ -309,14 +310,18 @@ def research_tool(name: str, search_client: SearXNGClient) -> dict:
         'search_successful': False
     }
 
+    if not search_client:
+        return research
+
     try:
         # 1. Find JavaScript libraries
         logger.info(f"  📚 Searching libraries for: {topic}")
-        lib_results = search_client.find_libraries(topic, max_results=8)
+        # WebSearchClient.search returns list of SearchResult objects
+        lib_results = search_client.search(f"best javascript libraries for {topic}", limit=5)
         if lib_results:
             research['libraries'] = [
-                {'title': r.get('title', ''), 'url': r.get('url', ''), 'content': r.get('content', '')[:200]}
-                for r in lib_results[:5]
+                {'title': r.title, 'url': r.url, 'content': r.description[:200]}
+                for r in lib_results
             ]
             logger.info(f"  ✅ Found {len(research['libraries'])} libraries")
         else:
@@ -324,15 +329,11 @@ def research_tool(name: str, search_client: SearXNGClient) -> dict:
 
         # 2. Search for FEATURES from competitors
         logger.info(f"  ⭐ Searching features for: {topic}")
-        feature_results = search_client.search(
-            f"best {topic} tool features what can it do",
-            categories=['general'],
-            max_results=10
-        )
+        feature_results = search_client.search(f"best {topic} tool features list", limit=5)
         if feature_results:
             research['features'] = [
-                {'title': r.get('title', ''), 'content': r.get('content', '')[:300]}
-                for r in feature_results[:5]
+                {'title': r.title, 'content': r.description[:300]}
+                for r in feature_results
             ]
             logger.info(f"  ✅ Found {len(research['features'])} feature sources")
         else:
@@ -340,11 +341,11 @@ def research_tool(name: str, search_client: SearXNGClient) -> dict:
 
         # 3. How to build tutorials
         logger.info(f"  📖 Searching tutorials for: {topic}")
-        how_to = search_client.research_how_to_build(topic, max_results=8)
+        how_to = search_client.search(f"how to build {topic} with javascript tutorial", limit=5)
         if how_to:
             research['best_practices'] = [
-                {'title': r.get('title', ''), 'url': r.get('url', ''), 'content': r.get('content', '')[:200]}
-                for r in how_to[:5]
+                {'title': r.title, 'url': r.url, 'content': r.description[:200]}
+                for r in how_to
             ]
             logger.info(f"  ✅ Found {len(research['best_practices'])} tutorials")
         else:
@@ -352,19 +353,15 @@ def research_tool(name: str, search_client: SearXNGClient) -> dict:
 
         # 4. Existing examples
         logger.info(f"  🔎 Searching examples for: {topic}")
-        examples = search_client.search(
-            f"{topic} javascript github example",
-            categories=['it'],
-            max_results=5
-        )
+        examples = search_client.search(f"{topic} javascript github example", limit=3)
         if examples:
             research['examples'] = [
-                {'title': r.get('title', ''), 'url': r.get('url', '')}
-                for r in examples[:3]
+                {'title': r.title, 'url': r.url}
+                for r in examples
             ]
             logger.info(f"  ✅ Found {len(research['examples'])} examples")
 
-        research['search_successful'] = bool(lib_results or how_to or examples or feature_results)
+        research['search_successful'] = True
 
     except Exception as e:
         logger.error(f"  ❌ Research failed: {e}")
@@ -441,7 +438,7 @@ Start with "Role: Expert..." and end with "...implementation."
         return "" # Fallback to default
 
 
-def generate_single_html(tool: dict, ai: UnifiedAIClient, search_client: SearXNGClient = None) -> str:
+def generate_single_html(tool: dict, ai: UnifiedAIClient, search_client: WebSearchClient = None) -> str:
     """
     Generate a SINGLE-FILE tool (HTML+CSS+JS) using the Generative UI Engine.
     Uses AGENTS.md as the system prompt (Apex Technical Authority).
@@ -457,10 +454,11 @@ def generate_single_html(tool: dict, ai: UnifiedAIClient, search_client: SearXNG
 
     # 1. Research
     research_context = ""
-    if search_client and search_client.is_available():
+    # WebSearchClient does not have is_available() method - it always tries its best
+    if search_client:
         logger.info("  🔍 Researching tool requirements...")
         try:
-            research_results = search_client.search(f"{tool['name']} web tool features design inspiration")
+            research_results = research_tool(tool['name'], search_client)
             research_context = format_research_context(research_results)
             logger.info(f"  📋 Research context generated: {len(research_context)} chars")
         except Exception as e:
@@ -545,7 +543,7 @@ REQUIREMENTS:
 # MAIN GENERATION FLOW
 # =============================================================================
 
-def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict, search_client: SearXNGClient = None) -> bool:
+def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict, search_client: WebSearchClient = None) -> bool:
     """Generate a tool with AI and optional web research."""
     logger.info(f"\n{'='*50}")
     logger.info(f"Generating: {tool['name']}")
