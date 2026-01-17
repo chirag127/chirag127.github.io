@@ -7,19 +7,9 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="Llama 3.2 90B Vision - Multimodal Code",
         max_tokens=8192,
         working=True,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="groq",
         api_model_id="llama-3.2-90b-vision-preview"
-    ),
-    UnifiedModel(
-        name="Llama 3.2 90B Vision Instruct GitHub",
-        size_billions=90.0,
-        description="Llama 3.2 90B Vision - Multimodal Code",
-        max_tokens=8192,
-        working=True,
-        include_in_sidebar=False,
-        provider="github",
-        api_model_id="Llama-3.2-90B-Vision-Instruct"
     ),
     UnifiedModel(
         name="Llama 3.2 90B Vision Instruct OpenRouter",
