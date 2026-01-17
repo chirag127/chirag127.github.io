@@ -56,7 +56,7 @@ def generate_model_slug(model: UnifiedModel) -> str:
     Returns:
         URL-safe slug string
     """
-    # Clean the model name
+    # Clean the model name (already includes provider info)
     name = model.name.lower()
     # Remove special characters, keep alphanumeric and spaces
     name = re.sub(r'[^a-z0-9\s\-.]', '', name)
@@ -67,11 +67,8 @@ def generate_model_slug(model: UnifiedModel) -> str:
     # Remove leading/trailing hyphens
     name = name.strip('-')
 
-    # Clean provider name
-    provider = model.provider.lower()
-    provider = re.sub(r'[^a-z0-9]', '', provider)
-
-    return f"{name}--{provider}"
+    # No need to append provider - model names already include it
+    return name
 
 
 def get_largest_model() -> UnifiedModel:

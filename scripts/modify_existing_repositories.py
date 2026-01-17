@@ -32,6 +32,10 @@ from typing import Any
 
 import requests
 
+# Load environment variables from .env
+from dotenv import load_dotenv
+load_dotenv()
+
 # Add Root to Path
 sys.path.append(str(Path(__file__).parent.parent))
 

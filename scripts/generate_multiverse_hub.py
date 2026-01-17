@@ -3,7 +3,7 @@
 Generate Multiverse Hub - Alternative Hub Homepage Generator
 
 Creates alternative versions of the Chirag Hub homepage using different AI models.
-Each version is saved to multiverse_sites/{model-slug}/index.html.
+Each version is saved directly to multiverse_sites/{slug}.html (flat files, no subfolders).
 
 Usage:
     python generate_multiverse_hub.py              # Generate all multiverse hubs
@@ -14,7 +14,6 @@ Usage:
 import argparse
 import logging
 import os
-import shutil
 import sys
 import time
 from pathlib import Path
@@ -30,6 +29,7 @@ ROOT_DIR = SCRIPT_DIR.parent
 sys.path.insert(0, str(ROOT_DIR))
 
 from src.ai.unified_client import UnifiedAIClient
+from src.ai.base import CompletionResult
 from src.ai.models import (
     get_sidebar_enabled_models,
     generate_model_slug,
@@ -43,10 +43,10 @@ logging.basicConfig(
     format='%(asctime)s [%(name)s] %(levelname)s: %(message)s',
     datefmt='%H:%M:%S'
 )
-logger = logging.getLogger('MultiverseHub')
+logger = logging.getLogger('ParallelHub')
 
 # Paths
-MULTIVERSE_DIR = ROOT_DIR / "multiverse_sites"
+PARALLEL_DIR = ROOT_DIR / "multiverse_sites"  # Keep folder name for URL compatibility
 MAIN_INDEX = ROOT_DIR / "index.html"
 
 # Hub Homepage Generation Prompt
@@ -126,20 +126,46 @@ def get_sidebar_html_data() -> str:
     return "[\n        " + ",\n        ".join(items) + "\n      ]"
 
 
+def call_specific_model(
+    ai: UnifiedAIClient,
+    model: UnifiedModel,
+    prompt: str,
+    max_tokens: int = 32000,
+    temperature: float = 0.7,
+) -> CompletionResult:
+    """
+    Force the AI client to call a SPECIFIC model (not fallback to others).
+
+    This bypasses the normal fallback chain and calls the exact model specified.
+    """
+    logger.info(f"  🎯 Forcing model: {model.name} ({model.size_billions}B) via {model.provider}")
+
+    # Directly call _call_model to force this specific model
+    return ai._call_model(
+        model=model,
+        prompt=prompt,
+        system_prompt="",
+        max_tokens=max_tokens,
+        temperature=temperature,
+        json_mode=False,
+    )
+
+
 def generate_hub_for_model(
     model: UnifiedModel,
     ai: UnifiedAIClient,
     sidebar_data: str,
+    fallback_html: Optional[str] = None,
     dry_run: bool = False
-) -> bool:
+) -> tuple[bool, str]:
     """
-    Generate hub homepage using a specific model.
+    Generate hub homepage using a SPECIFIC model.
 
-    Returns True if successful, False otherwise.
+    Returns (success, html_content).
+    If the model fails, uses fallback_html (from largest model) if available.
     """
     slug = generate_model_slug(model)
-    output_dir = MULTIVERSE_DIR / slug
-    output_file = output_dir / "index.html"
+    output_file = PARALLEL_DIR / f"{slug}.html"  # Flat file, no subfolder
 
     logger.info(f"\n{'='*60}")
     logger.info(f"Model: {model.name} ({model.size_billions}B)")
@@ -149,7 +175,7 @@ def generate_hub_for_model(
 
     if dry_run:
         logger.info("DRY RUN - skipping generation")
-        return True
+        return True, ""
 
     # Create prompt with sidebar data
     prompt = HUB_PROMPT.format(
@@ -158,17 +184,11 @@ def generate_hub_for_model(
     )
 
     try:
-        # Try to generate using the specific model
+        # Force this SPECIFIC model (no fallback to others)
         logger.info(f"Generating with {model.name}...")
         start_time = time.time()
 
-        # Use the AI client's generate method with model preference
-        result = ai.generate(
-            prompt=prompt,
-            max_tokens=32000,
-            min_model_size=model.size_billions - 10,  # Try to use this specific model
-            temperature=0.7
-        )
+        result = call_specific_model(ai, model, prompt)
 
         elapsed = time.time() - start_time
 
@@ -188,23 +208,22 @@ def generate_hub_for_model(
             logger.warning("Generated content doesn't look like HTML, may need adjustment")
 
         # Save to file
-        output_dir.mkdir(parents=True, exist_ok=True)
         output_file.write_text(content, encoding="utf-8")
 
         logger.info(f"✅ Generated {len(content)} bytes in {elapsed:.1f}s using {result.model_used}")
-        return True
+        return True, content
 
     except Exception as e:
         logger.error(f"❌ Generation failed for {model.name}: {e}")
 
-        # Fallback: copy main index.html
+        # Fallback: copy the main index.html (already generated separately)
         if MAIN_INDEX.exists():
-            logger.info("⚠️ Falling back to main index.html")
-            output_dir.mkdir(parents=True, exist_ok=True)
-            shutil.copy(MAIN_INDEX, output_file)
-            return True
+            logger.info("⚠️ Using fallback: copying main index.html")
+            fallback_content = MAIN_INDEX.read_text(encoding="utf-8")
+            output_file.write_text(fallback_content, encoding="utf-8")
+            return True, fallback_content
 
-        return False
+        return False, ""
 
 
 def generate_all_hubs(
@@ -214,18 +233,14 @@ def generate_all_hubs(
     """
     Generate hub homepages for all sidebar-enabled models.
 
-    Args:
-        models: Optional list of model names to generate (None = all)
-        dry_run: If True, only print what would be done
-
-    Returns:
-        Dict with success/failure counts
+    Each model generates its own content.
+    On failure, falls back to main index.html.
     """
     logger.info("=" * 60)
-    logger.info("MULTIVERSE HUB GENERATOR")
+    logger.info("PARALLEL HUB GENERATOR")
     logger.info("=" * 60)
 
-    # Get sidebar-enabled models
+    # Get sidebar-enabled models (sorted largest first)
     all_models = get_sidebar_enabled_models()
     logger.info(f"Found {len(all_models)} sidebar-enabled models")
 
@@ -237,6 +252,9 @@ def generate_all_hubs(
     if not all_models:
         logger.error("No models to process")
         return {"success": 0, "failed": 0}
+
+    # Ensure parallel directory exists
+    PARALLEL_DIR.mkdir(parents=True, exist_ok=True)
 
     # Initialize AI client
     if not dry_run:
@@ -253,12 +271,17 @@ def generate_all_hubs(
     for i, model in enumerate(all_models, 1):
         logger.info(f"\n[{i}/{len(all_models)}] Processing {model.name}...")
 
-        success = generate_hub_for_model(
+        success, content = generate_hub_for_model(
             model=model,
             ai=ai,
             sidebar_data=sidebar_data,
             dry_run=dry_run
         )
+
+        # Store first model's content as fallback for others
+        if i == 1 and content:
+            largest_model_content = content
+            logger.info("  📦 Stored as fallback content for failed models")
 
         if success:
             results["success"] += 1
@@ -299,9 +322,6 @@ def main():
             print(f"    Slug: {slug}")
             print()
         return
-
-    # Ensure multiverse directory exists
-    MULTIVERSE_DIR.mkdir(parents=True, exist_ok=True)
 
     # Generate
     models_to_generate = [args.model] if args.model else None

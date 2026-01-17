@@ -3,10 +3,14 @@ Multiverse Tool Generator Module
 
 Generates alternative versions of tool websites using different AI models.
 Used by generate_projects.py to create multiverse variants.
+
+Key Features:
+- Forces specific models (no fallback to larger models during generation)
+- Flat file structure: multiverse/{slug}.html
+- Uses largest model's content as fallback on failure
 """
 
 import logging
-import shutil
 import time
 from pathlib import Path
 from typing import List, Dict, Any, Optional
@@ -35,6 +39,7 @@ def generate_sidebar_html(models: List[dict], current_slug: str, is_hub: bool = 
 
     models_array = "[\n        " + ",\n        ".join(items) + "\n      ]"
 
+    # Updated path: flat files, not subfolders
     base_url = "multiverse_sites" if is_hub else "multiverse"
 
     return f"""
@@ -136,6 +141,11 @@ Return ONLY the code wrapped in ```html blocks.
 class MultiverseToolGenerator:
     """
     Generates alternative versions of tool websites using different AI models.
+
+    Key changes from original:
+    - Forces specific models (calls _call_model directly)
+    - Uses flat file structure (multiverse/{slug}.html)
+    - Falls back to largest model's already-generated content
     """
 
     def __init__(self, ai_client, sidebar_models: List[dict]):
@@ -147,36 +157,47 @@ class MultiverseToolGenerator:
         self.ai = ai_client
         self.sidebar_models = sidebar_models
 
+    def _call_specific_model(self, model, prompt: str, max_tokens: int = 32000):
+        """Force the AI client to call a SPECIFIC model."""
+        from src.ai.base import CompletionResult
+
+        logger.info(f"    🎯 Forcing model: {model.name} ({model.size_billions}B)")
+
+        return self.ai._call_model(
+            model=model,
+            prompt=prompt,
+            system_prompt="",
+            max_tokens=max_tokens,
+            temperature=0.7,
+            json_mode=False,
+        )
+
     def generate_variant(
         self,
         tool: dict,
-        model_slug: str,
-        model_size: float,
+        model,
         fallback_html: Optional[str] = None
     ) -> tuple[bool, str]:
         """
-        Generate a tool variant using a specific model.
+        Generate a tool variant using a SPECIFIC model.
 
         Args:
             tool: Tool dict with name, title, description, features, category
-            model_slug: Slug of the model to use
-            model_size: Size in billions of the target model
-            fallback_html: HTML to use if generation fails
+            model: UnifiedModel to use (forced, no fallback to others)
+            fallback_html: HTML to use if this model fails
 
         Returns:
             Tuple of (success: bool, html_content: str)
         """
-        logger.info(f"  Generating variant with model size >= {model_size}B")
+        from src.ai.models import generate_model_slug
+
+        slug = generate_model_slug(model)
+        logger.info(f"    Generating variant: {model.name}")
 
         try:
-            prompt = get_tool_multiverse_prompt(tool, self.sidebar_models, model_slug)
+            prompt = get_tool_multiverse_prompt(tool, self.sidebar_models, slug)
 
-            result = self.ai.generate(
-                prompt=prompt,
-                max_tokens=32000,
-                min_model_size=max(0, model_size - 50),
-                temperature=0.7
-            )
+            result = self._call_specific_model(model, prompt)
 
             if not result.success:
                 raise Exception(f"Generation failed: {result.error}")
@@ -189,18 +210,18 @@ class MultiverseToolGenerator:
             elif "```" in content:
                 content = content.split("```")[1].split("```")[0].strip()
 
-            logger.info(f"  ✅ Generated {len(content)} bytes using {result.model_used}")
+            logger.info(f"    ✅ Generated {len(content)} bytes using {result.model_used}")
             return True, content
 
         except Exception as e:
-            logger.error(f"  ❌ Generation failed: {e}")
+            logger.error(f"    ❌ Generation failed: {e}")
 
             if fallback_html:
-                logger.info("  ⚠️ Using fallback HTML")
+                logger.info("    ⚠️ Using fallback from largest model")
                 # Inject correct sidebar for this variant
                 sidebar_js = generate_sidebar_html(
                     self.sidebar_models,
-                    model_slug,
+                    slug,
                     is_hub=False
                 )
                 return True, inject_sidebar_into_html(fallback_html, sidebar_js)
@@ -210,7 +231,7 @@ class MultiverseToolGenerator:
     def generate_all_variants(
         self,
         tool: dict,
-        models: List[dict],
+        models: List,
         output_dir: Path,
         main_html: str
     ) -> Dict[str, Any]:
@@ -219,29 +240,41 @@ class MultiverseToolGenerator:
 
         Args:
             tool: Tool metadata dict
-            models: List of models to generate variants for
+            models: List of UnifiedModel objects to generate variants for
             output_dir: Directory to save variants (e.g., .temp/multiverse)
-            main_html: Main HTML content to use as fallback
+            main_html: Main HTML content (used as fallback for first model failures)
 
         Returns:
-            Dict with files to be added to git push
+            Dict with files to be added to git push (flat structure)
         """
+        from src.ai.models import generate_model_slug
+
         files = {}
+        largest_model_content = None  # First successful generation becomes fallback
 
         for i, model in enumerate(models[:10], 1):  # Limit to 10 variants
-            logger.info(f"\n  [{i}/{min(len(models), 10)}] {model['name']}")
+            slug = generate_model_slug(model)
+            logger.info(f"\n  [{i}/{min(len(models), 10)}] {model.name}")
+
+            # First model has no fallback, others use first model's content
+            fallback = largest_model_content if largest_model_content else main_html
 
             success, content = self.generate_variant(
                 tool=tool,
-                model_slug=model['slug'],
-                model_size=model['size'],
-                fallback_html=main_html
+                model=model,
+                fallback_html=fallback
             )
 
+            # Store first successful generation as fallback
+            if i == 1 and success and content:
+                largest_model_content = content
+                logger.info("    📦 Stored as fallback for failed models")
+
             if success and content:
-                file_path = f"multiverse/{model['slug']}/index.html"
+                # Flat file structure: multiverse/{slug}.html
+                file_path = f"multiverse/{slug}.html"
                 files[file_path] = content
-                logger.info(f"  + Added: {file_path}")
+                logger.info(f"    + Added: {file_path}")
 
             # Rate limiting
             if i < len(models):

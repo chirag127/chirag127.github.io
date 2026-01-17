@@ -1,21 +1,21 @@
 /**
- * Multiverse Sidebar Component
+ * Parallel Sidebar Component
  *
  * Automatically adds a toggle sidebar with links to alternative
  * AI-generated versions of the current page.
  *
  * Usage: Include this script and call:
- *   MultiverseSidebar.init(models, options)
+ *   ParallelSidebar.init(models, options)
  *
  * Where models is an array of:
  *   { name: "Model Name", slug: "model-slug", size: 405.0, provider: "Nvidia" }
  */
 
-const MultiverseSidebar = (function() {
+const ParallelSidebar = (function() {
     'use strict';
 
     const STYLES = `
-        #mv-sidebar {
+        #ps-sidebar {
             position: fixed;
             top: 0;
             right: 0;
@@ -33,12 +33,12 @@ const MultiverseSidebar = (function() {
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: -10px 0 40px rgba(0,0,0,0.6);
         }
-        #mv-sidebar.open {
+        #ps-sidebar.open {
             transform: translateX(0);
         }
-        #mv-toggle {
+        #ps-toggle {
             position: fixed;
-            top: 20px;
+            bottom: 20px;
             right: 20px;
             z-index: 10000;
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
@@ -57,15 +57,15 @@ const MultiverseSidebar = (function() {
             align-items: center;
             gap: 8px;
         }
-        #mv-toggle:hover {
+        #ps-toggle:hover {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.35), rgba(168, 85, 247, 0.35));
             transform: scale(1.03);
             box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
         }
-        #mv-toggle:active {
+        #ps-toggle:active {
             transform: scale(0.98);
         }
-        .mv-header {
+        .ps-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -73,7 +73,7 @@ const MultiverseSidebar = (function() {
             padding-bottom: 16px;
             border-bottom: 1px solid rgba(255,255,255,0.08);
         }
-        .mv-title {
+        .ps-title {
             color: #f9fafb;
             font-size: 0.85rem;
             font-weight: 700;
@@ -83,7 +83,7 @@ const MultiverseSidebar = (function() {
             align-items: center;
             gap: 10px;
         }
-        .mv-count {
+        .ps-count {
             background: rgba(99, 102, 241, 0.2);
             color: #a5b4fc;
             padding: 4px 10px;
@@ -91,7 +91,7 @@ const MultiverseSidebar = (function() {
             font-size: 0.75rem;
             font-weight: 600;
         }
-        .mv-section-title {
+        .ps-section-title {
             color: rgba(255,255,255,0.5);
             font-size: 0.7rem;
             font-weight: 600;
@@ -100,7 +100,7 @@ const MultiverseSidebar = (function() {
             margin: 20px 0 12px;
             padding: 0 4px;
         }
-        .mv-item {
+        .ps-item {
             display: block;
             padding: 14px 14px;
             margin-bottom: 8px;
@@ -112,41 +112,41 @@ const MultiverseSidebar = (function() {
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 0.9rem;
         }
-        .mv-item:hover {
+        .ps-item:hover {
             background: rgba(99, 102, 241, 0.12);
             border-color: rgba(99, 102, 241, 0.35);
             color: #f9fafb;
             transform: translateX(-4px);
         }
-        .mv-item.active {
+        .ps-item.active {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.15));
             border-color: rgba(99, 102, 241, 0.5);
             color: #f9fafb;
         }
-        .mv-item .mv-model-name {
+        .ps-item .ps-model-name {
             font-weight: 500;
             margin-bottom: 4px;
             display: block;
         }
-        .mv-item .mv-model-meta {
+        .ps-item .ps-model-meta {
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 0.75rem;
             color: rgba(255,255,255,0.4);
         }
-        .mv-item .mv-size {
+        .ps-item .ps-size {
             background: rgba(255,255,255,0.06);
             padding: 2px 8px;
             border-radius: 4px;
         }
-        .mv-item .mv-provider {
+        .ps-item .ps-provider {
             text-transform: capitalize;
         }
-        .mv-item.active .mv-model-meta {
+        .ps-item.active .ps-model-meta {
             color: rgba(255,255,255,0.6);
         }
-        .mv-close-btn {
+        .ps-close-btn {
             background: none;
             border: none;
             color: rgba(255,255,255,0.4);
@@ -155,36 +155,36 @@ const MultiverseSidebar = (function() {
             border-radius: 8px;
             transition: all 0.2s;
         }
-        .mv-close-btn:hover {
+        .ps-close-btn:hover {
             background: rgba(255,255,255,0.1);
             color: #fff;
         }
     `;
 
     function injectStyles() {
-        if (document.getElementById('mv-styles')) return;
+        if (document.getElementById('ps-styles')) return;
         const style = document.createElement('style');
-        style.id = 'mv-styles';
+        style.id = 'ps-styles';
         style.textContent = STYLES;
         document.head.appendChild(style);
     }
 
     function createToggleButton() {
         const btn = document.createElement('button');
-        btn.id = 'mv-toggle';
+        btn.id = 'ps-toggle';
         btn.innerHTML = `
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="3"/>
                 <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
             </svg>
-            <span>MULTIVERSE</span>
+            <span>PARALLEL</span>
         `;
         return btn;
     }
 
     function createSidebar(models, options) {
         const sidebar = document.createElement('div');
-        sidebar.id = 'mv-sidebar';
+        sidebar.id = 'ps-sidebar';
 
         const currentSlug = options.currentSlug || '';
         const baseUrl = options.baseUrl || 'multiverse_sites';
@@ -193,36 +193,37 @@ const MultiverseSidebar = (function() {
         let itemsHtml = '';
         models.forEach((model, index) => {
             const isActive = model.slug === currentSlug;
+            // Flat file structure: {baseUrl}/{slug}.html (no subfolders)
             const href = isHub
-                ? `${baseUrl}/${model.slug}/index.html`
-                : `multiverse/${model.slug}/index.html`;
+                ? `${baseUrl}/${model.slug}.html`
+                : `multiverse/${model.slug}.html`;
 
             itemsHtml += `
                 <a href="${href}"
-                   class="mv-item ${isActive ? 'active' : ''}"
+                   class="ps-item ${isActive ? 'active' : ''}"
                    data-slug="${model.slug}">
-                    <span class="mv-model-name">${model.name}</span>
-                    <span class="mv-model-meta">
-                        <span class="mv-size">${model.size}B</span>
-                        <span class="mv-provider">${model.provider}</span>
+                    <span class="ps-model-name">${model.name}</span>
+                    <span class="ps-model-meta">
+                        <span class="ps-size">${model.size}B</span>
+                        <span class="ps-provider">${model.provider}</span>
                     </span>
                 </a>
             `;
         });
 
         sidebar.innerHTML = `
-            <div class="mv-header">
-                <div class="mv-title">
-                    🌐 Multiverse
-                    <span class="mv-count">${models.length}</span>
+            <div class="ps-header">
+                <div class="ps-title">
+                    ⚡ Parallel
+                    <span class="ps-count">${models.length}</span>
                 </div>
-                <button class="mv-close-btn" id="mv-close">
+                <button class="ps-close-btn" id="ps-close">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 6L6 18M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
-            <div class="mv-section-title">Alternative Versions</div>
+            <div class="ps-section-title">AI Versions</div>
             ${itemsHtml}
         `;
 
@@ -231,7 +232,7 @@ const MultiverseSidebar = (function() {
 
     function init(models, options = {}) {
         if (!models || !models.length) {
-            console.warn('[MultiverseSidebar] No models provided');
+            console.warn('[ParallelSidebar] No models provided');
             return;
         }
 
@@ -246,19 +247,19 @@ const MultiverseSidebar = (function() {
         btn.addEventListener('click', () => {
             sidebar.classList.toggle('open');
             btn.querySelector('span').textContent =
-                sidebar.classList.contains('open') ? 'CLOSE' : 'MULTIVERSE';
+                sidebar.classList.contains('open') ? 'CLOSE' : 'PARALLEL';
         });
 
-        sidebar.querySelector('#mv-close').addEventListener('click', () => {
+        sidebar.querySelector('#ps-close').addEventListener('click', () => {
             sidebar.classList.remove('open');
-            btn.querySelector('span').textContent = 'MULTIVERSE';
+            btn.querySelector('span').textContent = 'PARALLEL';
         });
 
         // Close on escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && sidebar.classList.contains('open')) {
                 sidebar.classList.remove('open');
-                btn.querySelector('span').textContent = 'MULTIVERSE';
+                btn.querySelector('span').textContent = 'PARALLEL';
             }
         });
 
@@ -268,7 +269,7 @@ const MultiverseSidebar = (function() {
                 !sidebar.contains(e.target) &&
                 !btn.contains(e.target)) {
                 sidebar.classList.remove('open');
-                btn.querySelector('span').textContent = 'MULTIVERSE';
+                btn.querySelector('span').textContent = 'PARALLEL';
             }
         });
     }
@@ -278,5 +279,5 @@ const MultiverseSidebar = (function() {
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = MultiverseSidebar;
+    module.exports = ParallelSidebar;
 }
