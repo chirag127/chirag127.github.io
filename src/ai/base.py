@@ -95,6 +95,7 @@ class AIProvider(ABC):
         model: str | None = None,
         max_tokens: int = 4096,
         temperature: float = 0.7,
+        timeout: int = 60,
     ) -> CompletionResult:
         """
         Generate a chat completion.
@@ -105,6 +106,7 @@ class AIProvider(ABC):
             model: Specific model to use (or None for best available)
             max_tokens: Maximum tokens in response
             temperature: Sampling temperature
+            timeout: Request timeout in seconds (default 60, use higher for large models)
 
         Returns:
             CompletionResult with success status and content
@@ -118,6 +120,7 @@ class AIProvider(ABC):
         system_prompt: str = "",
         model: str | None = None,
         max_tokens: int = 4096,
+        timeout: int = 60,
     ) -> CompletionResult:
         """
         Generate a JSON-structured completion.
@@ -127,6 +130,7 @@ class AIProvider(ABC):
             system_prompt: System prompt for context
             model: Specific model to use (or None for best available)
             max_tokens: Maximum tokens in response
+            timeout: Request timeout in seconds (default 60, use higher for large models)
 
         Returns:
             CompletionResult with success status and json_content

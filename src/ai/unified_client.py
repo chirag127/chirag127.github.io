@@ -47,6 +47,16 @@ class UnifiedModel:
     max_tokens: int = 4096
     supports_json: bool = True
 
+    @property
+    def timeout_seconds(self) -> int:
+        """Calculate timeout based on model size. Larger models need more time."""
+        if self.size_billions >= 200:
+            return 180  # 3 minutes for 200B+ models
+        elif self.size_billions >= 70:
+            return 120  # 2 minutes for 70B-200B models
+        else:
+            return 60   # 1 minute for smaller models
+
 
 @dataclass
 class ProviderStats:
@@ -219,6 +229,10 @@ class UnifiedAIClient:
         if not provider:
             return CompletionResult(success=False, error=f"Provider {model.provider_name} not found")
 
+        # Use adaptive timeout based on model size
+        timeout = model.timeout_seconds
+        logger.debug(f"[UnifiedClient] Using {timeout}s timeout for {model.name} ({model.size_billions}B)")
+
         try:
             if json_mode:
                 result = provider.json_completion(
@@ -226,6 +240,7 @@ class UnifiedAIClient:
                     system_prompt=system_prompt,
                     model=model.name,
                     max_tokens=max_tokens,
+                    timeout=timeout,
                 )
             else:
                 result = provider.chat_completion(
@@ -234,6 +249,7 @@ class UnifiedAIClient:
                     model=model.name,
                     max_tokens=max_tokens,
                     temperature=temperature,
+                    timeout=timeout,
                 )
 
             return result

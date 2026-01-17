@@ -35,7 +35,7 @@ class CerebrasProvider(AIProvider):
     def is_available(self) -> bool:
         return self.status == ProviderStatus.AVAILABLE
 
-    def chat_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, temperature: float = 0.7) -> CompletionResult:
+    def chat_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, temperature: float = 0.7, timeout: int = 60) -> CompletionResult:
         if not self.is_available():
             return CompletionResult(success=False, error="Cerebras API key not configured")
 
@@ -57,7 +57,7 @@ class CerebrasProvider(AIProvider):
         }
 
         try:
-            response = requests.post(self.BASE_URL, json=payload, headers=headers, timeout=60)
+            response = requests.post(self.BASE_URL, json=payload, headers=headers, timeout=timeout)
 
             if response.status_code == 200:
                 data = response.json()
@@ -71,11 +71,11 @@ class CerebrasProvider(AIProvider):
         except Exception as e:
             return CompletionResult(success=False, error=f"Cerebras Exception: {str(e)}")
 
-    def json_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096) -> CompletionResult:
+    def json_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, timeout: int = 60) -> CompletionResult:
         # Append JSON instruction since structured output varies
         json_prompt = prompt + "\n\nRETURN ONLY RAW JSON. NO MARKDOWN."
 
-        result = self.chat_completion(json_prompt, system_prompt, model, max_tokens, 0.2)
+        result = self.chat_completion(json_prompt, system_prompt, model, max_tokens, 0.2, timeout)
         if result.success:
             import json
             try:
@@ -120,7 +120,7 @@ class GroqProvider(AIProvider):
     def is_available(self) -> bool:
         return self.status == ProviderStatus.AVAILABLE
 
-    def chat_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, temperature: float = 0.7) -> CompletionResult:
+    def chat_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, temperature: float = 0.7, timeout: int = 60) -> CompletionResult:
         if not self.is_available():
             return CompletionResult(success=False, error="Groq API key not configured")
 
@@ -141,7 +141,7 @@ class GroqProvider(AIProvider):
         }
 
         try:
-            response = requests.post(self.BASE_URL, json=payload, headers=headers, timeout=60)
+            response = requests.post(self.BASE_URL, json=payload, headers=headers, timeout=timeout)
 
             if response.status_code == 200:
                 data = response.json()
@@ -155,7 +155,7 @@ class GroqProvider(AIProvider):
         except Exception as e:
             return CompletionResult(success=False, error=f"Groq Exception: {str(e)}")
 
-    def json_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096) -> CompletionResult:
+    def json_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, timeout: int = 60) -> CompletionResult:
         if not self.is_available():
             return CompletionResult(success=False, error="Groq API key not configured")
 
@@ -177,7 +177,7 @@ class GroqProvider(AIProvider):
         }
 
         try:
-            response = requests.post(self.BASE_URL, json=payload, headers=headers, timeout=60)
+            response = requests.post(self.BASE_URL, json=payload, headers=headers, timeout=timeout)
 
             if response.status_code == 200:
                 data = response.json()
@@ -218,7 +218,7 @@ class NVIDIAProvider(AIProvider):
     def is_available(self) -> bool:
         return self.status == ProviderStatus.AVAILABLE
 
-    def chat_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, temperature: float = 0.7) -> CompletionResult:
+    def chat_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, temperature: float = 0.7, timeout: int = 60) -> CompletionResult:
         if not self.is_available():
             return CompletionResult(success=False, error="NVIDIA API key not configured")
 
@@ -243,7 +243,7 @@ class NVIDIAProvider(AIProvider):
         }
 
         try:
-            response = requests.post(self.BASE_URL, json=payload, headers=headers, timeout=60)
+            response = requests.post(self.BASE_URL, json=payload, headers=headers, timeout=timeout)
 
             if response.status_code == 200:
                 data = response.json()
@@ -257,10 +257,10 @@ class NVIDIAProvider(AIProvider):
         except Exception as e:
             return CompletionResult(success=False, error=f"NVIDIA Exception: {str(e)}")
 
-    def json_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096) -> CompletionResult:
+    def json_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, timeout: int = 60) -> CompletionResult:
         # Fallback to chat completion with prompt engineering for JSON
         json_prompt = prompt + "\n\nRETURN ONLY VALID JSON."
-        result = self.chat_completion(json_prompt, system_prompt, model, max_tokens, 0.2)
+        result = self.chat_completion(json_prompt, system_prompt, model, max_tokens, 0.2, timeout)
 
         if result.success:
             import json
@@ -305,7 +305,7 @@ class MistralProvider(AIProvider):
     def is_available(self) -> bool:
         return self.status == ProviderStatus.AVAILABLE
 
-    def chat_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, temperature: float = 0.7) -> CompletionResult:
+    def chat_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, temperature: float = 0.7, timeout: int = 60) -> CompletionResult:
         if not self.is_available():
             return CompletionResult(success=False, error="Mistral API key not configured")
 
@@ -327,7 +327,7 @@ class MistralProvider(AIProvider):
         }
 
         try:
-            response = requests.post(self.BASE_URL, json=payload, headers=headers, timeout=60)
+            response = requests.post(self.BASE_URL, json=payload, headers=headers, timeout=timeout)
 
             if response.status_code == 200:
                 data = response.json()
@@ -341,7 +341,7 @@ class MistralProvider(AIProvider):
         except Exception as e:
             return CompletionResult(success=False, error=f"Mistral Exception: {str(e)}")
 
-    def json_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096) -> CompletionResult:
+    def json_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, timeout: int = 60) -> CompletionResult:
         if not self.is_available():
             return CompletionResult(success=False, error="Mistral API key not configured")
 
@@ -363,7 +363,7 @@ class MistralProvider(AIProvider):
         }
 
         try:
-            response = requests.post(self.BASE_URL, json=payload, headers=headers, timeout=60)
+            response = requests.post(self.BASE_URL, json=payload, headers=headers, timeout=timeout)
 
             if response.status_code == 200:
                 data = response.json()
@@ -404,7 +404,7 @@ class GeminiProvider(AIProvider):
     def is_available(self) -> bool:
         return self.status == ProviderStatus.AVAILABLE
 
-    def chat_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, temperature: float = 0.7) -> CompletionResult:
+    def chat_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, temperature: float = 0.7, timeout: int = 60) -> CompletionResult:
         if not self.is_available():
             return CompletionResult(success=False, error="Gemini API key not configured")
 
@@ -424,7 +424,7 @@ class GeminiProvider(AIProvider):
         }
 
         try:
-            response = requests.post(url, json=payload, headers=headers, timeout=60)
+            response = requests.post(url, json=payload, headers=headers, timeout=timeout)
 
             if response.status_code == 200:
                 data = response.json()
@@ -442,7 +442,7 @@ class GeminiProvider(AIProvider):
         except Exception as e:
             return CompletionResult(success=False, error=f"Gemini Exception: {str(e)}")
 
-    def json_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096) -> CompletionResult:
+    def json_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, timeout: int = 60) -> CompletionResult:
         if not self.is_available():
             return CompletionResult(success=False, error="Gemini API key not configured")
 
@@ -463,7 +463,7 @@ class GeminiProvider(AIProvider):
         }
 
         try:
-            response = requests.post(url, json=payload, headers=headers, timeout=60)
+            response = requests.post(url, json=payload, headers=headers, timeout=timeout)
 
             if response.status_code == 200:
                 data = response.json()
@@ -505,7 +505,7 @@ class CloudflareProvider(AIProvider):
     def is_available(self) -> bool:
         return self.status == ProviderStatus.AVAILABLE
 
-    def chat_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, temperature: float = 0.7) -> CompletionResult:
+    def chat_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, temperature: float = 0.7, timeout: int = 60) -> CompletionResult:
         if not self.is_available():
             return CompletionResult(success=False, error="Cloudflare credentials not configured")
 
@@ -526,7 +526,7 @@ class CloudflareProvider(AIProvider):
         }
 
         try:
-            response = requests.post(url, json=payload, headers=headers, timeout=60)
+            response = requests.post(url, json=payload, headers=headers, timeout=timeout)
 
             if response.status_code == 200:
                 data = response.json()
@@ -541,6 +541,6 @@ class CloudflareProvider(AIProvider):
         except Exception as e:
             return CompletionResult(success=False, error=f"Cloudflare Exception: {str(e)}")
 
-    def json_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096) -> CompletionResult:
+    def json_completion(self, prompt: str, system_prompt: str, model: str, max_tokens: int = 4096, timeout: int = 60) -> CompletionResult:
          # Fallback to chat with prompt injection
-        return super().json_completion(prompt, system_prompt, model, max_tokens)
+        return super().json_completion(prompt, system_prompt, model, max_tokens, timeout)

@@ -1,20 +1,24 @@
 /**
  * Engagement Providers Index
- * Social sharing, comments, push notifications
+ * Social sharing, comments, push marketing
  * @module engagement
  */
 
 import * as addthis from './addthis.js';
+import * as sharethis from './sharethis.js';
+import * as addtoany from './addtoany.js';
 import * as disqus from './disqus.js';
 import * as onesignal from './onesignal.js';
 
-// Export individual providers
-export { addthis, disqus, onesignal };
+export { addthis, sharethis, addtoany, disqus, onesignal };
 
-// Providers object for dynamic iteration
-export const providers = { addthis, disqus, onesignal };
+export const providers = { addthis, sharethis, addtoany, disqus, onesignal };
 
-// Category groups
-export const shareProviders = { addthis };
+// Sub-categories
+export const shareProviders = { addthis, sharethis, addtoany };
 export const commentProviders = { disqus };
 export const pushProviders = { onesignal };
+
+// Priority arrays
+export const sharePriority = ['addthis', 'sharethis', 'addtoany'];
+export const commentPriority = ['disqus'];

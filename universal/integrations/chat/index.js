@@ -1,6 +1,5 @@
 /**
  * Chat Providers Index
- * Aggregates all chat provider modules
  * @module chat
  */
 
@@ -8,22 +7,12 @@ import * as tawkto from './tawkto.js';
 import * as crisp from './crisp.js';
 import * as intercom from './intercom.js';
 import * as drift from './drift.js';
+import * as tidio from './tidio.js';
 
-// Export individual providers
-export {
-    tawkto,
-    crisp,
-    intercom,
-    drift
-};
+export { tawkto, crisp, intercom, drift, tidio };
 
-// Export providers object for dynamic iteration
-export const providers = {
-    tawkto,
-    crisp,
-    intercom,
-    drift
-};
-
-// Legacy export for backward compatibility
+export const providers = { tawkto, crisp, intercom, drift, tidio };
 export const Chat = providers;
+
+// Priority for fallback
+export const chatPriority = ['tawk', 'crisp', 'tidio', 'drift', 'intercom'];

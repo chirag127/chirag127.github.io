@@ -36,6 +36,7 @@ sys.path.append(str(ROOT_DIR))
 
 # Update imports for new structure
 from src.ai.unified_client import UnifiedAIClient
+from src.ai.chunked_generator import ChunkedCodeGenerator
 from src.clients import WebSearchClient
 # src.prompts is now... wait, prompts.py is still in src/ ?
 # User list showed src\prompts.py. I didn't move it yet.
@@ -422,6 +423,9 @@ def generate_single_html(tool: dict, ai: UnifiedAIClient, search_client: WebSear
     """
     Generate a SINGLE-FILE tool (HTML+CSS+JS) using the Generative UI Engine.
     Uses AGENTS.md as the system prompt (Apex Technical Authority).
+
+    Now uses ChunkedCodeGenerator to split generation into smaller chunks
+    to prevent timeouts with large AI models.
     """
     start_time = time.time()
 
@@ -447,79 +451,18 @@ def generate_single_html(tool: dict, ai: UnifiedAIClient, search_client: WebSear
     # 2. PROMPT OPTIMIZATION (New Step)
     optimized_instructions = optimize_prompt(tool, research_context, agents_context, ai)
 
-    # 3. Construct The Final Prompt
+    # 3. Build system prompt combining agents context and optimized instructions
+    system_prompt = agents_context
     if optimized_instructions:
-        # Use the optimized instructions as the core
-        prompt = f"""
-SYSTEM INSTRUCTION: IMPLEMENT THE FOLLOWING SPECIFICATION EXACTLY.
+        system_prompt = f"{agents_context}\n\n### OPTIMIZED INSTRUCTIONS:\n{optimized_instructions}"
 
-{optimized_instructions}
+    # 4. Use ChunkedCodeGenerator for timeout-resistant generation
+    logger.info(f"  🧩 Using ChunkedCodeGenerator for {tool['name']}...")
+    generator = ChunkedCodeGenerator(ai)
+    content = generator.generate_full_page(tool, system_prompt)
 
-CRITICAL OVERRIDE:
-- OUTPUT: A SINGLE `index.html` file containing ALL HTML, CSS, and JavaScript.
-- STYLE/SCRIPT ENFORCEMENT:
-  - CSS MUST be inside <style> tags in the <head>.
-  - JavaScript MUST be inside <script> tags at the end of <body>.
-  - NO external .css or .js files (except the Universal Config/Core scripts below).
-- UNIVERSAL ARCHITECTURE:
-  - MUST include in <head>: <script src="https://chirag127.github.io/universal/config.js"></script>
-  - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>
-  - DO NOT generate <header> or <footer>.
-  - Wrap content in <main>.
-- FORMAT: Return ONLY the HTML code block within ```html flags.
-"""
-    else:
-        # Fallback to standard prompt
-        prompt = f"""
-TASK: GENERATE THE COMPLETE SOURCE CODE FOR: "{tool.get('title', tool['name'])}"
-DESCRIPTION: {tool.get('description', '')}
-Features: {json.dumps(tool.get('features', []), indent=2)}
-
-{research_context}
-
-REQUIREMENTS:
-1. OUTPUT: A SINGLE `index.html` file containing ALL HTML, CSS, and JavaScript.
-2. UNIVERSAL ARCHITECTURE (CRITICAL):
-   - MUST include in <head>: <script src="https://chirag127.github.io/universal/config.js"></script>
-   - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>
-   - DO NOT generate <header> or <footer> tags (The Universal Engine injects them).
-   - ALL content must be wrapped in <main> tag.
-3. LIBRARY SELECTION (THE MENU):
-   - Consult "12. APEX APPROVED CLIENT-SIDE ENGINES" in the System Context.
-   - For PDF tools, you MUST use `PDF-lib` or `pdf-merger-js`.
-   - For Video tools, you MUST use `FFmpeg.wasm`.
-   - LOAD LIBRARIES VIA CDN (cdnjs/unpkg).
-4. CONFIGURATION: Use `window.SITE_CONFIG` for any external service keys.
-5. AESTHETICS: **Apex 2026 Spatial-Adaptive**.
-   - "Spatial Glass" look (backdrop-filter: blur).
-   - "Bento Grid" layouts.
-6. LOGIC: Robust, error-handled JavaScript (IIFE).
-7. FORMAT: Return ONLY the HTML code block within ```html flags.
-"""
-
-    logger.info(f"  🧠 Generative UI Engine engaged for {tool['name']}...")
-
-    # 3. Generate Content (Using Large Model)
-    result = ai.generate(
-        prompt=prompt,
-        system_prompt=agents_context,
-        max_tokens=20000, # Large buffer for full file
-        min_model_size=70,
-        temperature=0.7
-    )
-
-    if not result.success:
-        logger.error(f"AI Generation Failed: {result.error}")
-        return f"<h1>Generation Failed</h1><p>{result.error}</p>"
-
-    # 4. Extract Code
-    content = result.content
-    if "```html" in content:
-        content = content.split("```html")[1].split("```")[0].strip()
-    elif "```" in content:
-        content = content.split("```")[1].split("```")[0].strip()
-
-    logger.info(f"  ✅ Generated {len(content)} bytes of HTML")
+    elapsed = time.time() - start_time
+    logger.info(f"  ✅ Generated {len(content)} bytes of HTML in {elapsed:.1f}s")
     return content
 
 
