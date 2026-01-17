@@ -39,19 +39,21 @@ logger = logging.getLogger("AI.UnifiedClient")
 
 @dataclass
 class UnifiedModel:
-    """A model with its provider and size ranking."""
-    name: str
-    provider_name: str
+    """A model with multiple provider options, ordered by speed."""
+    name: str  # Base model name (e.g., "llama-3.3-70b")
     size_billions: float  # Model size in billions of parameters
     description: str = ""
     max_tokens: int = 4096
     supports_json: bool = True
+    # Provider configurations: list of (provider_name, model_id) tuples
+    # Ordered by speed (fastest first: Groq → Cerebras → NVIDIA → Cloudflare → Gemini → Mistral)
+    providers: list[tuple[str, str]] = field(default_factory=list)
 
     @property
     def timeout_seconds(self) -> int:
         """Calculate timeout based on model size. Larger models need much more time."""
         if self.size_billions >= 400:
-            return 900  # 15 minutes for God-class models (DeepSeek 671B) - single-file generation
+            return 900  # 15 minutes for God-class models (DeepSeek 671B)
         elif self.size_billions >= 200:
             return 600  # 10 minutes for Hyper-class models (GLM-4, Qwen 235B)
         elif self.size_billions >= 70:
@@ -60,6 +62,16 @@ class UnifiedModel:
             return 180  # 3 minutes for Mid-range
         else:
             return 90   # 1.5 minutes for efficient models
+
+    @property
+    def primary_provider(self) -> str:
+        """Get the primary (fastest) provider name."""
+        return self.providers[0][0] if self.providers else "unknown"
+
+    @property
+    def primary_model_id(self) -> str:
+        """Get the primary provider's model ID."""
+        return self.providers[0][1] if self.providers else self.name
 
 
 @dataclass

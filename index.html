@@ -7,6 +7,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chirag Hub - The Infinite Toolset</title>
 
+  <!-- CRITICAL: Inline reset to prevent FOUC -->
+  <style>
+    :root{--bg-dark:#030712;--text-main:#f9fafb;--header-height:72px}
+    *,*::before,*::after{box-sizing:border-box}
+    body{margin:0;padding:0;background:var(--bg-dark);color:var(--text-main);font-family:'Inter',system-ui,sans-serif;padding-top:var(--header-height);min-height:100vh}
+    body.light-theme{--bg-dark:#f9fafb;--text-main:#111827}
+  </style>
+
+  <!-- PRELOAD: Critical resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="universal/style.css" as="style">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" as="style">
+
   <!-- SEO & METADATA -->
   <meta name="description" content="Chirag Hub: Every tool you need. Free. Private. Forever. PDF editors, Image converters, Developer utilities, Calculators, Games—all running 100% in your browser.">
   <meta name="keywords" content="pdf tools, image converter, online tools, developer utilities, math calculator, finance calculators, health calculators, free web games, privacy tools, client-side, chirag singhal">
@@ -18,9 +32,9 @@
   <meta property="og:url" content="https://chirag127.github.io/">
   <meta property="og:type" content="website">
 
-  <!-- UNIVERSAL ENGINE -->
-  <script src="universal/config.js"></script>
-  <script src="universal/core.js"></script>
+  <!-- UNIVERSAL ENGINE (deferred for performance) -->
+  <script src="universal/config.js" defer></script>
+  <script src="universal/core.js" defer></script>
 
   <!-- HUB SPECIFIC STYLES -->
   <style>
