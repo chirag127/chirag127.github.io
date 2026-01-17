@@ -7,8 +7,21 @@ TIER_1_MODELS: list[UnifiedModel] = [
         description="GLM-4.6 Ling-1T-style MoE (~1T total params); top-tier reasoning and coding.",
         max_tokens=200000,
         supports_json=True,
-        working=False, # 404
-        providers=[("cerebras", "zai-glm-4.6")]
+        working=False,
+        include_in_sidebar=False,
+        provider="cerebras",
+        api_model_id="zai-glm-4.6"
+    ),
+    UnifiedModel(
+        name="GLM 4.6 1T MoE OpenRouter",
+        size_billions=1000.0,
+        description="GLM-4.6 Ling-1T-style MoE (~1T total params); top-tier reasoning and coding.",
+        max_tokens=200000,
+        supports_json=True,
+        working=False,
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="z-ai/glm-4.6:free"
     ),
     UnifiedModel(
         name="GLM 4.7 1T MoE Cerebras",
@@ -16,19 +29,21 @@ TIER_1_MODELS: list[UnifiedModel] = [
         description="GLM-4.7 Ling-1T-style MoE (~1T total params); top-tier reasoning and coding.",
         max_tokens=200000,
         supports_json=True,
-        working=False, # 404
-        providers=[("cerebras", "zai-glm-4.7")]
+        working=False,
+        include_in_sidebar=False,
+        provider="cerebras",
+        api_model_id="zai-glm-4.7"
     ),
-
-
     UnifiedModel(
         name="Mistral Large 3 675B Instruct Nvidia",
         size_billions=675.0,
         description="Mistral 'Large 3' 675B MoE; high-end dense model behavior for reasoning.",
         max_tokens=131072,
         supports_json=True,
-        working=False, # 404
-        providers=[("nvidia", "mistralai/mistral-large-3-675b-instruct-2512")]
+        working=False,
+        include_in_sidebar=False,
+        provider="nvidia",
+        api_model_id="mistralai/mistral-large-3-675b-instruct-2512"
     ),
     UnifiedModel(
         name="Mistral Large 3 675B Instruct Mistral",
@@ -36,24 +51,63 @@ TIER_1_MODELS: list[UnifiedModel] = [
         description="Mistral 'Large 3' 675B MoE; high-end dense model behavior for reasoning.",
         max_tokens=131072,
         supports_json=True,
-        working=False, # 400 Invalid Model
-        providers=[("mistral", "mistral-large-3")]
+        working=False,
+        include_in_sidebar=False,
+        provider="mistral",
+        api_model_id="mistral-large-3"
+    ),
+    UnifiedModel(
+        name="DeepSeek R1T2 Chimera OpenRouter",
+        size_billions=671.0,
+        description="TNG DeepSeek R1T2 Chimera; 671B MoE merge of R1, V3; strong reasoning.",
+        max_tokens=164000,
+        supports_json=True,
+        working=True,
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="tngtech/deepseek-r1t2-chimera:free"
+    ),
+    UnifiedModel(
+        name="DeepSeek R1 0528 OpenRouter",
+        size_billions=671.0,
+        description="DeepSeek R1 May 28; 671B total params; SOTA open-source reasoning.",
+        max_tokens=164000,
+        supports_json=True,
+        working=True,
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="deepseek/deepseek-r1-0528:free"
     ),
     UnifiedModel(
         name="DeepSeek V3 Nvidia",
         size_billions=671.0,
         description="DeepSeek V3 - Top-tier Code & Chat",
         max_tokens=32768,
-        working=False, # 404
-        providers=[("nvidia", "deepseek-ai/deepseek-v3")]
+        working=False,
+        include_in_sidebar=False,
+        provider="nvidia",
+        api_model_id="deepseek-ai/deepseek-v3"
     ),
     UnifiedModel(
         name="DeepSeek V3 OpenRouter",
         size_billions=671.0,
         description="DeepSeek V3 - Top-tier Code & Chat",
         max_tokens=32768,
-        working=False, # 400 Invalid ID
-        providers=[("openrouter", "deepseek/deepseek-v3:free")]
+        working=False,
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="deepseek/deepseek-v3:free"
+    ),
+    UnifiedModel(
+        name="DeepSeek R1T Chimera OpenRouter",
+        size_billions=671.0,
+        description="TNG DeepSeek R1T Chimera; MoE merge of R1 and V3; efficiency focused.",
+        max_tokens=164000,
+        supports_json=True,
+        working=True,
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="tngtech/deepseek-r1t-chimera:free"
     ),
     UnifiedModel(
         name="Qwen3 Coder 480B MoE OpenRouter",
@@ -61,8 +115,21 @@ TIER_1_MODELS: list[UnifiedModel] = [
         description="Qwen3-Coder 480B MoE; top ranked for free coding on OpenRouter.",
         max_tokens=262144,
         supports_json=True,
-        working=False, # 429 Rate Limit (Mark false as reliability issue)
-        providers=[("openrouter", "qwen/qwen3-coder:free")]
+        working=True,  # User implies working=True for listed models even if duplicate
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="qwen/qwen3-coder:free"
+    ),
+    UnifiedModel(
+        name="R1T Chimera OpenRouter",
+        size_billions=450.0,
+        description="TNG R1T Chimera; Experimental LLM for creative storytelling.",
+        max_tokens=164000,
+        supports_json=True,
+        working=True,
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="tngtech/tng-r1t-chimera:free"
     ),
     UnifiedModel(
         name="Llama 3.1 405B Instruct OpenRouter",
@@ -70,8 +137,10 @@ TIER_1_MODELS: list[UnifiedModel] = [
         description="Meta Llama 3.1 405B Instruct; largest open Llama model.",
         max_tokens=131072,
         supports_json=True,
-        working=False, # 404 No Route
-        providers=[("openrouter", "meta-llama/llama-3.1-405b-instruct:free")]
+        working=False,
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="meta-llama/llama-3.1-405b-instruct:free"
     ),
     UnifiedModel(
         name="Llama 3.1 405B Instruct GitHub",
@@ -79,8 +148,10 @@ TIER_1_MODELS: list[UnifiedModel] = [
         description="Meta Llama 3.1 405B Instruct; largest open Llama model.",
         max_tokens=131072,
         supports_json=True,
-        working=True, # ✅ Verified Working
-        providers=[("github", "Meta-Llama-3.1-405B-Instruct")]
+        working=True,
+        include_in_sidebar=False,
+        provider="github",
+        api_model_id="Meta-Llama-3.1-405B-Instruct"
     ),
     UnifiedModel(
         name="Llama 3.1 405B Instruct Nvidia",
@@ -88,8 +159,10 @@ TIER_1_MODELS: list[UnifiedModel] = [
         description="Meta Llama 3.1 405B Instruct; largest open Llama model.",
         max_tokens=131072,
         supports_json=True,
-        working=True, # ✅ Verified Working
-        providers=[("nvidia", "meta/llama-3.1-405b-instruct")]
+        working=True,
+        include_in_sidebar=False,
+        provider="nvidia",
+        api_model_id="meta/llama-3.1-405b-instruct"
     ),
     UnifiedModel(
         name="Llama 3.1 405B Instruct Mistral",
@@ -97,8 +170,10 @@ TIER_1_MODELS: list[UnifiedModel] = [
         description="Meta Llama 3.1 405B Instruct; largest open Llama model.",
         max_tokens=131072,
         supports_json=True,
-        working=False, # Likely not available on free tier direct
-        providers=[("mistral", "meta-llama/llama-3.1-405b-instruct")]
+        working=False,
+        include_in_sidebar=False,
+        provider="mistral",
+        api_model_id="meta-llama/llama-3.1-405b-instruct"
     ),
     UnifiedModel(
         name="Hermes 3 Llama 3.1 405B OpenRouter",
@@ -106,8 +181,10 @@ TIER_1_MODELS: list[UnifiedModel] = [
         description="Nous Hermes 3 fine-tune of Llama 3.1 405B; SOTA assistant behavior.",
         max_tokens=131072,
         supports_json=True,
-        working=False, # 429
-        providers=[("openrouter", "nousresearch/hermes-3-llama-3.1-405b:free")]
+        working=False,
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="nousresearch/hermes-3-llama-3.1-405b:free"
     ),
     UnifiedModel(
         name="Hermes 3 Llama 3.1 405B GitHub",
@@ -115,7 +192,9 @@ TIER_1_MODELS: list[UnifiedModel] = [
         description="Nous Hermes 3 fine-tune of Llama 3.1 405B; SOTA assistant behavior.",
         max_tokens=131072,
         supports_json=True,
-        working=False, # 400 Unknown Model
-        providers=[("github", "Hermes-3-Llama-3.1-405B")]
+        working=False,
+        include_in_sidebar=False,
+        provider="github",
+        api_model_id="Hermes-3-Llama-3.1-405B"
     ),
 ]

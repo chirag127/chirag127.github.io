@@ -7,7 +7,9 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="Llama 3.2 90B Vision - Multimodal Code",
         max_tokens=8192,
         working=True,
-        providers=[("groq", "llama-3.2-90b-vision-preview")],
+        include_in_sidebar=False,
+        provider="groq",
+        api_model_id="llama-3.2-90b-vision-preview"
     ),
     UnifiedModel(
         name="Llama 3.2 90B Vision Instruct GitHub",
@@ -15,7 +17,9 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="Llama 3.2 90B Vision - Multimodal Code",
         max_tokens=8192,
         working=True,
-        providers=[("github", "Llama-3.2-90B-Vision-Instruct")],
+        include_in_sidebar=False,
+        provider="github",
+        api_model_id="Llama-3.2-90B-Vision-Instruct"
     ),
     UnifiedModel(
         name="Llama 3.2 90B Vision Instruct OpenRouter",
@@ -23,7 +27,9 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="Llama 3.2 90B Vision - Multimodal Code",
         max_tokens=8192,
         working=True,
-        providers=[("openrouter", "meta-llama/llama-3.2-90b-vision-instruct:free")],
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="meta-llama/llama-3.2-90b-vision-instruct:free"
     ),
     UnifiedModel(
         name="Qwen 2.5 72B Instruct Nvidia",
@@ -31,7 +37,9 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="Qwen 2.5 72B - Strong Multilingual",
         max_tokens=32768,
         working=True,
-        providers=[("nvidia", "qwen/qwen2.5-72b-instruct")],
+        include_in_sidebar=False,
+        provider="nvidia",
+        api_model_id="qwen/qwen2.5-72b-instruct"
     ),
     UnifiedModel(
         name="Qwen 2.5 72B Instruct OpenRouter",
@@ -39,7 +47,9 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="Qwen 2.5 72B - Strong Multilingual",
         max_tokens=32768,
         working=True,
-        providers=[("openrouter", "qwen/qwen2.5-72b-instruct:free")],
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="qwen/qwen2.5-72b-instruct:free"
     ),
     UnifiedModel(
         name="Llama 3.3 70B Instruct Groq",
@@ -47,7 +57,9 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="Meta Llama 3.3 70B - Very Strong General",
         max_tokens=8192,
         working=True,
-        providers=[("groq", "llama-3.3-70b-versatile")],
+        include_in_sidebar=False,
+        provider="groq",
+        api_model_id="llama-3.3-70b-versatile"
     ),
     UnifiedModel(
         name="Llama 3.3 70B Instruct Cerebras",
@@ -55,7 +67,9 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="Meta Llama 3.3 70B - Very Strong General",
         max_tokens=8192,
         working=True,
-        providers=[("cerebras", "llama-3.3-70b")],
+        include_in_sidebar=False,
+        provider="cerebras",
+        api_model_id="llama-3.3-70b"
     ),
     UnifiedModel(
         name="Llama 3.3 70B Instruct Nvidia",
@@ -63,15 +77,19 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="Meta Llama 3.3 70B - Very Strong General",
         max_tokens=8192,
         working=True,
-        providers=[("nvidia", "meta/llama-3.3-70b-instruct")],
+        include_in_sidebar=False,
+        provider="nvidia",
+        api_model_id="meta/llama-3.3-70b-instruct"
     ),
     UnifiedModel(
         name="Llama 3.3 70B Instruct Cloudflare",
         size_billions=70.0,
         description="Meta Llama 3.3 70B - Very Strong General",
         max_tokens=8192,
-        working=False, # Auth
-        providers=[("cloudflare", "@cf/meta/llama-3.3-70b-instruct-fp8")],
+        working=False,
+        include_in_sidebar=False,
+        provider="cloudflare",
+        api_model_id="@cf/meta/llama-3.3-70b-instruct-fp8"
     ),
     UnifiedModel(
         name="Llama 3.3 70B Instruct OpenRouter",
@@ -79,7 +97,9 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="Meta Llama 3.3 70B - Very Strong General",
         max_tokens=8192,
         working=True,
-        providers=[("openrouter", "meta-llama/llama-3.3-70b-instruct:free")],
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="meta-llama/llama-3.3-70b-instruct:free"
     ),
     UnifiedModel(
         name="Llama 3.3 70B Instruct GitHub",
@@ -87,7 +107,9 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="Meta Llama 3.3 70B - Very Strong General",
         max_tokens=8192,
         working=True,
-        providers=[("github", "Meta-Llama-3.3-70B-Instruct")],
+        include_in_sidebar=False,
+        provider="github",
+        api_model_id="Meta-Llama-3.3-70B-Instruct"
     ),
     UnifiedModel(
         name="DeepSeek R1 Distill Llama 70B Groq",
@@ -95,7 +117,9 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="DeepSeek R1 Distill 70B - Reasoning",
         max_tokens=32768,
         working=True,
-        providers=[("groq", "deepseek-r1-distill-llama-70b")],
+        include_in_sidebar=False,
+        provider="groq",
+        api_model_id="deepseek-r1-distill-llama-70b"
     ),
     UnifiedModel(
         name="DeepSeek R1 Distill Llama 70B Nvidia",
@@ -103,7 +127,9 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="DeepSeek R1 Distill 70B - Reasoning",
         max_tokens=32768,
         working=True,
-        providers=[("nvidia", "deepseek-ai/deepseek-r1-distill-llama-70b")],
+        include_in_sidebar=False,
+        provider="nvidia",
+        api_model_id="deepseek-ai/deepseek-r1-distill-llama-70b"
     ),
     UnifiedModel(
         name="DeepSeek R1 Distill Llama 70B OpenRouter",
@@ -111,7 +137,9 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="DeepSeek R1 Distill 70B - Reasoning",
         max_tokens=32768,
         working=True,
-        providers=[("openrouter", "deepseek/deepseek-r1-distill-llama-70b:free")],
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="deepseek/deepseek-r1-distill-llama-70b:free"
     ),
     UnifiedModel(
         name="Llama 3.1 70B Instruct Nvidia",
@@ -119,15 +147,19 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="Meta Llama 3.1 70B - Strong Reasoning",
         max_tokens=8192,
         working=True,
-        providers=[("nvidia", "meta/llama-3.1-70b-instruct")],
+        include_in_sidebar=False,
+        provider="nvidia",
+        api_model_id="meta/llama-3.1-70b-instruct"
     ),
     UnifiedModel(
         name="Llama 3.1 70B Instruct Cloudflare",
         size_billions=70.0,
         description="Meta Llama 3.1 70B - Strong Reasoning",
         max_tokens=8192,
-        working=False, # Auth
-        providers=[("cloudflare", "@cf/meta/llama-3.1-70b-instruct")],
+        working=False,
+        include_in_sidebar=False,
+        provider="cloudflare",
+        api_model_id="@cf/meta/llama-3.1-70b-instruct"
     ),
     UnifiedModel(
         name="Llama 3.1 70B Instruct OpenRouter",
@@ -135,6 +167,8 @@ TIER_5_MODELS: list[UnifiedModel] = [
         description="Meta Llama 3.1 70B - Strong Reasoning",
         max_tokens=8192,
         working=True,
-        providers=[("openrouter", "meta-llama/llama-3.1-70b-instruct:free")],
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="meta-llama/llama-3.1-70b-instruct:free"
     ),
 ]

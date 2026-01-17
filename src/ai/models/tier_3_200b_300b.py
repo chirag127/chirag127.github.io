@@ -7,8 +7,10 @@ TIER_3_MODELS: list[UnifiedModel] = [
         description="DeepSeek V3 236B MoE; near-SOTA open model for reasoning and code.",
         max_tokens=164000,
         supports_json=True,
-        working=False, # 400 Invalid ID
-        providers=[("openrouter", "deepseek/deepseek-v3-0324:free")]
+        working=False,
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="deepseek/deepseek-v3-0324:free"
     ),
     UnifiedModel(
         name="DeepSeek V3 236B MoE GitHub",
@@ -16,8 +18,10 @@ TIER_3_MODELS: list[UnifiedModel] = [
         description="DeepSeek V3 236B MoE; near-SOTA open model for reasoning and code.",
         max_tokens=164000,
         supports_json=True,
-        working=True, # ✅ Verified Working
-        providers=[("github", "DeepSeek-V3-0324")]
+        working=True,
+        include_in_sidebar=False,
+        provider="github",
+        api_model_id="DeepSeek-V3-0324"
     ),
     UnifiedModel(
         name="DeepSeek V3 236B MoE Nvidia",
@@ -25,8 +29,10 @@ TIER_3_MODELS: list[UnifiedModel] = [
         description="DeepSeek V3 236B MoE; near-SOTA open model for reasoning and code.",
         max_tokens=164000,
         supports_json=True,
-        working=False, # 404
-        providers=[("nvidia", "deepseek/deepseek-v3")]
+        working=False,
+        include_in_sidebar=False,
+        provider="nvidia",
+        api_model_id="deepseek/deepseek-v3"
     ),
     UnifiedModel(
         name="Qwen3 235B A22B Instruct Cerebras",
@@ -34,8 +40,10 @@ TIER_3_MODELS: list[UnifiedModel] = [
         description="Qwen 3 235B A22B Instruct; massive MoE multilingual/coding.",
         max_tokens=131072,
         supports_json=True,
-        working=False, # 404
-        providers=[("cerebras", "Qwen-3-235B-A22B-Instruct")]
+        working=False,
+        include_in_sidebar=False,
+        provider="cerebras",
+        api_model_id="Qwen-3-235B-A22B-Instruct"
     ),
     UnifiedModel(
         name="Qwen3 235B A22B Instruct OpenRouter",
@@ -43,7 +51,9 @@ TIER_3_MODELS: list[UnifiedModel] = [
         description="Qwen 3 235B A22B Instruct; massive MoE multilingual/coding.",
         max_tokens=131072,
         supports_json=True,
-        working=False, # 400 Invalid ID
-        providers=[("openrouter", "qwen/qwen3-235b-a22b-instruct:free")]
+        working=False,
+        include_in_sidebar=False,
+        provider="openrouter",
+        api_model_id="qwen/qwen3-235b-a22b-instruct:free"
     ),
 ]

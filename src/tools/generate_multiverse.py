@@ -188,18 +188,16 @@ def main():
                           key=lambda x: x.size_billions, reverse=True)
 
     for model in sorted_models:
-        # Models are now decoupled, so each has 1 provider.
-        # Check just in case logic changes later.
-        for provider_name, model_id in model.providers:
-            # Slug from unique model name
-            slug = model.name.lower().replace(".", "-").replace(" ", "-")
-            sorted_targets.append({
-                "slug": slug,
-                "name": model.name,  # "Llama 3.1 405B Instruct Nvidia"
-                "provider": provider_name,
-                "model_id": model_id,
-                "size": model.size_billions
-            })
+        # Slug from unique model name
+        slug = model.name.lower().replace(".", "-").replace(" ", "-")
+        sorted_targets.append({
+            "slug": slug,
+            "name": model.name,
+            "provider": model.provider,
+            "model_id": model.api_model_id,
+            "size": model.size_billions,
+            "include_in_sidebar": model.include_in_sidebar
+        })
 
     logger.info(f"Targeting {len(sorted_targets)} model-provider pairs...")
 
@@ -222,15 +220,16 @@ def main():
         logger.error("No sites generated. Exiting.")
         return
 
-    # 3. Build Sidebar (Only successes)
+    # 3. Build Sidebar (Only successes that opted-in)
     # The user asked for "Bing of the hundred billion parameter name... in the home page Only in the sidebar"
     # Sidebar lists all generated sites.
     sidebar_content = '<div class="mv-title">Multiverse</div>'
     for item in successful_results:
         t = item['target']
-        disp = f"{t['name']} <span class='size'>{t['size']}B • {t['provider'].title()}</span>"
-        link = f"../{t['slug']}/index.html"
-        sidebar_content += f'<a href="{link}" data-slug="{t["slug"]}" class="mv-item">{disp}</a>'
+        if t['include_in_sidebar']:
+            disp = f"{t['name']} <span class='size'>{t['size']}B • {t['provider'].title()}</span>"
+            link = f"../{t['slug']}/index.html"
+            sidebar_content += f'<a href="{link}" data-slug="{t["slug"]}" class="mv-item">{disp}</a>'
 
     sidebar_content_js = sidebar_content.replace('`', '\\`').replace('$', '\\$')
 
@@ -240,12 +239,14 @@ def main():
         content = item['content']
         slug = t['slug']
 
-        final_sidebar = SIDEBAR_JS.replace("{SIDEBAR_CONTENT}", sidebar_content_js.replace(f'data-slug="{slug}"', 'data-slug="{slug}" class="mv-item active"'))
+        # Only inject sidebar if this model opted-in
+        if t['include_in_sidebar']:
+            final_sidebar = SIDEBAR_JS.replace("{SIDEBAR_CONTENT}", sidebar_content_js.replace(f'data-slug="{slug}"', 'data-slug="{slug}" class="mv-item active"'))
 
-        if "</body>" in content:
-            content = content.replace("</body>", f"{SIDEBAR_CSS}\n{final_sidebar}\n</body>")
-        else:
-            content += f"\n{SIDEBAR_CSS}\n{final_sidebar}"
+            if "</body>" in content:
+                content = content.replace("</body>", f"{SIDEBAR_CSS}\n{final_sidebar}\n</body>")
+            else:
+                content += f"\n{SIDEBAR_CSS}\n{final_sidebar}"
 
         target_dir = OUTPUT_DIR / slug
         target_dir.mkdir(exist_ok=True)

@@ -97,31 +97,23 @@ class UnifiedAIClient:
         available_models = []
 
         for model in UNIFIED_MODEL_CHAIN:
-            # Check if ANY provider is available for this model
-            has_available_provider = any(
-                self.providers.get(pname) and self.providers[pname].is_available()
-                for pname, _ in model.providers
-            )
-            if has_available_provider:
+            # Check availability (+ optional working flag check if desired)
+            pname = model.provider
+            if self.providers.get(pname) and self.providers[pname].is_available():
                 available_models.append(model)
 
         # Sort by priority (highest first) then size (largest first)
         return sorted(available_models, key=lambda m: (m.priority, m.size_billions), reverse=True)
 
     def _is_model_available(self, model: UnifiedModel) -> bool:
-        """Check if a model is available (at least one provider active and not in cooldown)."""
-        for provider_name, model_id in model.providers:
-            provider = self.providers.get(provider_name)
-            if not provider or not provider.is_available():
-                continue
+        """Check if a model is available."""
+        provider = self.providers.get(model.provider)
+        if not provider or not provider.is_available():
+            return False
 
-            # Check cooldown for this specific provider:model combo
-            cooldown_key = f"{provider_name}:{model_id}"
-            cooldown_until = self._model_cooldowns.get(cooldown_key, 0)
-            if time.time() >= cooldown_until:
-                return True  # At least one provider is available
-
-        return False
+        cooldown_key = f"{model.provider}:{model.api_model_id}"
+        cooldown_until = self._model_cooldowns.get(cooldown_key, 0)
+        return time.time() >= cooldown_until
 
     def _trigger_model_cooldown(self, model_name: str, seconds: int = 60) -> None:
         """Put a model in cooldown after failure."""
@@ -140,86 +132,81 @@ class UnifiedAIClient:
         json_mode: bool = False,
     ) -> CompletionResult:
         """
-        Call a model, trying ALL providers in speed order until one succeeds.
+        Call a model via its configured provider.
         """
         # Use adaptive timeout based on model size
         timeout = model.timeout_seconds
-        logger.info(f"[UnifiedClient] 🚀 Trying {model.name} ({model.size_billions}B) across {len(model.providers)} providers")
 
-        last_error = ""
+        provider_name = model.provider
+        model_id = model.api_model_id
 
-        for provider_name, model_id in model.providers:
-            # Check if this provider is available
-            provider = self.providers.get(provider_name)
-            if not provider or not provider.is_available():
-                logger.debug(f"[UnifiedClient] Provider {provider_name} not available, skipping")
-                continue
+        logger.info(f"[UnifiedClient] 🚀 Calling {model.name} ({model.size_billions}B) via {provider_name}")
 
-            # Check cooldown for this specific provider:model combo
-            cooldown_key = f"{provider_name}:{model_id}"
-            cooldown_until = self._model_cooldowns.get(cooldown_key, 0)
-            if time.time() < cooldown_until:
-                logger.debug(f"[UnifiedClient] {cooldown_key} in cooldown, skipping")
-                continue
+        # Check availability
+        provider = self.providers.get(provider_name)
+        if not provider or not provider.is_available():
+            err = f"Provider {provider_name} not available"
+            logger.debug(f"[UnifiedClient] {err}")
+            return CompletionResult(success=False, error=err)
 
-            logger.info(f"[UnifiedClient] ⚡ Calling {model_id} via {provider_name} (Timeout: {timeout}s)")
+        # Check cooldown
+        cooldown_key = f"{provider_name}:{model_id}"
+        cooldown_until = self._model_cooldowns.get(cooldown_key, 0)
+        if time.time() < cooldown_until:
+            err = f"{cooldown_key} in cooldown"
+            logger.debug(f"[UnifiedClient] {err}")
+            return CompletionResult(success=False, error=err)
 
-            try:
-                if json_mode:
-                    result = provider.json_completion(
-                        prompt=prompt,
-                        system_prompt=system_prompt,
-                        model=model_id,
-                        max_tokens=max_tokens,
-                        timeout=timeout,
-                    )
-                else:
-                    result = provider.chat_completion(
-                        prompt=prompt,
-                        system_prompt=system_prompt,
-                        model=model_id,
-                        max_tokens=max_tokens,
-                        temperature=temperature,
-                        timeout=timeout,
-                    )
+        try:
+            if json_mode:
+                result = provider.json_completion(
+                    prompt=prompt,
+                    system_prompt=system_prompt,
+                    model=model_id,
+                    max_tokens=max_tokens,
+                    timeout=timeout,
+                )
+            else:
+                result = provider.chat_completion(
+                    prompt=prompt,
+                    system_prompt=system_prompt,
+                    model=model_id,
+                    max_tokens=max_tokens,
+                    temperature=temperature,
+                    timeout=timeout,
+                )
 
-                if result.success:
-                    logger.info(f"[UnifiedClient] ✅ Success: {model_id} via {provider_name}")
-                    # Update stats
-                    if provider_name in self.stats:
-                        self.stats[provider_name].requests += 1
-                        self.stats[provider_name].successes += 1
-                        self.stats[provider_name].total_tokens += result.tokens_used
-                    # Clear failure count
-                    self._model_failures[cooldown_key] = 0
-                    return result
-
-                # Provider returned but failed
-                last_error = result.error or "Unknown error"
-                logger.warning(f"[UnifiedClient] ❌ Failed: {model_id} via {provider_name}: {last_error}")
-
-                # Put this specific provider:model combo in cooldown
+            if result.success:
+                logger.info(f"[UnifiedClient] ✅ Success: {model_id} via {provider_name}")
+                # Update stats
                 if provider_name in self.stats:
                     self.stats[provider_name].requests += 1
-                    self.stats[provider_name].failures += 1
+                    self.stats[provider_name].successes += 1
+                    self.stats[provider_name].total_tokens += result.tokens_used
+                # Clear failure count
+                self._model_failures[cooldown_key] = 0
+                return result
 
-                failures = self._model_failures.get(cooldown_key, 0) + 1
-                self._model_failures[cooldown_key] = failures
-                cooldown = min(60 * failures, 300)  # Max 5 minutes
-                self._model_cooldowns[cooldown_key] = time.time() + cooldown
+            # Provider returned but failed
+            last_error = result.error or "Unknown error"
+            logger.warning(f"[UnifiedClient] ❌ Failed: {model_id} via {provider_name}: {last_error}")
 
-            except Exception as e:
-                last_error = str(e)
-                logger.warning(f"[UnifiedClient] ❌ Exception: {model_id} via {provider_name}: {last_error}")
+            # Put this specific provider:model in cooldown
+            if provider_name in self.stats:
+                self.stats[provider_name].requests += 1
+                self.stats[provider_name].failures += 1
 
-            # Brief pause before trying next provider
-            time.sleep(0.3)
+            failures = self._model_failures.get(cooldown_key, 0) + 1
+            self._model_failures[cooldown_key] = failures
+            cooldown = min(60 * failures, 300)  # Max 5 minutes
+            self._model_cooldowns[cooldown_key] = time.time() + cooldown
 
-        # All providers for this model failed
-        return CompletionResult(
-            success=False,
-            error=f"All providers failed for {model.name}: {last_error}"
-        )
+            return CompletionResult(success=False, error=last_error)
+
+        except Exception as e:
+            last_error = str(e)
+            logger.warning(f"[UnifiedClient] ❌ Exception: {model_id} via {provider_name}: {last_error}")
+            return CompletionResult(success=False, error=last_error)
 
     def generate(
         self,
@@ -459,14 +446,13 @@ CRITICAL: Generate EXACTLY 20 or more tags."""
             }
 
         models_status = []
-        for model in self.model_chain[:10]:  # Top 10 models
-            total_failures = sum(
-                self._model_failures.get(f"{pn}:{mid}", 0)
-                for pn, mid in model.providers
-            )
+        for model in self.model_chain[:20]:  # Top 20 models
+            cooldown_key = f"{model.provider}:{model.api_model_id}"
+            total_failures = self._model_failures.get(cooldown_key, 0)
+
             models_status.append({
                 "name": model.name,
-                "providers": [pn for pn, _ in model.providers],
+                "provider": model.provider,
                 "size_b": model.size_billions,
                 "available": self._is_model_available(model),
                 "failures": total_failures,
@@ -492,13 +478,10 @@ CRITICAL: Generate EXACTLY 20 or more tags."""
             print(f"  {icon} {name}: {pstatus['status']}")
             print(f"      Requests: {pstatus['requests']} | Success: {pstatus['successes']} | Tokens: {pstatus['total_tokens']}")
 
-        print("\nMODEL CHAIN (Top 10 by size):")
+        print("\nMODEL CHAIN (Top 20 by size):")
         for m in status["model_chain"]:
             icon = "[OK]" if m["available"] else "[--]"
-            providers_str = ", ".join(m["providers"][:3])
-            if len(m["providers"]) > 3:
-                providers_str += f" +{len(m['providers']) - 3}"
-            print(f"  {icon} {m['size_b']:>5.0f}B | {m['name'][:30]:<30} ({providers_str})")
+            print(f"  {icon} {m['size_b']:>5.0f}B | {m['name'][:40]:<40} ({m['provider']})")
 
         print(f"\nTotal Available Models: {status['total_available_models']}")
         print("=" * 70)
