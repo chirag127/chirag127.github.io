@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chirag Hub | Premium Developer Tools</title>
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Universal Engine Scripts -->
+    <script src="https://chirag127.github.io/universal/config.js" defer></script>
+    <script src="https://chirag127.github.io/universal/core.js" defer></script>
+    <script src="https://chirag127.github.io/universal/sidebar.js" defer></script>
+
+    <style>
+        /* 
+         * 2026 SPATIAL-GLASS DESIGN SYSTEM 
+         * Theme: Deep Space & Neon Indigo
+         */
+        :root {
+            --bg-deep: #030712;
+            --bg-glass: rgba(17, 25, 40, 0.6);
+            --bg-glass-hover: rgba(30, 41, 59, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --border-glass-hover: rgba(255, 255, 255, 0.15);
+            --primary: #6366f1; /* Indigo */
+            --primary-glow: rgba(99, 102, 241, 0.4);
+            --accent-purple: #a855f7;
+            --accent-pink: #ec4899;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Reset & Base */
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.05) 0%, transparent 25%);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+        /* Layout */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-top: 1rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.3));
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: inline-flex;
+            gap: 2rem;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 0.75rem 2rem;
+            border-radius: 999px;
+            border: 1px solid var(--border-glass);
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .stat-item span {
+            color: var(--text-main);
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-item i { color: var(--primary); }
+
+        /* Controls Area */
+        .controls-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Search Box */
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem 1rem 3.5rem;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 999px;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s var(--ease-elastic);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Category Filters */
+        .filter-scroll {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            padding: 0.5rem;
+            width: 100%;
+            max-width: 100%;
+            justify-content: center;
+            scrollbar-width: none; /* Firefox */
+        }
+        .filter-scroll::-webkit-scrollbar { display: none; }
+
+        .filter-pill {
+            padding: 0.6rem 1.25rem;
+            border-radius: 99px;
+            border: 1px solid var(--border-glass);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .filter-pill:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            transform: translateY(-1px);
+        }
+
+        .filter-pill.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        /* Tool Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+            opacity: 0; 
+            /* JS will trigger fade in */
+        }
+
+        .tools-grid.visible {
+            opacity: 1;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        /* Tool Card */
+        .tool-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s var(--ease-elastic);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-6px);
+            background: var(--bg-glass-hover);
+            border-color: var(--border-glass-hover);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), 
+                        0 0 20px rgba(99, 102, 241, 0.1);
+        }
+
+        /* Card Header */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .status-badge {
+            font-size: 0.7rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 99px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-badge.live {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        /* Card Content */
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Card Footer */
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        /* Category Colors for Icons */
+        .cat-pdf { color: #f87171; }
+        .cat-image { color: #a78bfa; }
+        .cat-media { color: #f472b6; }
+        .cat-dev { color: #38bdf8; }
+        .cat-text { color: #fb923c; }
+        .cat-math { color: #e879f9; }
+        .cat-finance { color: #34d399; }
+        .cat-health { color: #2dd4bf; }
+        .cat-convert { color: #94a3b8; }
+        .cat-security { color: #fbbf24; }
+        .cat-game { color: #a3e635; }
+        .cat-default { color: #94a3b8; }
+
+        /* Loading & Empty States */
+        .state-message {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        /* Animations */
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .stats-bar { gap: 1rem; padding: 0.6rem 1rem; width: 100%; justify-content: space-around; }
+            .stat-item { flex-direction: column; font-size: 0.8rem; gap: 0.2rem; }
+            .filter-scroll { justify-content: flex-start; padding-left: 1rem; padding-right: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Content Wrapper -->
+    <main class="hub-container">
+        
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Every Tool You Need.<br>Free. Private. Forever.</h1>
+        </section>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <i class="fa-solid fa-layer-group"></i>
+                <span id="stat-count">0</span> Tools
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-star"></i>
+                <span>4k+</span> Stars
+            </div>
+            <div class="stat-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>0</span> Trackers
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls-wrapper">
+            <!-- Search -->
+            <div class="search-container">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="search-input" class="search-input" placeholder="Search for tools (e.g., 'pdf converter', 'json parser')...">
+            </div>
+
+            <!-- Filters -->
+            <div class="filter-scroll" id="filter-container">
+                <!-- Filters injected by JS -->
+            </div>
+        </div>
+
+        <!-- Grid -->
+        <div id="tools-grid" class="tools-grid">
+            <div class="state-message">
+                <div class="spinner"></div>
+                Initializing Chirag Hub...
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        /**
+         * CHIRAG HUB CORE LOGIC
+         * IIFE Pattern for encapsulation (Jan 2026 Standards)
+         */
+        (function() {
+            // --- Configuration ---
+            const CONFIG = {
+                username: 'chirag127',
+                excludedRepos: ['chirag127.github.io', 'chirag127'],
+                perPage: 100,
+                maxPages: 10,
+                // Category Mapping: keywords -> category id
+                categoryMap: {
+                    pdf: ['pdf', 'document', 'merge', 'split'],
+                    image: ['image', 'photo', 'png', 'jpg', 'crop', 'resize', 'compress'],
+                    media: ['video', 'audio', 'mp3', 'youtube', 'downloader'],
+                    dev: ['json', 'xml', 'sql', 'html', 'code', 'api', 'formatter', 'validator'],
+                    text: ['text', 'word', 'markdown', 'string', 'editor', 'lorem'],
+                    math: ['math', 'calculator', 'algebra'],
+                    finance: ['loan', 'mortgage', 'tax', 'currency', 'stock'],
+                    health: ['bmi', 'calorie', 'health'],
+                    convert: ['convert', 'unit', 'encoder', 'decoder'],
+                    security: ['password', 'hash', 'encrypt', 'token'],
+                    game: ['game', 'puzzle', 'sudoku', 'tic-tac-toe']
+                },
+                // Icon Mapping for UI
+                icons: {
+                    pdf: 'fa-file-pdf',
+                    image: 'fa-image',
+                    media: 'fa-film',
+                    dev: 'fa-code',
+                    text: 'fa-paragraph',
+                    math: 'fa-calculator',
+                    finance: 'fa-sack-dollar',
+                    health: 'fa-heart-pulse',
+                    convert: 'fa-repeat',
+                    security: 'fa-lock',
+                    game: 'fa-gamepad',
+                    default: 'fa-box-open'
+                }
+            };
+
+            // --- State ---
+            let allRepos = [];
+            let activeFilter = 'All';
+
+            // --- DOM Elements ---
+            const els = {
+                grid: document.getElementById('tools-grid'),
+                search: document.getElementById('search-input'),
+                filters: document.getElementById('filter-container'),
+                statCount: document.getElementById('stat-count')
+            };
+
+            // --- Core Functions ---
+
+            /**
+             * Fetch repositories with pagination logic
+             */
+            async function fetchRepos() {
+                const promises = [];
+                
+                for (let page = 1; page <= CONFIG.maxPages; page++) {
+                    const url = `https://api.github.com/users/${CONFIG.username}/repos?page=${page}&per_page=${CONFIG.perPage}`;
+                    promises.push(fetch(url).then(res => res.json()));
+                }
+
+                try {
+                    const results = await Promise.all(promises);
+                    // Flatten array of arrays
+                    const rawRepos = results.flat();
+                    
+                    // Filter Logic
+                    allRepos = rawRepos.filter(repo => {
+                        // Exclude forks
+                        if (repo.fork) return false;
+                        // Exclude specific names
+                        if (CONFIG.excludedRepos.includes(repo.name)) return false;
+                        return true;
+                    });
+
+                    // Update Stats
+                    els.statCount.textContent = allRepos.length;
+
+                    // Initial Render
+                    renderFilters();
+                    renderGrid(allRepos);
+
+                } catch (error) {
+                    console.error("Fetch error:", error);
+                    els.grid.innerHTML = `
+                        <div class="state-message">
+                            <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; margin-bottom: 1rem; color: #ef4444;"></i>
+                            <p>Failed to load tools. Please check your connection.</p>
+                        </div>
+                    `;
+                }
+            }
+
+            /**
+             * Determine category based on keywords in name/desc/topics
+             */
+            function determineCategory(repo) {
+                const content = `${repo.name} ${repo.description} ${(repo.topics || []).join(' ')}`.toLowerCase();
+                
+                for (const [cat, keywords] of Object.entries(CONFIG.categoryMap)) {
+                    for (const kw of keywords) {
+                        if (content.includes(kw)) {
+                            return cat;
+                        }
+                    }
+                }
+                return 'default';
+            }
+
+            /**
+             * Format Date (Relative time approx)
+             */
+            function timeAgo(dateString) {
+                const date = new Date(dateString);
+                const now = new Date();
+                const seconds = Math.floor((now - date) / 1000);
+                
+                let interval = seconds / 31536000;
+                if (interval > 1) return Math.floor(interval) + "y ago";
+                interval = seconds / 2592000;
+                if (interval > 1) return Math.floor(interval) + "mo ago";
+                interval = seconds / 86400;
+                if (interval > 1) return Math.floor(interval) + "d ago";
+                interval = seconds / 3600;
+                if (interval > 1) return Math.floor(interval) + "h ago";
+                return "Just now";
+            }
+
+            /**
+             * Render Filter Pills
+             */
+            function renderFilters() {
+                const categories = ['All', ...Object.keys(CONFIG.categoryMap)];
+                
+                els.filters.innerHTML = categories.map(cat => `
+                    <button class="filter-pill ${cat === 'All' ? 'active' : ''}" data-cat="${cat}">
+                        ${cat.charAt(0).toUpperCase() + cat.slice(1)}
+                    </button>
+                `).join('');
+
+                // Add click listeners
+                document.querySelectorAll('.filter-pill').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        // Update UI
+                        document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        
+                        // Update State
+                        activeFilter = e.target.dataset.cat;
+                        applyFilters();
+                    });
+                });
+            }
+
+            /**
+             * Main Filtering Logic (Search + Category)
+             */
+            function applyFilters() {
+                const term = els.search.value.toLowerCase();
+                
+                const filtered = allRepos.filter(repo => {
+                    // Category Filter
+                    const cat = determineCategory(repo);
+                    if (activeFilter !== 'All' && cat !== activeFilter) return false;
+
+                    // Search Filter
+                    const haystack = `${repo.name} ${repo.description}`.toLowerCase();
+                    return haystack.includes(term);
+                });
+
+                renderGrid(filtered);
+            }
+
+            /**
+             * Render Cards
+             */
+            function renderGrid(repos) {
+                els.grid.innerHTML = '';
+                els.grid.classList.remove('visible');
+
+                if (repos.length === 0) {
+                    els.grid.innerHTML = `
+                        <div class="state-message">
+                            <i class="fa-solid fa-ghost" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                            <p>No tools found matching your criteria.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const fragment = document.createDocumentFragment();
+
+                repos.forEach(repo => {
+                    const category = determineCategory(repo);
+                    const iconClass = CONFIG.icons[category] || CONFIG.icons.default;
+                    const catColorClass = `cat-${category}`;
+                    const isLive = repo.has_pages;
+                    
+                    // Construct Card
+                    const card = document.createElement('a');
+                    card.className = 'tool-card';
+                    card.href = repo.html_url;
+                    card.target = "_blank";
+                    card.rel = "noopener noreferrer";
+                    
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <div class="card-icon-box ${catColorClass}">
+                                <i class="fa-solid ${iconClass}"></i>
+                            </div>
+                            ${isLive ? '<span class="status-badge live">Live Demo</span>' : ''}
+                        </div>
+                        <div class="card-title">${repo.name.replace(/-/g, ' ')}</div>
+                        <div class="card-desc">${repo.description || 'No description provided for this tool.'}</div>
+                        <div class="card-footer">
+                            <div class="card-meta">
+                                <div class="meta-item" title="Stars">
+                                    <i class="fa-regular fa-star"></i> ${repo.stargazers_count}
+                                </div>
+                                <div class="meta-item" title="Last Updated">
+                                    <i class="fa-regular fa-clock"></i> ${timeAgo(repo.pushed_at)}
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square" style="opacity: 0.5;"></i>
+                        </div>
+                    `;
+                    fragment.appendChild(card);
+                });
+
+                els.grid.appendChild(fragment);
+                
+                // Trigger Animation
+                requestAnimationFrame(() => {
+                    els.grid.classList.add('visible');
+                });
+            }
+
+            // --- Initialization ---
+            function init() {
+                // Search Listener with Debounce
+                let timeout;
+                els.search.addEventListener('input', (e) => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        applyFilters();
+                    }, 300);
+                });
+
+                // Start Data Fetching
+                fetchRepos();
+            }
+
+            // Run Init
+            init();
+
+        })();
+
+        /**
+         * MULTIVERSE SIDEBAR INITIALIZATION
+         * Required by the Universal Engine
+         */
+        window.addEventListener('DOMContentLoaded', () => {
+            // Wait for sidebar script to load if needed, or just define the data
+            // Note: The external scripts are deferred, so we attach to window when ready.
+            // Using a timeout or interval check is safer for external deferred scripts, 
+            // but since we are at the end of body, we can try to initialize immediately 
+            // or use a mutation observer. However, standard practice for these "Universal Engines" 
+            // usually involves a global object.
+            
+            const MODELS_ARRAY = [
+                { name: "GLM 4.7 1T MoE Cerebras", slug: "glm-4-7-1t-moe-cerebras--cerebras", size: 1000.0, provider: "Cerebras" },
+                { name: "Mistral Large 3 675B Instruct Nvidia", slug: "mistral-large-3-675b-instruct-nvidia--nvidia", size: 675.0, provider: "Nvidia" },
+                { name: "Mistral Large 3 675B Instruct Mistral", slug: "mistral-large-3-675b-instruct-mistral--mistral", size: 675.0, provider: "Mistral" },
+                { name: "DeepSeek R1T2 Chimera OpenRouter", slug: "deepseek-r1t2-chimera-openrouter--openrouter", size: 671.0, provider: "Openrouter" },
+                { name: "DeepSeek V3.2 Nvidia", slug: "deepseek-v3-2-nvidia--nvidia", size: 671.0, provider: "Nvidia" },
+                { name: "Qwen3 Coder 480B MoE OpenRouter", slug: "qwen3-coder-480b-moe-openrouter--openrouter", size: 480.0, provider: "Openrouter" },
+                { name: "R1T Chimera OpenRouter", slug: "r1t-chimera-openrouter--openrouter", size: 450.0, provider: "Openrouter" },
+                { name: "Llama 3.1 405B Instruct GitHub", slug: "llama-3-1-405b-instruct-github--github", size: 405.0, provider: "Github" },
+                { name: "MiMo V2 Flash 309B MoE OpenRouter", slug: "mimo-v2-flash-309b-moe-openrouter--openrouter", size: 309.0, provider: "Openrouter" },
+                { name: "Devstral 2 123B Instruct OpenRouter", slug: "devstral-2-123b-instruct-openrouter--openrouter", size: 123.0, provider: "Openrouter" },
+                { name: "Devstral 2 123B Mistral", slug: "devstral-2-123b-mistral--mistral", size: 123.0, provider: "Mistral" },
+                { name: "Llama 3.2 90B Vision Instruct Groq", slug: "llama-3-2-90b-vision-instruct-groq--groq", size: 90.0, provider: "Groq" },
+                { name: "Mixtral 8x7B Instruct Groq", slug: "mixtral-8x7b-instruct-groq--groq", size: 56.0, provider: "Groq" },
+                { name: "Qwen QwQ 32B Groq", slug: "qwen-qwq-32b-groq--groq", size: 32.0, provider: "Groq" },
+                { name: "Qwen3 32B Instruct Cerebras", slug: "qwen3-32b-instruct-cerebras--cerebras", size: 32.0, provider: "Cerebras" },
+                { name: "Gemma 3 27B Instruct Gemini", slug: "gemma-3-27b-instruct-gemini--gemini", size: 27.0, provider: "Gemini" },
+                { name: "GPT OSS 20B Cerebras", slug: "gpt-oss-20b-cerebras--cerebras", size: 20.0, provider: "Cerebras" },
+                { name: "GLM 4.5 Air OpenRouter", slug: "glm-4-5-air-openrouter--openrouter", size: 20.0, provider: "Openrouter" }
+            ];
+
+            // Safe initialization helper
+            function initSidebar() {
+                if (typeof MultiverseSidebar !== 'undefined') {
+                    MultiverseSidebar.init(MODELS_ARRAY, { 
+                        isHub: true, 
+                        baseUrl: 'multiverse_sites', 
+                        currentSlug: 'glm-4-5-air-openrouter--openrouter' 
+                    });
+                } else {
+                    setTimeout(initSidebar, 100);
+                }
+            }
+
+            initSidebar();
+        });
+    </script>
+</body>
+</html>
