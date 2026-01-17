@@ -8,7 +8,7 @@ TIER_3_MODELS: list[UnifiedModel] = [
         max_tokens=164000,
         supports_json=True,
         working=False,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="nvidia",
         api_model_id="deepseek/deepseek-v3"
     ),
@@ -19,7 +19,7 @@ TIER_3_MODELS: list[UnifiedModel] = [
         max_tokens=131072,
         supports_json=True,
         working=False,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="cerebras",
         api_model_id="qwen-3-235b-a22b-instruct-2507"
     ),

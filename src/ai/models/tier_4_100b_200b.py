@@ -8,7 +8,7 @@ TIER_4_MODELS: list[UnifiedModel] = [
         max_tokens=262144,
         supports_json=True,
         working=True,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="openrouter",
         api_model_id="mistralai/devstral-2512:free"
     ),
@@ -19,7 +19,7 @@ TIER_4_MODELS: list[UnifiedModel] = [
         max_tokens=262144,
         supports_json=True,
         working=True,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="mistral",
         api_model_id="devstral-2512"
     ),
@@ -39,7 +39,7 @@ TIER_4_MODELS: list[UnifiedModel] = [
         description="Mistral Large 2 - Top-tier Reasoning",
         max_tokens=32768,
         working=False,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="nvidia",
         api_model_id="mistralai/mistral-large-2411"
     ),

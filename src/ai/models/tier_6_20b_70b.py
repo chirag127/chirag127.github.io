@@ -7,7 +7,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         description="Mixtral 8x7B MoE - Excellent Code",
         max_tokens=32768,
         working=True,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="groq",
         api_model_id="mistralai/mixtral-8x7b-instruct-v0.1"
     ),
@@ -47,7 +47,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         description="Qwen QwQ 32B - Reasoning Focused",
         max_tokens=32768,
         working=True,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="groq",
         api_model_id="qwen-qwq-32b"
     ),
@@ -87,7 +87,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         description="Qwen 3 32B - Solid Multilingual",
         max_tokens=32768,
         working=True,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="cerebras",
         api_model_id="Qwen-3-32B"
     ),
@@ -147,29 +147,9 @@ TIER_6_MODELS: list[UnifiedModel] = [
         description="Gemma 3 27B - Strong Google Model",
         max_tokens=8192,
         working=True,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="gemini",
         api_model_id="gemma-3-27b-it"
-    ),
-    UnifiedModel(
-        name="Gemma 3 27B Instruct Cloudflare",
-        size_billions=27.0,
-        description="Gemma 3 27B - Strong Google Model",
-        max_tokens=8192,
-        working=False,
-        include_in_sidebar=False,
-        provider="cloudflare",
-        api_model_id="@cf/google/gemma-3-27b-instruct"
-    ),
-    UnifiedModel(
-        name="Gemma 3 27B Instruct OpenRouter",
-        size_billions=27.0,
-        description="Gemma 3 27B - Strong Google Model",
-        max_tokens=8192,
-        working=True,
-        include_in_sidebar=False,
-        provider="openrouter",
-        api_model_id="google/gemma-3-27b-instruct:free"
     ),
     UnifiedModel(
         name="Mistral Small 3.1 24B Instruct Cloudflare",
@@ -247,7 +227,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         description="GPT-OSS 20B - Fallback fallback",
         max_tokens=131072,
         working=True,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="cerebras",
         api_model_id="gpt-oss-120b"
     ),
@@ -268,7 +248,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         max_tokens=131072,
         supports_json=True,
         working=True,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="openrouter",
         api_model_id="z-ai/glm-4.5-air:free"
     ),

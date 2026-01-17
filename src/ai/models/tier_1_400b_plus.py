@@ -86,7 +86,7 @@ TIER_1_MODELS: list[UnifiedModel] = [
         max_tokens=262144,
         supports_json=True,
         working=True,  # User implies working=True for listed models even if duplicate
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="openrouter",
         api_model_id="qwen/qwen3-coder:free"
     ),
@@ -97,7 +97,7 @@ TIER_1_MODELS: list[UnifiedModel] = [
         max_tokens=164000,
         supports_json=True,
         working=True,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="openrouter",
         api_model_id="tngtech/tng-r1t-chimera:free"
     ),
