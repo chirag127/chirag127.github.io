@@ -1,5 +1,7 @@
 /**
- * Utility - Search Integrations
- * @module integrations/utility/search
+ * Search Index
  */
-export const search = {};
+import { algolia } from './algolia.js';
+import { googleSearch } from './googleSearch.js';
+
+export const search = { algolia, googleSearch };

@@ -2,7 +2,8 @@
   "generated": [
     "PDF-Merge-And-Split",
     "Markdown-To-HTML-Preview",
-    "pdf-merger"
+    "pdf-merger",
+    "pdf-splitter"
   ],
   "failed": [],
   "metadata_cache": {
@@ -60,6 +61,26 @@
         "combine pdf",
         "merge pdf online",
         "free pdf tools",
+        "privacy-focused pdf",
+        "client-side pdf"
+      ],
+      "category": "Document"
+    },
+    "pdf-splitter": {
+      "title": "PDF Splitter Pro \u2013 Split & Extract Pages Instantly",
+      "description": "Free online PDF splitter. Split, extract, or remove pages with full privacy. No uploads, processing happens directly in your browser.",
+      "features": [
+        "Split by page ranges, extract single pages, or remove unwanted content",
+        "100% client-side processing \u2013 your files never leave your device",
+        "Drag-and-drop interface for effortless, instant splitting",
+        "Complete privacy guarantee \u2013 no server uploads, no data tracking",
+        "Works with all modern browsers and any standard PDF file"
+      ],
+      "keywords": [
+        "pdf splitter",
+        "split pdf",
+        "extract pdf pages",
+        "free pdf tool",
         "privacy-focused pdf",
         "client-side pdf"
       ],

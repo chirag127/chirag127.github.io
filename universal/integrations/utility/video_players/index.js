@@ -1,6 +1,8 @@
 /**
- * Utility - Video Players Index Update
+ * Video Players Index
  */
 import { youtube } from './youtube.js';
+import { vimeo } from './vimeo.js';
+import { wistia } from './wistia.js';
 
-export const video_players = { youtube };
+export const video_players = { youtube, vimeo, wistia };

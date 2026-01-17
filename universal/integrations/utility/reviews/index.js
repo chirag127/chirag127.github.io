@@ -1,5 +1,7 @@
 /**
- * Utility - Reviews Integrations
- * @module integrations/utility/reviews
+ * Reviews Index
  */
-export const reviews = {};
+import { trustpilot } from './trustpilot.js';
+import { googleReviews } from './googleReviews.js';
+
+export const reviews = { trustpilot, googleReviews };

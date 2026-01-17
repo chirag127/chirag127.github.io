@@ -1,5 +1,7 @@
 /**
- * Utility - Translation Integrations
- * @module integrations/utility/translation
+ * Translation Index
  */
-export const translation = {};
+import { weglot } from './weglot.js';
+import { googleTranslate } from './googleTranslate.js';
+
+export const translation = { weglot, googleTranslate };
