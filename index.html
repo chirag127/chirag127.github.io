@@ -572,11 +572,11 @@
           document.getElementById('toolCount').textContent = allRepos.length;
           filterAndRender();
 
-          // Initialize multiverse sidebar
-          if (typeof MultiverseSidebar !== 'undefined') {
-            MultiverseSidebar.init(MULTIVERSE_MODELS, {
+          // Initialize polymorphs sidebar
+          if (typeof Polymorphs !== 'undefined') {
+            Polymorphs.init(POLYMORPHS_MODELS, {
               isHub: true,
-              baseUrl: 'multiverse_sites',
+              baseUrl: 'polymorphs',
               currentSlug: ''
             });
           }
@@ -603,22 +603,26 @@
         });
       });
 
-      // Multiverse model data (generated from Python)
-      const MULTIVERSE_MODELS = [
-        { name: "GLM 4.7 1T MoE Cerebras", slug: "glm-4-7-1t-moe-cerebras--cerebras", size: 1000.0, provider: "Cerebras" },
-        { name: "Mistral Large 3 675B Nvidia", slug: "mistral-large-3-675b-instruct-nvidia--nvidia", size: 675.0, provider: "Nvidia" },
-        { name: "Mistral Large 3 675B Mistral", slug: "mistral-large-3-675b-instruct-mistral--mistral", size: 675.0, provider: "Mistral" },
-        { name: "DeepSeek R1T2 Chimera", slug: "deepseek-r1t2-chimera-openrouter--openrouter", size: 671.0, provider: "OpenRouter" },
-        { name: "DeepSeek V3.2 Nvidia", slug: "deepseek-v3-2-nvidia--nvidia", size: 671.0, provider: "Nvidia" },
-        { name: "Qwen3 Coder 480B MoE", slug: "qwen3-coder-480b-moe-openrouter--openrouter", size: 480.0, provider: "OpenRouter" },
-        { name: "R1T Chimera", slug: "r1t-chimera-openrouter--openrouter", size: 450.0, provider: "OpenRouter" },
-        { name: "Llama 3.1 405B GitHub", slug: "llama-3-1-405b-instruct-github--github", size: 405.0, provider: "GitHub" },
-        { name: "MiMo V2 Flash 309B", slug: "mimo-v2-flash-309b-moe-openrouter--openrouter", size: 309.0, provider: "OpenRouter" },
-        { name: "Devstral 2 123B", slug: "devstral-2-123b-instruct-openrouter--openrouter", size: 123.0, provider: "OpenRouter" },
-        { name: "Devstral 2 123B Mistral", slug: "devstral-2-123b-instruct-mistral--mistral", size: 123.0, provider: "Mistral" },
-        { name: "Mistral Large Latest", slug: "mistral-large-latest-mistral--mistral", size: 123.0, provider: "Mistral" },
-        { name: "GPT-OSS 120B Cerebras", slug: "gpt-oss-120b--cerebras", size: 120.0, provider: "Cerebras" },
-        { name: "Llama 3.2 90B Vision", slug: "llama-3-2-90b-vision-instruct-groq--groq", size: 90.0, provider: "Groq" }
+      // Polymorphs model data (generated from Python)
+      const POLYMORPHS_MODELS = [
+        { name: "GLM 4.7 1T MoE Cerebras", slug: "glm-4-7-1t-moe-cerebras", size: 1000.0, provider: "Cerebras" },
+        { name: "Mistral Large 3 675B Nvidia", slug: "mistral-large-3-675b-instruct-nvidia", size: 675.0, provider: "Nvidia" },
+        { name: "Mistral Large 3 675B Mistral", slug: "mistral-large-3-675b-instruct-mistral", size: 675.0, provider: "Mistral" },
+        { name: "DeepSeek R1T2 Chimera", slug: "deepseek-r1t2-chimera-openrouter", size: 671.0, provider: "OpenRouter" },
+        { name: "DeepSeek V3.2 Nvidia", slug: "deepseek-v3-2-nvidia", size: 671.0, provider: "Nvidia" },
+        { name: "Qwen3 Coder 480B MoE", slug: "qwen3-coder-480b-moe-openrouter", size: 480.0, provider: "OpenRouter" },
+        { name: "R1T Chimera", slug: "r1t-chimera-openrouter", size: 450.0, provider: "OpenRouter" },
+        { name: "Llama 3.1 405B GitHub", slug: "llama-3-1-405b-instruct-github", size: 405.0, provider: "GitHub" },
+        { name: "MiMo V2 Flash 309B", slug: "mimo-v2-flash-309b-moe-openrouter", size: 309.0, provider: "OpenRouter" },
+        { name: "Devstral 2 123B", slug: "devstral-2-123b-instruct-openrouter", size: 123.0, provider: "OpenRouter" },
+        { name: "Devstral 2 123B Mistral", slug: "devstral-2-123b-mistral", size: 123.0, provider: "Mistral" },
+        { name: "Llama 3.2 90B Vision", slug: "llama-3-2-90b-vision-instruct-groq", size: 90.0, provider: "Groq" },
+        { name: "Mixtral 8x7B Instruct", slug: "mixtral-8x7b-instruct-groq", size: 56.0, provider: "Groq" },
+        { name: "Qwen QwQ 32B", slug: "qwen-qwq-32b-groq", size: 32.0, provider: "Groq" },
+        { name: "Qwen3 32B Cerebras", slug: "qwen3-32b-instruct-cerebras", size: 32.0, provider: "Cerebras" },
+        { name: "Gemma 3 27B Gemini", slug: "gemma-3-27b-instruct-gemini", size: 27.0, provider: "Gemini" },
+        { name: "GPT OSS 20B Cerebras", slug: "gpt-oss-20b-cerebras", size: 20.0, provider: "Cerebras" },
+        { name: "GLM 4.5 Air", slug: "glm-4-5-air-openrouter", size: 20.0, provider: "OpenRouter" }
       ];
 
       // Start
