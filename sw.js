@@ -10,17 +10,19 @@
 const CACHE_NAME = 'chirag-hub-v1';
 const OFFLINE_URL = '/offline.html';
 
-// Assets to cache on install
-const PRECACHE_ASSETS = [
+// Assets to cache on installconst PRECACHE_ASSETS = [
   '/',
   '/about.html',
   '/privacy.html',
   '/terms.html',
   '/cookies.html',
-  '/shared/header.html',
-  '/shared/footer.html',
-  '/shared/integrations.js',
-  'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap'
+  '/voters.html',
+  '/contractors.html',
+  '/contact.html',
+  '/universal/config.js',
+  '/universal/core.js',
+  '/universal/style.css',
+  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'
 ];
 
 // Install: Cache core assets

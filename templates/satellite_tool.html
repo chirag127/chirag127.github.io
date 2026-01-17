@@ -4,94 +4,81 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- SEO & METADATA (Replace content) -->
+  <!--
+    AUTOGEN DRIVER INSTRUCTIONS:
+    1. Replace 'Tool Name' and description with specific tool details.
+    2. Add <link rel="preconnect"> for any external CDNs being used.
+    3. Inject minimal, critical CSS here. Encouraged: Unique variables/themes per tool.
+       Do NOT use generic 'tool-container' classes; design a unique layout.
+  -->
   <title>Tool Name - Chirag Hub</title>
   <meta name="description" content="Tool description here.">
 
-  <!-- UNIVERSAL ENGINE (DO NOT REMOVE) -->
-  <script src="https://chirag127.github.io/universal/config.js"></script>
-  <script src="https://chirag127.github.io/universal/core.js"></script>
+  <!-- UNIVERSAL ENGINE (Core Infrastructure) -->
+  <!-- 'defer' ensures non-blocking load. Core handles Header/Footer/Auth/Theme. -->
+  <script src="/universal/config.js" defer></script>
+  <script src="/universal/core.js" defer></script>
 
-  <!-- TOOL SPECIFIC STYLES -->
+  <!-- DIVERSITY CHECK:
+       Ensure this tool looks visually distinct.
+       - Use different layouts (e.g., split screen, centered, dashboard-style).
+       - Define unique --primary colors or gradients if strict brand consistency isn't required.
+  -->
   <style>
-    /* The Engine handles Header/Footer/Theme.
-       Only style your specific tool interface here. */
-
-    .tool-container {
-      max-width: 800px;
-      margin: 4rem auto;
-      padding: 0 1.5rem;
-      text-align: center;
+    /* Tool Specific CSS */
+    :root {
+      /* Define local overrides if needed */
     }
 
-    .drop-zone {
-      border: 2px dashed var(--glass-border);
-      background: var(--bg-card);
-      padding: 3rem;
-      border-radius: var(--radius-lg);
-      transition: all 0.3s;
-      margin-bottom: 2rem;
+    main {
+      padding: 4rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      /* Allow for full-width or custom layouts */
     }
-    .drop-zone:hover {
-      border-color: var(--primary);
-      background: var(--bg-card-hover);
-    }
-
-    .btn-action {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: white;
-      border: none;
-      padding: 0.8rem 2rem;
-      border-radius: 100px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      font-weight: 600;
-      transition: transform 0.2s;
-    }
-    .btn-action:hover { transform: translateY(-2px); box-shadow: 0 4px 15px var(--primary-glow); }
   </style>
 </head>
 <body>
   <!-- HEADER INJECTED BY CORE.JS -->
 
-  <main class="tool-container">
+  <main id="main-content">
+    <!--
+      INJECT TOOL UI HERE.
+      - Use Semantic HTML5 (section, article, aside).
+      - Ensure accessibility (aria-labels, roles).
+    -->
+
     <h1>Tool Name</h1>
-    <p class="tool-subtitle">A brief description of what this tool does.</p>
+    <!-- Dynamic content goes here -->
 
-    <!-- TOOL INTERFACE -->
-    <div id="app">
-      <div class="drop-zone" id="dropZone">
-        <p>Drag & Drop files here or click to upload</p>
-        <input type="file" id="fileInput" hidden>
-      </div>
-
-      <button class="btn-action" id="actionBtn">Process File</button>
-    </div>
-
-    <!-- RESULT AREA -->
-    <div id="result" style="margin-top: 2rem; display: none;">
-      <h3>Result</h3>
-      <div id="output"></div>
-    </div>
   </main>
 
   <!-- FOOTER INJECTED BY CORE.JS -->
 
-  <!-- TOOL LOGIC -->
-  <script>
-    // Tool logic goes here
-    const dropZone = document.getElementById('dropZone');
-    const fileInput = document.getElementById('fileInput');
+  <!--
+    SCRIPT LOADING BEST PRACTICES (Performance):
+    1. Modular: Split logic into smaller functions/files if complex.
+    2. Parallel Fetching: Use 'async' for 3rd party libs that don't depend on DOM.
+       Use 'defer' for scripts that need DOM.
+       Example: <script src="https://cdn.example.com/lib.js" async></script>
+    3. Resource Hints: Add <link rel="preconnect" href="https://cdn.example.com"> in <head>.
+    4. ES Modules: Use <script type="module"> to scope variables and allow 'import'.
+  -->
+  <script type="module">
+    // Tool Specific Logic
+    console.log("Tool Initialized");
 
-    dropZone.addEventListener('click', () => fileInput.click());
-
-    fileInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if(file) alert(`File selected: ${file.name}`);
-    });
-
-    // You can use libraries from the Approved Menu (CDN)
-    // <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"><\/script>
+    // Example: Parallel Fetching of Data/Resources
+    /*
+    async function initTool() {
+       const [resourceA, resourceB] = await Promise.all([
+         fetch('/api/a'),
+         fetch('/api/b')
+       ]);
+       // Process...
+    }
+    initTool();
+    */
   </script>
 </body>
 </html>

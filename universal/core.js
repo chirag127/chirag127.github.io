@@ -65,12 +65,20 @@
           <p>Every tool you need. Free. Private. Forever. 100% browser-powered productivity.</p>
         </div>
         <div class="apex-footer-col">
+          <h4>Community</h4>
+          <a href="/voters.html">Voters</a>
+          <a href="/contractors.html">Contractors</a>
+          <a href="/about.html">About</a>
+        </div>
+        <div class="apex-footer-col">
           <h4>Legal</h4>
-          <a href="/privacy">Privacy</a>
-          <a href="/terms">Terms</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/terms.html">Terms</a>
+          <a href="/cookies.html">Cookies</a>
         </div>
         <div class="apex-footer-col">
             <h4>Connect</h4>
+            <a href="/contact.html">Contact Us</a>
             <a href="https://github.com/chirag127" target="_blank">GitHub</a>
         </div>
       </div>

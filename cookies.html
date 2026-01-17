@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,36 +7,11 @@
   <meta name="description" content="Cookie Policy for Chirag Hub. We use minimal cookies for analytics only.">
   <link rel="canonical" href="https://chirag127.github.io/cookies.html">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <script src="https://chirag127.github.io/shared/integrations.js" defer></script>
+  <script src="universal/config.js" defer></script>
+  <script src="universal/core.js" defer></script>
 
   <style>
-    :root {
-      --bg-dark: #030712;
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --primary: #6366f1;
-      --font-body: 'Outfit', sans-serif;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      font-family: var(--font-body);
-      line-height: 1.8;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    main {
-      flex: 1;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 4rem 1.5rem;
-    }
+    /* Content Typography */
     h1 {
       font-size: 2.5rem;
       font-weight: 700;
@@ -60,8 +35,6 @@
   </style>
 </head>
 <body>
-  <div id="header-container"></div>
-
   <main>
     <h1>Cookie Policy</h1>
     <p class="last-updated">Last updated: January 2026</p>
@@ -117,18 +90,5 @@
     <h2>Contact</h2>
     <p>Questions? Email: <a href="mailto:whyiswhen@gmail.com">whyiswhen@gmail.com</a></p>
   </main>
-
-  <div id="footer-container"></div>
-
-  <script>
-    async function loadComponent(id, url) {
-      try {
-        const res = await fetch(url);
-        document.getElementById(id).innerHTML = await res.text();
-      } catch (e) {}
-    }
-    loadComponent('header-container', 'https://chirag127.github.io/shared/header.html');
-    loadComponent('footer-container', 'https://chirag127.github.io/shared/footer.html');
-  </script>
 </body>
 </html>

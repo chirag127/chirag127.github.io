@@ -1,19 +1,8 @@
 """
 Unified AI Client - Model-Size-Based Fallback Chain.
 
-This client implements a MODEL-BASED fallback strategy (not provider-based).
+This client implements a MODEL-BASED fallback strategy.
 Models are ordered by size (largest → smallest) across ALL providers.
-
-Dec 2025 Model Hierarchy (by parameter count):
-1. llama-3.1-405b (Groq/NVIDIA) - 405B
-2. zai-glm-4.6 (Cerebras) - 357B
-3. qwen-3-235b (Cerebras/NVIDIA) - 235B
-4. gpt-oss-120b (Cerebras/Groq) - 120B
-5. llama-3.3-70b (Multiple) - 70B
-6. qwen-3-32b (Cerebras/Groq) - 32B
-7. gemma-3-27b (Gemini) - 27B
-8. mistral-small-24b (Mistral) - 24B
-9. ... smaller models as final fallback
 
 Strategy: Try largest available model first, regardless of provider.
 """
@@ -30,49 +19,14 @@ from .providers import (
     GeminiProvider,
     MistralProvider,
     NVIDIAProvider,
-    CloudflareProvider
+    CloudflareProvider,
+    OpenRouterProvider,
+    GitHubModelsProvider,
 )
+from .models import UNIFIED_MODEL_CHAIN, UnifiedModel, MODEL_COUNT
 
 
 logger = logging.getLogger("AI.UnifiedClient")
-
-
-@dataclass
-class UnifiedModel:
-    """A model with multiple provider options, ordered by speed."""
-    name: str  # Base model name (e.g., "llama-3.3-70b")
-    size_billions: float  # Model size in billions of parameters
-    description: str = ""
-    max_tokens: int = 4096
-    supports_json: bool = True
-    # Provider configurations: list of (provider_name, model_id) tuples
-    # Ordered by speed (fastest first: Groq → Cerebras → NVIDIA → Cloudflare → Gemini → Mistral)
-    providers: list[tuple[str, str]] = field(default_factory=list)
-
-    @property
-    def timeout_seconds(self) -> int:
-        """Calculate timeout based on model size. Larger models need much more time."""
-        if self.size_billions >= 400:
-            return 900  # 15 minutes for God-class models (DeepSeek 671B)
-        elif self.size_billions >= 200:
-            return 600  # 10 minutes for Hyper-class models (GLM-4, Qwen 235B)
-        elif self.size_billions >= 70:
-            return 300  # 5 minutes for Super-class/High-end (Mistral Large, Llama 70B)
-        elif self.size_billions >= 30:
-            return 180  # 3 minutes for Mid-range
-        else:
-            return 90   # 1.5 minutes for efficient models
-
-    @property
-    def primary_provider(self) -> str:
-        """Get the primary (fastest) provider name."""
-        return self.providers[0][0] if self.providers else "unknown"
-
-    @property
-    def primary_model_id(self) -> str:
-        """Get the primary provider's model ID."""
-        return self.providers[0][1] if self.providers else self.name
-
 
 @dataclass
 class ProviderStats:
@@ -84,54 +38,15 @@ class ProviderStats:
     total_tokens: int = 0
 
 
-# ============================================================================
-
-# =============================================================================
-# MODEL CHAIN - SORTED BY SIZE (LARGEST FIRST)
-# Jan 2026: Models are automatically sorted by size_billions descending.
-# Fallback order: 671B -> 355B -> 235B -> 123B -> 120B -> 72B -> 45B -> 32B
-# =============================================================================
-
-UNIFIED_MODEL_CHAIN: list[UnifiedModel] = [
-    # TIER 1: GOD-CLASS (400B+)
-    UnifiedModel("deepseek-ai/deepseek-v3.2", "nvidia", 671, "DeepSeek v3.2 (NVIDIA)", max_tokens=16384),
-
-    # TIER 2: HYPER-CLASS (200B - 400B)
-    UnifiedModel("z-ai-glm-4-7", "cerebras", 355, "GLM 4.7 (Cerebras)", max_tokens=8192),
-    UnifiedModel("qwen-3-235b-instruct", "cerebras", 235, "Qwen 3 235B (Cerebras)", max_tokens=8192),
-
-    # TIER 3: SUPER-CLASS (100B - 199B)
-    UnifiedModel("mistral-large-latest", "mistral", 123, "Mistral Large 2 (Native)", max_tokens=32768),
-    UnifiedModel("mistralai/mistral-large-2411", "nvidia", 123, "Mistral Large 2 (NVIDIA)", max_tokens=8192),
-    UnifiedModel("gpt-oss-120b", "cerebras", 120, "GPT-OSS 120B (Cerebras)", max_tokens=8192),
-
-    # TIER 4: HIGH-END (70B - 99B)
-    UnifiedModel("qwen2.5-72b-instruct", "nvidia", 72, "Qwen 2.5 72B (NVIDIA)", max_tokens=4096),
-
-    # TIER 5: EFFICIENCY (<70B)
-    UnifiedModel("mixtral-8x7b-32768", "groq", 45, "Mixtral 8x7B (Groq)", max_tokens=32768),
-    UnifiedModel("qwen-3-32b", "cerebras", 32, "Qwen 3 32B (Cerebras)", max_tokens=8192),
-]
-
-
 class UnifiedAIClient:
     """
     Single API for all AI operations with MODEL-SIZE-BASED fallback.
 
-    Strategy: Try largest available model first, regardless of provider.
-    This ensures we always use the best quality model available.
-
     Features:
-    - 6 providers: Cerebras, Groq, Gemini, Mistral, NVIDIA, Cloudflare
-    - 25+ models sorted by size (405B → 1B)
+    - 8 FREE providers: Cerebras, Groq, Gemini, Mistral, NVIDIA, Cloudflare, OpenRouter, GitHub
+    - 45+ models sorted by size
     - Automatic model fallback on failure
     - Circuit breaker per model
-    - Response caching
-
-    Usage:
-        client = UnifiedAIClient()
-        result = client.generate("Write a poem about AI")
-        # Will try llama-3.1-405b first, then smaller models on failure
     """
 
     def __init__(self) -> None:
@@ -157,14 +72,16 @@ class UnifiedAIClient:
         logger.info(f"[UnifiedClient] {len(self.model_chain)} models in fallback chain")
 
     def _init_providers(self) -> None:
-        """Initialize all 6 AI providers."""
+        """Initialize 8 free-forever AI providers."""
         provider_classes = [
-            ("cerebras", CerebrasProvider),
             ("groq", GroqProvider),
-            ("gemini", GeminiProvider),
-            ("mistral", MistralProvider),
+            ("cerebras", CerebrasProvider),
             ("nvidia", NVIDIAProvider),
             ("cloudflare", CloudflareProvider),
+            ("openrouter", OpenRouterProvider),
+            ("github", GitHubModelsProvider),
+            ("gemini", GeminiProvider),
+            ("mistral", MistralProvider),
         ]
 
         for name, cls in provider_classes:
@@ -180,26 +97,31 @@ class UnifiedAIClient:
         available_models = []
 
         for model in UNIFIED_MODEL_CHAIN:
-            provider = self.providers.get(model.provider_name)
-            if provider and provider.is_available():
+            # Check if ANY provider is available for this model
+            has_available_provider = any(
+                self.providers.get(pname) and self.providers[pname].is_available()
+                for pname, _ in model.providers
+            )
+            if has_available_provider:
                 available_models.append(model)
 
-        # Sort by size (largest first) to ensure best quality fallback order
-        return sorted(available_models, key=lambda m: m.size_billions, reverse=True)
+        # Sort by priority (highest first) then size (largest first)
+        return sorted(available_models, key=lambda m: (m.priority, m.size_billions), reverse=True)
 
     def _is_model_available(self, model: UnifiedModel) -> bool:
-        """Check if a model is available (not in cooldown, provider active)."""
-        # Check provider availability
-        provider = self.providers.get(model.provider_name)
-        if not provider or not provider.is_available():
-            return False
+        """Check if a model is available (at least one provider active and not in cooldown)."""
+        for provider_name, model_id in model.providers:
+            provider = self.providers.get(provider_name)
+            if not provider or not provider.is_available():
+                continue
 
-        # Check cooldown
-        cooldown_until = self._model_cooldowns.get(model.name, 0)
-        if time.time() < cooldown_until:
-            return False
+            # Check cooldown for this specific provider:model combo
+            cooldown_key = f"{provider_name}:{model_id}"
+            cooldown_until = self._model_cooldowns.get(cooldown_key, 0)
+            if time.time() >= cooldown_until:
+                return True  # At least one provider is available
 
-        return True
+        return False
 
     def _trigger_model_cooldown(self, model_name: str, seconds: int = 60) -> None:
         """Put a model in cooldown after failure."""
@@ -207,29 +129,6 @@ class UnifiedAIClient:
         self._model_failures[model_name] = self._model_failures.get(model_name, 0) + 1
 
         logger.warning(f"[UnifiedClient] Model {model_name} in cooldown for {seconds}s")
-
-    def _record_success(self, provider_name: str, model_name: str, tokens: int = 0) -> None:
-        """Record successful request."""
-        if provider_name in self.stats:
-            self.stats[provider_name].requests += 1
-            self.stats[provider_name].successes += 1
-            self.stats[provider_name].total_tokens += tokens
-
-        # Reset failure count on success
-        self._model_failures[model_name] = 0
-
-    def _record_failure(self, provider_name: str, model_name: str, error: str) -> None:
-        """Record failed request and apply cooldown."""
-        if provider_name in self.stats:
-            self.stats[provider_name].requests += 1
-            self.stats[provider_name].failures += 1
-
-        failures = self._model_failures.get(model_name, 0) + 1
-        self._model_failures[model_name] = failures
-
-        # Progressive cooldown based on failure count
-        cooldown = min(60 * failures, 300)  # Max 5 minutes
-        self._trigger_model_cooldown(model_name, cooldown)
 
     def _call_model(
         self,
@@ -240,39 +139,87 @@ class UnifiedAIClient:
         temperature: float,
         json_mode: bool = False,
     ) -> CompletionResult:
-        """Call a specific model via its provider."""
-        provider = self.providers.get(model.provider_name)
-        if not provider:
-            return CompletionResult(success=False, error=f"Provider {model.provider_name} not found")
-
+        """
+        Call a model, trying ALL providers in speed order until one succeeds.
+        """
         # Use adaptive timeout based on model size
         timeout = model.timeout_seconds
-        logger.debug(f"[UnifiedClient] ⏳ Timeout Set: {timeout}s for {model.name} ({model.size_billions}B)")
-        logger.info(f"[UnifiedClient] Calling {model.name} (Timeout: {timeout}s)...")
+        logger.info(f"[UnifiedClient] 🚀 Trying {model.name} ({model.size_billions}B) across {len(model.providers)} providers")
 
-        try:
-            if json_mode:
-                result = provider.json_completion(
-                    prompt=prompt,
-                    system_prompt=system_prompt,
-                    model=model.name,
-                    max_tokens=max_tokens,
-                    timeout=timeout,
-                )
-            else:
-                result = provider.chat_completion(
-                    prompt=prompt,
-                    system_prompt=system_prompt,
-                    model=model.name,
-                    max_tokens=max_tokens,
-                    temperature=temperature,
-                    timeout=timeout,
-                )
+        last_error = ""
 
-            return result
+        for provider_name, model_id in model.providers:
+            # Check if this provider is available
+            provider = self.providers.get(provider_name)
+            if not provider or not provider.is_available():
+                logger.debug(f"[UnifiedClient] Provider {provider_name} not available, skipping")
+                continue
 
-        except Exception as e:
-            return CompletionResult(success=False, error=str(e))
+            # Check cooldown for this specific provider:model combo
+            cooldown_key = f"{provider_name}:{model_id}"
+            cooldown_until = self._model_cooldowns.get(cooldown_key, 0)
+            if time.time() < cooldown_until:
+                logger.debug(f"[UnifiedClient] {cooldown_key} in cooldown, skipping")
+                continue
+
+            logger.info(f"[UnifiedClient] ⚡ Calling {model_id} via {provider_name} (Timeout: {timeout}s)")
+
+            try:
+                if json_mode:
+                    result = provider.json_completion(
+                        prompt=prompt,
+                        system_prompt=system_prompt,
+                        model=model_id,
+                        max_tokens=max_tokens,
+                        timeout=timeout,
+                    )
+                else:
+                    result = provider.chat_completion(
+                        prompt=prompt,
+                        system_prompt=system_prompt,
+                        model=model_id,
+                        max_tokens=max_tokens,
+                        temperature=temperature,
+                        timeout=timeout,
+                    )
+
+                if result.success:
+                    logger.info(f"[UnifiedClient] ✅ Success: {model_id} via {provider_name}")
+                    # Update stats
+                    if provider_name in self.stats:
+                        self.stats[provider_name].requests += 1
+                        self.stats[provider_name].successes += 1
+                        self.stats[provider_name].total_tokens += result.tokens_used
+                    # Clear failure count
+                    self._model_failures[cooldown_key] = 0
+                    return result
+
+                # Provider returned but failed
+                last_error = result.error or "Unknown error"
+                logger.warning(f"[UnifiedClient] ❌ Failed: {model_id} via {provider_name}: {last_error}")
+
+                # Put this specific provider:model combo in cooldown
+                if provider_name in self.stats:
+                    self.stats[provider_name].requests += 1
+                    self.stats[provider_name].failures += 1
+
+                failures = self._model_failures.get(cooldown_key, 0) + 1
+                self._model_failures[cooldown_key] = failures
+                cooldown = min(60 * failures, 300)  # Max 5 minutes
+                self._model_cooldowns[cooldown_key] = time.time() + cooldown
+
+            except Exception as e:
+                last_error = str(e)
+                logger.warning(f"[UnifiedClient] ❌ Exception: {model_id} via {provider_name}: {last_error}")
+
+            # Brief pause before trying next provider
+            time.sleep(0.3)
+
+        # All providers for this model failed
+        return CompletionResult(
+            success=False,
+            error=f"All providers failed for {model.name}: {last_error}"
+        )
 
     def generate(
         self,
@@ -280,24 +227,9 @@ class UnifiedAIClient:
         system_prompt: str = "",
         max_tokens: int = 4096,
         temperature: float = 0.7,
-        min_model_size: float = 0,  # Minimum model size in billions
+        min_model_size: float = 0,
     ) -> CompletionResult:
-        """
-        Generate text completion using MODEL-SIZE-BASED fallback.
-
-        Tries models from largest to smallest until one succeeds.
-
-        Args:
-            prompt: User prompt
-            system_prompt: System prompt for context
-            max_tokens: Maximum tokens in response
-            temperature: Sampling temperature
-            min_model_size: Minimum model size to use (0 = any)
-
-        Returns:
-            CompletionResult with generated text
-        """
-        # Filter to available models meeting size requirement
+        """Generate text completion using MODEL-SIZE-BASED fallback."""
         available_models = [
             m for m in self.model_chain
             if self._is_model_available(m) and m.size_billions >= min_model_size
@@ -314,8 +246,6 @@ class UnifiedAIClient:
         last_error = ""
 
         for model in available_models:
-            logger.debug(f"[UnifiedClient] Trying {model.name} ({model.size_billions}B via {model.provider_name})")
-
             result = self._call_model(
                 model=model,
                 prompt=prompt,
@@ -326,91 +256,14 @@ class UnifiedAIClient:
             )
 
             if result.success:
-                self._record_success(model.provider_name, model.name, result.tokens_used)
-                logger.info(f"[UnifiedClient] Success: {model.name} ({model.size_billions}B)")
                 return result
 
-            # Record failure and continue to next model
-            self._record_failure(model.provider_name, model.name, result.error or "Unknown")
             last_error = result.error or "Unknown error"
-
-            # Brief pause before trying next model
             time.sleep(0.5)
 
         return CompletionResult(
             success=False,
             error=f"All models failed. Last error: {last_error}",
-        )
-
-    def generate_with_tier(
-        self,
-        prompt: str,
-        system_prompt: str = "",
-        max_tokens: int = 4096,
-        temperature: float = 0.7,
-        start_tier: int = 1,  # 1 = largest, 2 = 2nd largest, etc.
-    ) -> CompletionResult:
-        """
-        Generate text completion starting from a specific tier in the model chain.
-
-        This reserves larger models for more important tasks.
-
-        Args:
-            prompt: User prompt
-            system_prompt: System prompt for context
-            max_tokens: Maximum tokens in response
-            temperature: Sampling temperature
-            start_tier: Which tier to start from (1 = largest, 4 = 4th largest)
-
-        Returns:
-            CompletionResult with generated text
-        """
-        # Filter to available models
-        available_models = [m for m in self.model_chain if self._is_model_available(m)]
-
-        if not available_models:
-            return CompletionResult(
-                success=False,
-                error="No AI models available. Check API keys.",
-            )
-
-        # Skip first (start_tier - 1) models to start from the desired tier
-        skip_count = min(start_tier - 1, len(available_models) - 1)
-        tier_models = available_models[skip_count:]
-
-        if not tier_models:
-            tier_models = available_models  # Fallback to all if tier unavailable
-
-        logger.info(f"[UnifiedClient] Starting from tier {start_tier}, {len(tier_models)} models available")
-
-        last_error = ""
-
-        for model in tier_models:
-            logger.debug(f"[UnifiedClient] Trying {model.name} ({model.size_billions}B via {model.provider_name})")
-
-            result = self._call_model(
-                model=model,
-                prompt=prompt,
-                system_prompt=system_prompt,
-                max_tokens=max_tokens,
-                temperature=temperature,
-                json_mode=False,
-            )
-
-            if result.success:
-                self._record_success(model.provider_name, model.name, result.tokens_used)
-                logger.info(f"[UnifiedClient] Success: {model.name} ({model.size_billions}B)")
-                return result
-
-            # Record failure and continue to next model
-            self._record_failure(model.provider_name, model.name, result.error or "Unknown")
-            last_error = result.error or "Unknown error"
-
-            time.sleep(0.5)
-
-        return CompletionResult(
-            success=False,
-            error=f"All tier-{start_tier}+ models failed. Last error: {last_error}",
         )
 
     def generate_json(
@@ -420,18 +273,7 @@ class UnifiedAIClient:
         max_tokens: int = 4096,
         min_model_size: float = 0,
     ) -> CompletionResult:
-        """
-        Generate JSON-structured completion using MODEL-SIZE-BASED fallback.
-
-        Args:
-            prompt: User prompt requesting JSON output
-            system_prompt: System prompt for context
-            max_tokens: Maximum tokens in response
-            min_model_size: Minimum model size to use (0 = any)
-
-        Returns:
-            CompletionResult with json_content dict
-        """
+        """Generate JSON-structured completion using MODEL-SIZE-BASED fallback."""
         available_models = [
             m for m in self.model_chain
             if self._is_model_available(m) and m.size_billions >= min_model_size
@@ -448,25 +290,19 @@ class UnifiedAIClient:
         last_error = ""
 
         for model in available_models:
-            logger.debug(f"[UnifiedClient] JSON: Trying {model.name} ({model.size_billions}B)")
-
             result = self._call_model(
                 model=model,
                 prompt=prompt,
                 system_prompt=system_prompt,
                 max_tokens=max_tokens,
-                temperature=0.3,  # Lower temp for structured output
+                temperature=0.3,
                 json_mode=True,
             )
 
             if result.success and result.json_content is not None:
-                self._record_success(model.provider_name, model.name, result.tokens_used)
-                logger.info(f"[UnifiedClient] JSON Success: {model.name}")
                 return result
 
-            self._record_failure(model.provider_name, model.name, result.error or "JSON parse failed")
             last_error = result.error or "Failed to parse JSON"
-
             time.sleep(0.5)
 
         return CompletionResult(
@@ -480,11 +316,7 @@ class UnifiedAIClient:
         count: int = 20,
         existing_repos: list[str] | None = None,
     ) -> list[dict[str, Any]]:
-        """
-        Use AI to select the best project ideas from discovered trends.
-
-        Uses largest available model for best quality selection.
-        """
+        """Use AI to select the best project ideas from discovered trends."""
         if not trends:
             return []
 
@@ -578,7 +410,7 @@ CRITICAL: Generate EXACTLY 20 or more tags."""
             prompt=prompt,
             system_prompt="You are an SEO expert and GitHub repository optimization specialist.",
             max_tokens=2000,
-            min_model_size=8,  # 8B+ is fine for metadata
+            min_model_size=8,
         )
 
         if result.success and result.json_content:
@@ -626,15 +458,18 @@ CRITICAL: Generate EXACTLY 20 or more tags."""
                 "total_tokens": stats.total_tokens if stats else 0,
             }
 
-        # Model chain status
         models_status = []
         for model in self.model_chain[:10]:  # Top 10 models
+            total_failures = sum(
+                self._model_failures.get(f"{pn}:{mid}", 0)
+                for pn, mid in model.providers
+            )
             models_status.append({
                 "name": model.name,
-                "provider": model.provider_name,
+                "providers": [pn for pn, _ in model.providers],
                 "size_b": model.size_billions,
                 "available": self._is_model_available(model),
-                "failures": self._model_failures.get(model.name, 0),
+                "failures": total_failures,
             })
 
         return {
@@ -646,7 +481,7 @@ CRITICAL: Generate EXACTLY 20 or more tags."""
     def print_status(self) -> None:
         """Print formatted status of all providers and models."""
         print("\n" + "=" * 70)
-        print("AI UNIFIED CLIENT STATUS (Model-Size-Based Fallback)")
+        print("AI UNIFIED CLIENT STATUS (Modular Model-Size-Based Fallback)")
         print("=" * 70)
 
         status = self.get_status()
@@ -660,7 +495,10 @@ CRITICAL: Generate EXACTLY 20 or more tags."""
         print("\nMODEL CHAIN (Top 10 by size):")
         for m in status["model_chain"]:
             icon = "[OK]" if m["available"] else "[--]"
-            print(f"  {icon} {m['size_b']:>5.0f}B | {m['name'][:40]:<40} ({m['provider']})")
+            providers_str = ", ".join(m["providers"][:3])
+            if len(m["providers"]) > 3:
+                providers_str += f" +{len(m['providers']) - 3}"
+            print(f"  {icon} {m['size_b']:>5.0f}B | {m['name'][:30]:<30} ({providers_str})")
 
         print(f"\nTotal Available Models: {status['total_available_models']}")
         print("=" * 70)
