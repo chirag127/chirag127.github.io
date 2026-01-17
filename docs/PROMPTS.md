@@ -6,7 +6,7 @@ This document contains all prompts used to generate websites for Chirag Hub and 
 
 ## 1. Hub Homepage Generation Prompt
 
-Used by `scripts/generate_multiverse_hub.py` to generate alternative hub homepages.
+Used by `scripts/generate_polymorphs_hub.py` to generate alternative hub homepages.
 
 ```text
 ROLE: You are the Apex Technical Authority (Jan 2026 Standards).
@@ -65,7 +65,7 @@ REQUIREMENTS:
    - NO <header> or <footer> tags (Universal Engine injects them)
    - Wrap content in <main> with padding-top: 80px
 
-6. MULTIVERSE SIDEBAR:
+6. POLYMORPHS SIDEBAR:
    Include a right-side toggle sidebar with these alternative hub links:
    {sidebar_links}
 
@@ -128,7 +128,7 @@ REQUIREMENTS:
    - Kinetic feedback (scale on click)
    - Smooth transitions (0.3s cubic-bezier)
 
-6. MULTIVERSE SIDEBAR:
+6. POLYMORPHS SIDEBAR:
    Include right-side toggle sidebar with alternative versions:
    {sidebar_links}
 
@@ -144,8 +144,8 @@ Injected into all generated pages:
 
 ```html
 <style>
-/* Multiverse Sidebar */
-#mv-sidebar {
+/* Polymorphs Sidebar */
+#pm-sidebar {
     position: fixed;
     top: 0;
     right: 0;
@@ -162,10 +162,10 @@ Injected into all generated pages:
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: -8px 0 32px rgba(0,0,0,0.5);
 }
-#mv-sidebar.open { transform: translateX(0); }
-#mv-toggle {
+#pm-sidebar.open { transform: translateX(0); }
+#pm-toggle {
     position: fixed;
-    top: 20px;
+    bottom: 20px;
     right: 20px;
     z-index: 10000;
     background: rgba(99, 102, 241, 0.15);
@@ -179,11 +179,11 @@ Injected into all generated pages:
     font-size: 0.85rem;
     transition: all 0.2s;
 }
-#mv-toggle:hover {
+#pm-toggle:hover {
     background: rgba(99, 102, 241, 0.25);
     transform: scale(1.02);
 }
-.mv-title {
+.pm-title {
     color: #f9fafb;
     font-size: 0.9rem;
     font-weight: 700;
@@ -193,7 +193,7 @@ Injected into all generated pages:
     padding-bottom: 12px;
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.mv-item {
+.pm-item {
     display: block;
     padding: 14px 12px;
     margin-bottom: 8px;
@@ -205,18 +205,18 @@ Injected into all generated pages:
     transition: all 0.2s;
     font-size: 0.9rem;
 }
-.mv-item:hover {
+.pm-item:hover {
     background: rgba(99, 102, 241, 0.1);
     border-color: rgba(99, 102, 241, 0.3);
     color: #f9fafb;
     transform: translateX(-4px);
 }
-.mv-item.active {
+.pm-item.active {
     background: rgba(99, 102, 241, 0.15);
     border-color: rgba(99, 102, 241, 0.4);
     color: #f9fafb;
 }
-.mv-item .mv-size {
+.pm-item .pm-size {
     display: block;
     font-size: 0.75rem;
     color: rgba(255,255,255,0.4);
@@ -227,21 +227,21 @@ Injected into all generated pages:
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const btn = document.createElement('button');
-    btn.id = 'mv-toggle';
-    btn.innerHTML = '⚡ MULTIVERSE';
+    btn.id = 'pm-toggle';
+    btn.innerHTML = '🔮 POLYMORPHS';
     document.body.appendChild(btn);
 
     const sidebar = document.createElement('div');
-    sidebar.id = 'mv-sidebar';
+    sidebar.id = 'pm-sidebar';
     sidebar.innerHTML = `
-        <div class="mv-title">🌐 Multiverse</div>
+        <div class="pm-title">🔮 Polymorphs</div>
         {sidebar_items}
     `;
     document.body.appendChild(sidebar);
 
     btn.addEventListener('click', () => {
         sidebar.classList.toggle('open');
-        btn.innerHTML = sidebar.classList.contains('open') ? '✕ CLOSE' : '⚡ MULTIVERSE';
+        btn.innerHTML = sidebar.classList.contains('open') ? '✕ CLOSE' : '🔮 POLYMORPHS';
     });
 });
 </script>

@@ -18,9 +18,9 @@ from src.ai.models import UNIFIED_MODEL_CHAIN
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger("MultiverseGenerator")
+logger = logging.getLogger("PolymorphsGenerator")
 
-OUTPUT_DIR = Path("multiverse_sites")
+OUTPUT_DIR = Path("polymorphs")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 COMMON_PROMPT = """
@@ -37,8 +37,8 @@ The design must be "Wow" quality:
 
 SIDEBAR_CSS = """
 <style>
-/* Multiverse Sidebar */
-#mv-sidebar {
+/* Polymorphs Sidebar */
+#pm-sidebar {
     position: fixed;
     top: 0;
     right: 0;
@@ -55,12 +55,12 @@ SIDEBAR_CSS = """
     transition: transform 0.3s ease;
     box-shadow: -5px 0 25px rgba(0,0,0,0.5);
 }
-#mv-sidebar.open {
+#pm-sidebar.open {
     transform: translateX(0);
 }
-#mv-toggle {
+#pm-toggle {
     position: fixed;
-    top: 20px;
+    bottom: 20px;
     right: 20px;
     z-index: 10000;
     background: rgba(255, 255, 255, 0.1);
@@ -73,10 +73,10 @@ SIDEBAR_CSS = """
     font-weight: bold;
     transition: all 0.2s;
 }
-#mv-toggle:hover {
+#pm-toggle:hover {
     background: rgba(255, 255, 255, 0.2);
 }
-.mv-item {
+.pm-item {
     display: block;
     padding: 12px;
     margin-bottom: 8px;
@@ -88,24 +88,24 @@ SIDEBAR_CSS = """
     transition: all 0.2s;
     font-size: 0.9em;
 }
-.mv-item:hover {
+.pm-item:hover {
     background: rgba(255, 255, 255, 0.1);
     color: white;
     transform: translateX(-5px);
     border-color: rgba(64, 224, 208, 0.4);
 }
-.mv-item .size {
+.pm-item .size {
     font-size: 0.75em;
     color: rgba(255, 255, 255, 0.5);
     display: block;
     margin-top: 4px;
 }
-.mv-item.active {
+.pm-item.active {
     border-color: #00f2ea;
     background: rgba(0, 242, 234, 0.05);
     color: white;
 }
-.mv-title {
+.pm-title {
     color: white;
     font-size: 1.1em;
     margin-bottom: 20px;
@@ -122,18 +122,18 @@ SIDEBAR_JS = """
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const btn = document.createElement('button');
-    btn.id = 'mv-toggle';
-    btn.innerText = '☰ MODELS';
+    btn.id = 'pm-toggle';
+    btn.innerText = '🔮 POLYMORPHS';
     document.body.appendChild(btn);
 
     const sidebar = document.createElement('div');
-    sidebar.id = 'mv-sidebar';
+    sidebar.id = 'pm-sidebar';
     sidebar.innerHTML = `{SIDEBAR_CONTENT}`;
     document.body.appendChild(sidebar);
 
     btn.addEventListener('click', () => {
         sidebar.classList.toggle('open');
-        btn.innerText = sidebar.classList.contains('open') ? '✕ CLOSE' : '☰ MODELS';
+        btn.innerText = sidebar.classList.contains('open') ? '✕ CLOSE' : '🔮 POLYMORPHS';
     });
 });
 </script>
@@ -223,13 +223,13 @@ def main():
     # 3. Build Sidebar (Only successes that opted-in)
     # The user asked for "Bing of the hundred billion parameter name... in the home page Only in the sidebar"
     # Sidebar lists all generated sites.
-    sidebar_content = '<div class="mv-title">Multiverse</div>'
+    sidebar_content = '<div class="pm-title">🔮 Polymorphs</div>'
     for item in successful_results:
         t = item['target']
         if t['include_in_sidebar']:
             disp = f"{t['name']} <span class='size'>{t['size']}B • {t['provider'].title()}</span>"
-            link = f"../{t['slug']}/index.html"
-            sidebar_content += f'<a href="{link}" data-slug="{t["slug"]}" class="mv-item">{disp}</a>'
+            link = f"../{t['slug']}.html"
+            sidebar_content += f'<a href="{link}" data-slug="{t["slug"]}" class="pm-item">{disp}</a>'
 
     sidebar_content_js = sidebar_content.replace('`', '\\`').replace('$', '\\$')
 
@@ -241,7 +241,7 @@ def main():
 
         # Only inject sidebar if this model opted-in
         if t['include_in_sidebar']:
-            final_sidebar = SIDEBAR_JS.replace("{SIDEBAR_CONTENT}", sidebar_content_js.replace(f'data-slug="{slug}"', 'data-slug="{slug}" class="mv-item active"'))
+            final_sidebar = SIDEBAR_JS.replace("{SIDEBAR_CONTENT}", sidebar_content_js.replace(f'data-slug="{slug}"', 'data-slug="{slug}" class="pm-item active"'))
 
             if "</body>" in content:
                 content = content.replace("</body>", f"{SIDEBAR_CSS}\n{final_sidebar}\n</body>")
@@ -262,8 +262,8 @@ def main():
     if src_path.exists():
         with open(src_path, "r", encoding="utf-8") as f:
             main_content = f.read()
-        # Fix links for root index.html ( "../slug" -> "multiverse_sites/slug" )
-        main_content = main_content.replace('href="../', 'href="multiverse_sites/')
+        # Fix links for root index.html ( "../slug" -> "polymorphs/slug" )
+        main_content = main_content.replace('href="../', 'href="polymorphs/')
 
         with open("index.html", "w", encoding="utf-8") as f:
             f.write(main_content)

@@ -10,7 +10,7 @@ class UnifiedModel:
     supports_json: bool = True
     priority: int = 0  # Higher priority (e.g., 100) models are tried first
     working: bool = True  # Whether the model is currently verified to be working
-    include_in_sidebar: bool = True  # Whether to show this model in the Multiverse sidebar
+    include_in_sidebar: bool = True  # Whether to show this model in the Polymorphs sidebar
     provider: str = ""
     api_model_id: str = ""
 

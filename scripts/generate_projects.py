@@ -808,7 +808,7 @@ def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict, search_client: W
             files.update(polymorphs_files)
             logger.info(f"  ✅ Generated {len(polymorphs_files)} polymorphs variants")
         except Exception as e:
-            logger.error(f"  ❌ Multiverse generation failed: {e}")
+            logger.error(f"  ❌ Polymorphs generation failed: {e}")
             # Continue with main file only
 
     logger.info(f"  Writing {len(files)} files...")

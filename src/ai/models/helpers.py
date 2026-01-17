@@ -1,5 +1,5 @@
 """
-AI Helpers - Model Utilities for Multiverse Generation
+AI Helpers - Model Utilities for Polymorphs Generation
 
 Functions for working with the unified model chain:
 - Get sidebar-enabled models
