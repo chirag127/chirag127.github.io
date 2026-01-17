@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>llama-3.1-405b-instruct (Nvidia)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #1A1D23;
+            overflow-x: hidden;
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: #fff;
+            background: linear-gradient(180deg, #1A1D23 0%, #171A1F 100%);
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            animation: float 2s ease-in-out infinite;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-top: 20px;
+            animation: float 2s ease-in-out infinite;
+            animation-delay: 0.5s;
+        }
+        
+        .features {
+            padding: 100px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .feature {
+            width: calc(33.33% - 20px);
+            background: linear-gradient(180deg, #212529 0%, #1A1D23 100%);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            cursor: pointer;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .feature:hover {
+            transform: scale(1.1);
+        }
+        
+        .feature h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .feature p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .about {
+            padding: 100px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+        
+        .about h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .about p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .contact {
+            padding: 50px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+        
+        .contact h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .contact a {
+            font-size: 18px;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .feature {
+                width: calc(50% - 20px);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .feature {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <h1>llama-3.1-405b-instruct (Nvidia)</h1>
+        <p>Revolutionizing AI with cutting-edge technology</p>
+    </section>
+    <section class="features">
+        <div class="feature">
+            <h2>Advanced AI Capabilities</h2>
+            <p>Our technology enables faster and more accurate AI processing</p>
+        </div>
+        <div class="feature">
+            <h2>Real-time Data Processing</h2>
+            <p>Our systems can handle large amounts of data in real-time</p>
+        </div>
+        <div class="feature">
+            <h2>Enhanced Security</h2>
+            <p>Our solutions ensure secure data storage and transmission</p>
+        </div>
+    </section>
+    <section class="about">
+        <h2>About Us</h2>
+        <p>We are a team of innovators and experts in AI technology</p>
+    </section>
+    <section class="contact">
+        <h2>Get in Touch</h2>
+        <a href="mailto:info@llama-3.1-405b-instruct.com">info@llama-3.1-405b-instruct.com</a>
+        <a href="tel:+1234567890">+1 234 567 890</a>
+    </section>
+    <script>
+        // Add Glassmorphism effect to cards and sections
+        const features = document.querySelectorAll('.feature');
+        features.forEach(feature => {
+            feature.style.background = 'linear-gradient(180deg, #212529 0%, #1A1D23 100%)';
+            feature.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
+        });
+        
+        // Add animation to hero section
+        const hero = document.querySelector('.hero');
+        hero.style.animation = 'float 2s ease-in-out infinite';
+        
+        // Add event listener to features
+        features.forEach(feature => {
+            feature.addEventListener('mouseover', () => {
+                feature.style.transform = 'scale(1.1)';
+            });
+            feature.addEventListener('mouseout', () => {
+                feature.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+
+<style>
+/* Multiverse Sidebar */
+#mv-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 260px;
+    height: 100vh;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(12px);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 9999;
+    padding: 20px;
+    overflow-y: auto;
+    font-family: 'Inter', sans-serif;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    box-shadow: -5px 0 25px rgba(0,0,0,0.5);
+}
+#mv-sidebar.open {
+    transform: translateX(0);
+}
+#mv-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+#mv-toggle:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+.mv-item {
+    display: block;
+    padding: 12px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    color: #ccc;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 0.9em;
+}
+.mv-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateX(-5px);
+    border-color: rgba(64, 224, 208, 0.4);
+}
+.mv-item .size {
+    font-size: 0.75em;
+    color: rgba(255, 255, 255, 0.5);
+    display: block;
+    margin-top: 4px;
+}
+.mv-item.active {
+    border-color: #00f2ea;
+    background: rgba(0, 242, 234, 0.05);
+    color: white;
+}
+.mv-title {
+    color: white;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+</style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.createElement('button');
+    btn.id = 'mv-toggle';
+    btn.innerText = '☰ MODELS';
+    document.body.appendChild(btn);
+
+    const sidebar = document.createElement('div');
+    sidebar.id = 'mv-sidebar';
+    sidebar.innerHTML = `<div class="mv-title">Multiverse</div><a href="../glm-4-6-1t-moe--cerebras/index.html" data-slug="glm-4-6-1t-moe--cerebras" class="mv-item">glm-4.6-1t-moe <span class='size'>1000.0B • Cerebras</span></a><a href="../glm-4-6-1t-moe--openrouter/index.html" data-slug="glm-4-6-1t-moe--openrouter" class="mv-item">glm-4.6-1t-moe <span class='size'>1000.0B • Openrouter</span></a><a href="../mistral-large-3-675b-moe--nvidia/index.html" data-slug="mistral-large-3-675b-moe--nvidia" class="mv-item">mistral-large-3-675b-moe <span class='size'>675.0B • Nvidia</span></a><a href="../mistral-large-3-675b-moe--mistral/index.html" data-slug="mistral-large-3-675b-moe--mistral" class="mv-item">mistral-large-3-675b-moe <span class='size'>675.0B • Mistral</span></a><a href="../deepseek-v3--nvidia/index.html" data-slug="deepseek-v3--nvidia" class="mv-item">deepseek-v3 <span class='size'>671.0B • Nvidia</span></a><a href="../deepseek-v3--openrouter/index.html" data-slug="deepseek-v3--openrouter" class="mv-item">deepseek-v3 <span class='size'>671.0B • Openrouter</span></a><a href="../qwen3-coder-480b-moe--openrouter/index.html" data-slug="qwen3-coder-480b-moe--openrouter" class="mv-item">qwen3-coder-480b-moe <span class='size'>480.0B • Openrouter</span></a><a href="../llama-3-1-405b-instruct--openrouter/index.html" data-slug="llama-3-1-405b-instruct--openrouter" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Openrouter</span></a><a href="../llama-3-1-405b-instruct--github/index.html" data-slug="llama-3-1-405b-instruct--github" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Github</span></a><a href="../llama-3-1-405b-instruct--nvidia/index.html" data-slug="{slug}" class="mv-item active" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Nvidia</span></a><a href="../llama-3-1-405b-instruct--mistral/index.html" data-slug="llama-3-1-405b-instruct--mistral" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Mistral</span></a><a href="../hermes-3-llama-3-1-405b--openrouter/index.html" data-slug="hermes-3-llama-3-1-405b--openrouter" class="mv-item">hermes-3-llama-3.1-405b <span class='size'>405.0B • Openrouter</span></a><a href="../hermes-3-llama-3-1-405b--github/index.html" data-slug="hermes-3-llama-3-1-405b--github" class="mv-item">hermes-3-llama-3.1-405b <span class='size'>405.0B • Github</span></a><a href="../llama-4-maverick-400b--openrouter/index.html" data-slug="llama-4-maverick-400b--openrouter" class="mv-item">llama-4-maverick-400b <span class='size'>400.0B • Openrouter</span></a><a href="../mimo-v2-flash-309b-moe--openrouter/index.html" data-slug="mimo-v2-flash-309b-moe--openrouter" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Openrouter</span></a><a href="../mimo-v2-flash-309b-moe--cloudflare/index.html" data-slug="mimo-v2-flash-309b-moe--cloudflare" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Cloudflare</span></a><a href="../deepseek-v3-236b-moe--openrouter/index.html" data-slug="deepseek-v3-236b-moe--openrouter" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Openrouter</span></a><a href="../deepseek-v3-236b-moe--github/index.html" data-slug="deepseek-v3-236b-moe--github" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Github</span></a><a href="../deepseek-v3-236b-moe--nvidia/index.html" data-slug="deepseek-v3-236b-moe--nvidia" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Nvidia</span></a><a href="../qwen3-235b-a22b-instruct--cerebras/index.html" data-slug="qwen3-235b-a22b-instruct--cerebras" class="mv-item">qwen3-235b-a22b-instruct <span class='size'>235.0B • Cerebras</span></a><a href="../qwen3-235b-a22b-instruct--openrouter/index.html" data-slug="qwen3-235b-a22b-instruct--openrouter" class="mv-item">qwen3-235b-a22b-instruct <span class='size'>235.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--openrouter/index.html" data-slug="devstral-2-123b-instruct--openrouter" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--mistral/index.html" data-slug="mistral-large-latest--mistral" class="mv-item">mistral-large-latest <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--nvidia/index.html" data-slug="mistral-large-latest--nvidia" class="mv-item">mistral-large-latest <span class='size'>123.0B • Nvidia</span></a><a href="../mistral-large-latest--openrouter/index.html" data-slug="mistral-large-latest--openrouter" class="mv-item">mistral-large-latest <span class='size'>123.0B • Openrouter</span></a><a href="../gpt-oss-120b--openrouter/index.html" data-slug="gpt-oss-120b--openrouter" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Openrouter</span></a><a href="../gpt-oss-120b--cerebras/index.html" data-slug="gpt-oss-120b--cerebras" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cerebras</span></a><a href="../gpt-oss-120b--cloudflare/index.html" data-slug="gpt-oss-120b--cloudflare" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cloudflare</span></a><a href="../jamba-1-5-large--github/index.html" data-slug="jamba-1-5-large--github" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Github</span></a><a href="../jamba-1-5-large--gemini/index.html" data-slug="jamba-1-5-large--gemini" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Gemini</span></a><a href="../jamba-1-5-large--openrouter/index.html" data-slug="jamba-1-5-large--openrouter" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Openrouter</span></a><a href="../qwen1-5-110b-chat--cerebras/index.html" data-slug="qwen1-5-110b-chat--cerebras" class="mv-item">qwen1.5-110b-chat <span class='size'>110.0B • Cerebras</span></a><a href="../command-r-plus-104b--github/index.html" data-slug="command-r-plus-104b--github" class="mv-item">command-r-plus-104b <span class='size'>104.0B • Github</span></a><a href="../command-r-plus-104b--openrouter/index.html" data-slug="command-r-plus-104b--openrouter" class="mv-item">command-r-plus-104b <span class='size'>104.0B • Openrouter</span></a><a href="../deepseek-r1-huge--openrouter/index.html" data-slug="deepseek-r1-huge--openrouter" class="mv-item">deepseek-r1-huge <span class='size'>100.0B • Openrouter</span></a><a href="../deepseek-r1-huge--github/index.html" data-slug="deepseek-r1-huge--github" class="mv-item">deepseek-r1-huge <span class='size'>100.0B • Github</span></a>`;
+    document.body.appendChild(sidebar);
+
+    btn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        btn.innerText = sidebar.classList.contains('open') ? '✕ CLOSE' : '☰ MODELS';
+    });
+});
+</script>
+
+</body>
+</html>
