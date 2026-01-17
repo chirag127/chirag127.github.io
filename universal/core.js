@@ -7,14 +7,10 @@
 */
 
 (async function() {
-  console.log("🚀 Launching Universal Engine...");
+  console.log("🚀 Launching Universal Engine v2.0 (Modular)...");
 
   // 1. Determine Base URL
   const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
-
-  // Correction: Since 'universal' is now at the root of the repo (github.io),
-  // on production it is at /universal.
-  // Locally (if serving root): /universal.
   const U_PATH = '/universal';
 
   // 2. Inject CSS
@@ -122,102 +118,45 @@
     loadUI();
   }
 
-  // 5. Config Loading Helper
-  function waitForConfig() {
-    return new Promise(resolve => {
-      if (window.SITE_CONFIG) return resolve(window.SITE_CONFIG);
-      let interval = setInterval(() => {
-        if (window.SITE_CONFIG) {
-          clearInterval(interval);
-          resolve(window.SITE_CONFIG);
-        }
-      }, 50);
-    });
-  }
-
-  const config = await waitForConfig();
-
-  // 6. Helper: Script Loader
+  // 5. Script Loader Helper (returns Promise)
   function loadScript(src, attrs = {}) {
+    return new Promise((resolve, reject) => {
       const s = document.createElement('script');
       s.src = src;
       Object.keys(attrs).forEach(k => s.setAttribute(k, attrs[k]));
       s.async = true;
+      s.onload = () => resolve(s);
+      s.onerror = (e) => reject(e);
       document.head.appendChild(s);
+    });
   }
 
-  // 7. Dynamic Module Loader
-  // We now import consolidated modules for Analytics and Monitoring
-  const { Analytics } = await import(`${U_PATH}/integrations/analytics.js`);
-  const { Monitoring } = await import(`${U_PATH}/integrations/monitoring.js`);
+  // 6. Load Modular Configuration
+  const { SITE_CONFIG } = await import(`${U_PATH}/config/index.js`);
 
-  // Initialize Consolidated Analytics
-  Object.keys(Analytics).forEach(key => {
-     const serviceConfig = config[key];
-     if (serviceConfig && serviceConfig.enabled) {
-         try {
-             Analytics[key].init(serviceConfig, loadScript, config);
-             console.log(`✅ Loaded Analytics: ${key}`);
-         } catch (e) {
-             console.error(`❌ Failed to init Analytics ${key}:`, e);
-         }
-     }
-  });
+  // Make config globally available
+  window.SITE_CONFIG = SITE_CONFIG;
 
-  // Initialize Consolidated Monitoring
-  Object.keys(Monitoring).forEach(key => {
-     const serviceConfig = config[key];
-     if (serviceConfig && serviceConfig.enabled) {
-         try {
-             Monitoring[key].init(serviceConfig, loadScript, config);
-             console.log(`✅ Loaded Monitoring: ${key}`);
-         } catch (e) {
-             console.error(`❌ Failed to init Monitoring ${key}:`, e);
-         }
-     }
-  });
+  // 7. Load and Initialize All Integrations
+  const {
+    analyticsProviders,
+    monitoringProviders,
+    adsProviders,
+    chatProviders,
+    initCategory
+  } = await import(`${U_PATH}/integrations/index.js`);
 
-  // Standalone Integrations (others not in consolidated files)
-  const standaloneIntegrations = [
-    // Monetization
-    { key: 'propeller', path: '/integrations/ads/monetization.js' },
-    // Chat
-    { key: 'tawk', path: '/integrations/chat/tawkto.js' }
-  ];
-
-  for (const item of integrations) {
-      if (!config[item.key] || !config[item.key].enabled) continue;
-      // Skip if handled by consolidated modules
-      if (Analytics[item.key] || Monitoring[item.key]) continue;
-
-      // Handle standalone
-      // Note: We need to match the key logic. The standalone list above is unused if we reuse 'integrations' list.
-      // Let's just define the standalone ones explicitly to avoid ambiguity.
-  }
-
-  // Explicit processing for standalone
-  for (const item of standaloneIntegrations) {
-    const serviceConfig = config[item.key];
-    if (serviceConfig && serviceConfig.enabled) {
-      try {
-        const modulePath = `${U_PATH}${item.path}`;
-        import(modulePath)
-          .then(module => {
-            if (module && module.init) {
-              module.init(serviceConfig, loadScript, config);
-              console.log(`✅ Loaded Standalone: ${item.key}`);
-            }
-          })
-          .catch(e => console.error(`❌ Failed to load ${item.key}:`, e));
-      } catch (e) {
-        console.error(`Error initiating ${item.key}`, e);
-      }
-    }
-  }
+  // Initialize all categories
+  initCategory(analyticsProviders, SITE_CONFIG, loadScript, 'Analytics');
+  initCategory(monitoringProviders, SITE_CONFIG, loadScript, 'Monitoring');
+  initCategory(adsProviders, SITE_CONFIG, loadScript, 'Ads');
+  initCategory(chatProviders, SITE_CONFIG, loadScript, 'Chat');
 
   // 8. Load Firebase (ES Module)
   import(`${U_PATH}/firebase-modules.js`)
     .then(fb => console.log("🔥 Firebase Modules Loaded"))
-    .catch(e => console.error("Firebase load error:", e));
+    .catch(e => console.warn("Firebase load skipped:", e.message));
+
+  console.log("✨ Universal Engine v2.0 initialized successfully!");
 
 })();
