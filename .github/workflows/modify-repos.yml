@@ -47,7 +47,9 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install requests pydantic
+        run: |
+          pip install requests pydantic httpx aiohttp tiktoken
+          pip install -e . || true
 
       - name: Verify API Keys
         run: |
@@ -56,4 +58,4 @@ jobs:
           [ -n "$CEREBRAS_API_KEY" ] && echo "CEREBRAS_API_KEY OK" || echo "CEREBRAS_API_KEY missing"
 
       - name: Modify repositories
-        run: python modify_existing_repositories.py
+        run: python scripts/modify_existing_repositories.py

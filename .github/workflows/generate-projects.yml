@@ -60,7 +60,9 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install requests pydantic
+        run: |
+          pip install requests pydantic httpx aiohttp tiktoken
+          pip install -e . || true
 
       - name: Verify API Keys
         run: |
@@ -74,14 +76,14 @@ jobs:
         run: |
           if [ -n "${{ github.event.inputs.tool_name }}" ]; then
             echo "Generating: ${{ github.event.inputs.tool_name }}"
-            python generate_projects.py --tool "${{ github.event.inputs.tool_name }}"
+            python scripts/generate_projects.py --tool "${{ github.event.inputs.tool_name }}"
           else
-            echo "Generating next tool from ar.txt"
-            python generate_projects.py
+            echo "Generating next tool from config/ar.txt"
+            python scripts/generate_projects.py
           fi
 
       - name: Show status
-        run: python generate_projects.py --status
+        run: python scripts/generate_projects.py --status
 
       - name: Commit state
         run: |
