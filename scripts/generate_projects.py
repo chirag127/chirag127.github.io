@@ -37,8 +37,6 @@ sys.path.append(str(ROOT_DIR))
 # Update imports for new structure
 from src.ai.unified_client import UnifiedAIClient
 from src.clients import WebSearchClient
-# src.prompts is now... wait, prompts.py is still in src/ ?
-# User list showed src\prompts.py. I didn't move it yet.
 from src.ai.prompts import (
     get_tool_metadata_prompt,
     get_tool_logic_prompt,
@@ -47,6 +45,17 @@ from src.ai.prompts import (
     CATEGORY_CONFIGS
 )
 
+# Multiverse generation support
+try:
+    from multiverse_tools import (
+        MultiverseToolGenerator,
+        get_sidebar_models_from_chain,
+        generate_sidebar_html,
+        inject_sidebar_into_html
+    )
+    MULTIVERSE_AVAILABLE = True
+except ImportError:
+    MULTIVERSE_AVAILABLE = False
 
 # Configure logging
 logging.basicConfig(
@@ -746,10 +755,20 @@ of this software and associated documentation files.
 # MAIN GENERATION FLOW
 # =============================================================================
 
-def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict, search_client: WebSearchClient = None) -> bool:
-    """Generate a tool with AI and optional web research."""
+def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict, search_client: WebSearchClient = None, multiverse: bool = False) -> bool:
+    """Generate a tool with AI and optional web research.
+
+    Args:
+        tool: Tool metadata dict
+        ai: UnifiedAIClient instance
+        state: State dict for caching
+        search_client: Optional WebSearchClient for research
+        multiverse: If True, generate multiverse variants
+    """
     logger.info(f"\n{'='*50}")
     logger.info(f"Generating: {tool['name']}")
+    if multiverse:
+        logger.info("MULTIVERSE MODE ENABLED")
     logger.info(f"{'='*50}")
 
     # Generate metadata first
@@ -759,13 +778,34 @@ def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict, search_client: W
     if not create_repo(tool["name"], tool["description"]):
         return False
 
-    # Generate HTML with web research
+    # Generate main HTML with web research
     html_content = generate_single_html(tool, ai, search_client)
 
     files = {
         "index.html": html_content,
         "README.md": generate_comprehensive_readme(tool),
     }
+
+    # Generate multiverse variants if enabled
+    if multiverse and MULTIVERSE_AVAILABLE:
+        logger.info("\n  🌐 Generating Multiverse Variants...")
+        try:
+            sidebar_models = get_sidebar_models_from_chain()
+            mv_generator = MultiverseToolGenerator(ai, sidebar_models)
+
+            # Generate variants (uses main HTML as fallback)
+            multiverse_files = mv_generator.generate_all_variants(
+                tool=tool,
+                models=sidebar_models[:10],  # Limit to top 10 models
+                output_dir=TEMP_DIR / "multiverse",
+                main_html=html_content
+            )
+
+            files.update(multiverse_files)
+            logger.info(f"  ✅ Generated {len(multiverse_files)} multiverse variants")
+        except Exception as e:
+            logger.error(f"  ❌ Multiverse generation failed: {e}")
+            # Continue with main file only
 
     logger.info(f"  Writing {len(files)} files...")
     if not git_push(tool["name"], files):
@@ -808,6 +848,15 @@ def main():
     args = sys.argv[1:]
     state = load_state()
 
+    # Check for multiverse mode
+    multiverse_mode = "--multiverse" in args
+    if multiverse_mode:
+        if MULTIVERSE_AVAILABLE:
+            logger.info("🌐 MULTIVERSE MODE: Will generate alternative versions")
+        else:
+            logger.warning("⚠️ Multiverse module not available, falling back to standard mode")
+            multiverse_mode = False
+
     # Initialize AI client
     ai = UnifiedAIClient()
 
@@ -827,7 +876,7 @@ def main():
             name = args[idx + 1]
             tool = next((t for t in tools if t["name"] == name), None)
             if tool:
-                generate_tool(tool, ai, state, search_client)
+                generate_tool(tool, ai, state, search_client, multiverse=multiverse_mode)
             else:
                 logger.error(f"Tool not found: {name}")
         return
@@ -835,14 +884,14 @@ def main():
     if "--all" in args:
         remaining = [t for t in tools if t["name"] not in state["generated"]]
         for tool in remaining:
-            generate_tool(tool, ai, state, search_client)
+            generate_tool(tool, ai, state, search_client, multiverse=multiverse_mode)
             time.sleep(5)
         return
 
     # Default: generate next tool
     for tool in tools:
         if tool["name"] not in state["generated"]:
-            generate_tool(tool, ai, state, search_client)
+            generate_tool(tool, ai, state, search_client, multiverse=multiverse_mode)
             return
 
     logger.info("All tools generated!")

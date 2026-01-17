@@ -19,3 +19,12 @@ UNIFIED_MODEL_CHAIN: list[UnifiedModel] = (
 )
 
 MODEL_COUNT = len(UNIFIED_MODEL_CHAIN)
+
+# Export helper functions
+from .helpers import (
+    get_sidebar_enabled_models,
+    generate_model_slug,
+    get_largest_model,
+    get_model_by_slug,
+    get_sidebar_models_for_html,
+)
