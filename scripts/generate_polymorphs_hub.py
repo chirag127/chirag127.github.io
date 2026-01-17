@@ -126,6 +126,52 @@ def get_sidebar_html_data() -> str:
     return "[\n        " + ",\n        ".join(items) + "\n      ]"
 
 
+def get_sidebar_injection_script(sidebar_data: str, current_slug: str) -> str:
+    """
+    Generate the sidebar JavaScript injection code.
+
+    This is injected into generated HTML to ensure the sidebar is always present.
+    """
+    return f"""
+<!-- Polymorphs Sidebar Injection -->
+<script src="https://chirag127.github.io/universal/sidebar.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {{
+  if (typeof Polymorphs !== 'undefined') {{
+    const POLYMORPHS_MODELS = {sidebar_data};
+    Polymorphs.init(POLYMORPHS_MODELS, {{
+      isHub: true,
+      baseUrl: 'polymorphs',
+      currentSlug: '{current_slug}'
+    }});
+  }}
+}});
+</script>
+"""
+
+
+def ensure_sidebar_included(html_content: str, sidebar_data: str, current_slug: str) -> str:
+    """
+    Ensure the Polymorphs sidebar is included in the HTML.
+
+    If the sidebar script is missing, inject it before </body>.
+    """
+    # Check if sidebar is already initialized
+    if "Polymorphs.init" in html_content:
+        logger.info("  ✓ Sidebar already included in generated HTML")
+        return html_content
+
+    # Inject sidebar script
+    logger.info("  ⚠️ Sidebar missing, injecting...")
+    sidebar_script = get_sidebar_injection_script(sidebar_data, current_slug)
+
+    if "</body>" in html_content:
+        return html_content.replace("</body>", f"{sidebar_script}\n</body>")
+    else:
+        # Fallback: append to end
+        return html_content + sidebar_script
+
+
 def call_specific_model(
     ai: UnifiedAIClient,
     model: UnifiedModel,
@@ -205,6 +251,9 @@ def generate_hub_for_model(
         # Validate it looks like HTML
         if not content.strip().startswith("<!DOCTYPE") and not content.strip().startswith("<html"):
             logger.warning("Generated content doesn't look like HTML, may need adjustment")
+
+        # Ensure sidebar is included (inject if missing)
+        content = ensure_sidebar_included(content, sidebar_data, slug)
 
         # Save to file
         output_file.write_text(content, encoding="utf-8")

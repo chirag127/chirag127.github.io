@@ -337,6 +337,52 @@
       gap: 5px;
     }
 
+    /* Action Buttons */
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 0.6rem 0.8rem;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.2s var(--ease-smooth);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .action-btn.primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+    }
+
+    .action-btn.primary:hover {
+      background: #4f46e5;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    .action-btn.secondary {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .action-btn.secondary:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--text-main);
+      transform: translateY(-2px);
+    }
+
     /* Loading / Empty States */
     .state-msg {
       text-align: center;
@@ -504,19 +550,16 @@
             const combinedText = `${repo.name} ${repo.description || ''} ${(repo.topics || []).join(' ')}`;
             const category = detectCategory(combinedText);
 
-            // Always link to GitHub Pages URL: /{repo.name}/
-            // This assumes all tool repos have GitHub Pages enabled
-            const pagesUrl = `/${repo.name}/`;
-
             return {
               name: repo.name,
               title: repo.name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
               description: repo.description || 'A privacy-focused browser tool.',
-              url: pagesUrl,
+              pagesUrl: repo.has_pages ? `/${repo.name}/` : null,
+              repoUrl: repo.html_url,
+              hasPages: repo.has_pages,
               stars: repo.stargazers_count,
               updated: new Date(repo.pushed_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-              category: category,
-              isExternal: false
+              category: category
             };
           });
       }
@@ -533,22 +576,38 @@
           return;
         }
 
-        grid.innerHTML = tools.map(tool => `
-          <a href="${tool.url}" class="tool-card" ${tool.isExternal ? 'target="_blank" rel="noopener"' : ''}>
-            <div class="card-header">
-              <div class="tool-icon-box">${ICONS[tool.category] || ICONS.other}</div>
-              <div class="tool-info">
-                <div class="tool-title">${tool.title}</div>
-                <div class="tool-badge">${tool.category}</div>
+        grid.innerHTML = tools.map(tool => {
+          // Primary action: GitHub Pages if available, otherwise GitHub repo
+          const primaryHref = tool.hasPages ? tool.pagesUrl : tool.repoUrl;
+          const primaryText = tool.hasPages ? '🚀 Open Tool' : '💻 View Repo';
+          const primaryTarget = tool.hasPages ? '' : 'target="_blank" rel="noopener"';
+
+          // Secondary action: GitHub repo (only show if tool has pages)
+          const secondaryBtn = tool.hasPages
+            ? `<a href="${tool.repoUrl}" class="action-btn secondary" target="_blank" rel="noopener">💻 GitHub</a>`
+            : '';
+
+          return `
+            <div class="tool-card">
+              <div class="card-header">
+                <div class="tool-icon-box">${ICONS[tool.category] || ICONS.other}</div>
+                <div class="tool-info">
+                  <div class="tool-title">${tool.title}</div>
+                  <div class="tool-badge">${tool.category}</div>
+                </div>
+              </div>
+              <div class="tool-desc">${tool.description}</div>
+              <div class="tool-footer">
+                <div class="stat-pill">⭐ ${tool.stars}</div>
+                <div class="stat-pill">📅 ${tool.updated}</div>
+              </div>
+              <div class="card-actions">
+                <a href="${primaryHref}" class="action-btn primary" ${primaryTarget}>${primaryText}</a>
+                ${secondaryBtn}
               </div>
             </div>
-            <div class="tool-desc">${tool.description}</div>
-            <div class="tool-footer">
-              <div class="stat-pill">⭐ ${tool.stars}</div>
-              <div class="stat-pill">📅 ${tool.updated}</div>
-            </div>
-          </a>
-        `).join('');
+          `;
+        }).join('');
       }
 
       // Filter and render

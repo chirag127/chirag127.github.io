@@ -210,6 +210,14 @@ class PolymorphsToolGenerator:
             elif "```" in content:
                 content = content.split("```")[1].split("```")[0].strip()
 
+            # Ensure sidebar is included (inject if missing)
+            if "Polymorphs.init" not in content:
+                logger.info("    ⚠️ Sidebar missing, injecting...")
+                sidebar_js = generate_sidebar_html(self.sidebar_models, slug, is_hub=False)
+                content = inject_sidebar_into_html(content, sidebar_js)
+            else:
+                logger.info("    ✓ Sidebar already included")
+
             logger.info(f"    ✅ Generated {len(content)} bytes using {result.model_used}")
             return True, content
 
