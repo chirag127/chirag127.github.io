@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Generate Multiverse Hub - Alternative Hub Homepage Generator
+Generate Polymorphs Hub - Alternative Hub Homepage Generator
 
 Creates alternative versions of the Chirag Hub homepage using different AI models.
-Each version is saved directly to multiverse_sites/{slug}.html (flat files, no subfolders).
+Each version is saved directly to polymorphs/{slug}.html (flat files, no subfolders).
 
 Usage:
-    python generate_multiverse_hub.py              # Generate all multiverse hubs
-    python generate_multiverse_hub.py --dry-run    # Show what would be generated
-    python generate_multiverse_hub.py --model NAME # Generate for specific model
+    python generate_polymorphs_hub.py              # Generate all polymorphs hubs
+    python generate_polymorphs_hub.py --dry-run    # Show what would be generated
+    python generate_polymorphs_hub.py --model NAME # Generate for specific model
 """
 
 import argparse
@@ -43,10 +43,10 @@ logging.basicConfig(
     format='%(asctime)s [%(name)s] %(levelname)s: %(message)s',
     datefmt='%H:%M:%S'
 )
-logger = logging.getLogger('ParallelHub')
+logger = logging.getLogger('PolymorphsHub')
 
 # Paths
-PARALLEL_DIR = ROOT_DIR / "multiverse_sites"  # Keep folder name for URL compatibility
+POLYMORPHS_DIR = ROOT_DIR / "polymorphs"
 MAIN_INDEX = ROOT_DIR / "index.html"
 
 # Hub Homepage Generation Prompt
@@ -104,11 +104,11 @@ REQUIREMENTS:
    - Wrap content in <main> element
    - Use IIFE pattern for JavaScript (no global variables)
 
-6. MULTIVERSE SIDEBAR:
+6. POLYMORPHS SIDEBAR:
    Include JavaScript at the end to initialize the sidebar with these models:
    {sidebar_models}
 
-   Call: MultiverseSidebar.init(MODELS_ARRAY, {{ isHub: true, baseUrl: 'multiverse_sites', currentSlug: '{current_slug}' }});
+   Call: Polymorphs.init(MODELS_ARRAY, {{ isHub: true, baseUrl: 'polymorphs', currentSlug: '{current_slug}' }});
 
 OUTPUT: Complete index.html. Return ONLY the code wrapped in ```html blocks.
 """
@@ -155,17 +155,16 @@ def generate_hub_for_model(
     model: UnifiedModel,
     ai: UnifiedAIClient,
     sidebar_data: str,
-    fallback_html: Optional[str] = None,
     dry_run: bool = False
 ) -> tuple[bool, str]:
     """
     Generate hub homepage using a SPECIFIC model.
 
     Returns (success, html_content).
-    If the model fails, uses fallback_html (from largest model) if available.
+    If the model fails, copies main index.html as fallback.
     """
     slug = generate_model_slug(model)
-    output_file = PARALLEL_DIR / f"{slug}.html"  # Flat file, no subfolder
+    output_file = POLYMORPHS_DIR / f"{slug}.html"  # Flat file, no subfolder
 
     logger.info(f"\n{'='*60}")
     logger.info(f"Model: {model.name} ({model.size_billions}B)")
@@ -237,7 +236,7 @@ def generate_all_hubs(
     On failure, falls back to main index.html.
     """
     logger.info("=" * 60)
-    logger.info("PARALLEL HUB GENERATOR")
+    logger.info("POLYMORPHS HUB GENERATOR")
     logger.info("=" * 60)
 
     # Get sidebar-enabled models (sorted largest first)
@@ -253,8 +252,8 @@ def generate_all_hubs(
         logger.error("No models to process")
         return {"success": 0, "failed": 0}
 
-    # Ensure parallel directory exists
-    PARALLEL_DIR.mkdir(parents=True, exist_ok=True)
+    # Ensure polymorphs directory exists
+    POLYMORPHS_DIR.mkdir(parents=True, exist_ok=True)
 
     # Initialize AI client
     if not dry_run:
@@ -278,11 +277,6 @@ def generate_all_hubs(
             dry_run=dry_run
         )
 
-        # Store first model's content as fallback for others
-        if i == 1 and content:
-            largest_model_content = content
-            logger.info("  📦 Stored as fallback content for failed models")
-
         if success:
             results["success"] += 1
             results["models"].append({"name": model.name, "status": "success"})
@@ -305,7 +299,7 @@ def generate_all_hubs(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate Multiverse Hub homepages")
+    parser = argparse.ArgumentParser(description="Generate Polymorphs Hub homepages")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be done without generating")
     parser.add_argument("--model", type=str, help="Generate for specific model name or slug")
     parser.add_argument("--list-models", action="store_true", help="List all sidebar-enabled models")

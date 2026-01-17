@@ -1,13 +1,13 @@
 """
-Multiverse Tool Generator Module
+Polymorphs Tool Generator Module
 
 Generates alternative versions of tool websites using different AI models.
-Used by generate_projects.py to create multiverse variants.
+Used by generate_projects.py to create polymorphs variants.
 
 Key Features:
 - Forces specific models (no fallback to larger models during generation)
-- Flat file structure: multiverse/{slug}.html
-- Uses largest model's content as fallback on failure
+- Flat file structure: polymorphs/{slug}.html
+- Uses main HTML as fallback on failure
 """
 
 import logging
@@ -15,7 +15,7 @@ import time
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
-logger = logging.getLogger('MultiverseTool')
+logger = logging.getLogger('PolymorphsTool')
 
 
 def generate_sidebar_html(models: List[dict], current_slug: str, is_hub: bool = False) -> str:
@@ -39,16 +39,16 @@ def generate_sidebar_html(models: List[dict], current_slug: str, is_hub: bool = 
 
     models_array = "[\n        " + ",\n        ".join(items) + "\n      ]"
 
-    # Updated path: flat files, not subfolders
-    base_url = "multiverse_sites" if is_hub else "multiverse"
+    # Flat file structure
+    base_url = "polymorphs"
 
     return f"""
 <script src="https://chirag127.github.io/universal/sidebar.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {{
-  if (typeof MultiverseSidebar !== 'undefined') {{
+  if (typeof Polymorphs !== 'undefined') {{
     const MODELS = {models_array};
-    MultiverseSidebar.init(MODELS, {{
+    Polymorphs.init(MODELS, {{
       isHub: {str(is_hub).lower()},
       baseUrl: '{base_url}',
       currentSlug: '{current_slug}'
@@ -72,9 +72,9 @@ def inject_sidebar_into_html(html_content: str, sidebar_script: str) -> str:
         return html_content + sidebar_script
 
 
-def get_tool_multiverse_prompt(tool: dict, sidebar_models: List[dict], current_slug: str) -> str:
+def get_tool_polymorphs_prompt(tool: dict, sidebar_models: List[dict], current_slug: str) -> str:
     """
-    Generate prompt for creating a tool website with multiverse support.
+    Generate prompt for creating a tool website with polymorphs support.
 
     This is the prompt used for generating alternative versions of tools.
     """
@@ -129,7 +129,7 @@ REQUIREMENTS:
    - Smooth transitions: 0.3s cubic-bezier(0.4, 0, 0.2, 1)
    - Progress bars with gradient
 
-6. MULTIVERSE SIDEBAR:
+6. POLYMORPHS SIDEBAR:
    Include this script before </body>:
 {sidebar_js}
 
@@ -138,14 +138,14 @@ Return ONLY the code wrapped in ```html blocks.
 """
 
 
-class MultiverseToolGenerator:
+class PolymorphsToolGenerator:
     """
     Generates alternative versions of tool websites using different AI models.
 
-    Key changes from original:
+    Key features:
     - Forces specific models (calls _call_model directly)
-    - Uses flat file structure (multiverse/{slug}.html)
-    - Falls back to largest model's already-generated content
+    - Uses flat file structure (polymorphs/{slug}.html)
+    - Falls back to main HTML on failure
     """
 
     def __init__(self, ai_client, sidebar_models: List[dict]):
@@ -195,7 +195,7 @@ class MultiverseToolGenerator:
         logger.info(f"    Generating variant: {model.name}")
 
         try:
-            prompt = get_tool_multiverse_prompt(tool, self.sidebar_models, slug)
+            prompt = get_tool_polymorphs_prompt(tool, self.sidebar_models, slug)
 
             result = self._call_specific_model(model, prompt)
 
@@ -217,7 +217,7 @@ class MultiverseToolGenerator:
             logger.error(f"    ❌ Generation failed: {e}")
 
             if fallback_html:
-                logger.info("    ⚠️ Using fallback from largest model")
+                logger.info("    ⚠️ Using fallback HTML")
                 # Inject correct sidebar for this variant
                 sidebar_js = generate_sidebar_html(
                     self.sidebar_models,
@@ -236,13 +236,13 @@ class MultiverseToolGenerator:
         main_html: str
     ) -> Dict[str, Any]:
         """
-        Generate all multiverse variants for a tool.
+        Generate all polymorphs variants for a tool.
 
         Args:
             tool: Tool metadata dict
             models: List of UnifiedModel objects to generate variants for
-            output_dir: Directory to save variants (e.g., .temp/multiverse)
-            main_html: Main HTML content (used as fallback for first model failures)
+            output_dir: Directory to save variants (e.g., .temp/polymorphs)
+            main_html: Main HTML content (used as fallback)
 
         Returns:
             Dict with files to be added to git push (flat structure)
@@ -250,29 +250,20 @@ class MultiverseToolGenerator:
         from src.ai.models import generate_model_slug
 
         files = {}
-        largest_model_content = None  # First successful generation becomes fallback
 
         for i, model in enumerate(models[:10], 1):  # Limit to 10 variants
             slug = generate_model_slug(model)
             logger.info(f"\n  [{i}/{min(len(models), 10)}] {model.name}")
 
-            # First model has no fallback, others use first model's content
-            fallback = largest_model_content if largest_model_content else main_html
-
             success, content = self.generate_variant(
                 tool=tool,
                 model=model,
-                fallback_html=fallback
+                fallback_html=main_html
             )
 
-            # Store first successful generation as fallback
-            if i == 1 and success and content:
-                largest_model_content = content
-                logger.info("    📦 Stored as fallback for failed models")
-
             if success and content:
-                # Flat file structure: multiverse/{slug}.html
-                file_path = f"multiverse/{slug}.html"
+                # Flat file structure: polymorphs/{slug}.html
+                file_path = f"polymorphs/{slug}.html"
                 files[file_path] = content
                 logger.info(f"    + Added: {file_path}")
 

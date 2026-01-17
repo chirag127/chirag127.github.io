@@ -49,17 +49,17 @@ from src.ai.prompts import (
     CATEGORY_CONFIGS
 )
 
-# Multiverse generation support
+# Polymorphs generation support
 try:
-    from multiverse_tools import (
-        MultiverseToolGenerator,
+    from polymorphs_tools import (
+        PolymorphsToolGenerator,
         get_sidebar_models_from_chain,
         generate_sidebar_html,
         inject_sidebar_into_html
     )
-    MULTIVERSE_AVAILABLE = True
+    POLYMORPHS_AVAILABLE = True
 except ImportError:
-    MULTIVERSE_AVAILABLE = False
+    POLYMORPHS_AVAILABLE = False
 
 # Configure logging
 logging.basicConfig(
@@ -772,7 +772,7 @@ def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict, search_client: W
     logger.info(f"\n{'='*50}")
     logger.info(f"Generating: {tool['name']}")
     if multiverse:
-        logger.info("MULTIVERSE MODE ENABLED")
+        logger.info("POLYMORPHS MODE ENABLED")
     logger.info(f"{'='*50}")
 
     # Generate metadata first
@@ -790,23 +790,23 @@ def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict, search_client: W
         "README.md": generate_comprehensive_readme(tool),
     }
 
-    # Generate multiverse variants if enabled
-    if multiverse and MULTIVERSE_AVAILABLE:
-        logger.info("\n  🌐 Generating Multiverse Variants...")
+    # Generate polymorphs variants if enabled
+    if multiverse and POLYMORPHS_AVAILABLE:
+        logger.info("\n  🔮 Generating Polymorphs Variants...")
         try:
             sidebar_models = get_sidebar_models_from_chain()
-            mv_generator = MultiverseToolGenerator(ai, sidebar_models)
+            pm_generator = PolymorphsToolGenerator(ai, sidebar_models)
 
             # Generate variants (uses main HTML as fallback)
-            multiverse_files = mv_generator.generate_all_variants(
+            polymorphs_files = pm_generator.generate_all_variants(
                 tool=tool,
                 models=sidebar_models[:10],  # Limit to top 10 models
-                output_dir=TEMP_DIR / "multiverse",
+                output_dir=TEMP_DIR / "polymorphs",
                 main_html=html_content
             )
 
-            files.update(multiverse_files)
-            logger.info(f"  ✅ Generated {len(multiverse_files)} multiverse variants")
+            files.update(polymorphs_files)
+            logger.info(f"  ✅ Generated {len(polymorphs_files)} polymorphs variants")
         except Exception as e:
             logger.error(f"  ❌ Multiverse generation failed: {e}")
             # Continue with main file only
@@ -852,13 +852,13 @@ def main():
     args = sys.argv[1:]
     state = load_state()
 
-    # Check for multiverse mode
-    multiverse_mode = "--multiverse" in args
+    # Check for polymorphs mode
+    multiverse_mode = "--multiverse" in args or "--polymorphs" in args
     if multiverse_mode:
-        if MULTIVERSE_AVAILABLE:
-            logger.info("🌐 MULTIVERSE MODE: Will generate alternative versions")
+        if POLYMORPHS_AVAILABLE:
+            logger.info("🔮 POLYMORPHS MODE: Will generate alternative versions")
         else:
-            logger.warning("⚠️ Multiverse module not available, falling back to standard mode")
+            logger.warning("⚠️ Polymorphs module not available, falling back to standard mode")
             multiverse_mode = False
 
     # Initialize AI client
