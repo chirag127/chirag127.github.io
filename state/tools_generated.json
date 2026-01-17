@@ -1,7 +1,8 @@
 {
   "generated": [
     "PDF-Merge-And-Split",
-    "Markdown-To-HTML-Preview"
+    "Markdown-To-HTML-Preview",
+    "pdf-merger"
   ],
   "failed": [],
   "metadata_cache": {
@@ -43,6 +44,26 @@
         "privacy-focused"
       ],
       "category": "Developer"
+    },
+    "pdf-merger": {
+      "title": "PDF Merger Pro | Combine PDFs Instantly",
+      "description": "Free online PDF merger. Combine multiple PDFs into one file with drag & drop. 100% private - no uploads, files never leave your device.",
+      "features": [
+        "Merge unlimited PDFs into a single, organized document",
+        "Drag-and-drop interface for effortless file arrangement",
+        "Process files instantly with 100% client-side processing",
+        "Maximum privacy guarantee - your files never leave your computer",
+        "Works with all modern browsers and any PDF file"
+      ],
+      "keywords": [
+        "pdf merger",
+        "combine pdf",
+        "merge pdf online",
+        "free pdf tools",
+        "privacy-focused pdf",
+        "client-side pdf"
+      ],
+      "category": "Document"
     }
   }
 }

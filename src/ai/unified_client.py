@@ -60,43 +60,30 @@ class ProviderStats:
 
 # ============================================================================
 
+# =============================================================================
+# MODEL CHAIN - SORTED BY SIZE (LARGEST FIRST)
+# Jan 2026: Models are automatically sorted by size_billions descending.
+# Fallback order: 671B -> 355B -> 235B -> 123B -> 120B -> 72B -> 45B -> 32B
+# =============================================================================
+
 UNIFIED_MODEL_CHAIN: list[UnifiedModel] = [
-    # =========================================================================
-    # TIER 1: GOD-CLASS (>400B Parameters)
-    # The absolute peak of intelligence. Use for Architecture, Reasoning, and Complex Logic.
-    # =========================================================================
+    # TIER 1: GOD-CLASS (400B+)
     UnifiedModel("deepseek-ai/deepseek-v3.2", "nvidia", 671, "DeepSeek v3.2 (NVIDIA)", max_tokens=16384),
-    UnifiedModel("mistral-large-latest", "mistral", 123, "Mistral Large 2 (Native)", max_tokens=32768),
 
-    # Mistral Large 2 (123B) - Often outperforms 400B+ models in coding.
-    # User requested "Mistral Large 3", mapping to latest available large endpoint.
-    UnifiedModel("mistralai/mistral-large-2411", "nvidia", 123, "Mistral Large 2 (NVIDIA)", max_tokens=8192),
-
-    # =========================================================================
     # TIER 2: HYPER-CLASS (200B - 400B)
-    # Huge context and specialized knowledge.
-    # =========================================================================
-    UnifiedModel("qwen-3-235b-instruct", "cerebras", 235, "Qwen 3 235B (Cerebras)", max_tokens=8192),
     UnifiedModel("z-ai-glm-4-7", "cerebras", 355, "GLM 4.7 (Cerebras)", max_tokens=8192),
+    UnifiedModel("qwen-3-235b-instruct", "cerebras", 235, "Qwen 3 235B (Cerebras)", max_tokens=8192),
 
-    # =========================================================================
     # TIER 3: SUPER-CLASS (100B - 199B)
-    # =========================================================================
+    UnifiedModel("mistral-large-latest", "mistral", 123, "Mistral Large 2 (Native)", max_tokens=32768),
+    UnifiedModel("mistralai/mistral-large-2411", "nvidia", 123, "Mistral Large 2 (NVIDIA)", max_tokens=8192),
     UnifiedModel("gpt-oss-120b", "cerebras", 120, "GPT-OSS 120B (Cerebras)", max_tokens=8192),
 
-    # =========================================================================
     # TIER 4: HIGH-END (70B - 99B)
-    # Qwen 2.5 72B
     UnifiedModel("qwen2.5-72b-instruct", "nvidia", 72, "Qwen 2.5 72B (NVIDIA)", max_tokens=4096),
 
-    # =========================================================================
     # TIER 5: EFFICIENCY (<70B)
-    # Fast inference for simple tasks.
-    # =========================================================================
-    # Mixtral 8x7B
     UnifiedModel("mixtral-8x7b-32768", "groq", 45, "Mixtral 8x7B (Groq)", max_tokens=32768),
-
-    # Qwen 32B
     UnifiedModel("qwen-3-32b", "cerebras", 32, "Qwen 3 32B (Cerebras)", max_tokens=8192),
 ]
 
@@ -163,7 +150,7 @@ class UnifiedAIClient:
                 logger.warning(f"[UnifiedClient] Failed to init {name}: {e}")
 
     def _build_model_chain(self) -> list[UnifiedModel]:
-        """Build available model chain from available providers."""
+        """Build available model chain from available providers, sorted by size (largest first)."""
         available_models = []
 
         for model in UNIFIED_MODEL_CHAIN:
@@ -171,7 +158,8 @@ class UnifiedAIClient:
             if provider and provider.is_available():
                 available_models.append(model)
 
-        return available_models
+        # Sort by size (largest first) to ensure best quality fallback order
+        return sorted(available_models, key=lambda m: m.size_billions, reverse=True)
 
     def _is_model_available(self, model: UnifiedModel) -> bool:
         """Check if a model is available (not in cooldown, provider active)."""

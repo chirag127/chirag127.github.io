@@ -120,6 +120,48 @@ def get_category_config(category: str) -> dict:
 
 
 # =============================================================================
+# REPO NAME ONLY PROMPT - Derives everything from just the repo name
+# Jan 2026: Simplified metadata generation, no prompt enhancement needed
+# =============================================================================
+
+REPO_NAME_ONLY_PROMPT = """You are the Apex Technical Authority. Generate complete project metadata from ONLY the repository name.
+
+REPOSITORY NAME: {repo_name}
+
+CRITICAL: Derive ALL information from the repository name alone. Infer:
+1. What the tool does (from name)
+2. What category it belongs to (PDF, Image, Text, Dev, Calculator, etc.)
+3. What features it should have (based on tool type)
+4. What keywords users would search for
+
+OUTPUT JSON FORMAT:
+{{
+  "title": "Human-readable title (catchy, under 60 chars)",
+  "description": "SEO meta description under 155 chars, include 'free' and 'privacy'",
+  "features": [
+    "Feature 1 (core functionality)",
+    "Feature 2 (unique selling point)",
+    "Feature 3 (ease of use)",
+    "Feature 4 (privacy/security)",
+    "Feature 5 (compatibility)"
+  ],
+  "keywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"],
+  "category": "One of: pdf, image, video, audio, text, dev, calc, finance, convert, game, utility"
+}}
+
+RULES:
+1. ONLY use the repository name as input - no additional context needed
+2. Infer the tool's purpose from naming (e.g., "pdf-merge" = PDF merger tool)
+3. Generate realistic, production-ready metadata
+4. Output ONLY valid JSON, no markdown code blocks."""
+
+
+def get_repo_name_only_prompt(repo_name: str) -> str:
+    """Generate prompt that derives all metadata from repository name only."""
+    return REPO_NAME_ONLY_PROMPT.format(repo_name=repo_name)
+
+
+# =============================================================================
 # TOOL METADATA GENERATION PROMPT
 # =============================================================================
 

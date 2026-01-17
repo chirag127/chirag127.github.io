@@ -65,6 +65,62 @@ class ApexContentGenerator:
         self.ai = ai_client
         self.monetization = MONETIZATION
 
+    def generate_from_repo_name(self, repo_name: str) -> dict[str, str]:
+        """
+        Generate all project content from just the repository name.
+
+        This is the simplified entry point that derives everything automatically:
+        1. Uses AI to infer title, description, features, keywords, category from name
+        2. Generates complete project files based on inferred metadata
+
+        Args:
+            repo_name: The repository name (e.g., "pdf-merge", "image-resize")
+
+        Returns:
+            Dict of filepath -> content
+        """
+        from src.ai.prompts import get_repo_name_only_prompt
+
+        logger.info(f"🧠 Generating from repo name only: {repo_name}")
+
+        # Step 1: Derive metadata from repository name using AI
+        prompt = get_repo_name_only_prompt(repo_name)
+        result = self.ai.generate_json(
+            prompt=prompt,
+            system_prompt="You are the Apex Technical Authority. Output only valid JSON.",
+            max_tokens=2000,
+            min_model_size=32,  # Use 32B+ for better inference
+        )
+
+        if result.success and result.json_content:
+            metadata = result.json_content
+            title = metadata.get("title", repo_name.replace("-", " ").title())
+            description = metadata.get("description", f"A tool for {repo_name.replace('-', ' ')}")
+            category = metadata.get("category", "utility")
+            features = metadata.get("features", ["Fast", "Free", "Privacy-focused"])
+            keywords = metadata.get("keywords", [repo_name])
+
+            logger.info(f"   📋 Inferred: {title} ({category})")
+            logger.info(f"   📝 Features: {features[:3]}...")
+
+            # Step 2: Generate project content using inferred metadata
+            return self.generate_project_content(
+                idea=title,
+                description=description,
+                category=category,
+                tags=keywords + features[:5],
+            )
+        else:
+            logger.warning(f"⚠️ Metadata inference failed: {result.error}")
+            # Fallback: use repo name directly
+            title = repo_name.replace("-", " ").title()
+            return self.generate_project_content(
+                idea=title,
+                description=f"A {title.lower()} tool",
+                category="utility",
+                tags=[repo_name],
+            )
+
     def generate_project_content(
         self,
         idea: str,

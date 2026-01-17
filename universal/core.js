@@ -1,13 +1,13 @@
-/* UNIVERSAL CORE ENGINE
+/* UNIVERSAL CORE ENGINE v2.1
    The Heart of the Universal Architecture.
    - Injects Global Styles
    - Injects Header/Footer
-   - Loads Configuration
-   - Orchestrates Modular Integrations
+   - Loads Modular Configuration
+   - Orchestrates ALL Integrations with Fallback Support
 */
 
 (async function() {
-  console.log("🚀 Launching Universal Engine v2.0 (Modular)...");
+  console.log("🚀 Launching Universal Engine v2.1 (Comprehensive)...");
 
   // 1. Determine Base URL
   const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
@@ -121,42 +121,103 @@
   // 5. Script Loader Helper (returns Promise)
   function loadScript(src, attrs = {}) {
     return new Promise((resolve, reject) => {
+      // Check if already loaded
+      if (document.querySelector(`script[src="${src}"]`)) {
+        resolve(null);
+        return;
+      }
+
       const s = document.createElement('script');
       s.src = src;
       Object.keys(attrs).forEach(k => s.setAttribute(k, attrs[k]));
       s.async = true;
       s.onload = () => resolve(s);
-      s.onerror = (e) => reject(e);
+      s.onerror = (e) => {
+        console.warn(`Failed to load: ${src}`);
+        reject(e);
+      };
       document.head.appendChild(s);
     });
   }
 
-  // 6. Load Modular Configuration
-  const { SITE_CONFIG } = await import(`${U_PATH}/config/index.js`);
+  // 6. Safe Dynamic Import Helper
+  async function safeImport(path) {
+    try {
+      return await import(path);
+    } catch (e) {
+      console.warn(`Import failed: ${path}`, e.message);
+      return null;
+    }
+  }
+
+  // 7. Load Modular Configuration
+  const configModule = await safeImport(`${U_PATH}/config/index.js`);
+  if (!configModule) {
+    console.error("❌ Failed to load configuration");
+    return;
+  }
+
+  const { SITE_CONFIG, priorities } = configModule;
 
   // Make config globally available
   window.SITE_CONFIG = SITE_CONFIG;
+  window.CONFIG_PRIORITIES = priorities;
 
-  // 7. Load and Initialize All Integrations
-  const {
-    analyticsProviders,
-    monitoringProviders,
-    adsProviders,
-    chatProviders,
-    initCategory
-  } = await import(`${U_PATH}/integrations/index.js`);
+  // 8. Load and Initialize All Integrations
+  const integrationsModule = await safeImport(`${U_PATH}/integrations/index.js`);
 
-  // Initialize all categories
-  initCategory(analyticsProviders, SITE_CONFIG, loadScript, 'Analytics');
-  initCategory(monitoringProviders, SITE_CONFIG, loadScript, 'Monitoring');
-  initCategory(adsProviders, SITE_CONFIG, loadScript, 'Ads');
-  initCategory(chatProviders, SITE_CONFIG, loadScript, 'Chat');
+  if (integrationsModule) {
+    const {
+      analyticsProviders,
+      monitoringProviders,
+      adsProviders,
+      chatProviders,
+      engagementProviders,
+      initCategory,
+      initWithFallback
+    } = integrationsModule;
 
-  // 8. Load Firebase (ES Module)
-  import(`${U_PATH}/firebase-modules.js`)
-    .then(fb => console.log("🔥 Firebase Modules Loaded"))
-    .catch(e => console.warn("Firebase load skipped:", e.message));
+    // Initialize all analytics (ALL enabled for maximum data)
+    console.log("📊 Loading Analytics...");
+    initCategory(analyticsProviders, SITE_CONFIG, loadScript, 'Analytics');
 
-  console.log("✨ Universal Engine v2.0 initialized successfully!");
+    // Initialize all monitoring (redundancy is good)
+    console.log("🔍 Loading Monitoring...");
+    initCategory(monitoringProviders, SITE_CONFIG, loadScript, 'Monitoring');
+
+    // Initialize all ads (maximize revenue)
+    console.log("💰 Loading Monetization...");
+    initCategory(adsProviders, SITE_CONFIG, loadScript, 'Ads');
+
+    // Chat - use fallback pattern (only one widget)
+    console.log("💬 Loading Chat...");
+    if (priorities?.chat) {
+      initWithFallback(priorities.chat, chatProviders, SITE_CONFIG, loadScript, 'Chat');
+    } else {
+      initCategory(chatProviders, SITE_CONFIG, loadScript, 'Chat');
+    }
+
+    // Engagement
+    console.log("🎯 Loading Engagement...");
+    if (engagementProviders) {
+      initCategory(engagementProviders, SITE_CONFIG, loadScript, 'Engagement');
+    }
+  }
+
+  // 9. Load Firebase (ES Module) - Optional
+  safeImport(`${U_PATH}/firebase-modules.js`)
+    .then(fb => {
+      if (fb) console.log("🔥 Firebase Modules Loaded");
+    });
+
+  // 10. Report loaded stats
+  const countEnabled = (config) => {
+    return Object.values(config || {}).filter(v => v && typeof v === 'object' && v.enabled).length;
+  };
+
+  console.log(`✨ Universal Engine v2.1 initialized!`);
+  console.log(`   📊 Analytics: ${countEnabled(SITE_CONFIG)} providers`);
+  console.log(`   💰 Monetization active`);
+  console.log(`   🔍 Monitoring active`);
 
 })();
