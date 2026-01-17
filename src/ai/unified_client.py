@@ -49,13 +49,17 @@ class UnifiedModel:
 
     @property
     def timeout_seconds(self) -> int:
-        """Calculate timeout based on model size. Larger models need more time."""
-        if self.size_billions >= 200:
-            return 180  # 3 minutes for 200B+ models
+        """Calculate timeout based on model size. Larger models need much more time."""
+        if self.size_billions >= 400:
+            return 600  # 10 minutes for God-class models (DeepSeek 671B, Llama 405B)
+        elif self.size_billions >= 200:
+            return 300  # 5 minutes for Hyper-class models (GLM-4, Qwen 235B)
         elif self.size_billions >= 70:
-            return 120  # 2 minutes for 70B-200B models
+            return 180  # 3 minutes for Super-class/High-end (Mistral Large, Llama 70B)
+        elif self.size_billions >= 30:
+            return 90   # 1.5 minutes for Mid-range
         else:
-            return 60   # 1 minute for smaller models
+            return 60   # 1 minute for efficient models
 
 
 @dataclass
@@ -231,7 +235,8 @@ class UnifiedAIClient:
 
         # Use adaptive timeout based on model size
         timeout = model.timeout_seconds
-        logger.debug(f"[UnifiedClient] Using {timeout}s timeout for {model.name} ({model.size_billions}B)")
+        logger.debug(f"[UnifiedClient] ⏳ Timeout Set: {timeout}s for {model.name} ({model.size_billions}B)")
+        logger.info(f"[UnifiedClient] Calling {model.name} (Timeout: {timeout}s)...")
 
         try:
             if json_mode:

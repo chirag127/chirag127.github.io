@@ -1,17 +1,18 @@
 /**
- * Utility Providers Index
- * Captcha, cookies, consent management
- * @module utility
+ * Utility Integrations Master Index
+ * @module integrations/utility
  */
+import { cookie_consent } from './cookie_consent/index.js';
+import { captcha } from './captcha/index.js';
+import { fonts } from './fonts/index.js';
+import { icons } from './icons/index.js';
+import { video_players } from './video_players/index.js';
+import { maps } from './maps/index.js';
+import { search } from './search/index.js';
+import { translation } from './translation/index.js';
+import { reviews } from './reviews/index.js';
 
-import * as recaptcha from './recaptcha.js';
-import * as hcaptcha from './hcaptcha.js';
-import * as turnstile from './turnstile.js';
-import * as cookiebot from './cookiebot.js';
-
-export { recaptcha, hcaptcha, turnstile, cookiebot };
-
-export const providers = { recaptcha, hcaptcha, turnstile, cookiebot };
-
-// Captcha priority (use one at a time)
-export const captchaPriority = ['turnstile', 'hcaptcha', 'recaptcha'];
+export const utility = {
+    cookie_consent, captcha, fonts, icons, video_players,
+    maps, search, translation, reviews
+};
