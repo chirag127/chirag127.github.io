@@ -119,7 +119,7 @@ TIER_1_MODELS: list[UnifiedModel] = [
         max_tokens=131072,
         supports_json=True,
         working=True,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="github",
         api_model_id="Meta-Llama-3.1-405B-Instruct"
     ),
@@ -133,17 +133,6 @@ TIER_1_MODELS: list[UnifiedModel] = [
         include_in_sidebar=False,
         provider="nvidia",
         api_model_id="meta/llama-3.1-405b-instruct"
-    ),
-    UnifiedModel(
-        name="Llama 3.1 405B Instruct Mistral",
-        size_billions=405.0,
-        description="Meta Llama 3.1 405B Instruct; largest open Llama model.",
-        max_tokens=131072,
-        supports_json=True,
-        working=False,
-        include_in_sidebar=False,
-        provider="mistral",
-        api_model_id="meta-llama/llama-3.1-405b-instruct"
     ),
     UnifiedModel(
         name="Hermes 3 Llama 3.1 405B OpenRouter",
