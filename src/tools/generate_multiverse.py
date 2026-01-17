@@ -188,11 +188,14 @@ def main():
                           key=lambda x: x.size_billions, reverse=True)
 
     for model in sorted_models:
+        # Models are now decoupled, so each has 1 provider.
+        # Check just in case logic changes later.
         for provider_name, model_id in model.providers:
-            slug = f"{model.name}--{provider_name}".lower().replace(".", "-").replace(" ", "-")
+            # Slug from unique model name
+            slug = model.name.lower().replace(".", "-").replace(" ", "-")
             sorted_targets.append({
                 "slug": slug,
-                "name": model.name,
+                "name": model.name,  # "Llama 3.1 405B Instruct Nvidia"
                 "provider": provider_name,
                 "model_id": model_id,
                 "size": model.size_billions

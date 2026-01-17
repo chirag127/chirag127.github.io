@@ -7,17 +7,22 @@
     <title>devstral-2-123b-instruct | Openrouter</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #00f2ff;
-            --secondary: #ff00ff;
-            --accent: #a855f7;
-            --dark: #0a0a0a;
+            --primary: #6e45e2;
+            --secondary: #88d3ce;
+            --accent: #ff6b6b;
+            --dark: #1a1a2e;
+            --darker: #16213e;
+            --light: #f8f9fa;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
             --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            --backdrop: 0.5rem;
+            --gradient-1: linear-gradient(135deg, #6e45e2, #88d3ce);
+            --gradient-2: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            --gradient-3: linear-gradient(135deg, #a8edea, #fed6e3);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * {
@@ -28,104 +33,79 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
-            color: #fff;
+            background-color: var(--dark);
+            color: var(--light);
             overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
+            line-height: 1.6;
         }
 
-        /* Floating background elements */
-        .floating-bg {
-            position: absolute;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            filter: blur(80px);
-            opacity: 0.3;
-            z-index: -1;
-        }
-
-        .floating-bg:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            top: -50px;
-            left: -50px;
-            animation: float 20s infinite linear;
-        }
-
-        .floating-bg:nth-child(2) {
-            width: 400px;
-            height: 400px;
-            bottom: -100px;
-            right: -100px;
-            animation: float 25s infinite reverse linear;
-        }
-
-        .floating-bg:nth-child(3) {
-            width: 200px;
-            height: 200px;
-            top: 50%;
-            right: 10%;
-            animation: float 18s infinite linear;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-            100% {
-                transform: translate(50px, 50px) rotate(360deg);
-            }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         /* Header */
         header {
-            padding: 2rem 5%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background-color: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: relative;
-            z-index: 100;
         }
 
         .logo {
+            font-size: 24px;
             font-weight: 700;
-            font-size: 1.5rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        nav ul {
+        .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 30px;
         }
 
-        nav a {
-            color: #fff;
+        .nav-links a {
+            color: var(--light);
             text-decoration: none;
-            font-weight: 400;
-            transition: all 0.3s ease;
+            font-weight: 500;
             position: relative;
+            transition: var(--transition);
         }
 
-        nav a:hover {
-            color: var(--primary);
+        .nav-links a:hover {
+            color: var(--secondary);
         }
 
-        nav a::after {
+        .nav-links a::after {
             content: '';
             position: absolute;
             bottom: -5px;
             left: 0;
             width: 0;
             height: 2px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            transition: width 0.3s ease;
+            background: var(--gradient-1);
+            transition: var(--transition);
         }
 
-        nav a:hover::after {
+        .nav-links a:hover::after {
             width: 100%;
         }
 
@@ -134,168 +114,166 @@
             cursor: pointer;
         }
 
-        .hamburger div {
-            width: 25px;
-            height: 3px;
-            background: #fff;
-            margin: 5px;
-            transition: all 0.3s ease;
-        }
-
         /* Hero Section */
         .hero {
-            padding: 5rem 5%;
-            min-height: 80vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            position: relative;
-            z-index: 10;
-        }
-
-        .hero-content {
-            max-width: 600px;
-            z-index: 10;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: #fff;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            padding-top: 100px;
             position: relative;
             overflow: hidden;
-            z-index: 1;
         }
 
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 242, 255, 0.3);
-        }
-
-        .btn::before {
+        .hero::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, var(--secondary), var(--primary));
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            background: radial-gradient(circle at 20% 50%, rgba(110, 69, 226, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(136, 211, 206, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
 
-        .btn:hover::before {
-            opacity: 1;
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
         }
 
-        .hero-image {
-            width: 400px;
-            height: 400px;
+        .hero-text h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--gradient-1);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(110, 69, 226, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(110, 69, 226, 0.5);
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 500px;
+        }
+
+        .floating-element {
+            position: absolute;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            backdrop-filter: blur(var(--backdrop));
-            -webkit-backdrop-filter: blur(var(--backdrop));
-            box-shadow: var(--glass-shadow);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+            animation: float 6s ease-in-out infinite;
         }
 
-        .hero-image::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
-            animation: rotate 10s linear infinite;
-            z-index: -1;
-        }
-
-        @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .hero-image img {
+        .floating-element:nth-child(1) {
             width: 200px;
+            height: 150px;
+            top: 50px;
+            left: 50px;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 150px;
             height: 200px;
-            object-fit: cover;
-            border-radius: 50%;
-            z-index: 10;
+            top: 100px;
+            right: 100px;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 180px;
+            height: 180px;
+            bottom: 50px;
+            left: 100px;
+            animation-delay: 4s;
+        }
+
+        .floating-element:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            bottom: 100px;
+            right: 50px;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(2deg);
+            }
         }
 
         /* Features Section */
         .features {
-            padding: 5rem 5%;
-            text-align: center;
+            padding: 100px 0;
+            position: relative;
         }
 
-        .features h2 {
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(26, 26, 46, 0), var(--dark));
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
             font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            background: var(--gradient-2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .features p {
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-        }
-
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            gap: 30px;
         }
 
         .feature-card {
-            background: var(--glass-bg);
+            background: var(--glass);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(var(--backdrop));
-            -webkit-backdrop-filter: blur(var(--backdrop));
-            box-shadow: var(--glass-shadow);
-            transition: all 0.3s ease;
+            padding: 40px;
+            transition: var(--transition);
             position: relative;
             overflow: hidden;
         }
@@ -307,12 +285,12 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background: var(--gradient-1);
         }
 
         .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 242, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
         }
 
         .feature-icon {
@@ -320,287 +298,269 @@
             height: 60px;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 50%;
+            border-radius: 15px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            margin: 0 auto 1.5rem;
-            font-size: 1.5rem;
-            color: var(--primary);
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: var(--secondary);
         }
 
         .feature-card h3 {
             font-size: 1.5rem;
+            margin-bottom: 15px;
             font-weight: 600;
-            margin-bottom: 1rem;
         }
 
         .feature-card p {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
+            opacity: 0.8;
         }
 
         /* About Section */
         .about {
-            padding: 5rem 5%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 3rem;
-        }
-
-        .about-image {
-            flex: 1;
-            min-width: 300px;
-            height: 400px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            backdrop-filter: blur(var(--backdrop));
-            -webkit-backdrop-filter: blur(var(--backdrop));
-            box-shadow: var(--glass-shadow);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 100px 0;
+            background: var(--darker);
             position: relative;
-            overflow: hidden;
         }
 
-        .about-image::before {
+        .about::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
-            animation: pulse 3s ease-in-out infinite;
-            opacity: 0.2;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 0.2;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 0.4;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 0.2;
-            }
-        }
-
-        .about-image img {
-            width: 250px;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 50%;
-            z-index: 10;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(22, 33, 62, 0), var(--darker));
         }
 
         .about-content {
-            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
         }
 
-        .about-content h2 {
+        .about-text h2 {
             font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            margin-bottom: 20px;
+            background: var(--gradient-3);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .about-content p {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
+        .about-visual {
+            position: relative;
+            height: 400px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-visual::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--gradient-1);
+            filter: blur(60px);
+            opacity: 0.3;
+        }
+
+        .about-visual svg {
+            width: 200px;
+            height: 200px;
+            color: var(--secondary);
+            z-index: 1;
         }
 
         /* Contact Section */
         .contact {
-            padding: 5rem 5%;
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(26, 26, 46, 0), var(--dark));
+        }
+
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
             text-align: center;
         }
 
-        .contact h2 {
+        .contact-content h2 {
             font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            margin-bottom: 20px;
+            background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .contact p {
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-        }
-
         .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--glass-bg);
+            background: var(--glass);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(var(--backdrop));
-            -webkit-backdrop-filter: blur(var(--backdrop));
-            box-shadow: var(--glass-shadow);
+            padding: 40px;
+            margin-top: 40px;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
             text-align: left;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 0.8rem 1rem;
-            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 10px;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
+            color: var(--light);
+            font-family: inherit;
+            transition: var(--transition);
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 242, 255, 0.2);
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(136, 211, 206, 0.2);
         }
 
         .form-group textarea {
-            min-height: 150px;
+            height: 150px;
             resize: vertical;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(110, 69, 226, 0.3);
         }
 
         /* Footer */
         footer {
-            padding: 2rem 5%;
+            padding: 40px 0;
             text-align: center;
+            background: var(--darker);
             border-top: 1px solid var(--glass-border);
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            gap: 20px;
+            margin-bottom: 20px;
         }
 
         .social-links a {
             width: 40px;
             height: 40px;
-            background: var(--glass-bg);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
-            color: #fff;
-            text-decoration: none;
-            transition: all 0.3s ease;
+            justify-content: center;
+            color: var(--light);
+            transition: var(--transition);
         }
 
         .social-links a:hover {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            transform: translateY(-5px);
+            background: var(--secondary);
+            color: var(--dark);
+            transform: translateY(-3px);
         }
 
         .copyright {
-            color: rgba(255, 255, 255, 0.6);
+            opacity: 0.6;
             font-size: 0.9rem;
         }
 
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 992px) {
-            .hero {
-                flex-direction: column;
+            .hero-content,
+            .about-content {
+                grid-template-columns: 1fr;
                 text-align: center;
             }
 
-            .hero h1 {
+            .hero-text {
+                order: 2;
+            }
+
+            .hero-visual {
+                order: 1;
+                height: 300px;
+            }
+
+            .hero-text h1 {
                 font-size: 3rem;
             }
 
-            .hero-image {
-                margin-top: 3rem;
-            }
-
-            .about {
-                flex-direction: column;
-            }
-
-            .about-image {
+            .about-visual {
                 height: 300px;
             }
         }
 
         @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
             .hamburger {
                 display: block;
             }
 
-            nav {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 80%;
-                height: 100vh;
-                background: rgba(10, 10, 10, 0.95);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                transition: right 0.3s ease;
-                z-index: 200;
-            }
-
-            nav.active {
-                right: 0;
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 2rem;
-            }
-
-            .hero h1 {
+            .hero-text h1 {
                 font-size: 2.5rem;
             }
 
-            .features h2,
-            .about-content h2,
-            .contact h2 {
+            .section-title {
                 font-size: 2rem;
             }
         }
 
         @media (max-width: 576px) {
-            .hero h1 {
+            .hero-text h1 {
                 font-size: 2rem;
             }
 
-            .hero p {
+            .hero-text p {
                 font-size: 1rem;
             }
 
@@ -611,184 +571,168 @@
     </style>
 </head>
 <body>
-    <!-- Floating background elements -->
-    <div class="floating-bg"></div>
-    <div class="floating-bg"></div>
-    <div class="floating-bg"></div>
-
-    <!-- Header -->
-    <header>
-        <div class="logo">devstral-2-123b-instruct</div>
-        <div class="hamburger">
-            <div></div>
-            <div></div>
-            <div></div>
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">devstral-2-123b-instruct</div>
+                <div class="nav-links">
+                    <a href="#hero">Home</a>
+                    <a href="#features">Features</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="hamburger">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </nav>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero" id="hero">
-        <div class="hero-content">
-            <h1>Revolutionizing AI with devstral-2-123b-instruct</h1>
-            <p>Experience the next generation of artificial intelligence with our cutting-edge model that combines unprecedented power with intuitive instruction-based learning.</p>
-            <a href="#contact" class="btn">Get Started</a>
-        </div>
-        <div class="hero-image">
-            <img src="https://via.placeholder.com/200" alt="AI Neural Network Visualization">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Revolutionizing AI with Openrouter</h1>
+                    <p>Experience the next generation of artificial intelligence with our cutting-edge devstral-2-123b-instruct model. Designed for performance, scalability, and innovation.</p>
+                    <a href="#contact" class="cta-button">Get Started</a>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-element"></div>
+                    <div class="floating-element"></div>
+                    <div class="floating-element"></div>
+                    <div class="floating-element"></div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Features Section -->
     <section class="features" id="features">
-        <h2>Powerful Features</h2>
-        <p>Our advanced AI model offers unparalleled capabilities to transform your applications and workflows.</p>
-
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3>Advanced NLP</h3>
-                <p>State-of-the-art natural language processing that understands context and nuance like never before.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Lightning Fast</h3>
-                <p>Optimized for speed without compromising accuracy, delivering results in milliseconds.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3>Secure & Private</h3>
-                <p>Enterprise-grade security with end-to-end encryption and data privacy compliance.</p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">🌐</div>
-                <h3>Multi-Lingual</h3>
-                <p>Seamless support for over 100 languages with native-level comprehension and generation.</p>
+        <div class="container">
+            <h2 class="section-title">Powerful Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Our model processes requests at unprecedented speeds, delivering results in milliseconds with industry-leading performance metrics.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Enterprise Security</h3>
+                    <p>Built with security at its core, our solution offers end-to-end encryption and compliance with all major regulatory standards.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-Powered</h3>
+                    <p>Leverage the most advanced AI capabilities with our state-of-the-art neural network architecture and continuous learning algorithms.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Global Scale</h3>
+                    <p>Deploy anywhere in the world with our distributed infrastructure and edge computing capabilities for maximum reach.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
     <section class="about" id="about">
-        <div class="about-image">
-            <img src="https://via.placeholder.com/250" alt="AI Technology Visualization">
-        </div>
-        <div class="about-content">
-            <h2>About devstral-2-123b-instruct</h2>
-            <p>Built on the foundation of cutting-edge research in artificial intelligence, devstral-2-123b-instruct represents the pinnacle of instruction-following language models. With 123 billion parameters, it offers unparalleled performance across a wide range of tasks.</p>
-            <p>Our mission is to democratize access to advanced AI capabilities, empowering developers and businesses to create innovative solutions that were previously impossible.</p>
-            <a href="#contact" class="btn">Learn More</a>
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About devstral-2-123b-instruct</h2>
+                    <p>We are pioneering the future of artificial intelligence with our flagship model, devstral-2-123b-instruct. Built on the Openrouter platform, our solution combines the latest advancements in machine learning with enterprise-grade reliability.</p>
+                    <p>Our team of world-class engineers and researchers are dedicated to pushing the boundaries of what's possible with AI, creating solutions that are not just powerful, but also ethical and accessible.</p>
+                </div>
+                <div class="about-visual">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
     <section class="contact" id="contact">
-        <h2>Get in Touch</h2>
-        <p>Ready to transform your applications with the power of devstral-2-123b-instruct? Contact us to learn more about integration options and pricing.</p>
-
-        <div class="contact-form">
-            <form>
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" required></textarea>
-                </div>
-                <button type="submit" class="btn">Send Message</button>
-            </form>
+        <div class="container">
+            <div class="contact-content">
+                <h2>Get in Touch</h2>
+                <p>Ready to transform your business with AI? Contact us today to learn more about our solutions.</p>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">Send Message</button>
+                </form>
+            </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
-        <div class="social-links">
-            <a href="#">📱</a>
-            <a href="#">🐦</a>
-            <a href="#">📧</a>
-            <a href="#">💼</a>
+        <div class="container">
+            <div class="social-links">
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg></a>
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.001z"/></svg></a>
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            </div>
+            <p class="copyright">© 2023 devstral-2-123b-instruct. All rights reserved.</p>
         </div>
-        <p class="copyright">© 2023 devstral-2-123b-instruct. All rights reserved.</p>
     </footer>
 
     <script>
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
         // Mobile menu toggle
         const hamburger = document.querySelector('.hamburger');
-        const nav = document.querySelector('nav');
+        const navLinks = document.querySelector('.nav-links');
 
         hamburger.addEventListener('click', () => {
-            nav.classList.toggle('active');
-            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
         });
 
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-
-                // Close mobile menu if open
-                nav.classList.remove('active');
-                hamburger.classList.remove('active');
-
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
 
         // Form submission
-        const contactForm = document.querySelector('.contact-form form');
+        const contactForm = document.querySelector('.contact-form');
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             alert('Thank you for your message! We will get back to you soon.');
             contactForm.reset();
         });
 
-        // Animate elements on scroll
-        const animateOnScroll = () => {
-            const elements = document.querySelectorAll('.feature-card, .about-content, .contact-form');
-
-            elements.forEach(element => {
-                const elementPosition = element.getBoundingClientRect().top;
-                const windowHeight = window.innerHeight;
-
-                if (elementPosition < windowHeight - 100) {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }
+        // Floating elements animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const floatingElements = document.querySelectorAll('.floating-element');
+            floatingElements.forEach((element, index) => {
+                element.style.animationDelay = `${index * 2}s`;
             });
-        };
-
-        // Set initial state for animated elements
-        document.querySelectorAll('.feature-card, .about-content, .contact-form').forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
-            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         });
-
-        window.addEventListener('scroll', animateOnScroll);
-        window.addEventListener('load', animateOnScroll);
     </script>
 
 <style>
@@ -882,7 +826,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sidebar = document.createElement('div');
     sidebar.id = 'mv-sidebar';
-    sidebar.innerHTML = `<div class="mv-title">Multiverse</div><a href="../glm-4-6-1t-moe--cerebras/index.html" data-slug="glm-4-6-1t-moe--cerebras" class="mv-item">glm-4.6-1t-moe <span class='size'>1000.0B • Cerebras</span></a><a href="../glm-4-6-1t-moe--openrouter/index.html" data-slug="glm-4-6-1t-moe--openrouter" class="mv-item">glm-4.6-1t-moe <span class='size'>1000.0B • Openrouter</span></a><a href="../mistral-large-3-675b-moe--nvidia/index.html" data-slug="mistral-large-3-675b-moe--nvidia" class="mv-item">mistral-large-3-675b-moe <span class='size'>675.0B • Nvidia</span></a><a href="../mistral-large-3-675b-moe--mistral/index.html" data-slug="mistral-large-3-675b-moe--mistral" class="mv-item">mistral-large-3-675b-moe <span class='size'>675.0B • Mistral</span></a><a href="../deepseek-v3--nvidia/index.html" data-slug="deepseek-v3--nvidia" class="mv-item">deepseek-v3 <span class='size'>671.0B • Nvidia</span></a><a href="../deepseek-v3--openrouter/index.html" data-slug="deepseek-v3--openrouter" class="mv-item">deepseek-v3 <span class='size'>671.0B • Openrouter</span></a><a href="../qwen3-coder-480b-moe--openrouter/index.html" data-slug="qwen3-coder-480b-moe--openrouter" class="mv-item">qwen3-coder-480b-moe <span class='size'>480.0B • Openrouter</span></a><a href="../llama-3-1-405b-instruct--openrouter/index.html" data-slug="llama-3-1-405b-instruct--openrouter" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Openrouter</span></a><a href="../llama-3-1-405b-instruct--github/index.html" data-slug="llama-3-1-405b-instruct--github" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Github</span></a><a href="../llama-3-1-405b-instruct--nvidia/index.html" data-slug="llama-3-1-405b-instruct--nvidia" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Nvidia</span></a><a href="../llama-3-1-405b-instruct--mistral/index.html" data-slug="llama-3-1-405b-instruct--mistral" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Mistral</span></a><a href="../hermes-3-llama-3-1-405b--openrouter/index.html" data-slug="hermes-3-llama-3-1-405b--openrouter" class="mv-item">hermes-3-llama-3.1-405b <span class='size'>405.0B • Openrouter</span></a><a href="../hermes-3-llama-3-1-405b--github/index.html" data-slug="hermes-3-llama-3-1-405b--github" class="mv-item">hermes-3-llama-3.1-405b <span class='size'>405.0B • Github</span></a><a href="../llama-4-maverick-400b--openrouter/index.html" data-slug="llama-4-maverick-400b--openrouter" class="mv-item">llama-4-maverick-400b <span class='size'>400.0B • Openrouter</span></a><a href="../mimo-v2-flash-309b-moe--openrouter/index.html" data-slug="mimo-v2-flash-309b-moe--openrouter" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Openrouter</span></a><a href="../mimo-v2-flash-309b-moe--cloudflare/index.html" data-slug="mimo-v2-flash-309b-moe--cloudflare" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Cloudflare</span></a><a href="../deepseek-v3-236b-moe--openrouter/index.html" data-slug="deepseek-v3-236b-moe--openrouter" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Openrouter</span></a><a href="../deepseek-v3-236b-moe--github/index.html" data-slug="deepseek-v3-236b-moe--github" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Github</span></a><a href="../deepseek-v3-236b-moe--nvidia/index.html" data-slug="deepseek-v3-236b-moe--nvidia" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Nvidia</span></a><a href="../qwen3-235b-a22b-instruct--cerebras/index.html" data-slug="qwen3-235b-a22b-instruct--cerebras" class="mv-item">qwen3-235b-a22b-instruct <span class='size'>235.0B • Cerebras</span></a><a href="../qwen3-235b-a22b-instruct--openrouter/index.html" data-slug="qwen3-235b-a22b-instruct--openrouter" class="mv-item">qwen3-235b-a22b-instruct <span class='size'>235.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--openrouter/index.html" data-slug="{slug}" class="mv-item active" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--mistral/index.html" data-slug="mistral-large-latest--mistral" class="mv-item">mistral-large-latest <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--nvidia/index.html" data-slug="mistral-large-latest--nvidia" class="mv-item">mistral-large-latest <span class='size'>123.0B • Nvidia</span></a><a href="../mistral-large-latest--openrouter/index.html" data-slug="mistral-large-latest--openrouter" class="mv-item">mistral-large-latest <span class='size'>123.0B • Openrouter</span></a><a href="../gpt-oss-120b--openrouter/index.html" data-slug="gpt-oss-120b--openrouter" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Openrouter</span></a><a href="../gpt-oss-120b--cerebras/index.html" data-slug="gpt-oss-120b--cerebras" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cerebras</span></a><a href="../gpt-oss-120b--cloudflare/index.html" data-slug="gpt-oss-120b--cloudflare" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cloudflare</span></a><a href="../jamba-1-5-large--github/index.html" data-slug="jamba-1-5-large--github" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Github</span></a><a href="../jamba-1-5-large--gemini/index.html" data-slug="jamba-1-5-large--gemini" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Gemini</span></a><a href="../jamba-1-5-large--openrouter/index.html" data-slug="jamba-1-5-large--openrouter" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Openrouter</span></a><a href="../qwen1-5-110b-chat--cerebras/index.html" data-slug="qwen1-5-110b-chat--cerebras" class="mv-item">qwen1.5-110b-chat <span class='size'>110.0B • Cerebras</span></a><a href="../command-r-plus-104b--github/index.html" data-slug="command-r-plus-104b--github" class="mv-item">command-r-plus-104b <span class='size'>104.0B • Github</span></a><a href="../command-r-plus-104b--openrouter/index.html" data-slug="command-r-plus-104b--openrouter" class="mv-item">command-r-plus-104b <span class='size'>104.0B • Openrouter</span></a><a href="../deepseek-r1-huge--openrouter/index.html" data-slug="deepseek-r1-huge--openrouter" class="mv-item">deepseek-r1-huge <span class='size'>100.0B • Openrouter</span></a><a href="../deepseek-r1-huge--github/index.html" data-slug="deepseek-r1-huge--github" class="mv-item">deepseek-r1-huge <span class='size'>100.0B • Github</span></a>`;
+    sidebar.innerHTML = `<div class="mv-title">Multiverse</div><a href="../llama-3-1-405b-instruct--nvidia/index.html" data-slug="llama-3-1-405b-instruct--nvidia" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Nvidia</span></a><a href="../llama-3-1-405b-instruct--github/index.html" data-slug="llama-3-1-405b-instruct--github" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Github</span></a><a href="../mimo-v2-flash-309b-moe--openrouter/index.html" data-slug="mimo-v2-flash-309b-moe--openrouter" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--mistral/index.html" data-slug="mistral-large-latest--mistral" class="mv-item">mistral-large-latest <span class='size'>123.0B • Mistral</span></a><a href="../devstral-2-123b-instruct--openrouter/index.html" data-slug="{slug}" class="mv-item active" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Openrouter</span></a><a href="../gpt-oss-120b--cerebras/index.html" data-slug="gpt-oss-120b--cerebras" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cerebras</span></a>`;
     document.body.appendChild(sidebar);
 
     btn.addEventListener('click', () => {

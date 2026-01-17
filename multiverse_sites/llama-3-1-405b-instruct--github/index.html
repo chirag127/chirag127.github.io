@@ -5,19 +5,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>llama-3.1-405b-instruct</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+    <header class="hero">
+        <div class="container">
+            <h1 class="headline">Unlock the Power of AI with llama-3.1-405b-instruct</h1>
+            <p class="subheading">Explore the limitless possibilities of artificial intelligence</p>
+            <button class="cta">Get Started</button>
+        </div>
+        <div class="background">
+            <div class="gradient"></div>
+        </div>
+    </header>
+    <section class="features">
+        <h2 class="heading">Features</h2>
+        <div class="cards">
+            <div class="card">
+                <div class="glass">
+                    <h3 class="title">Advanced AI Model</h3>
+                    <p class="description">Experience the power of our cutting-edge AI model, designed to deliver unparalleled performance and accuracy.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="glass">
+                    <h3 class="title">Easy Integration</h3>
+                    <p class="description">Seamlessly integrate our AI model into your existing infrastructure and unlock new possibilities.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="glass">
+                    <h3 class="title">Real-Time Analytics</h3>
+                    <p class="description">Gain valuable insights with our real-time analytics, empowering you to make data-driven decisions.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="glass">
+                    <h3 class="title">Robust Security</h3>
+                    <p class="description">Rest assured with our robust security measures, protecting your data and ensuring confidentiality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="about">
+        <h2 class="heading">About Us</h2>
+        <p class="description">At llama-3.1-405b-instruct, we're passionate about harnessing the potential of artificial intelligence to drive innovation and progress.</p>
+    </section>
+    <section class="contact">
+        <h2 class="heading">Get in Touch</h2>
+        <p class="description">Ready to unlock the power of AI? Contact us to learn more about our cutting-edge solutions.</p>
+        <button class="cta">Contact Us</button>
+    </section>
+
     <style>
         /* Global Styles */
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #8e44ad;
-            --magenta-color: #e74c3c;
-            --glass-color: rgba(255, 255, 255, 0.1);
-            --font-family: 'Inter', sans-serif;
-        }
-        
         * {
             margin: 0;
             padding: 0;
@@ -25,35 +66,14 @@
         }
         
         body {
-            font-family: var(--font-family);
-            background: #2f343f;
-            color: #fff;
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0A0A;
         }
         
-        /* Glassmorphism */
-        .glass {
-            background: var(--glass-color);
-            border-radius: 10px;
-            box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2);
-            backdrop-filter: blur(10px);
-        }
-        
-        /* Animations */
-        @keyframes float {
-            0% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0);
-            }
-        }
-        
-        .float {
-            animation: float 5s infinite;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
         
         /* Hero Section */
@@ -62,14 +82,60 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+            color: #fff;
         }
         
-        .hero h1 {
-            font-size: 48px;
+        .hero .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(180deg, #1A1A1A 0%, #0A0A0A 100%);
+            z-index: -1;
+        }
+        
+        .hero .gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(180deg, rgba(255, 0, 255, 0.2) 0%, rgba(0, 255, 255, 0.2) 100%);
+            z-index: -1;
+            animation: gradient 10s infinite;
+        }
+        
+        @keyframes gradient {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-100vh);
+            }
+        }
+        
+        .headline {
+            font-size: 64px;
             font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .subheading {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+        
+        .cta {
+            background: linear-gradient(90deg, #FF69B4 0%, #FFC67D 100%);
             color: #fff;
-            text-align: center;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 10px;
         }
         
         /* Features Section */
@@ -77,36 +143,58 @@
             padding: 100px 0;
         }
         
-        .features .card {
-            width: calc(33.33% - 20px);
-            margin: 20px;
-            padding: 20px;
-            float: left;
+        .features .heading {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
         }
         
-        .features .card h2 {
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .card {
+            margin: 20px;
+            width: calc(33.33% - 40px);
+            background-color: #1A1A1A;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .glass {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.2) 100%);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .title {
             font-size: 24px;
-            font-weight: 600;
-            color: #fff;
+            font-weight: 500;
             margin-bottom: 10px;
         }
         
-        .features .card p {
+        .description {
             font-size: 18px;
-            color: #ccc;
+            font-weight: 400;
         }
         
         /* About Section */
         .about {
             padding: 100px 0;
-            background: linear-gradient(180deg, var(--secondary-color), var(--magenta-color));
         }
         
-        .about h2 {
-            font-size: 36px;
+        .about .heading {
+            font-size: 48px;
             font-weight: 700;
-            color: #fff;
-            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .about .description {
+            font-size: 24px;
+            font-weight: 400;
         }
         
         /* Contact Section */
@@ -114,74 +202,51 @@
             padding: 100px 0;
         }
         
-        .contact h2 {
-            font-size: 36px;
+        .contact .heading {
+            font-size: 48px;
             font-weight: 700;
-            color: #fff;
-            text-align: center;
+            margin-bottom: 20px;
         }
         
-        /* Responsive */
+        .contact .description {
+            font-size: 24px;
+            font-weight: 400;
+        }
+        
+        /* Responsive Styles */
         @media (max-width: 768px) {
-            .features .card {
-                width: calc(50% - 20px);
+            .card {
+                width: calc(50% - 40px);
             }
         }
         
         @media (max-width: 480px) {
-            .features .card {
+            .card {
                 width: 100%;
-                margin: 20px 0;
             }
         }
     </style>
-</head>
-<body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1 class="float">llama-3.1-405b-instruct</h1>
-    </section>
-    
-    <!-- Features Section -->
-    <section class="features">
-        <div class="card glass">
-            <h2>Feature 1</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.</p>
-        </div>
-        <div class="card glass">
-            <h2>Feature 2</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.</p>
-        </div>
-        <div class="card glass">
-            <h2>Feature 3</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.</p>
-        </div>
-        <div class="card glass">
-            <h2>Feature 4</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.</p>
-        </div>
-    </section>
-    
-    <!-- About Section -->
-    <section class="about">
-        <h2>About Us</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.</p>
-    </section>
-    
-    <!-- Contact Section -->
-    <section class="contact">
-        <h2>Get in Touch</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed, convallis ex.</p>
-    </section>
     
     <script>
-        // Add smooth scrolling to links
-        document.querySelectorAll('a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        // Add event listener to CTA buttons
+        const ctas = document.querySelectorAll('.cta');
+        ctas.forEach(cta => {
+            cta.addEventListener('click', () => {
+                alert('CTA button clicked!');
+            });
+        });
+        
+        // Add floating effect to cards
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mouseover', () => {
+                card.style.transform = 'translateY(-10px)';
+                card.style.boxShadow = '0 20px 30px rgba(0, 0, 0, 0.4)';
+            });
+            
+            card.addEventListener('mouseout', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.2)';
             });
         });
     </script>
@@ -277,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sidebar = document.createElement('div');
     sidebar.id = 'mv-sidebar';
-    sidebar.innerHTML = `<div class="mv-title">Multiverse</div><a href="../glm-4-6-1t-moe--cerebras/index.html" data-slug="glm-4-6-1t-moe--cerebras" class="mv-item">glm-4.6-1t-moe <span class='size'>1000.0B • Cerebras</span></a><a href="../glm-4-6-1t-moe--openrouter/index.html" data-slug="glm-4-6-1t-moe--openrouter" class="mv-item">glm-4.6-1t-moe <span class='size'>1000.0B • Openrouter</span></a><a href="../mistral-large-3-675b-moe--nvidia/index.html" data-slug="mistral-large-3-675b-moe--nvidia" class="mv-item">mistral-large-3-675b-moe <span class='size'>675.0B • Nvidia</span></a><a href="../mistral-large-3-675b-moe--mistral/index.html" data-slug="mistral-large-3-675b-moe--mistral" class="mv-item">mistral-large-3-675b-moe <span class='size'>675.0B • Mistral</span></a><a href="../deepseek-v3--nvidia/index.html" data-slug="deepseek-v3--nvidia" class="mv-item">deepseek-v3 <span class='size'>671.0B • Nvidia</span></a><a href="../deepseek-v3--openrouter/index.html" data-slug="deepseek-v3--openrouter" class="mv-item">deepseek-v3 <span class='size'>671.0B • Openrouter</span></a><a href="../qwen3-coder-480b-moe--openrouter/index.html" data-slug="qwen3-coder-480b-moe--openrouter" class="mv-item">qwen3-coder-480b-moe <span class='size'>480.0B • Openrouter</span></a><a href="../llama-3-1-405b-instruct--openrouter/index.html" data-slug="llama-3-1-405b-instruct--openrouter" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Openrouter</span></a><a href="../llama-3-1-405b-instruct--github/index.html" data-slug="{slug}" class="mv-item active" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Github</span></a><a href="../llama-3-1-405b-instruct--nvidia/index.html" data-slug="llama-3-1-405b-instruct--nvidia" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Nvidia</span></a><a href="../llama-3-1-405b-instruct--mistral/index.html" data-slug="llama-3-1-405b-instruct--mistral" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Mistral</span></a><a href="../hermes-3-llama-3-1-405b--openrouter/index.html" data-slug="hermes-3-llama-3-1-405b--openrouter" class="mv-item">hermes-3-llama-3.1-405b <span class='size'>405.0B • Openrouter</span></a><a href="../hermes-3-llama-3-1-405b--github/index.html" data-slug="hermes-3-llama-3-1-405b--github" class="mv-item">hermes-3-llama-3.1-405b <span class='size'>405.0B • Github</span></a><a href="../llama-4-maverick-400b--openrouter/index.html" data-slug="llama-4-maverick-400b--openrouter" class="mv-item">llama-4-maverick-400b <span class='size'>400.0B • Openrouter</span></a><a href="../mimo-v2-flash-309b-moe--openrouter/index.html" data-slug="mimo-v2-flash-309b-moe--openrouter" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Openrouter</span></a><a href="../mimo-v2-flash-309b-moe--cloudflare/index.html" data-slug="mimo-v2-flash-309b-moe--cloudflare" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Cloudflare</span></a><a href="../deepseek-v3-236b-moe--openrouter/index.html" data-slug="deepseek-v3-236b-moe--openrouter" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Openrouter</span></a><a href="../deepseek-v3-236b-moe--github/index.html" data-slug="deepseek-v3-236b-moe--github" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Github</span></a><a href="../deepseek-v3-236b-moe--nvidia/index.html" data-slug="deepseek-v3-236b-moe--nvidia" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Nvidia</span></a><a href="../qwen3-235b-a22b-instruct--cerebras/index.html" data-slug="qwen3-235b-a22b-instruct--cerebras" class="mv-item">qwen3-235b-a22b-instruct <span class='size'>235.0B • Cerebras</span></a><a href="../qwen3-235b-a22b-instruct--openrouter/index.html" data-slug="qwen3-235b-a22b-instruct--openrouter" class="mv-item">qwen3-235b-a22b-instruct <span class='size'>235.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--openrouter/index.html" data-slug="devstral-2-123b-instruct--openrouter" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--mistral/index.html" data-slug="mistral-large-latest--mistral" class="mv-item">mistral-large-latest <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--nvidia/index.html" data-slug="mistral-large-latest--nvidia" class="mv-item">mistral-large-latest <span class='size'>123.0B • Nvidia</span></a><a href="../mistral-large-latest--openrouter/index.html" data-slug="mistral-large-latest--openrouter" class="mv-item">mistral-large-latest <span class='size'>123.0B • Openrouter</span></a><a href="../gpt-oss-120b--openrouter/index.html" data-slug="gpt-oss-120b--openrouter" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Openrouter</span></a><a href="../gpt-oss-120b--cerebras/index.html" data-slug="gpt-oss-120b--cerebras" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cerebras</span></a><a href="../gpt-oss-120b--cloudflare/index.html" data-slug="gpt-oss-120b--cloudflare" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cloudflare</span></a><a href="../jamba-1-5-large--github/index.html" data-slug="jamba-1-5-large--github" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Github</span></a><a href="../jamba-1-5-large--gemini/index.html" data-slug="jamba-1-5-large--gemini" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Gemini</span></a><a href="../jamba-1-5-large--openrouter/index.html" data-slug="jamba-1-5-large--openrouter" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Openrouter</span></a><a href="../qwen1-5-110b-chat--cerebras/index.html" data-slug="qwen1-5-110b-chat--cerebras" class="mv-item">qwen1.5-110b-chat <span class='size'>110.0B • Cerebras</span></a><a href="../command-r-plus-104b--github/index.html" data-slug="command-r-plus-104b--github" class="mv-item">command-r-plus-104b <span class='size'>104.0B • Github</span></a><a href="../command-r-plus-104b--openrouter/index.html" data-slug="command-r-plus-104b--openrouter" class="mv-item">command-r-plus-104b <span class='size'>104.0B • Openrouter</span></a><a href="../deepseek-r1-huge--openrouter/index.html" data-slug="deepseek-r1-huge--openrouter" class="mv-item">deepseek-r1-huge <span class='size'>100.0B • Openrouter</span></a><a href="../deepseek-r1-huge--github/index.html" data-slug="deepseek-r1-huge--github" class="mv-item">deepseek-r1-huge <span class='size'>100.0B • Github</span></a>`;
+    sidebar.innerHTML = `<div class="mv-title">Multiverse</div><a href="../llama-3-1-405b-instruct--nvidia/index.html" data-slug="llama-3-1-405b-instruct--nvidia" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Nvidia</span></a><a href="../llama-3-1-405b-instruct--github/index.html" data-slug="{slug}" class="mv-item active" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Github</span></a><a href="../mimo-v2-flash-309b-moe--openrouter/index.html" data-slug="mimo-v2-flash-309b-moe--openrouter" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--mistral/index.html" data-slug="mistral-large-latest--mistral" class="mv-item">mistral-large-latest <span class='size'>123.0B • Mistral</span></a><a href="../devstral-2-123b-instruct--openrouter/index.html" data-slug="devstral-2-123b-instruct--openrouter" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Openrouter</span></a><a href="../gpt-oss-120b--cerebras/index.html" data-slug="gpt-oss-120b--cerebras" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cerebras</span></a>`;
     document.body.appendChild(sidebar);
 
     btn.addEventListener('click', () => {

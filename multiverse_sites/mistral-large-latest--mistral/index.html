@@ -10,16 +10,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-glow: conic-gradient(from 180deg at 50% 50%, #16abff33 0deg, #0885ff33 55deg, #54d6ff33 120deg, #0071ff33 160deg, transparent 360deg);
-            --secondary-glow: radial-gradient(rgba(255, 77, 196, 0.35), transparent 40%);
-            --tertiary-glow: conic-gradient(from 180deg at 50% 50%, rgba(255, 255, 255, 0.2) 0deg, rgba(255, 77, 196, 0.2) 55deg, rgba(113, 63, 248, 0.2) 120deg, rgba(255, 255, 255, 0.2) 160deg, transparent 360deg);
-            --glass-bg: rgba(15, 23, 42, 0.5);
+            --primary: #6c5ce7;
+            --primary-glow: #8a79f7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --accent-glow: #fd96bb;
+            --dark: #0a0a1a;
+            --darker: #060612;
+            --light: #f5f6fa;
+            --glass: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --accent-blue: #0071ff;
-            --accent-purple: #713ff8;
-            --accent-pink: #ff4dc4;
+            --gradient-1: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            --gradient-2: linear-gradient(135deg, #fd79a8 0%, #6c5ce7 100%);
+            --gradient-3: linear-gradient(135deg, #00cec9 0%, #6c5ce7 50%, #fd79a8 100%);
         }
 
         * {
@@ -28,14 +31,10 @@
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
-            background: #020617;
-            color: var(--text-primary);
+            background-color: var(--dark);
+            color: var(--light);
             overflow-x: hidden;
             position: relative;
         }
@@ -47,31 +46,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--primary-glow);
+            background: radial-gradient(circle at 20% 80%, rgba(108, 92, 231, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(253, 121, 168, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(0, 206, 201, 0.1) 0%, transparent 50%);
             z-index: -1;
-            animation: rotate 60s linear infinite;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: var(--secondary-glow);
-            z-index: -1;
-            animation: pulse 8s ease-in-out infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
+            pointer-events: none;
         }
 
         .container {
@@ -85,37 +64,138 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
             padding: 6rem 0;
             position: relative;
         }
 
-        /* Glassmorphism */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border-radius: 16px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.2);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Floating animation */
+        /* Animations */
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
             100% { transform: translateY(0px); }
         }
 
-        .floating {
-            animation: float 6s ease-in-out infinite;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background-color: rgba(10, 10, 26, 0.5);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--gradient-2);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15px;
+            height: 15px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-2);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .cta-button {
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient-2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
         }
 
         /* Hero Section */
@@ -127,126 +207,159 @@
 
         .hero-content {
             max-width: 800px;
-            z-index: 2;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out;
         }
 
-        .hero-logo {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 2rem;
-            background: var(--tertiary-glow);
-            border-radius: 24px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid var(--glass-border);
-            animation: pulse 4s ease-in-out infinite;
+        .hero-subtitle {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
         }
 
-        .hero-logo svg {
-            width: 60px;
-            height: 60px;
-            fill: white;
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: 800;
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 900;
             line-height: 1.1;
             margin-bottom: 1.5rem;
-            background: linear-gradient(90deg, var(--text-primary), #a8b5ff);
+            background: var(--gradient-3);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 2px 10px rgba(0, 113, 255, 0.3);
+            background-size: 200% auto;
+            animation: gradient 3s ease infinite;
         }
 
-        h1 .highlight {
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-pink));
+        .hero-title span {
+            background: var(--gradient-2);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: none;
         }
 
-        p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            color: var(--text-secondary);
+        .hero-description {
+            font-size: 1.1rem;
+            color: rgba(245, 246, 250, 0.8);
+            margin-bottom: 2.5rem;
             max-width: 600px;
-            margin: 0 auto 2rem;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 1rem 2rem;
+            background: var(--gradient-2);
             color: white;
-            text-decoration: none;
+            border: none;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 1.1rem;
+            cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 113, 255, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
         }
 
-        .cta-button:hover {
+        .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 113, 255, 0.6);
-            background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink));
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 1rem 2rem;
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--glass-border);
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-3px);
         }
 
         .hero-visual {
-            position: absolute;
-            bottom: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            max-width: 800px;
-            height: 400px;
-            z-index: 1;
+            margin-top: 4rem;
+            position: relative;
+            height: 300px;
         }
 
-        .hero-visual .floating-card {
+        .floating-element {
             position: absolute;
-            width: 200px;
-            height: 200px;
-            background: rgba(15, 23, 42, 0.3);
             border-radius: 20px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-blue);
-            box-shadow: 0 0 20px rgba(0, 113, 255, 0.2);
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            animation: float 6s ease-in-out infinite;
         }
 
-        .hero-visual .card-1 {
-            top: 20px;
+        .floating-element:nth-child(1) {
+            width: 200px;
+            height: 150px;
+            top: 0;
             left: 10%;
             animation-delay: 0s;
         }
 
-        .hero-visual .card-2 {
-            top: 80px;
+        .floating-element:nth-child(2) {
+            width: 150px;
+            height: 200px;
+            top: 20%;
             right: 10%;
             animation-delay: 1s;
         }
 
-        .hero-visual .card-3 {
-            bottom: 20px;
-            left: 30%;
+        .floating-element:nth-child(3) {
+            width: 180px;
+            height: 180px;
+            bottom: 0;
+            left: 20%;
             animation-delay: 2s;
         }
 
-        .hero-visual .card-4 {
-            bottom: 80px;
-            right: 30%;
+        .floating-element:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            bottom: 10%;
+            right: 20%;
             animation-delay: 3s;
+        }
+
+        .hero-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background: var(--gradient-2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: pulse 4s infinite;
+            box-shadow: 0 0 50px rgba(108, 92, 231, 0.5);
+        }
+
+        .hero-center::before {
+            content: '';
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
         }
 
         /* Features Section */
@@ -255,34 +368,42 @@
         }
 
         .section-title {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
+            font-size: 3rem;
+            font-weight: 800;
             margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--text-primary), #a8b5ff);
+            background: var(--gradient-2);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
 
         .section-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
+            font-size: 1.1rem;
+            color: rgba(245, 246, 250, 0.8);
+            margin-bottom: 4rem;
             max-width: 600px;
-            margin: 0 auto 4rem;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            width: 100%;
+            margin-top: 3rem;
         }
 
         .feature-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
             padding: 2.5rem;
             text-align: left;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            z-index: 1;
         }
 
         .feature-card::before {
@@ -292,131 +413,121 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-pink));
+            background: var(--gradient-2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
         .feature-icon {
             width: 60px;
             height: 60px;
-            background: rgba(0, 113, 255, 0.1);
-            border-radius: 16px;
+            background: var(--gradient-2);
+            border-radius: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 1.5rem;
-            border: 1px solid rgba(0, 113, 255, 0.3);
+            font-size: 1.5rem;
+            color: white;
         }
 
-        .feature-icon svg {
-            width: 30px;
-            height: 30px;
-            fill: var(--accent-blue);
-        }
-
-        .feature-card h3 {
+        .feature-title {
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
         }
 
-        .feature-card p {
-            color: var(--text-secondary);
-            margin: 0;
+        .feature-description {
+            color: rgba(245, 246, 250, 0.8);
+            line-height: 1.6;
         }
 
         /* About Section */
         #about {
-            text-align: center;
             position: relative;
+            overflow: hidden;
         }
 
         .about-content {
-            max-width: 800px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .about-text p {
+            color: rgba(245, 246, 250, 0.8);
+            line-height: 1.8;
+            margin-bottom: 2rem;
         }
 
         .about-visual {
-            width: 100%;
-            max-width: 600px;
-            height: 300px;
-            margin: 3rem auto;
             position: relative;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .about-visual .core {
+        .about-float-1 {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 150px;
+            width: 200px;
             height: 150px;
-            background: rgba(113, 63, 248, 0.2);
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            animation: float 8s ease-in-out infinite;
+            top: 10%;
+            left: 10%;
+        }
+
+        .about-float-2 {
+            position: absolute;
+            width: 150px;
+            height: 200px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            animation: float 7s ease-in-out infinite reverse;
+            bottom: 10%;
+            right: 10%;
+        }
+
+        .about-center {
+            width: 250px;
+            height: 250px;
+            background: var(--gradient-3);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid var(--accent-purple);
-            box-shadow: 0 0 30px rgba(113, 63, 248, 0.3);
-            animation: pulse 3s ease-in-out infinite;
+            position: relative;
+            animation: pulse 5s infinite;
+            box-shadow: 0 0 60px rgba(0, 206, 201, 0.4);
         }
 
-        .about-visual .orbit {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .about-center::before {
+            content: '';
+            width: 80px;
+            height: 80px;
+            background: white;
             border-radius: 50%;
-            animation: rotate 30s linear infinite;
-        }
-
-        .about-visual .orbit-1 {
-            width: 200px;
-            height: 200px;
-        }
-
-        .about-visual .orbit-2 {
-            width: 280px;
-            height: 280px;
-            animation-duration: 40s;
-        }
-
-        .about-visual .orbit-3 {
-            width: 360px;
-            height: 360px;
-            animation-duration: 50s;
-        }
-
-        .about-visual .node {
             position: absolute;
-            width: 12px;
-            height: 12px;
-            background: var(--accent-pink);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent-pink);
-        }
-
-        .about-visual .node-1 {
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .about-visual .node-2 {
-            top: 50%;
-            right: 0;
-            transform: translateY(-50%);
-        }
-
-        .about-visual .node-3 {
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .about-visual .node-4 {
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
         }
 
         /* Contact Section */
@@ -424,21 +535,43 @@
             text-align: center;
         }
 
-        .contact-form {
+        .contact-content {
             max-width: 600px;
-            width: 100%;
-            margin-top: 3rem;
+            margin: 0 auto;
+        }
+
+        .contact-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .contact-subtitle {
+            font-size: 1.1rem;
+            color: rgba(245, 246, 250, 0.8);
+            margin-bottom: 3rem;
+        }
+
+        .contact-form {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            text-align: left;
         }
 
         .form-group {
             margin-bottom: 1.5rem;
-            text-align: left;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: var(--text-secondary);
             font-weight: 500;
         }
 
@@ -446,20 +579,19 @@
         .form-group textarea {
             width: 100%;
             padding: 1rem;
-            background: var(--glass-bg);
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 1rem;
+            border-radius: 10px;
+            color: var(--light);
+            font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(0, 113, 255, 0.2);
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .form-group textarea {
@@ -467,38 +599,36 @@
             resize: vertical;
         }
 
-        .submit-button {
+        .submit-btn {
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            background: var(--gradient-2);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 600;
-            font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 113, 255, 0.4);
+            backdrop-filter: blur(5px);
         }
 
-        .submit-button:hover {
+        .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 113, 255, 0.6);
-            background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink));
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4);
         }
 
         /* Footer */
         footer {
             padding: 3rem 0;
+            border-top: 1px solid var(--glass-border);
             text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .footer-content {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .social-links {
@@ -509,30 +639,72 @@
         .social-links a {
             width: 40px;
             height: 40px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: var(--text-secondary);
-            text-decoration: none;
+            color: var(--light);
             transition: all 0.3s ease;
-            border: 1px solid var(--glass-border);
         }
 
         .social-links a:hover {
-            background: var(--accent-blue);
+            background: var(--gradient-2);
             color: white;
-            border-color: var(--accent-blue);
+            border-color: var(--gradient-2);
         }
 
         .copyright {
-            color: var(--text-secondary);
+            color: rgba(245, 246, 250, 0.6);
             font-size: 0.9rem;
         }
 
         /* Responsive */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-visual {
+                height: 300px;
+            }
+        }
+
         @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
             .container {
                 padding: 0 1rem;
             }
@@ -541,200 +713,227 @@
                 padding: 4rem 0;
             }
 
-            .hero-visual {
-                display: none;
+            .hero-title {
+                font-size: 2rem;
             }
 
-            .features-grid {
-                grid-template-columns: 1fr;
+            .section-title {
+                font-size: 2rem;
             }
 
-            .about-visual {
-                height: 200px;
-            }
-
-            .about-visual .orbit-1 {
-                width: 150px;
-                height: 150px;
-            }
-
-            .about-visual .orbit-2 {
-                width: 200px;
-                height: 200px;
-            }
-
-            .about-visual .orbit-3 {
-                width: 250px;
-                height: 250px;
+            .contact-title {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section id="hero">
+    <header>
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-logo glass-card">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M2 7L12 12L22 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M12 22V12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+            <nav class="navbar">
+                <div class="logo">
+                    <div class="logo-icon"></div>
+                    mistral-large-latest
                 </div>
-                <h1>Next-Gen AI <span class="highlight">Mistral-Large-Latest</span> for the Future</h1>
-                <p>Experience the most advanced language model with unparalleled performance, efficiency, and adaptability. Built for developers, researchers, and enterprises pushing the boundaries of AI.</p>
-                <a href="#contact" class="cta-button">Get Early Access</a>
-            </div>
-            <div class="hero-visual">
-                <div class="floating-card card-1 floating glass-card">AI</div>
-                <div class="floating-card card-2 floating glass-card">ML</div>
-                <div class="floating-card card-3 floating glass-card">NLP</div>
-                <div class="floating-card card-4 floating glass-card">DL</div>
-            </div>
+                <div class="nav-links">
+                    <a href="#features">Features</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <button class="cta-button">Get Started</button>
+            </nav>
         </div>
-    </section>
+    </header>
 
-    <!-- Features Section -->
-    <section id="features">
-        <div class="container">
-            <h2 class="section-title">Cutting-Edge Capabilities</h2>
-            <p class="section-subtitle">Mistral-Large-Latest pushes the boundaries of what's possible with AI, delivering unmatched performance across all benchmarks.</p>
-
-            <div class="features-grid">
-                <div class="feature-card glass-card">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+    <main>
+        <section id="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <p class="hero-subtitle">NEXT-GENERATION AI PLATFORM</p>
+                    <h1 class="hero-title">Unlock the Power of <span>Mistral-Large-Latest</span></h1>
+                    <p class="hero-description">
+                        Experience cutting-edge artificial intelligence solutions that push the boundaries of what's possible.
+                        Our advanced models deliver unprecedented performance, accuracy, and efficiency.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn-primary">Start Free Trial</button>
+                        <button class="btn-secondary">Learn More</button>
                     </div>
-                    <h3>Unmatched Performance</h3>
-                    <p>Outperforms all existing models on key benchmarks with superior accuracy, speed, and efficiency. Optimized for both quality and cost-effectiveness.</p>
                 </div>
-
-                <div class="feature-card glass-card">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M12 22V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M22 7L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M2 7L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h3>Multi-Lingual Mastery</h3>
-                    <p>Fluent in over 100 languages with native-level understanding and generation capabilities. Perfect for global applications and localization.</p>
-                </div>
-
-                <div class="feature-card glass-card">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="currentColor"/>
-                            <path d="M12 6C8.69 6 6 8.69 6 12C6 15.31 8.69 18 12 18C15.31 18 18 15.31 18 12C18 8.69 15.31 6 12 6ZM12 16C9.79 16 8 14.21 8 12C8 9.79 9.79 8 12 8C14.21 8 16 9.79 16 12C16 14.21 14.21 16 12 16Z" fill="currentColor"/>
-                        </svg>
-                    </div>
-                    <h3>Adaptive Learning</h3>
-                    <p>Continuously improves through advanced reinforcement learning and human feedback integration. Adapts to your specific use cases over time.</p>
-                </div>
-
-                <div class="feature-card glass-card">
-                    <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M17 4.5L7 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M17 9.5L7 14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <h3>Enterprise Ready</h3>
-                    <p>Built for scale with enterprise-grade security, compliance, and integration capabilities. Deploy in cloud, on-premise, or hybrid environments.</p>
+                <div class="hero-visual">
+                    <div class="floating-element"></div>
+                    <div class="floating-element"></div>
+                    <div class="floating-element"></div>
+                    <div class="floating-element"></div>
+                    <div class="hero-center"></div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- About Section -->
-    <section id="about">
-        <div class="container">
-            <h2 class="section-title">The Future of AI</h2>
-            <p class="section-subtitle">Mistral-Large-Latest represents the next evolution in artificial intelligence, combining cutting-edge research with practical, real-world applications.</p>
-
-            <div class="about-content">
-                <p>Our team of world-class researchers and engineers has developed a revolutionary architecture that pushes the boundaries of what's possible with large language models. By optimizing for both performance and efficiency, we've created a model that delivers unparalleled results while maintaining practical deployment requirements.</p>
-
-                <p>Whether you're building next-generation applications, conducting groundbreaking research, or transforming your business with AI, Mistral-Large-Latest provides the foundation you need to succeed in the AI-powered future.</p>
+        <section id="features">
+            <div class="container">
+                <h2 class="section-title">Revolutionary Features</h2>
+                <p class="section-subtitle">
+                    Discover the groundbreaking capabilities that set Mistral-Large-Latest apart from conventional AI solutions.
+                </p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3 class="feature-title">Lightning Speed</h3>
+                        <p class="feature-description">
+                            Our optimized architecture delivers blazing-fast inference times, processing complex requests in milliseconds.
+                            Experience AI that keeps up with your most demanding applications.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3 class="feature-title">Precision Accuracy</h3>
+                        <p class="feature-description">
+                            State-of-the-art algorithms provide unparalleled accuracy in natural language processing,
+                            computer vision, and predictive analytics. Reduce errors and improve outcomes.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔄</div>
+                        <h3 class="feature-title">Seamless Integration</h3>
+                        <p class="feature-description">
+                            Easily integrate our AI models into your existing systems with our comprehensive API and SDK.
+                            Get up and running in minutes with our developer-friendly tools.
+                        </p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🛡️</div>
+                        <h3 class="feature-title">Enterprise Security</h3>
+                        <p class="feature-description">
+                            Built with security in mind, our platform offers end-to-end encryption, compliance certifications,
+                            and robust access controls to protect your sensitive data.
+                        </p>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <div class="about-visual">
-                <div class="core glass-card">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M12 22V12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M22 7L12 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M2 7L12 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <div class="orbit orbit-1">
-                    <div class="node node-1"></div>
-                </div>
-                <div class="orbit orbit-2">
-                    <div class="node node-2"></div>
-                </div>
-                <div class="orbit orbit-3">
-                    <div class="node node-3"></div>
-                    <div class="node node-4"></div>
+        <section id="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>About Mistral-Large-Latest</h2>
+                        <p>
+                            Founded by a team of AI pioneers and industry experts, Mistral-Large-Latest represents the culmination
+                            of years of research and development in artificial intelligence. Our mission is to democratize access
+                            to advanced AI technologies, making them accessible to businesses and developers worldwide.
+                        </p>
+                        <p>
+                            We combine cutting-edge deep learning techniques with practical, real-world applications to create
+                            AI solutions that solve complex problems across industries. From healthcare to finance, manufacturing
+                            to entertainment, our models are transforming how organizations operate and innovate.
+                        </p>
+                        <button class="btn-primary">Our Story</button>
+                    </div>
+                    <div class="about-visual">
+                        <div class="about-float-1"></div>
+                        <div class="about-float-2"></div>
+                        <div class="about-center"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="container">
-            <h2 class="section-title">Join the AI Revolution</h2>
-            <p class="section-subtitle">Get early access to Mistral-Large-Latest and be among the first to experience the future of AI.</p>
-
-            <form class="contact-form glass-card">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
+        <section id="contact">
+            <div class="container">
+                <div class="contact-content">
+                    <h2 class="contact-title">Get In Touch</h2>
+                    <p class="contact-subtitle">
+                        Ready to experience the future of AI? Contact our team to learn how Mistral-Large-Latest can transform your business.
+                    </p>
+                    <form class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
                 </div>
+            </div>
+        </section>
+    </main>
 
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="company">Company (Optional)</label>
-                    <input type="text" id="company" name="company">
-                </div>
-
-                <div class="form-group">
-                    <label for="message">How will you use Mistral-Large-Latest?</label>
-                    <textarea id="message" name="message" required></textarea>
-                </div>
-
-                <button type="submit" class="submit-button">Request Access</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
+                <div class="logo">
+                    <div class="logo-icon"></div>
+                    mistral-large-latest
+                </div>
                 <div class="social-links">
-                    <a href="#" aria-label="Twitter">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                        </svg>
-                    </a>
-                    <a href="#" aria-label="GitHub">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.
+                    <a href="#" aria-label="Twitter">🐦</a>
+                    <a href="#" aria-label="LinkedIn">🔗</a>
+                    <a href="#" aria-label="GitHub">💻</a>
+                    <a href="#" aria-label="Discord">💬</a>
+                </div>
+                <p class="copyright">© 2023 Mistral-Large-Latest. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Form submission handler
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+
+        // Add animation class when elements come into view
+        const animateOnScroll = function() {
+            const elements = document.querySelectorAll('.feature-card, .about-text, .contact-form');
+
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (elementPosition < windowHeight - 100) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+
+        // Set initial state for scroll animations
+        document.querySelectorAll('.feature-card, .about-text, .contact-form').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+
+        // Run animation check on load and scroll
+        window.addEventListener('load', animateOnScroll);
+        window.addEventListener('scroll', animateOnScroll);
+
+        // Add floating animation to hero elements
+        const floatingElements = document.querySelectorAll('.floating-element');
+        floatingElements.forEach((element, index) => {
+            element.style.animationDelay = `${index * 0.5}s`;
+        });
+    </script>
 
 <style>
 /* Multiverse Sidebar */
@@ -827,7 +1026,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sidebar = document.createElement('div');
     sidebar.id = 'mv-sidebar';
-    sidebar.innerHTML = `<div class="mv-title">Multiverse</div><a href="../glm-4-6-1t-moe--cerebras/index.html" data-slug="glm-4-6-1t-moe--cerebras" class="mv-item">glm-4.6-1t-moe <span class='size'>1000.0B • Cerebras</span></a><a href="../glm-4-6-1t-moe--openrouter/index.html" data-slug="glm-4-6-1t-moe--openrouter" class="mv-item">glm-4.6-1t-moe <span class='size'>1000.0B • Openrouter</span></a><a href="../mistral-large-3-675b-moe--nvidia/index.html" data-slug="mistral-large-3-675b-moe--nvidia" class="mv-item">mistral-large-3-675b-moe <span class='size'>675.0B • Nvidia</span></a><a href="../mistral-large-3-675b-moe--mistral/index.html" data-slug="mistral-large-3-675b-moe--mistral" class="mv-item">mistral-large-3-675b-moe <span class='size'>675.0B • Mistral</span></a><a href="../deepseek-v3--nvidia/index.html" data-slug="deepseek-v3--nvidia" class="mv-item">deepseek-v3 <span class='size'>671.0B • Nvidia</span></a><a href="../deepseek-v3--openrouter/index.html" data-slug="deepseek-v3--openrouter" class="mv-item">deepseek-v3 <span class='size'>671.0B • Openrouter</span></a><a href="../qwen3-coder-480b-moe--openrouter/index.html" data-slug="qwen3-coder-480b-moe--openrouter" class="mv-item">qwen3-coder-480b-moe <span class='size'>480.0B • Openrouter</span></a><a href="../llama-3-1-405b-instruct--openrouter/index.html" data-slug="llama-3-1-405b-instruct--openrouter" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Openrouter</span></a><a href="../llama-3-1-405b-instruct--github/index.html" data-slug="llama-3-1-405b-instruct--github" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Github</span></a><a href="../llama-3-1-405b-instruct--nvidia/index.html" data-slug="llama-3-1-405b-instruct--nvidia" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Nvidia</span></a><a href="../llama-3-1-405b-instruct--mistral/index.html" data-slug="llama-3-1-405b-instruct--mistral" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Mistral</span></a><a href="../hermes-3-llama-3-1-405b--openrouter/index.html" data-slug="hermes-3-llama-3-1-405b--openrouter" class="mv-item">hermes-3-llama-3.1-405b <span class='size'>405.0B • Openrouter</span></a><a href="../hermes-3-llama-3-1-405b--github/index.html" data-slug="hermes-3-llama-3-1-405b--github" class="mv-item">hermes-3-llama-3.1-405b <span class='size'>405.0B • Github</span></a><a href="../llama-4-maverick-400b--openrouter/index.html" data-slug="llama-4-maverick-400b--openrouter" class="mv-item">llama-4-maverick-400b <span class='size'>400.0B • Openrouter</span></a><a href="../mimo-v2-flash-309b-moe--openrouter/index.html" data-slug="mimo-v2-flash-309b-moe--openrouter" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Openrouter</span></a><a href="../mimo-v2-flash-309b-moe--cloudflare/index.html" data-slug="mimo-v2-flash-309b-moe--cloudflare" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Cloudflare</span></a><a href="../deepseek-v3-236b-moe--openrouter/index.html" data-slug="deepseek-v3-236b-moe--openrouter" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Openrouter</span></a><a href="../deepseek-v3-236b-moe--github/index.html" data-slug="deepseek-v3-236b-moe--github" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Github</span></a><a href="../deepseek-v3-236b-moe--nvidia/index.html" data-slug="deepseek-v3-236b-moe--nvidia" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Nvidia</span></a><a href="../qwen3-235b-a22b-instruct--cerebras/index.html" data-slug="qwen3-235b-a22b-instruct--cerebras" class="mv-item">qwen3-235b-a22b-instruct <span class='size'>235.0B • Cerebras</span></a><a href="../qwen3-235b-a22b-instruct--openrouter/index.html" data-slug="qwen3-235b-a22b-instruct--openrouter" class="mv-item">qwen3-235b-a22b-instruct <span class='size'>235.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--openrouter/index.html" data-slug="devstral-2-123b-instruct--openrouter" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--mistral/index.html" data-slug="{slug}" class="mv-item active" class="mv-item">mistral-large-latest <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--nvidia/index.html" data-slug="mistral-large-latest--nvidia" class="mv-item">mistral-large-latest <span class='size'>123.0B • Nvidia</span></a><a href="../mistral-large-latest--openrouter/index.html" data-slug="mistral-large-latest--openrouter" class="mv-item">mistral-large-latest <span class='size'>123.0B • Openrouter</span></a><a href="../gpt-oss-120b--openrouter/index.html" data-slug="gpt-oss-120b--openrouter" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Openrouter</span></a><a href="../gpt-oss-120b--cerebras/index.html" data-slug="gpt-oss-120b--cerebras" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cerebras</span></a><a href="../gpt-oss-120b--cloudflare/index.html" data-slug="gpt-oss-120b--cloudflare" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cloudflare</span></a><a href="../jamba-1-5-large--github/index.html" data-slug="jamba-1-5-large--github" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Github</span></a><a href="../jamba-1-5-large--gemini/index.html" data-slug="jamba-1-5-large--gemini" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Gemini</span></a><a href="../jamba-1-5-large--openrouter/index.html" data-slug="jamba-1-5-large--openrouter" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Openrouter</span></a><a href="../qwen1-5-110b-chat--cerebras/index.html" data-slug="qwen1-5-110b-chat--cerebras" class="mv-item">qwen1.5-110b-chat <span class='size'>110.0B • Cerebras</span></a><a href="../command-r-plus-104b--github/index.html" data-slug="command-r-plus-104b--github" class="mv-item">command-r-plus-104b <span class='size'>104.0B • Github</span></a><a href="../command-r-plus-104b--openrouter/index.html" data-slug="command-r-plus-104b--openrouter" class="mv-item">command-r-plus-104b <span class='size'>104.0B • Openrouter</span></a><a href="../deepseek-r1-huge--openrouter/index.html" data-slug="deepseek-r1-huge--openrouter" class="mv-item">deepseek-r1-huge <span class='size'>100.0B • Openrouter</span></a><a href="../deepseek-r1-huge--github/index.html" data-slug="deepseek-r1-huge--github" class="mv-item">deepseek-r1-huge <span class='size'>100.0B • Github</span></a>`;
+    sidebar.innerHTML = `<div class="mv-title">Multiverse</div><a href="../llama-3-1-405b-instruct--nvidia/index.html" data-slug="llama-3-1-405b-instruct--nvidia" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Nvidia</span></a><a href="../llama-3-1-405b-instruct--github/index.html" data-slug="llama-3-1-405b-instruct--github" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Github</span></a><a href="../mimo-v2-flash-309b-moe--openrouter/index.html" data-slug="mimo-v2-flash-309b-moe--openrouter" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--mistral/index.html" data-slug="{slug}" class="mv-item active" class="mv-item">mistral-large-latest <span class='size'>123.0B • Mistral</span></a><a href="../devstral-2-123b-instruct--openrouter/index.html" data-slug="devstral-2-123b-instruct--openrouter" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Openrouter</span></a><a href="../gpt-oss-120b--cerebras/index.html" data-slug="gpt-oss-120b--cerebras" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cerebras</span></a>`;
     document.body.appendChild(sidebar);
 
     btn.addEventListener('click', () => {
@@ -836,3 +1035,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
+
+</body>
+</html>

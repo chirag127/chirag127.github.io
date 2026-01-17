@@ -1,145 +1,150 @@
 
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0a0f1f" />
-  <title>mimo-v2-flash-309b-moe (Openrouter) — Futuristic Intelligence Platform</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mimo-v2-flash-309b-moe (Openrouter)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-0: #060913;
-      --bg-1: #0a0f1f;
-      --bg-2: #0e1427;
-      --text: #e6ecff;
-      --muted: #98a3c7;
-      --accent-1: #00e5ff; /* neon cyan */
-      --accent-2: #8a2be2; /* neon purple */
-      --accent-3: #ff2d95; /* neon magenta */
+      --bg: #0a0f1b;
+      --bg-2: #0c1020;
+      --text: #e6e9ef;
+      --muted: #9aa3b2;
+      --accent-1: #00eaff;
+      --accent-2: #7a5cff;
+      --accent-3: #ff2ea6;
       --glass-bg: rgba(255, 255, 255, 0.06);
-      --glass-border: rgba(255, 255, 255, 0.15);
-      --glass-highlight: rgba(255, 255, 255, 0.2);
-      --shadow-glow: 0 0 30px rgba(0, 229, 255, 0.35), 0 0 60px rgba(138, 43, 226, 0.25), 0 0 90px rgba(255, 45, 149, 0.15);
-      --radius-xl: 22px;
-      --radius-lg: 16px;
-      --radius-md: 12px;
-      --container: 1200px;
+      --glass-border: rgba(255, 255, 255, 0.18);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      --radius: 18px;
+      --blur: 16px;
     }
 
     * { box-sizing: border-box; }
     html, body { height: 100%; }
     body {
       margin: 0;
-      font-family: 'Inter', 'Roboto', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', 'Roboto', system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 10% 10%, #0a0f1b 0%, #0b0f1d 40%, #070a14 100%);
       color: var(--text);
-      background: radial-gradient(1200px 800px at 20% 10%, rgba(0, 229, 255, 0.08), transparent 60%),
-                  radial-gradient(800px 800px at 80% 20%, rgba(255, 45, 149, 0.08), transparent 60%),
-                  linear-gradient(180deg, var(--bg-0), var(--bg-1) 40%, var(--bg-2) 100%);
       overflow-x: hidden;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      scroll-behavior: smooth;
     }
 
-    /* Ambient background glow layers */
-    .ambient {
+    /* Animated background gradient veil */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -20% -10% auto -10%;
+      height: 120%;
+      background:
+        radial-gradient(800px 600px at 10% 20%, rgba(0, 234, 255, 0.15), transparent 70%),
+        radial-gradient(1000px 800px at 90% 10%, rgba(255, 46, 166, 0.12), transparent 70%),
+        radial-gradient(700px 500px at 50% 90%, rgba(122, 92, 255, 0.12), transparent 70%);
+      filter: blur(40px);
+      z-index: -2;
+      animation: gradientShift 18s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes gradientShift {
+      0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.9; }
+      50% { transform: translateY(-2%) translateX(1%) scale(1.03); opacity: 1; }
+      100% { transform: translateY(2%) translateX(-1%) scale(1.05); opacity: 0.95; }
+    }
+
+    /* Subtle starfield noise */
+    .noise {
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      mix-blend-mode: screen;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Floating aurora orbs */
+    .aurora {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
+      z-index: -1;
     }
-    .ambient::before, .ambient::after {
-      content: "";
-      position: absolute;
-      width: 100vmax;
-      height: 100vmax;
-      filter: blur(80px);
-      opacity: 0.35;
-      mix-blend-mode: screen;
-      transform: translate(-50%, -50%);
-      top: 50%;
-      left: 50%;
-      background: radial-gradient(closest-side, rgba(0,229,255,0.25), transparent 70%),
-                  radial-gradient(closest-side, rgba(138,43,226,0.25), transparent 70%),
-                  radial-gradient(closest-side, rgba(255,45,149,0.25), transparent 70%);
-      animation: ambientPulse 18s ease-in-out infinite;
-    }
-    .ambient::after {
-      opacity: 0.25;
-      animation: ambientDrift 28s linear infinite;
-    }
-    @keyframes ambientPulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); }
-      50% { transform: translate(-50%, -50%) scale(1.08); }
-    }
-    @keyframes ambientDrift {
-      0% { transform: translate(-48%, -52%) rotate(0deg); }
-      100% { transform: translate(-52%, -48%) rotate(360deg); }
-    }
-
-    /* Floating neon orbs */
     .orb {
       position: absolute;
-      width: 280px;
-      height: 280px;
+      width: 280px; height: 280px;
       border-radius: 50%;
-      filter: blur(18px);
-      opacity: 0.55;
+      filter: blur(40px);
+      opacity: 0.5;
       mix-blend-mode: screen;
-      pointer-events: none;
-      z-index: 1;
-      animation: float 12s ease-in-out infinite;
+      animation: float 14s ease-in-out infinite;
+      will-change: transform, opacity;
     }
-    .orb-1 {
-      background: radial-gradient(circle at 30% 30%, rgba(0,229,255,0.85), rgba(0,229,255,0.15) 60%, transparent 70%);
-      top: 12%;
-      left: 8%;
-      animation-delay: 0s;
-    }
-    .orb-2 {
-      background: radial-gradient(circle at 70% 40%, rgba(138,43,226,0.85), rgba(138,43,226,0.15) 60%, transparent 70%);
-      top: 28%;
-      right: 10%;
-      animation-delay: 2s;
-    }
-    .orb-3 {
-      background: radial-gradient(circle at 50% 60%, rgba(255,45,149,0.85), rgba(255,45,149,0.15) 60%, transparent 70%);
-      bottom: 12%;
-      left: 20%;
-      animation-delay: 4s;
-    }
+    .orb-1 { background: radial-gradient(circle, rgba(0,234,255,0.6), transparent 60%); top: 20%; left: 10%; animation-delay: 0s; }
+    .orb-2 { background: radial-gradient(circle, rgba(122,92,255,0.6), transparent 60%); top: 60%; right: 8%; animation-delay: 2s; }
+    .orb-3 { background: radial-gradient(circle, rgba(255,46,166,0.6), transparent 60%); bottom: 10%; left: 40%; animation-delay: 4s; }
+    .orb-4 { background: radial-gradient(circle, rgba(0,234,255,0.4), transparent 60%); top: 30%; right: 35%; animation-delay: 6s; }
+
     @keyframes float {
-      0%, 100% { transform: translateY(0) translateX(0) scale(1); }
-      50% { transform: translateY(-20px) translateX(10px) scale(1.05); }
+      0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.5; }
+      25% { transform: translateY(-12px) translateX(6px) scale(1.05); opacity: 0.6; }
+      50% { transform: translateY(8px) translateX(-8px) scale(0.95); opacity: 0.45; }
+      75% { transform: translateY(-6px) translateX(4px) scale(1.03); opacity: 0.55; }
     }
 
     /* Layout containers */
     .container {
-      width: 100%;
-      max-width: var(--container);
+      width: min(1200px, 92vw);
       margin: 0 auto;
-      padding: 0 24px;
+    }
+
+    /* Glassmorphism utility */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--blur)) saturate(140%);
+      -webkit-backdrop-filter: blur(var(--blur)) saturate(140%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
       position: relative;
-      z-index: 2;
+      overflow: hidden;
+    }
+    .glass::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      pointer-events: none;
+    }
+    .glass:hover {
+      border-color: rgba(255,255,255,0.28);
+      transform: translateY(-2px);
+      transition: transform 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), 0 0 40px rgba(0, 234, 255, 0.12);
     }
 
     /* Header / Nav */
     header {
       position: sticky;
       top: 0;
-      z-index: 10;
-      backdrop-filter: blur(10px) saturate(140%);
-      background: linear-gradient(180deg, rgba(10, 15, 31, 0.8), rgba(10, 15, 31, 0.6));
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      z-index: 50;
+      backdrop-filter: blur(12px) saturate(130%);
+      -webkit-backdrop-filter: blur(12px) saturate(130%);
+      background: linear-gradient(180deg, rgba(10,15,27,0.65), rgba(10,15,27,0.35));
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
     .nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 72px;
+      padding: 16px 0;
+      gap: 16px;
     }
     .brand {
       display: flex;
@@ -148,474 +153,370 @@
       text-decoration: none;
       color: var(--text);
     }
-    .brand-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, rgba(0,229,255,0.9), rgba(138,43,226,0.9));
-      box-shadow: 0 0 20px rgba(0,229,255,0.4), 0 0 40px rgba(138,43,226,0.3);
+    .brand .logo {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0,234,255,0.9), rgba(122,92,255,0.9));
+      box-shadow: 0 0 24px rgba(0,234,255,0.45), inset 0 0 12px rgba(255,255,255,0.25);
       position: relative;
       overflow: hidden;
     }
-    .brand-logo::after {
+    .brand .logo::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(120px 120px at 20% 20%, rgba(255,255,255,0.35), transparent 50%);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.35), transparent 40%);
       mix-blend-mode: overlay;
-      animation: logoShimmer 6s linear infinite;
+      animation: logoPulse 4s ease-in-out infinite;
     }
-    @keyframes logoShimmer {
-      0% { transform: translate(-20%, -20%); }
-      100% { transform: translate(20%, 20%); }
+    @keyframes logoPulse {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.08); }
     }
-    .brand-name {
+    .brand .name {
       font-weight: 800;
-      letter-spacing: 0.4px;
-      font-size: 16px;
-      line-height: 1;
+      letter-spacing: 0.2px;
+      font-size: 1.05rem;
       background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      filter: drop-shadow(0 0 10px rgba(0,229,255,0.35));
+      text-shadow: 0 0 24px rgba(0,234,255,0.3);
     }
     .nav-links {
       display: flex;
-      gap: 20px;
+      gap: 18px;
       align-items: center;
+      flex-wrap: wrap;
     }
     .nav-links a {
-      color: var(--muted);
+      color: var(--text);
       text-decoration: none;
       font-weight: 500;
-      letter-spacing: 0.3px;
       padding: 8px 12px;
-      border-radius: 8px;
-      transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+      border-radius: 10px;
+      transition: all 220ms ease;
+      position: relative;
     }
-    .nav-links a:hover {
-      color: var(--text);
-      background: rgba(255,255,255,0.06);
-      transform: translateY(-1px);
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 12px; right: 12px; bottom: 6px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 220ms ease;
+      border-radius: 2px;
     }
-    .cta-btn {
-      appearance: none;
-      border: none;
-      background: linear-gradient(135deg, rgba(0,229,255,0.25), rgba(138,43,226,0.25));
-      color: var(--text);
-      padding: 10px 16px;
+    .nav-links a:hover { background: rgba(255,255,255,0.06); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
       border-radius: 12px;
       font-weight: 600;
-      letter-spacing: 0.4px;
-      cursor: pointer;
+      letter-spacing: 0.3px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.16);
+      color: var(--text);
+      background: linear-gradient(135deg, rgba(0,234,255,0.25), rgba(122,92,255,0.25));
+      box-shadow: 0 0 24px rgba(0,234,255,0.15);
+      transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease, border-color 200ms ease;
       position: relative;
       overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.12) inset, 0 0 24px rgba(0,229,255,0.18);
     }
-    .cta-btn::before {
+    .btn::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0));
-      opacity: 0.5;
+      background: radial-gradient(200px 80px at 0% 0%, rgba(255,255,255,0.2), transparent 60%);
+      opacity: 0.4;
+      mix-blend-mode: overlay;
+      transform: translateX(-100%);
+      transition: transform 500ms ease;
     }
-    .cta-btn:hover {
+    .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.18) inset, 0 0 40px rgba(138,43,226,0.25), 0 0 60px rgba(255,45,149,0.18);
+      box-shadow: 0 10px 40px rgba(0,234,255,0.25), 0 0 40px rgba(122,92,255,0.15);
+      border-color: rgba(255,255,255,0.28);
     }
-
-    /* Mobile Nav */
-    .hamburger {
-      display: none;
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(8px);
-      position: relative;
-      cursor: pointer;
-      transition: transform 0.2s ease;
+    .btn:hover::before { transform: translateX(0); }
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(0,234,255,0.85), rgba(122,92,255,0.85));
+      color: #05070d;
+      border: none;
+      box-shadow: 0 0 40px rgba(0,234,255,0.35), 0 0 80px rgba(122,92,255,0.25);
     }
-    .hamburger:hover { transform: translateY(-2px); }
-    .hamburger span {
-      position: absolute;
-      left: 10px;
-      right: 10px;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-      border-radius: 2px;
-      transition: transform 0.3s ease, opacity 0.3s ease;
+    .btn-primary:hover {
+      box-shadow: 0 10px 50px rgba(0,234,255,0.45), 0 0 90px rgba(122,92,255,0.35);
     }
-    .hamburger span:nth-child(1) { top: 14px; }
-    .hamburger span:nth-child(2) { top: 21px; }
-    .hamburger span:nth-child(3) { top: 28px; }
-    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     /* Hero */
     .hero {
+      padding: 80px 0 40px;
       position: relative;
-      padding: 80px 0 60px;
-      overflow: hidden;
     }
-    .hero-inner {
+    .hero-grid {
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
-      gap: 40px;
+      gap: 28px;
       align-items: center;
     }
     .hero h1 {
-      font-size: clamp(32px, 6vw, 64px);
-      line-height: 1.05;
-      font-weight: 900;
-      letter-spacing: -0.5px;
+      font-size: clamp(2rem, 5.5vw, 4rem);
+      line-height: 1.08;
       margin: 0 0 16px;
-      background: conic-gradient(from 180deg, var(--accent-1), var(--accent-2), var(--accent-3), var(--accent-1));
-      background-size: 200% 200%;
+      letter-spacing: -0.5px;
+      font-weight: 900;
+      background: linear-gradient(90deg, #ffffff, #d7e7ff 30%, #cbb6ff 55%, #ffc1e3 90%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      animation: gradientShift 12s ease infinite;
-      filter: drop-shadow(0 0 24px rgba(0,229,255,0.35));
-    }
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      text-shadow: 0 0 22px rgba(0,234,255,0.25);
     }
     .hero p {
-      font-size: clamp(16px, 2.2vw, 20px);
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
       color: var(--muted);
-      max-width: 640px;
       margin: 0 0 24px;
+      max-width: 700px;
     }
     .hero-actions {
       display: flex;
       gap: 14px;
-      align-items: center;
       flex-wrap: wrap;
     }
-    .btn-primary {
-      appearance: none;
-      border: none;
-      background: linear-gradient(135deg, rgba(0,229,255,0.35), rgba(138,43,226,0.35));
-      color: #061018;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      padding: 14px 22px;
-      border-radius: 14px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.2) inset, 0 0 30px rgba(0,229,255,0.25);
+    .hero-card {
+      padding: 20px;
+      display: grid;
+      gap: 12px;
     }
-    .btn-primary::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(200px 200px at 20% 20%, rgba(255,255,255,0.45), transparent 60%);
-      mix-blend-mode: overlay;
-      opacity: 0.6;
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
     }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.3) inset, 0 0 50px rgba(138,43,226,0.35), 0 0 80px rgba(255,45,149,0.25);
-    }
-    .btn-secondary {
-      appearance: none;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.04);
-      color: var(--text);
-      font-weight: 600;
-      letter-spacing: 0.4px;
-      padding: 12px 18px;
+    .stat {
+      text-align: center;
+      padding: 14px;
       border-radius: 12px;
-      cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
     }
-    .btn-secondary:hover {
-      transform: translateY(-2px);
-      background: rgba(255,255,255,0.08);
-      box-shadow: 0 0 20px rgba(0,229,255,0.15);
-    }
-
-    .hero-visual {
-      position: relative;
-      min-height: 320px;
-      border-radius: var(--radius-xl);
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(16px) saturate(140%);
-      overflow: hidden;
-      box-shadow: var(--shadow-glow);
-    }
-    .hero-visual .grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06) 0.5px, transparent 0.5px),
-        linear-gradient(transparent 95%, rgba(255,255,255,0.06) 95%),
-        linear-gradient(90deg, transparent 95%, rgba(255,255,255,0.06) 95%);
-      background-size: 24px 24px, 100% 24px, 24px 100%;
-      opacity: 0.35;
-      animation: gridPan 20s linear infinite;
-    }
-    @keyframes gridPan {
-      0% { background-position: 0 0, 0 0, 0 0; }
-      100% { background-position: 24px 24px, 0 24px, 24px 0; }
-    }
-    .hero-visual .scanline {
-      position: absolute;
-      left: 0; right: 0; top: -30%; height: 40%;
-      background: linear-gradient(180deg, rgba(0,229,255,0.0), rgba(0,229,255,0.15), rgba(0,229,255,0.0));
-      filter: blur(10px);
-      animation: scan 8s ease-in-out infinite;
-      pointer-events: none;
-    }
-    @keyframes scan {
-      0%, 100% { transform: translateY(0); opacity: 0.6; }
-      50% { transform: translateY(180%); opacity: 0.2; }
-    }
-    .hero-visual .code {
-      position: absolute;
-      inset: 16px;
-      border-radius: 14px;
-      background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 16px;
-      overflow: hidden;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 12px;
-      line-height: 1.6;
-      color: rgba(230,236,255,0.9);
-    }
-    .code .line {
-      display: block;
-      opacity: 0.85;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid rgba(0,229,255,0.8);
-      width: 0;
-      animation: typing 120s steps(120) infinite;
-    }
-    .code .line:nth-child(2) { animation-delay: 0.5s; }
-    .code .line:nth-child(3) { animation-delay: 1s; }
-    .code .line:nth-child(4) { animation-delay: 1.5s; }
-    .code .line:nth-child(5) { animation-delay: 2s; }
-    @keyframes typing {
-      0% { width: 0; }
-      98% { width: 100%; }
-      100% { width: 100%; }
-    }
-
-    /* Sections */
-    section {
-      padding: 60px 0;
-      position: relative;
-      z-index: 2;
-    }
-    .section-title {
-      font-size: clamp(24px, 4vw, 36px);
+    .stat .num {
       font-weight: 800;
-      letter-spacing: -0.3px;
-      margin: 0 0 8px;
-      background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+      font-size: 1.2rem;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      filter: drop-shadow(0 0 14px rgba(138,43,226,0.25));
     }
-    .section-desc {
+    .stat .label {
+      font-size: 0.85rem;
       color: var(--muted);
-      margin: 0 0 24px;
-      max-width: 800px;
     }
 
-    /* Glass cards */
-    .grid-cards {
+    /* Floating particles in hero */
+    .particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+    .particle {
+      position: absolute;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,234,255,0.9), rgba(122,92,255,0.6));
+      filter: blur(0.5px);
+      opacity: 0.7;
+      animation: particleFloat 12s ease-in-out infinite;
+    }
+    .particle:nth-child(odd) {
+      background: radial-gradient(circle, rgba(255,46,166,0.9), rgba(122,92,255,0.6));
+    }
+    @keyframes particleFloat {
+      0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.7; }
+      50% { transform: translateY(-16px) translateX(6px) scale(1.2); opacity: 0.9; }
+      100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.7; }
+    }
+
+    /* Section titles */
+    .section-title {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.3px;
+      background: linear-gradient(90deg, #ffffff, #d7e7ff 30%, #cbb6ff 55%, #ffc1e3 90%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .section-subtitle {
+      color: var(--muted);
+      margin-bottom: 24px;
+      max-width: 700px;
+    }
+
+    /* Features */
+    .features {
+      padding: 50px 0;
+    }
+    .feature-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
-    .glass-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      backdrop-filter: blur(16px) saturate(140%);
+    .feature-card {
       padding: 20px;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset, 0 0 24px rgba(0,229,255,0.15);
-    }
-    .glass-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(400px 200px at 10% 0%, rgba(0,229,255,0.18), transparent 60%),
-                  radial-gradient(300px 200px at 90% 100%, rgba(138,43,226,0.18), transparent 60%);
-      opacity: 0.5;
-      pointer-events: none;
-    }
-    .glass-card:hover {
-      transform: translateY(-6px) scale(1.01);
-      border-color: rgba(255,255,255,0.28);
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.12) inset, 0 0 40px rgba(138,43,226,0.25), 0 0 60px rgba(255,45,149,0.18);
-    }
-    .card-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(0,229,255,0.25), rgba(138,43,226,0.25));
       display: grid;
-      place-items: center;
-      margin-bottom: 12px;
-      box-shadow: 0 0 18px rgba(0,229,255,0.25);
-      position: relative;
-      overflow: hidden;
+      gap: 12px;
+      transition: transform 300ms ease, box-shadow 300ms ease;
     }
-    .card-icon::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(60px 60px at 30% 30%, rgba(255,255,255,0.35), transparent 60%);
-      mix-blend-mode: overlay;
-      animation: iconPulse 6s ease-in-out infinite;
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), 0 0 40px rgba(122,92,255,0.18);
     }
-    @keyframes iconPulse {
-      0%, 100% { transform: scale(1); opacity: 0.8; }
-      50% { transform: scale(1.08); opacity: 1; }
+    .icon {
+      width: 46px; height: 46px;
+      border-radius: 12px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, rgba(0,234,255,0.35), rgba(122,92,255,0.35));
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: inset 0 0 16px rgba(255,255,255,0.2), 0 0 20px rgba(0,234,255,0.18);
     }
-    .glass-card h3 {
-      margin: 0 0 8px;
+    .feature-card h3 {
+      margin: 0;
       font-weight: 700;
       letter-spacing: 0.2px;
-      font-size: 18px;
+      font-size: 1.1rem;
     }
-    .glass-card p {
+    .feature-card p {
       margin: 0;
       color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+      color: #d8e0ff;
+      margin-top: 8px;
+      letter-spacing: 0.3px;
     }
 
     /* About */
     .about {
-      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-      border-top: 1px solid rgba(255,255,255,0.06);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      backdrop-filter: blur(8px);
-    }
-    .about-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      align-items: start;
+      padding: 50px 0;
     }
     .about-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 0 20px rgba(0,229,255,0.12);
+      padding: 26px;
+      display: grid;
+      gap: 12px;
     }
-    .about-card ul {
-      margin: 10px 0 0;
-      padding: 0 0 0 16px;
+    .about-card p {
+      margin: 0;
       color: var(--muted);
-      font-size: 14px;
-      line-height: 1.7;
     }
-    .about-card ul li { margin-bottom: 6px; }
+    .about-card .highlight {
+      color: #e9f1ff;
+      font-weight: 600;
+    }
 
     /* Contact */
-    .contact-form {
+    .contact {
+      padding: 50px 0 80px;
+    }
+    .contact-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      backdrop-filter: blur(16px);
-      padding: 20px;
-      box-shadow: var(--shadow-glow);
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
     }
-    .contact-form .full { grid-column: 1 / -1; }
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+    .contact-card {
+      padding: 24px;
+      display: grid;
+      gap: 14px;
     }
-    .field label {
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 0.3px;
+    .form-group {
+      display: grid;
+      gap: 8px;
     }
-    .field input, .field textarea {
-      appearance: none;
+    label {
+      font-size: 0.9rem;
+      color: #d3d9e6;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.16);
       background: rgba(255,255,255,0.06);
       color: var(--text);
-      padding: 12px 14px;
-      border-radius: 10px;
       outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-      font-size: 14px;
-      resize: vertical;
+      transition: border-color 200ms ease, box-shadow 200ms ease, background 200ms ease;
+      font-family: inherit;
     }
-    .field input:focus, .field textarea:focus {
-      border-color: rgba(0,229,255,0.65);
-      box-shadow: 0 0 20px rgba(0,229,255,0.25);
+    input::placeholder, textarea::placeholder { color: #8fa0b5; }
+    input:focus, textarea:focus {
+      border-color: rgba(0,234,255,0.45);
+      box-shadow: 0 0 0 4px rgba(0,234,255,0.15);
       background: rgba(255,255,255,0.08);
     }
-    .submit-btn {
-      justify-self: start;
-      margin-top: 4px;
+    textarea { min-height: 120px; resize: vertical; }
+    .contact-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
     }
+    .status {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .status.success { color: #59ffc9; }
+    .status.error { color: #ff6b8b; }
 
     /* Footer */
     footer {
-      padding: 30px 0 40px;
+      padding: 24px 0 40px;
       color: var(--muted);
       text-align: center;
-      font-size: 13px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(10,15,27,0.35), rgba(10,15,27,0.65));
+      backdrop-filter: blur(8px);
     }
-    footer .social {
+    .footer-links {
       display: flex;
       justify-content: center;
-      gap: 12px;
-      margin-top: 10px;
+      gap: 18px;
+      margin-top: 8px;
+      flex-wrap: wrap;
     }
-    footer .social a {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.04);
-      display: grid;
-      place-items: center;
-      color: var(--text);
+    .footer-links a {
+      color: #d3d9e6;
       text-decoration: none;
-      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      font-weight: 500;
     }
-    footer .social a:hover {
-      transform: translateY(-2px);
-      background: rgba(255,255,255,0.08);
-      box-shadow: 0 0 20px rgba(138,43,226,0.25);
+    .footer-links a:hover {
+      color: #ffffff;
+      text-decoration: underline;
     }
 
-    /* Reveal animations on scroll */
+    /* Reveal on scroll */
     .reveal {
       opacity: 0;
       transform: translateY(14px) scale(0.98);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transition: opacity 600ms ease, transform 600ms ease;
     }
     .reveal.visible {
       opacity: 1;
@@ -624,68 +525,190 @@
 
     /* Responsive */
     @media (max-width: 1024px) {
-      .hero-inner { grid-template-columns: 1fr; }
-      .about-inner { grid-template-columns: 1fr; }
-      .grid-cards { grid-template-columns: repeat(2, 1fr); }
+      .hero-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
     }
-    @media (max-width: 720px) {
+    @media (max-width: 768px) {
+      .feature-grid { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
       .nav-links { display: none; }
-      .hamburger { display: inline-block; }
-      .grid-cards { grid-template-columns: 1fr; }
-      .contact-form { grid-template-columns: 1fr; }
-      .hero { padding: 64px 0 40px; }
+      .hero { padding-top: 60px; }
     }
-
-    /* Mobile menu overlay */
-    .mobile-menu {
-      position: fixed;
-      inset: 72px 0 0 0;
-      background: rgba(10, 15, 31, 0.95);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid rgba(255,255,255,0.06);
-      display: none;
-      flex-direction: column;
-      gap: 8px;
-      padding: 16px 24px;
-      z-index: 9;
-    }
-    .mobile-menu a {
-      color: var(--text);
-      text-decoration: none;
-      padding: 12px 14px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      transition: background 0.2s ease, transform 0.2s ease;
-    }
-    .mobile-menu a:hover {
-      background: rgba(255,255,255,0.08);
-      transform: translateY(-2px);
-    }
-    .mobile-menu.show { display: flex; }
 
     /* Accessibility: reduced motion */
     @media (prefers-reduced-motion: reduce) {
-      .ambient::before, .ambient::after, .orb, .hero-visual .grid, .hero-visual .scanline, .code .line, .card-icon::after, .brand-logo::after, .hero h1 {
-        animation: none !important;
-      }
-      .reveal { transition: none; }
-      .glass-card, .btn-primary, .btn-secondary, .cta-btn { transition: none; }
+      * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      body::before, .orb, .particle { animation: none !important; }
     }
   </style>
 </head>
 <body>
-  <div class="ambient"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
+  <div class="noise"></div>
+  <div class="aurora" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
 
   <header>
-    <div class="container">
-      <nav class="nav" aria-label="Primary">
-        <a href="#" class="brand">
-          <div class="brand-logo" aria-hidden="true"></div>
-          <div class="brand-name">mimo-v2-flash-3
+    <div class="container nav">
+      <a href="#" class="brand">
+        <div class="logo"></div>
+        <div class="name">mimo-v2-flash-309b-moe (Openrouter)</div>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#hero" class="btn btn-primary">Launch</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" id="hero">
+      <div class="container hero-grid">
+        <div>
+          <h1>Ultra-fast, intelligent inference at the edge</h1>
+          <p>
+            mimo-v2-flash-309b-moe, powered by Openrouter, blends massive multi‑expert architecture with blazing latency.
+            Build next‑gen experiences with adaptive intelligence, glowing performance, and seamless scaling.
+          </p>
+          <div class="hero-actions">
+            <a href="#features" class="btn">Explore Features</a>
+            <a href="#contact" class="btn btn-primary">Get Started</a>
+          </div>
+        </div>
+        <div class="glass hero-card reveal">
+          <div class="hero-stats">
+            <div class="stat">
+              <div class="num">309B</div>
+              <div class="label">Parameters</div>
+            </div>
+            <div class="stat">
+              <div class="num">MoE</div>
+              <div class="label">Multi‑Expert</div>
+            </div>
+            <div class="stat">
+              <div class="num">Openrouter</div>
+              <div class="label">Unified Route</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+            <span class="tag">Neon Optimized</span>
+            <span class="tag">Glassmorphic UI</span>
+            <span class="tag">Edge‑Ready</span>
+          </div>
+        </div>
+      </div>
+      <div class="particles" aria-hidden="true"></div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+      <div class="container">
+        <h2 class="section-title reveal">Features</h2>
+        <p class="section-subtitle reveal">Designed for speed, scale, and elegance. A futuristic interface meets high‑performance inference.</p>
+        <div class="feature-grid">
+          <div class="glass feature-card reveal">
+            <div class="icon">
+              <!-- Simple inline SVG icon -->
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v20M2 12h20"></path>
+              </svg>
+            </div>
+            <h3>Adaptive Routing</h3>
+            <p>Openrouter intelligently directs queries to the best expert subnetworks, optimizing latency and accuracy in real time.</p>
+            <span class="tag">Dynamic</span>
+          </div>
+          <div class="glass feature-card reveal">
+            <div class="icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+              </svg>
+            </div>
+            <h3>Flash Inference</h3>
+            <p>Optimized kernels and memory‑efficient MoE layers deliver near‑instant responses, even under heavy load.</p>
+            <span class="tag">Low Latency</span>
+          </div>
+          <div class="glass feature-card reveal">
+            <div class="icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3l7 4v10l-7 4-7-4V7z"></path>
+              </svg>
+            </div>
+            <h3>Scalable Architecture</h3>
+            <p>Deploy across edge or cloud with elastic scaling. Seamlessly grow capacity as demand increases.</p>
+            <span class="tag">Elastic</span>
+          </div>
+          <div class="glass feature-card reveal">
+            <div class="icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
+                <path d="M8 11h8"></path>
+              </svg>
+            </div>
+            <h3>Glass UI</h3>
+            <p>Polished glassmorphic interface with neon gradients and subtle motion for a premium, futuristic feel.</p>
+            <span class="tag">Aesthetic</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+      <div class="container">
+        <h2 class="section-title reveal">About</h2>
+        <div class="glass about-card reveal">
+          <p>
+            mimo-v2-flash-309b-moe is a next‑generation model family engineered for rapid, reliable inference.
+            Through a multi‑expert mixture of experts design, it balances depth and speed, while Openrouter provides a unified,
+            resilient pathway to the right compute at the right time.
+          </p>
+          <p class="highlight">
+            Built for creators, developers, and teams who demand both beauty and performance.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <h2 class="section-title reveal">Contact</h2>
+        <p class="section-subtitle reveal">Ready to integrate? Send us a message and we’ll route your request to the right team.</p>
+        <div class="contact-grid">
+          <div class="glass contact-card reveal">
+            <form id="contactForm" novalidate>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="you@domain.com" required>
+              </div>
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Tell us about your project..." required></textarea>
+              </div>
+              <div class="contact-actions">
+                <button type="submit" class="btn btn-primary">Send Message</button>
+                <span id="status" class="status"></span>
+              </div>
+            </form>
+          </div>
+          <div class="glass contact-card reveal">
+            <h3 style="margin:0; font-weight:700;">Reach us directly</h3>
+            <p style="margin:0; color:var(--muted);">Prefer email? Drop us a line at <a href="mailto:hello@openrouter.example" style="color:#bfe9ff; text-decoration:none; font-weight:600;">hello@openrouter.example</a></p>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+              <span class="tag">API</span>
+              <span class="tag">Partnerships</span>
+              <span class="tag">Enterprise</span>
+            </div
 
 <style>
 /* Multiverse Sidebar */
@@ -778,7 +801,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const sidebar = document.createElement('div');
     sidebar.id = 'mv-sidebar';
-    sidebar.innerHTML = `<div class="mv-title">Multiverse</div><a href="../glm-4-6-1t-moe--cerebras/index.html" data-slug="glm-4-6-1t-moe--cerebras" class="mv-item">glm-4.6-1t-moe <span class='size'>1000.0B • Cerebras</span></a><a href="../glm-4-6-1t-moe--openrouter/index.html" data-slug="glm-4-6-1t-moe--openrouter" class="mv-item">glm-4.6-1t-moe <span class='size'>1000.0B • Openrouter</span></a><a href="../mistral-large-3-675b-moe--nvidia/index.html" data-slug="mistral-large-3-675b-moe--nvidia" class="mv-item">mistral-large-3-675b-moe <span class='size'>675.0B • Nvidia</span></a><a href="../mistral-large-3-675b-moe--mistral/index.html" data-slug="mistral-large-3-675b-moe--mistral" class="mv-item">mistral-large-3-675b-moe <span class='size'>675.0B • Mistral</span></a><a href="../deepseek-v3--nvidia/index.html" data-slug="deepseek-v3--nvidia" class="mv-item">deepseek-v3 <span class='size'>671.0B • Nvidia</span></a><a href="../deepseek-v3--openrouter/index.html" data-slug="deepseek-v3--openrouter" class="mv-item">deepseek-v3 <span class='size'>671.0B • Openrouter</span></a><a href="../qwen3-coder-480b-moe--openrouter/index.html" data-slug="qwen3-coder-480b-moe--openrouter" class="mv-item">qwen3-coder-480b-moe <span class='size'>480.0B • Openrouter</span></a><a href="../llama-3-1-405b-instruct--openrouter/index.html" data-slug="llama-3-1-405b-instruct--openrouter" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Openrouter</span></a><a href="../llama-3-1-405b-instruct--github/index.html" data-slug="llama-3-1-405b-instruct--github" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Github</span></a><a href="../llama-3-1-405b-instruct--nvidia/index.html" data-slug="llama-3-1-405b-instruct--nvidia" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Nvidia</span></a><a href="../llama-3-1-405b-instruct--mistral/index.html" data-slug="llama-3-1-405b-instruct--mistral" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Mistral</span></a><a href="../hermes-3-llama-3-1-405b--openrouter/index.html" data-slug="hermes-3-llama-3-1-405b--openrouter" class="mv-item">hermes-3-llama-3.1-405b <span class='size'>405.0B • Openrouter</span></a><a href="../hermes-3-llama-3-1-405b--github/index.html" data-slug="hermes-3-llama-3-1-405b--github" class="mv-item">hermes-3-llama-3.1-405b <span class='size'>405.0B • Github</span></a><a href="../llama-4-maverick-400b--openrouter/index.html" data-slug="llama-4-maverick-400b--openrouter" class="mv-item">llama-4-maverick-400b <span class='size'>400.0B • Openrouter</span></a><a href="../mimo-v2-flash-309b-moe--openrouter/index.html" data-slug="{slug}" class="mv-item active" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Openrouter</span></a><a href="../mimo-v2-flash-309b-moe--cloudflare/index.html" data-slug="mimo-v2-flash-309b-moe--cloudflare" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Cloudflare</span></a><a href="../deepseek-v3-236b-moe--openrouter/index.html" data-slug="deepseek-v3-236b-moe--openrouter" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Openrouter</span></a><a href="../deepseek-v3-236b-moe--github/index.html" data-slug="deepseek-v3-236b-moe--github" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Github</span></a><a href="../deepseek-v3-236b-moe--nvidia/index.html" data-slug="deepseek-v3-236b-moe--nvidia" class="mv-item">deepseek-v3-236b-moe <span class='size'>236.0B • Nvidia</span></a><a href="../qwen3-235b-a22b-instruct--cerebras/index.html" data-slug="qwen3-235b-a22b-instruct--cerebras" class="mv-item">qwen3-235b-a22b-instruct <span class='size'>235.0B • Cerebras</span></a><a href="../qwen3-235b-a22b-instruct--openrouter/index.html" data-slug="qwen3-235b-a22b-instruct--openrouter" class="mv-item">qwen3-235b-a22b-instruct <span class='size'>235.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--openrouter/index.html" data-slug="devstral-2-123b-instruct--openrouter" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--mistral/index.html" data-slug="mistral-large-latest--mistral" class="mv-item">mistral-large-latest <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--nvidia/index.html" data-slug="mistral-large-latest--nvidia" class="mv-item">mistral-large-latest <span class='size'>123.0B • Nvidia</span></a><a href="../mistral-large-latest--openrouter/index.html" data-slug="mistral-large-latest--openrouter" class="mv-item">mistral-large-latest <span class='size'>123.0B • Openrouter</span></a><a href="../gpt-oss-120b--openrouter/index.html" data-slug="gpt-oss-120b--openrouter" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Openrouter</span></a><a href="../gpt-oss-120b--cerebras/index.html" data-slug="gpt-oss-120b--cerebras" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cerebras</span></a><a href="../gpt-oss-120b--cloudflare/index.html" data-slug="gpt-oss-120b--cloudflare" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cloudflare</span></a><a href="../jamba-1-5-large--github/index.html" data-slug="jamba-1-5-large--github" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Github</span></a><a href="../jamba-1-5-large--gemini/index.html" data-slug="jamba-1-5-large--gemini" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Gemini</span></a><a href="../jamba-1-5-large--openrouter/index.html" data-slug="jamba-1-5-large--openrouter" class="mv-item">jamba-1.5-large <span class='size'>120.0B • Openrouter</span></a><a href="../qwen1-5-110b-chat--cerebras/index.html" data-slug="qwen1-5-110b-chat--cerebras" class="mv-item">qwen1.5-110b-chat <span class='size'>110.0B • Cerebras</span></a><a href="../command-r-plus-104b--github/index.html" data-slug="command-r-plus-104b--github" class="mv-item">command-r-plus-104b <span class='size'>104.0B • Github</span></a><a href="../command-r-plus-104b--openrouter/index.html" data-slug="command-r-plus-104b--openrouter" class="mv-item">command-r-plus-104b <span class='size'>104.0B • Openrouter</span></a><a href="../deepseek-r1-huge--openrouter/index.html" data-slug="deepseek-r1-huge--openrouter" class="mv-item">deepseek-r1-huge <span class='size'>100.0B • Openrouter</span></a><a href="../deepseek-r1-huge--github/index.html" data-slug="deepseek-r1-huge--github" class="mv-item">deepseek-r1-huge <span class='size'>100.0B • Github</span></a>`;
+    sidebar.innerHTML = `<div class="mv-title">Multiverse</div><a href="../llama-3-1-405b-instruct--nvidia/index.html" data-slug="llama-3-1-405b-instruct--nvidia" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Nvidia</span></a><a href="../llama-3-1-405b-instruct--github/index.html" data-slug="llama-3-1-405b-instruct--github" class="mv-item">llama-3.1-405b-instruct <span class='size'>405.0B • Github</span></a><a href="../mimo-v2-flash-309b-moe--openrouter/index.html" data-slug="{slug}" class="mv-item active" class="mv-item">mimo-v2-flash-309b-moe <span class='size'>309.0B • Openrouter</span></a><a href="../devstral-2-123b-instruct--mistral/index.html" data-slug="devstral-2-123b-instruct--mistral" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Mistral</span></a><a href="../mistral-large-latest--mistral/index.html" data-slug="mistral-large-latest--mistral" class="mv-item">mistral-large-latest <span class='size'>123.0B • Mistral</span></a><a href="../devstral-2-123b-instruct--openrouter/index.html" data-slug="devstral-2-123b-instruct--openrouter" class="mv-item">devstral-2-123b-instruct <span class='size'>123.0B • Openrouter</span></a><a href="../gpt-oss-120b--cerebras/index.html" data-slug="gpt-oss-120b--cerebras" class="mv-item">gpt-oss-120b <span class='size'>120.0B • Cerebras</span></a>`;
     document.body.appendChild(sidebar);
 
     btn.addEventListener('click', () => {
