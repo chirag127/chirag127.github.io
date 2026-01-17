@@ -1,8 +1,13 @@
 /**
- * Part 5: Utility - Search
+ * Part 3: Utility - Search
+ * ENABLED - Site search for user experience
  * @module config/utility/search
  */
+
 export const search = {
-    algolia: { appId: '', searchKey: '', indexName: '', enabled: false },
-    googleSearch: { cx: '', enabled: false }
+    // GOOGLE PROGRAMMABLE SEARCH - Free, reliable
+    googleSearch: { cx: '', enabled: true },
+    algolia: { appId: '', searchKey: '', indexName: '', enabled: false }  // Needs setup
 };
+
+export const search_priority = ['googleSearch', 'algolia'];

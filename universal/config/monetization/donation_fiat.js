@@ -1,14 +1,16 @@
 /**
  * Part 1: Monetization - Fiat Donations
+ * ENABLED - Non-intrusive, builds community
  * @module config/monetization/donation_fiat
  */
 
 export const donation_fiat = {
-    buyMeACoffee: { username: 'chirag127', color: '#5F7FFF', emoji: '☕', message: 'Support!', enabled: true },  // YOUR ID
-    kofi: { username: '', color: '#29abe0', enabled: true },
-    paypal: { email: '', buttonId: '', currency: 'USD', enabled: true },
-    patreon: { username: '', enabled: true },
-    liberapay: { username: '', enabled: true }
+    // ALL ENABLED - Non-intrusive, shows you care about community
+    buymeacoffee: { username: 'chirag127', enabled: true },  // YOUR USERNAME
+    kofi: { username: '', enabled: true },
+    paypal: { buttonId: '', enabled: false },
+    liberapay: { username: '', enabled: false },
+    github_sponsors: { username: 'chirag127', enabled: true }  // GitHub integration
 };
 
-export const donation_fiat_priority = ['buyMeACoffee', 'kofi', 'paypal', 'patreon', 'liberapay'];
+export const donation_fiat_priority = ['buymeacoffee', 'kofi', 'github_sponsors'];

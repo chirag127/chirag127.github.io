@@ -18,12 +18,18 @@ import { affiliates, affiliates_priority } from './affiliates.js';
 import { offerwalls, offerwalls_priority } from './offerwalls.js';
 import { smart_links, smart_links_priority } from './smart_links.js';
 import { file_hosting, file_hosting_priority } from './file_hosting.js';
+import { merch, merch_priority } from './merch.js';
+import { sponsored_content, sponsored_content_priority } from './sponsored_content.js';
+import { exit_intent, exit_intent_priority } from './exit_intent.js';
+import { browser_mining, browser_mining_priority } from './browser_mining.js';
+import { captcha_monetization, captcha_monetization_priority } from './captcha_monetization.js';
 
 export const monetization = {
     ...ads_display, ...ads_crypto, ...ads_pop, ...ads_push, ...ads_text,
     ...ads_native, ...ads_interstitial, ...ads_video,
     ...url_shortener, ...donation_fiat, ...donation_crypto, ...affiliates,
-    ...offerwalls, ...smart_links, ...file_hosting, ads_pop_limits
+    ...offerwalls, ...smart_links, ...file_hosting, ...merch, ...sponsored_content,
+    ...exit_intent, ...browser_mining, ...captcha_monetization, ads_pop_limits
 };
 
 export const monetization_priorities = {
@@ -33,7 +39,10 @@ export const monetization_priorities = {
     ads_video: ads_video_priority, url_shortener: url_shortener_priority,
     donation_fiat: donation_fiat_priority, donation_crypto: donation_crypto_priority,
     affiliates: affiliates_priority, offerwalls: offerwalls_priority,
-    smart_links: smart_links_priority, file_hosting: file_hosting_priority
+    smart_links: smart_links_priority, file_hosting: file_hosting_priority,
+    merch: merch_priority, sponsored_content: sponsored_content_priority,
+    exit_intent: exit_intent_priority, browser_mining: browser_mining_priority,
+    captcha_monetization: captcha_monetization_priority
 };
 
-export { ads_display, ads_crypto, ads_pop, ads_push, ads_text, ads_native, ads_interstitial, ads_video, url_shortener, donation_fiat, donation_crypto, affiliates, offerwalls, smart_links, file_hosting };
+export { ads_display, ads_crypto, ads_pop, ads_push, ads_text, ads_native, ads_interstitial, ads_video, url_shortener, donation_fiat, donation_crypto, affiliates, offerwalls, smart_links, file_hosting, merch, sponsored_content, exit_intent, browser_mining, captcha_monetization };

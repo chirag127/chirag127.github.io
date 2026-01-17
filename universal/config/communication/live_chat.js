@@ -1,9 +1,19 @@
 /**
- * Part 4: Communication - Live Chat
+ * Part 3: Communication - Live Chat
+ * ENABLED for user support (reputation building)
  * @module config/communication/live_chat
  */
+
 export const live_chat = {
-    tawk: { src: 'https://embed.tawk.to/6968e3ea8783b31983eb190b/1jf0rkjhp', enabled: true },
+    // TAWK.TO - Completely free, good reputation
+    tawkto: {
+        source: 'https://embed.tawk.to/YOUR_PROPERTY_ID/default',
+        enabled: true
+    },
     crisp: { websiteId: '', enabled: false },
-    tidio: { publicKey: '', enabled: false }
+    tidio: { publicKey: '', enabled: false },
+    drift: { embedId: '', enabled: false },
+    intercom: { appId: '', enabled: false }
 };
+
+export const live_chat_priority = ['tawkto'];

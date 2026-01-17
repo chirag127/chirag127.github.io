@@ -1,7 +1,8 @@
 # Chirag Hub
 
-Every tool you need, free and private.
-This repository acts as the central hub and asset provider for the Chirag Network of **thousands of** client-side tools.
+**Every tool you need. Free. Private. Forever.**
+
+This repository is the central hub powering an ever-growing ecosystem of browser-based utilities. PDF editing, image conversion, developer tools, calculators, games—all running 100% in your browser with zero uploads.
 
 ## Universal Architecture
 This project utilizes a unique **Frontend-Only Universal Architecture** to ensure consistency, privacy, and zero server management across hundreds of repositories.
@@ -15,10 +16,10 @@ This project utilizes a unique **Frontend-Only Universal Architecture** to ensur
 ### How it Works
 1.  **Hub (`chirag127.github.io`)**: Loads the universal engine to render itself.
 2.  **Satellites (e.g., `pdf-merge`)**: Import the engine via `<script src="https://chirag127.github.io/universal/core.js"></script>`.
-3.  **Updates**: Changing the logo in `core.js` updates it on all satellite websites instantly.
+3.  **Updates**: A single change propagates across the entire network instantly.
 
-## Expansive Tools Collection
-Thousands of tools are generated and hosted as separate repositories, all tied together via this Hub.
+## The Complete Toolkit
+From PDF manipulation to code formatting—if you need a browser tool, it's here.
 
 | Category | Example Tools |
 | :--- | :--- |

@@ -399,8 +399,17 @@ The output prompt must encompass:
 2. UI/UX Mandates (Apex 2026 Spatial Glass).
 3. Step-by-Step implementation logic (IIFE, Error handling, DOM structure).
 4. Critical Constraints (No Headers, Single File, Config Injection, INLINE CSS/JS).
-5. CORE EXTENSION ONLY: Advanced features must be extensions of the main purpose (e.g. PDF Merge -> Sort is good. PDF Merge -> Games is BAD).
+5. CORE EXTENSION ONLY: Advanced features must be extensions of the main purpose.
 6. STRICTLY FREE: Use only free APIs/Libraries. No paid services.
+
+MANDATORY INCLUSIONS (THE AI DEVELOPER **MUST** IMPLEMENT THESE):
+7. CRITICAL CSS: The <main> element MUST have `padding-top: 80px;` because the Universal Engine injects a fixed header. Without this, content is hidden behind the header.
+8. JAVASCRIPT QUALITY (ZERO RUNTIME ERRORS):
+   - Validate all inputs: check if value is array before .map(), .filter(), .forEach()
+   - Check element existence: `if (element) {{ element.doSomething() }}`
+   - Use defensive defaults: `const arr = input || [];`
+   - Wrap ALL async operations in try-catch blocks
+   - Show user-friendly errors in the UI, not just console.log
 
 Your output should be the EXACT PROMPT string I will paste to the coding AI.
 Start with "Role: Expert..." and end with "...implementation."
@@ -471,8 +480,20 @@ CRITICAL OVERRIDE:
 - UNIVERSAL ARCHITECTURE:
   - MUST include in <head>: <script src="https://chirag127.github.io/universal/config.js"></script>
   - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>
-  - DO NOT generate <header> or <footer>.
-  - Wrap content in <main>.
+  - DO NOT generate <header> or <footer> tags (the Universal Engine injects them).
+  - Wrap ALL content in <main> tag.
+- CRITICAL CSS FIX (HEADER OVERLAP PREVENTION):
+  - The Universal Engine injects a FIXED header at the top.
+  - You MUST add `padding-top: 80px;` (or `margin-top: 80px;`) to the <main> element.
+  - Example: `main {{ padding-top: 80px; }}`
+  - Without this, your content WILL be hidden behind the fixed header.
+- JAVASCRIPT QUALITY REQUIREMENTS:
+  - ABSOLUTELY NO RUNTIME ERRORS. Test every code path mentally.
+  - Always validate input types: check if value is array before calling .map(), .filter(), .forEach().
+  - Always check if elements exist before accessing properties: `if (element) {{ ... }}`
+  - Use defensive coding: `const range = Array.isArray(input) ? input : [input];`
+  - Wrap all async operations in try-catch blocks.
+  - Use `console.error()` for debugging, show user-friendly error messages in UI.
 - FORMAT: Return ONLY the HTML code block within ```html flags.
 """
     else:
@@ -491,16 +512,25 @@ REQUIREMENTS:
    - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>
    - DO NOT generate <header> or <footer> tags (The Universal Engine injects them).
    - ALL content must be wrapped in <main> tag.
-3. LIBRARY SELECTION (THE MENU):
+3. CRITICAL CSS FIX (HEADER OVERLAP PREVENTION):
+   - The Universal Engine injects a FIXED header at the top (height ~70px).
+   - You MUST add CSS: `main {{ padding-top: 80px; }}`
+   - Without this, your content WILL be hidden behind the fixed header.
+4. LIBRARY SELECTION (THE MENU):
    - Consult "12. APEX APPROVED CLIENT-SIDE ENGINES" in the System Context.
    - For PDF tools, you MUST use `PDF-lib` or `pdf-merger-js`.
    - For Video tools, you MUST use `FFmpeg.wasm`.
    - LOAD LIBRARIES VIA CDN (cdnjs/unpkg).
-4. CONFIGURATION: Use `window.SITE_CONFIG` for any external service keys.
-5. AESTHETICS: **Apex 2026 Spatial-Adaptive**.
+5. JAVASCRIPT QUALITY (ZERO ERRORS TOLERANCE):
+   - ABSOLUTELY NO RUNTIME ERRORS. Think through every code path.
+   - Validate types before array methods: `if (Array.isArray(x)) x.map(...)`
+   - Check elements exist: `if (element) element.style.display = 'none';`
+   - Wrap async code in try-catch: `try {{ await fetch(...) }} catch (e) {{ showError(e) }}`
+   - Use defensive defaults: `const arr = input || [];`
+   - Show user-friendly errors in the UI, not just console.
+6. AESTHETICS: **Apex 2026 Spatial-Adaptive**.
    - "Spatial Glass" look (backdrop-filter: blur).
    - "Bento Grid" layouts.
-6. LOGIC: Robust, error-handled JavaScript (IIFE).
 7. FORMAT: Return ONLY the HTML code block within ```html flags.
 """
 
