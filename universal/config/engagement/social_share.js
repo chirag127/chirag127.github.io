@@ -1,9 +1,14 @@
 /**
- * Part 3: Engagement - Social Share Buttons
+ * Part 4: Engagement - Social Share Buttons
+ * ENABLED for maximum social visibility
  * @module config/engagement/social_share
  */
+
 export const social_share = {
-    addThis: { profileId: '', enabled: true },
-    shareThis: { propertyId: '', enabled: false },
-    addToAny: { enabled: false }
+    // ENABLE ONE - AddToAny is lightest
+    addtoany: { enabled: true },  // Lightweight, no tracking
+    sharethis: { propertyId: '', enabled: false },  // Alternative
+    addthis: { pubId: '', enabled: false }  // Oracle - heavier
 };
+
+export const social_share_priority = ['addtoany'];

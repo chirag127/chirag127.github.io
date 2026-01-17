@@ -36,7 +36,6 @@ sys.path.append(str(ROOT_DIR))
 
 # Update imports for new structure
 from src.ai.unified_client import UnifiedAIClient
-from src.ai.chunked_generator import ChunkedCodeGenerator
 from src.clients import WebSearchClient
 # src.prompts is now... wait, prompts.py is still in src/ ?
 # User list showed src\prompts.py. I didn't move it yet.
@@ -380,8 +379,10 @@ def optimize_prompt(tool: dict, research_context: str, agents_context: str, ai: 
     """
     Step 2 in the Pipeline: Ask a 'smart' model to write the perfect system instructions
     for the 'coding' model.
+
+    Uses TIER 4 model (not largest) to reserve largest models for main generation.
     """
-    logger.info("  ✨ Optimizing Instruction Sets...")
+    logger.info("  ✨ Optimizing Instruction Sets (Tier 4 model)...")
 
     meta_prompt = f"""
 ROLE: Chief AI Prompt Engineer (World Class).
@@ -405,14 +406,15 @@ Your output should be the EXACT PROMPT string I will paste to the coding AI.
 Start with "Role: Expert..." and end with "...implementation."
 """
 
-    result = ai.generate(
+    # Use tier 4 (4th largest model) to reserve largest for main generation
+    result = ai.generate_with_tier(
         prompt=meta_prompt,
         max_tokens=2000,
-        min_model_size=70 # Use a smart model for planning
+        start_tier=4  # Use 4th largest model (e.g., Mistral Large 123B)
     )
 
     if result.success:
-        logger.info("  ✨ Prompt Optimized.")
+        logger.info(f"  ✨ Prompt Optimized using {result.model_used}")
         return result.content
     else:
         logger.warning(f"  ⚠️ Prompt Optimization Failed: {result.error}")
@@ -424,8 +426,8 @@ def generate_single_html(tool: dict, ai: UnifiedAIClient, search_client: WebSear
     Generate a SINGLE-FILE tool (HTML+CSS+JS) using the Generative UI Engine.
     Uses AGENTS.md as the system prompt (Apex Technical Authority).
 
-    Now uses ChunkedCodeGenerator to split generation into smaller chunks
-    to prevent timeouts with large AI models.
+    Uses TIER 1 (largest available model) for maximum quality single-file generation.
+    Timeout is 900s (15 min) for 671B models.
     """
     start_time = time.time()
 
@@ -448,22 +450,266 @@ def generate_single_html(tool: dict, ai: UnifiedAIClient, search_client: WebSear
         except Exception as e:
             logger.warning(f"  ⚠️ Research failed: {e}")
 
-    # 2. PROMPT OPTIMIZATION (New Step)
+    # 2. PROMPT OPTIMIZATION (Uses Tier 4 model to save largest for generation)
     optimized_instructions = optimize_prompt(tool, research_context, agents_context, ai)
 
-    # 3. Build system prompt combining agents context and optimized instructions
-    system_prompt = agents_context
-    if optimized_instructions:
-        system_prompt = f"{agents_context}\n\n### OPTIMIZED INSTRUCTIONS:\n{optimized_instructions}"
+    # 3. Build the COMPLETE SINGLE-FILE prompt
+    logger.info(f"  🚀 SINGLE-FILE Generation for {tool['name']} (Tier 1 - Largest Model)...")
 
-    # 4. Use ChunkedCodeGenerator for timeout-resistant generation
-    logger.info(f"  🧩 Using ChunkedCodeGenerator for {tool['name']}...")
-    generator = ChunkedCodeGenerator(ai)
-    content = generator.generate_full_page(tool, system_prompt)
+    if optimized_instructions:
+        prompt = f"""
+SYSTEM INSTRUCTION: IMPLEMENT THE FOLLOWING SPECIFICATION EXACTLY.
+
+{optimized_instructions}
+
+CRITICAL OVERRIDE:
+- OUTPUT: A SINGLE `index.html` file containing ALL HTML, CSS, and JavaScript.
+- STYLE/SCRIPT ENFORCEMENT:
+  - CSS MUST be inside <style> tags in the <head>.
+  - JavaScript MUST be inside <script> tags at the end of <body>.
+  - NO external .css or .js files (except the Universal Config/Core scripts below).
+- UNIVERSAL ARCHITECTURE:
+  - MUST include in <head>: <script src="https://chirag127.github.io/universal/config.js"></script>
+  - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>
+  - DO NOT generate <header> or <footer>.
+  - Wrap content in <main>.
+- FORMAT: Return ONLY the HTML code block within ```html flags.
+"""
+    else:
+        # Fallback to standard prompt
+        prompt = f"""
+TASK: GENERATE THE COMPLETE SOURCE CODE FOR: "{tool.get('title', tool['name'])}"
+DESCRIPTION: {tool.get('description', '')}
+Features: {json.dumps(tool.get('features', []), indent=2)}
+
+{research_context}
+
+REQUIREMENTS:
+1. OUTPUT: A SINGLE `index.html` file containing ALL HTML, CSS, and JavaScript.
+2. UNIVERSAL ARCHITECTURE (CRITICAL):
+   - MUST include in <head>: <script src="https://chirag127.github.io/universal/config.js"></script>
+   - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>
+   - DO NOT generate <header> or <footer> tags (The Universal Engine injects them).
+   - ALL content must be wrapped in <main> tag.
+3. LIBRARY SELECTION (THE MENU):
+   - Consult "12. APEX APPROVED CLIENT-SIDE ENGINES" in the System Context.
+   - For PDF tools, you MUST use `PDF-lib` or `pdf-merger-js`.
+   - For Video tools, you MUST use `FFmpeg.wasm`.
+   - LOAD LIBRARIES VIA CDN (cdnjs/unpkg).
+4. CONFIGURATION: Use `window.SITE_CONFIG` for any external service keys.
+5. AESTHETICS: **Apex 2026 Spatial-Adaptive**.
+   - "Spatial Glass" look (backdrop-filter: blur).
+   - "Bento Grid" layouts.
+6. LOGIC: Robust, error-handled JavaScript (IIFE).
+7. FORMAT: Return ONLY the HTML code block within ```html flags.
+"""
+
+    # 4. Generate using TIER 1 (largest model) for best quality
+    result = ai.generate(
+        prompt=prompt,
+        system_prompt=agents_context,
+        max_tokens=32000,  # Large buffer for complete single file
+        min_model_size=200,  # Use 200B+ models (God-class preferred)
+        temperature=0.7
+    )
+
+    if not result.success:
+        logger.error(f"AI Generation Failed: {result.error}")
+        return f"<h1>Generation Failed</h1><p>{result.error}</p>"
+
+    # 5. Extract Code
+    content = result.content
+    if "```html" in content:
+        content = content.split("```html")[1].split("```")[0].strip()
+    elif "```" in content:
+        content = content.split("```")[1].split("```")[0].strip()
 
     elapsed = time.time() - start_time
-    logger.info(f"  ✅ Generated {len(content)} bytes of HTML in {elapsed:.1f}s")
+    logger.info(f"  ✅ Generated {len(content)} bytes of HTML in {elapsed:.1f}s using {result.model_used}")
     return content
+
+
+# =============================================================================
+# COMPREHENSIVE README GENERATOR
+# =============================================================================
+
+def generate_comprehensive_readme(tool: dict) -> str:
+    """
+    Generate a comprehensive, professional README.md for a tool repository.
+
+    Includes: Badges, Live Demo, Features, How it Works, Tech Stack,
+    Installation, Usage, Privacy, Contributing, License, Author sections.
+    """
+    name = tool["name"]
+    title = tool.get("title", name)
+    description = tool.get("description", "")
+    features = tool.get("features", [])
+    keywords = tool.get("keywords", [])
+    category = tool.get("category", "Tool")
+
+    # Generate feature list
+    feature_list = "\n".join(f"- ✅ {f}" for f in features) if features else "- ✅ Easy to use interface"
+
+    # Generate keywords/tags for SEO
+    keyword_badges = " ".join(f"`{k}`" for k in keywords[:10]) if keywords else ""
+
+    readme = f'''# {title}
+
+<p align="center">
+  <a href="{CENTRAL_HUB}/{name}/">
+    <img src="https://img.shields.io/badge/Try%20Live%20Demo-blue?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Live Demo">
+  </a>
+  <a href="https://github.com/chirag127/{name}/stargazers">
+    <img src="https://img.shields.io/github/stars/chirag127/{name}?style=for-the-badge&logo=github" alt="Stars">
+  </a>
+  <a href="https://github.com/chirag127/{name}/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
+  </a>
+</p>
+
+<p align="center">
+  <strong>{description}</strong>
+</p>
+
+---
+
+## 🚀 Live Demo
+
+**👉 [Try {title} Now]({CENTRAL_HUB}/{name}/) 👈**
+
+No installation required. Works directly in your browser.
+
+---
+
+## ✨ Features
+
+{feature_list}
+
+---
+
+## 🔧 How It Works
+
+1. **Open the Tool** - Visit the live demo link above
+2. **Upload/Input** - Drag & drop files or enter your data
+3. **Process** - All processing happens locally in your browser
+4. **Download** - Get your results instantly
+
+> 💡 **No server uploads!** Your files never leave your device.
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
+|------------|---------|
+| **HTML5** | Structure & Semantics |
+| **CSS3** | Styling & Animations |
+| **JavaScript** | Client-side Logic |
+| **WebAssembly** | Heavy Processing (when needed) |
+| **[Universal Engine](https://github.com/chirag127/chirag127.github.io)** | Shared Components |
+
+---
+
+## 📦 Installation
+
+### Option 1: Use Online (Recommended)
+Just visit: [{CENTRAL_HUB}/{name}/]({CENTRAL_HUB}/{name}/)
+
+### Option 2: Run Locally
+```bash
+# Clone the repository
+git clone https://github.com/chirag127/{name}.git
+cd {name}
+
+# Serve locally (Python)
+python -m http.server 8000
+
+# Or use any static file server
+npx serve .
+```
+Open `http://localhost:8000` in your browser.
+
+---
+
+## 📖 Usage
+
+```
+1. Open the tool in your browser
+2. Follow the on-screen instructions
+3. Download your processed files
+```
+
+---
+
+## 🔒 Privacy & Security
+
+| Aspect | Details |
+|--------|---------|
+| **Data Processing** | 100% client-side (in your browser) |
+| **File Storage** | Files are NEVER uploaded to any server |
+| **Cookies** | Only essential cookies for analytics |
+| **Tracking** | Privacy-friendly analytics (Plausible/Umami) |
+
+**Your data stays on YOUR device. Always.**
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📜 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+```
+MIT License
+
+Copyright (c) 2026 Chirag Singhal
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files.
+```
+
+---
+
+## 👤 Author
+
+<p align="center">
+  <a href="https://github.com/chirag127">
+    <img src="https://img.shields.io/badge/GitHub-chirag127-181717?style=for-the-badge&logo=github" alt="GitHub">
+  </a>
+  <a href="https://buymeacoffee.com/chirag127">
+    <img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy Me A Coffee">
+  </a>
+</p>
+
+---
+
+## 🏷️ Tags
+
+{keyword_badges}
+
+---
+
+<p align="center">
+  Made with ❤️ by <a href="https://github.com/chirag127">Chirag Singhal</a>
+</p>
+
+<p align="center">
+  Part of the <a href="{CENTRAL_HUB}">Chirag Hub</a> - 450+ Free Online Tools
+</p>
+'''
+
+    return readme
 
 
 # =============================================================================
@@ -488,26 +734,7 @@ def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict, search_client: W
 
     files = {
         "index.html": html_content,
-        "README.md": f'''# {tool["title"]}
-
-{tool["description"]}
-
-## Live Demo
-
-**[{CENTRAL_HUB}/{tool["name"]}/]({CENTRAL_HUB}/{tool["name"]}/)**
-
-## Features
-
-{chr(10).join(f"- {f}" for f in tool["features"])}
-
-## Privacy
-
-All processing happens in your browser. Your files never leave your device.
-
-## Author
-
-**Chirag Singhal** - [GitHub](https://github.com/chirag127) | [Support](https://buymeacoffee.com/chirag127)
-''',
+        "README.md": generate_comprehensive_readme(tool),
     }
 
     logger.info(f"  Writing {len(files)} files...")

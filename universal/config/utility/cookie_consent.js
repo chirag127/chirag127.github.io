@@ -1,9 +1,14 @@
 /**
- * Part 5: Utility - Cookie Consent
+ * Part 3: Utility - Cookie Consent (GDPR)
  * @module config/utility/cookie_consent
  */
+
 export const cookie_consent = {
-    cookiebot: { domainGroupId: '', enabled: false },
+    // Free options
+    cookiebot: { domainGroupId: '', enabled: false },  // Requires signup
+    termly: { websiteId: '', enabled: false },
     osano: { scriptUrl: '', enabled: false },
-    onetrust: { domainId: '', enabled: false }
+    iubenda: { policyId: '', enabled: false }
 };
+
+export const cookie_consent_priority = ['cookiebot', 'termly'];

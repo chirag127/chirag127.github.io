@@ -1,7 +1,7 @@
 # Chirag Hub
 
 Every tool you need, free and private.
-This repository acts as the central hub and asset provider for the Chirag Network of 450+ client-side tools.
+This repository acts as the central hub and asset provider for the Chirag Network of **thousands of** client-side tools.
 
 ## Universal Architecture
 This project utilizes a unique **Frontend-Only Universal Architecture** to ensure consistency, privacy, and zero server management across hundreds of repositories.
@@ -15,10 +15,10 @@ This project utilizes a unique **Frontend-Only Universal Architecture** to ensur
 ### How it Works
 1.  **Hub (`chirag127.github.io`)**: Loads the universal engine to render itself.
 2.  **Satellites (e.g., `pdf-merge`)**: Import the engine via `<script src="https://chirag127.github.io/universal/core.js"></script>`.
-3.  **Updates**: Changing the logo in `core.js` updates it on 450+ websites instantly.
+3.  **Updates**: Changing the logo in `core.js` updates it on all satellite websites instantly.
 
-## 450+ Tools List
-The tools are generated and hosted as separate repositories but tied together via this Hub.
+## Expansive Tools Collection
+Thousands of tools are generated and hosted as separate repositories, all tied together via this Hub.
 
 | Category | Example Tools |
 | :--- | :--- |

@@ -51,15 +51,15 @@ class UnifiedModel:
     def timeout_seconds(self) -> int:
         """Calculate timeout based on model size. Larger models need much more time."""
         if self.size_billions >= 400:
-            return 600  # 10 minutes for God-class models (DeepSeek 671B, Llama 405B)
+            return 900  # 15 minutes for God-class models (DeepSeek 671B) - single-file generation
         elif self.size_billions >= 200:
-            return 300  # 5 minutes for Hyper-class models (GLM-4, Qwen 235B)
+            return 600  # 10 minutes for Hyper-class models (GLM-4, Qwen 235B)
         elif self.size_billions >= 70:
-            return 180  # 3 minutes for Super-class/High-end (Mistral Large, Llama 70B)
+            return 300  # 5 minutes for Super-class/High-end (Mistral Large, Llama 70B)
         elif self.size_billions >= 30:
-            return 90   # 1.5 minutes for Mid-range
+            return 180  # 3 minutes for Mid-range
         else:
-            return 60   # 1 minute for efficient models
+            return 90   # 1.5 minutes for efficient models
 
 
 @dataclass
@@ -328,6 +328,77 @@ class UnifiedAIClient:
         return CompletionResult(
             success=False,
             error=f"All models failed. Last error: {last_error}",
+        )
+
+    def generate_with_tier(
+        self,
+        prompt: str,
+        system_prompt: str = "",
+        max_tokens: int = 4096,
+        temperature: float = 0.7,
+        start_tier: int = 1,  # 1 = largest, 2 = 2nd largest, etc.
+    ) -> CompletionResult:
+        """
+        Generate text completion starting from a specific tier in the model chain.
+
+        This reserves larger models for more important tasks.
+
+        Args:
+            prompt: User prompt
+            system_prompt: System prompt for context
+            max_tokens: Maximum tokens in response
+            temperature: Sampling temperature
+            start_tier: Which tier to start from (1 = largest, 4 = 4th largest)
+
+        Returns:
+            CompletionResult with generated text
+        """
+        # Filter to available models
+        available_models = [m for m in self.model_chain if self._is_model_available(m)]
+
+        if not available_models:
+            return CompletionResult(
+                success=False,
+                error="No AI models available. Check API keys.",
+            )
+
+        # Skip first (start_tier - 1) models to start from the desired tier
+        skip_count = min(start_tier - 1, len(available_models) - 1)
+        tier_models = available_models[skip_count:]
+
+        if not tier_models:
+            tier_models = available_models  # Fallback to all if tier unavailable
+
+        logger.info(f"[UnifiedClient] Starting from tier {start_tier}, {len(tier_models)} models available")
+
+        last_error = ""
+
+        for model in tier_models:
+            logger.debug(f"[UnifiedClient] Trying {model.name} ({model.size_billions}B via {model.provider_name})")
+
+            result = self._call_model(
+                model=model,
+                prompt=prompt,
+                system_prompt=system_prompt,
+                max_tokens=max_tokens,
+                temperature=temperature,
+                json_mode=False,
+            )
+
+            if result.success:
+                self._record_success(model.provider_name, model.name, result.tokens_used)
+                logger.info(f"[UnifiedClient] Success: {model.name} ({model.size_billions}B)")
+                return result
+
+            # Record failure and continue to next model
+            self._record_failure(model.provider_name, model.name, result.error or "Unknown")
+            last_error = result.error or "Unknown error"
+
+            time.sleep(0.5)
+
+        return CompletionResult(
+            success=False,
+            error=f"All tier-{start_tier}+ models failed. Last error: {last_error}",
         )
 
     def generate_json(

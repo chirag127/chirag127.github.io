@@ -62,7 +62,7 @@
       <div class="apex-footer-content">
         <div class="apex-footer-col">
           <h4>Chirag Hub</h4>
-          <p>The Singularity of Free Tools. 450+ privacy-focused utilities running entirely in your browser.</p>
+          <p>The Singularity of Free Tools. Thousands of privacy-focused utilities running entirely in your browser.</p>
         </div>
         <div class="apex-footer-col">
           <h4>Legal</h4>

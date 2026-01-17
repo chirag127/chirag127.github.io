@@ -1,14 +1,19 @@
 /**
- * Part 2: Tracking - Heatmaps & Recording
+ * Part 2: Tracking - Heatmaps & Session Recording
+ * BIG TECH PREFERRED: Microsoft Clarity enabled (100% free)
  * @module config/tracking/analytics_heatmaps
  */
 
 export const analytics_heatmaps = {
-    clarity: { id: 'v1u8hhnpw2', enabled: true },  // YOUR ID (also in analytics_general)
-    hotjar: { siteId: '', enabled: true },
-    smartlook: { projectKey: '', enabled: true },
+    // BIG TECH - ENABLED (Microsoft, completely free)
+    clarity: { id: 'v1u8hhnpw2', enabled: true },
+
+    // ALTERNATIVES - Disabled (pick one if Clarity doesn't meet needs)
+    hotjar: { siteId: '', enabled: false },  // Free tier limited
+    smartlook: { projectKey: '', enabled: false },
     luckyOrange: { siteId: '', enabled: false },
-    inspectlet: { webId: '', enabled: true }
+    inspectlet: { webId: '', enabled: false },
+    crazyegg: { accountNumber: '', enabled: false }  // Trial only
 };
 
-export const analytics_heatmaps_priority = ['clarity', 'hotjar', 'smartlook', 'inspectlet'];
+export const analytics_heatmaps_priority = ['clarity', 'hotjar', 'smartlook'];
