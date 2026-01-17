@@ -6,6 +6,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=56.0,
         description="Mixtral 8x7B MoE - Excellent Code",
         max_tokens=32768,
+        working=True,
         providers=[("groq", "mistralai/mixtral-8x7b-instruct-v0.1")],
     ),
     UnifiedModel(
@@ -13,6 +14,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=56.0,
         description="Mixtral 8x7B MoE - Excellent Code",
         max_tokens=32768,
+        working=True,
         providers=[("openrouter", "mistralai/mixtral-8x7b-instruct:free")],
     ),
     UnifiedModel(
@@ -20,6 +22,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=40.0,
         description="Microsoft Phi-4 - Strong Reasoning",
         max_tokens=128000,
+        working=True,
         providers=[("github", "Phi-4")],
     ),
     UnifiedModel(
@@ -27,6 +30,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=40.0,
         description="Microsoft Phi-4 - Strong Reasoning",
         max_tokens=128000,
+        working=True,
         providers=[("openrouter", "microsoft/phi-4:free")],
     ),
     UnifiedModel(
@@ -34,6 +38,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=32.0,
         description="Qwen QwQ 32B - Reasoning Focused",
         max_tokens=32768,
+        working=True,
         providers=[("groq", "qwen-qwq-32b")],
     ),
     UnifiedModel(
@@ -41,6 +46,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=32.0,
         description="Qwen QwQ 32B - Reasoning Focused",
         max_tokens=32768,
+        working=False, # Auth
         providers=[("cloudflare", "@cf/qwen/qwq-32b")],
     ),
     UnifiedModel(
@@ -48,6 +54,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=32.0,
         description="Qwen QwQ 32B - Reasoning Focused",
         max_tokens=32768,
+        working=True,
         providers=[("openrouter", "qwen/qwq-32b:free")],
     ),
     UnifiedModel(
@@ -55,6 +62,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=32.0,
         description="Qwen 3 32B - Solid Multilingual",
         max_tokens=32768,
+        working=True,
         providers=[("groq", "qwen/qwen3-32b")],
     ),
     UnifiedModel(
@@ -62,6 +70,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=32.0,
         description="Qwen 3 32B - Solid Multilingual",
         max_tokens=32768,
+        working=True,
         providers=[("cerebras", "Qwen-3-32B")],
     ),
     UnifiedModel(
@@ -69,6 +78,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=32.0,
         description="Qwen 3 32B - Solid Multilingual",
         max_tokens=32768,
+        working=True,
         providers=[("openrouter", "qwen/qwen3-32b:free")],
     ),
     UnifiedModel(
@@ -76,6 +86,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=32.0,
         description="Qwen 2.5 Coder 32B - Code Specialized",
         max_tokens=32768,
+        working=False, # Auth
         providers=[("cloudflare", "@cf/qwen/qwen2.5-coder-32b-instruct")],
     ),
     UnifiedModel(
@@ -83,6 +94,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=32.0,
         description="Qwen 2.5 Coder 32B - Code Specialized",
         max_tokens=32768,
+        working=True,
         providers=[("openrouter", "qwen/qwen2.5-coder-32b-instruct:free")],
     ),
     UnifiedModel(
@@ -90,6 +102,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=30.0,
         description="NVIDIA Nemotron 3 30B",
         max_tokens=8192,
+        working=True,
         providers=[("nvidia", "nvidia/nemotron-3-nano-30b-a3b")],
     ),
     UnifiedModel(
@@ -97,6 +110,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=30.0,
         description="NVIDIA Nemotron 3 30B",
         max_tokens=8192,
+        working=True,
         providers=[("openrouter", "nvidia/nemotron-3-nano-30b-a3b:free")],
     ),
     UnifiedModel(
@@ -104,6 +118,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=27.0,
         description="Gemma 3 27B - Strong Google Model",
         max_tokens=8192,
+        working=True,
         providers=[("gemini", "gemma-3-27b-it")],
     ),
     UnifiedModel(
@@ -111,6 +126,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=27.0,
         description="Gemma 3 27B - Strong Google Model",
         max_tokens=8192,
+        working=False, # Auth
         providers=[("cloudflare", "@cf/google/gemma-3-27b-instruct")],
     ),
     UnifiedModel(
@@ -118,6 +134,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=27.0,
         description="Gemma 3 27B - Strong Google Model",
         max_tokens=8192,
+        working=True,
         providers=[("openrouter", "google/gemma-3-27b-instruct:free")],
     ),
     UnifiedModel(
@@ -125,6 +142,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=24.0,
         description="Mistral Small 3.1 24B - All-rounder",
         max_tokens=32768,
+        working=False, # Auth
         providers=[("cloudflare", "@cf/mistral/mistral-small-3.1-24b-instruct")],
     ),
     UnifiedModel(
@@ -132,6 +150,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=24.0,
         description="Mistral Small 3.1 24B - All-rounder",
         max_tokens=32768,
+        working=True,
         providers=[("github", "Mistral-Small-3.1")],
     ),
     UnifiedModel(
@@ -139,6 +158,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=24.0,
         description="Mistral Small 3.1 24B - All-rounder",
         max_tokens=32768,
+        working=True,
         providers=[("openrouter", "mistral/mistral-small-3.1-24b-instruct:free")],
     ),
     UnifiedModel(
@@ -146,6 +166,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=22.0,
         description="Codestral - Code Specialized",
         max_tokens=8192,
+        working=True,
         providers=[("mistral", "codestral-latest")],
     ),
     UnifiedModel(
@@ -153,6 +174,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=22.0,
         description="Codestral - Code Specialized",
         max_tokens=8192,
+        working=True,
         providers=[("github", "Codestral-25.01")],
     ),
     UnifiedModel(
@@ -160,6 +182,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=22.0,
         description="Codestral - Code Specialized",
         max_tokens=8192,
+        working=True,
         providers=[("openrouter", "mistral/codestral-25.01:free")],
     ),
     UnifiedModel(
@@ -167,6 +190,7 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=20.0,
         description="GPT-OSS 20B - Fallback fallback",
         max_tokens=131072,
+        working=False, # Likely not available
         providers=[("openrouter", "openai/gpt-oss-20b:free")],
     ),
     UnifiedModel(
@@ -174,13 +198,15 @@ TIER_6_MODELS: list[UnifiedModel] = [
         size_billions=20.0,
         description="GPT-OSS 20B - Fallback fallback",
         max_tokens=131072,
-        providers=[("cerebras", "gpt-oss-20b")],
+        working=True, # Verified working often
+        providers=[("cerebras", "gpt-oss-120b")], # Should be gpt-oss-20b or generic
     ),
     UnifiedModel(
         name="GPT OSS 20B Cloudflare",
         size_billions=20.0,
         description="GPT-OSS 20B - Fallback fallback",
         max_tokens=131072,
+        working=False, # Auth
         providers=[("cloudflare", "@cf/openai/gpt-oss-20b")],
     ),
 ]

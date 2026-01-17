@@ -9,6 +9,7 @@ class UnifiedModel:
     max_tokens: int = 8192
     supports_json: bool = True
     priority: int = 0  # Higher priority (e.g., 100) models are tried first
+    working: bool = True  # Whether the model is currently verified to be working
     providers: list[tuple[str, str]] = field(default_factory=list)
 
     @property
