@@ -1,36 +1,15 @@
 from .schema import UnifiedModel
 
 TIER_1_MODELS: list[UnifiedModel] = [
-    UnifiedModel(
-        name="GLM 4.6 1T MoE Cerebras",
-        size_billions=1000.0,
-        description="GLM-4.6 Ling-1T-style MoE (~1T total params); top-tier reasoning and coding.",
-        max_tokens=200000,
-        supports_json=True,
-        working=False,
-        include_in_sidebar=False,
-        provider="cerebras",
-        api_model_id="zai-glm-4.6"
-    ),
-    UnifiedModel(
-        name="GLM 4.6 1T MoE OpenRouter",
-        size_billions=1000.0,
-        description="GLM-4.6 Ling-1T-style MoE (~1T total params); top-tier reasoning and coding.",
-        max_tokens=200000,
-        supports_json=True,
-        working=False,
-        include_in_sidebar=False,
-        provider="openrouter",
-        api_model_id="z-ai/glm-4.6:free"
-    ),
+
     UnifiedModel(
         name="GLM 4.7 1T MoE Cerebras",
         size_billions=1000.0,
         description="GLM-4.7 Ling-1T-style MoE (~1T total params); top-tier reasoning and coding.",
         max_tokens=200000,
         supports_json=True,
-        working=False,
-        include_in_sidebar=False,
+        working=True,
+        include_in_sidebar=True,
         provider="cerebras",
         api_model_id="zai-glm-4.7"
     ),
@@ -40,8 +19,8 @@ TIER_1_MODELS: list[UnifiedModel] = [
         description="Mistral 'Large 3' 675B MoE; high-end dense model behavior for reasoning.",
         max_tokens=131072,
         supports_json=True,
-        working=False,
-        include_in_sidebar=False,
+        working=True,
+        include_in_sidebar=True,
         provider="nvidia",
         api_model_id="mistralai/mistral-large-3-675b-instruct-2512"
     ),
@@ -51,10 +30,10 @@ TIER_1_MODELS: list[UnifiedModel] = [
         description="Mistral 'Large 3' 675B MoE; high-end dense model behavior for reasoning.",
         max_tokens=131072,
         supports_json=True,
-        working=False,
-        include_in_sidebar=False,
+        working=True,
+        include_in_sidebar=True,
         provider="mistral",
-        api_model_id="mistral-large-3"
+        api_model_id="mistral-large-2512"
     ),
     UnifiedModel(
         name="DeepSeek R1T2 Chimera OpenRouter",
@@ -63,7 +42,7 @@ TIER_1_MODELS: list[UnifiedModel] = [
         max_tokens=164000,
         supports_json=True,
         working=True,
-        include_in_sidebar=False,
+        include_in_sidebar=True,
         provider="openrouter",
         api_model_id="tngtech/deepseek-r1t2-chimera:free"
     ),
@@ -79,25 +58,16 @@ TIER_1_MODELS: list[UnifiedModel] = [
         api_model_id="deepseek/deepseek-r1-0528:free"
     ),
     UnifiedModel(
-        name="DeepSeek V3 Nvidia",
+        name="DeepSeek V3.2 Nvidia",
         size_billions=671.0,
         description="DeepSeek V3 - Top-tier Code & Chat",
         max_tokens=32768,
-        working=False,
-        include_in_sidebar=False,
+        working=True,
+        include_in_sidebar=True,
         provider="nvidia",
-        api_model_id="deepseek-ai/deepseek-v3"
+        api_model_id="deepseek-ai/deepseek-v3.2"
     ),
-    UnifiedModel(
-        name="DeepSeek V3 OpenRouter",
-        size_billions=671.0,
-        description="DeepSeek V3 - Top-tier Code & Chat",
-        max_tokens=32768,
-        working=False,
-        include_in_sidebar=False,
-        provider="openrouter",
-        api_model_id="deepseek/deepseek-v3:free"
-    ),
+
     UnifiedModel(
         name="DeepSeek R1T Chimera OpenRouter",
         size_billions=671.0,
@@ -137,7 +107,7 @@ TIER_1_MODELS: list[UnifiedModel] = [
         description="Meta Llama 3.1 405B Instruct; largest open Llama model.",
         max_tokens=131072,
         supports_json=True,
-        working=False,
+        working=True,
         include_in_sidebar=False,
         provider="openrouter",
         api_model_id="meta-llama/llama-3.1-405b-instruct:free"
