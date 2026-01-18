@@ -339,7 +339,7 @@
       return polymorphs;
     } catch (error) {
       console.warn('Failed to discover polymorphs:', error.message);
-      return getFallbackPolymorphs();
+      return await getFallbackPolymorphs();
     }
   }
 
@@ -374,12 +374,19 @@
   }
 
   // 15. Fallback polymorphs
-  function getFallbackPolymorphs() {
+  // 15. Fallback polymorphs (Dynamic)
+  async function getFallbackPolymorphs() {
+    // Try to load dynamic config first
+    const modelsConfig = await safeImport(`${U_PATH}/config/models.js`);
+    if (modelsConfig && modelsConfig.models) {
+      console.log(`✨ Using ${modelsConfig.models.length} dynamic fallback models`);
+      return modelsConfig.models;
+    }
+
+    console.warn("⚠️ Dynamic models config not found, using minimal fallback");
     return [
       { slug: 'glm-4-7-1t-moe-cerebras', name: 'GLM 4.7 1T MoE', size: 1000, provider: 'Cerebras' },
       { slug: 'deepseek-r1t2-chimera-openrouter', name: 'DeepSeek R1T2 Chimera', size: 671, provider: 'OpenRouter' },
-      { slug: 'mistral-large-3-675b-instruct-nvidia', name: 'Mistral Large 3', size: 675, provider: 'NVIDIA' },
-      { slug: 'qwen3-coder-480b-moe-openrouter', name: 'Qwen3 Coder 480B MoE', size: 480, provider: 'OpenRouter' }
     ];
   }
 

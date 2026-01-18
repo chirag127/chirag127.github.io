@@ -190,3 +190,5 @@ a.txt
 verification_report.txt
 verification_results.txt
 .temp
+gen_output.txt
+latest_generated_tool.html

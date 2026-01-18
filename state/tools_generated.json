@@ -3,7 +3,8 @@
     "text-case-converter",
     "word-counter",
     "character-counter",
-    "line-counter"
+    "line-counter",
+    "text-cleaner"
   ],
   "failed": [],
   "metadata_cache": {
@@ -83,6 +84,26 @@
         "privacy-first tool",
         "client-side processing",
         "free line counter"
+      ],
+      "category": "Utility"
+    },
+    "text-cleaner": {
+      "title": "Text Cleaner Pro: Format & Sanitize Instantly",
+      "description": "Free online text cleaner that formats, sanitizes & optimizes content instantly. No uploads needed\u2014100% private processing on your device.",
+      "features": [
+        "One-click text formatting & sanitization",
+        "Advanced AI-powered cleanup algorithms",
+        "Real-time preview of cleaned text",
+        "Military-grade privacy (no data leaves your device)",
+        "Works offline & on all modern browsers"
+      ],
+      "keywords": [
+        "online text cleaner",
+        "free text sanitizer",
+        "privacy-focused text tool",
+        "format text online",
+        "client-side text processing",
+        "instant text optimization"
       ],
       "category": "Utility"
     }

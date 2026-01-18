@@ -536,8 +536,6 @@ CRITICAL OVERRIDE:
   - JavaScript MUST be inside <script> tags at the end of <body>.
   - NO external .css or .js files (except the Universal Config/Core scripts below).
 - UNIVERSAL ARCHITECTURE:
-  - MUST include in <head>: <script src="{CENTRAL_HUB}/universal/config.js"></script>
-  - MUST include in <head>: <script src="{CENTRAL_HUB}/universal/core.js"></script>
   - DO NOT generate <header> or <footer> tags (the Universal Engine injects them).
   - Wrap ALL content in <main> tag.
 - CRITICAL CSS FIX (HEADER OVERLAP PREVENTION):
@@ -571,9 +569,7 @@ Features: {json.dumps(tool.get('features', []), indent=2)}
 REQUIREMENTS:
 1. OUTPUT: A SINGLE `index.html` file containing ALL HTML, CSS, and JavaScript.
 2. UNIVERSAL ARCHITECTURE (CRITICAL):
-   - MUST include in <head>: <script src="{CENTRAL_HUB}/universal/config.js"></script>
-   - MUST include in <head>: <script src="{CENTRAL_HUB}/universal/core.js"></script>
-   - DO NOT generate <header> or <footer> tags (The Universal Engine injects them).
+    - DO NOT generate <header> or <footer> tags (The Universal Engine injects them).
    - ALL content must be wrapped in <main> tag.
 3. CRITICAL CSS FIX (HEADER OVERLAP PREVENTION):
    - The Universal Engine injects a FIXED header at the top (height ~70px).
@@ -880,7 +876,7 @@ def generate_polymorphs_concurrent(tool: dict, ai: UnifiedAIClient, sidebar_mode
                 enhanced_content = inject_all_enhancements(
                     content,
                     generate_software_schema(tool["name"], tool.get("title", tool["name"]), tool.get("description", ""), tool.get("keywords", []), CENTRAL_HUB),
-                    generate_universal_integration(tool["name"])
+                    tool
                 )
 
                 logger.info(f"  ✅ [{idx}] Success: {model.name}")
@@ -1030,757 +1026,48 @@ def create_polymorphs_hub_structure(project_name: str, successful_models: list, 
     return hub_files
 
 
-# =============================================================================
-# GROWTHBOOK A/B TESTING INTEGRATION
-# =============================================================================
 
-def generate_universal_integration(project_name: str) -> str:
-    """
-    Generate integration script that uses the existing universal config system.
-
-    This replaces the duplicate tracking functions and properly integrates with:
-    - universal/config/tracking/* (existing analytics)
-    - universal/config/engagement/ab_testing.js (existing GrowthBook config)
-    - universal/config/* (all other modules)
-    """
-    return f"""
-<!-- Universal Config Integration -->
-<script src="/universal/config.js" type="module"></script>
-<script src="/universal/core.js" type="module"></script>
-
-<!-- GrowthBook Auto-Loading Script (Proper Implementation) -->
-<script async
-  data-client-key="sdk-BamkgvyjaSFKa0m6"
-  src="https://cdn.jsdelivr.net/npm/@growthbook/growthbook/dist/bundles/auto.min.js">
-</script>
-
-<script type="module">
-import {{ SITE_CONFIG, priorities }} from '/universal/config/index.js';
-
-// Initialize Universal System for {project_name}
-console.log('[Universal] Initializing for {project_name}');
-
-// Project-specific configuration
-const projectConfig = {{
-    name: '{project_name}',
-    type: 'tool',
-    timestamp: new Date().toISOString(),
-
-    // Enhanced user attributes for targeting
-    userAttributes: {{
-        id: localStorage.getItem('visitor_id') || 'anonymous_' + Math.random().toString(36).substr(2, 9),
-        url: window.location.pathname,
-        project: '{project_name}',
-        device: /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'mobile' : 'desktop',
-        browser: navigator.userAgent.includes('Chrome') ? 'chrome' :
-                navigator.userAgent.includes('Firefox') ? 'firefox' :
-                navigator.userAgent.includes('Safari') ? 'safari' : 'other',
-        screen_resolution: `${{screen.width}}x${{screen.height}}`,
-        viewport_size: `${{window.innerWidth}}x${{window.innerHeight}}`,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        language: navigator.language
-    }}
-}};
-
-// Store visitor ID for consistency
-if (!localStorage.getItem('visitor_id')) {{
-    localStorage.setItem('visitor_id', projectConfig.userAttributes.id);
-}}
-
-// Initialize all tracking systems using existing config
-async function initializeTracking() {{
-    const {{ tracking }} = SITE_CONFIG;
-
-    // Initialize GA4 if enabled
-    if (tracking.analytics_general.ga4.enabled) {{
-        const ga4Config = tracking.analytics_general.ga4;
-
-        // Load GA4 script
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = `https://www.googletagmanager.com/gtag/js?id=${{ga4Config.id}}`;
-        document.head.appendChild(script);
-
-        // Initialize gtag
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){{dataLayer.push(arguments);}}
-        window.gtag = gtag;
-        gtag('js', new Date());
-        gtag('config', ga4Config.id, {{
-            custom_map: {{
-                'custom_parameter_1': 'project_name',
-                'custom_parameter_2': 'tool_category'
-            }},
-            project_name: '{project_name}',
-            tool_category: 'utility'
-        }});
-
-        console.log('[Universal] GA4 initialized');
-    }}
-
-    // Initialize Clarity if enabled
-    if (tracking.analytics_heatmaps.clarity.enabled) {{
-        const clarityConfig = tracking.analytics_heatmaps.clarity;
-
-        (function(c,l,a,r,i,t,y){{
-            c[a]=c[a]||function(){{(c[a].q=c[a].q||[]).push(arguments)}};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        }})(window, document, "clarity", "script", clarityConfig.id);
-
-        clarity('set', 'project', '{project_name}');
-        console.log('[Universal] Clarity initialized');
-    }}
-
-    // Initialize Mixpanel if enabled
-    if (tracking.analytics_general.mixpanel.enabled) {{
-        const mixpanelConfig = tracking.analytics_general.mixpanel;
-
-        (function(f,b){{if(!b.__SV){{var e,g,i,h;window.mixpanel=b;b._i=[];b.init=function(e,f,c){{function g(a,d){{var b=d.split(".");2==b.length&&(a=a[b[0]],d=b[1]);a[d]=function(){{a.push([d].concat(Array.prototype.slice.call(arguments,0)))}}}}var a=b;"undefined"!==typeof c?a=b[c]=[]:c="mixpanel";a.people=a.people||[];a.toString=function(a){{var d="mixpanel";"mixpanel"!==c&&(d+="."+c);a||(d+=" (stub)");return d}};a.people.toString=function(){{return a.toString(1)+".people (stub)"}};i="disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");for(h=0;h<i.length;h++)g(a,i[h]);var j="set set_once union unset remove delete".split(" ");a.get_group=function(){{function b(c){{d[c]=function(){{call2_args=arguments;call2=[c].concat(Array.prototype.slice.call(call2_args,0));a.push([e,call2])}}}}for(var d={{}},e=["get_group"].concat(Array.prototype.slice.call(arguments,0)),c=0;c<j.length;c++)b(j[c]);return d}};b._i.push([e,f,c])}};b.__SV=1.7}})(document,window.mixpanel||[]);
-
-        mixpanel.init(mixpanelConfig.token, {{
-            debug: false,
-            track_pageview: true,
-            persistence: 'localStorage'
-        }});
-
-        mixpanel.track('Tool Loaded', {{
-            'Tool Name': '{project_name}',
-            'Category': 'utility',
-            'URL': window.location.href
-        }});
-
-        console.log('[Universal] Mixpanel initialized');
-    }}
-
-    // Initialize other analytics platforms using existing config...
-}}
-
-// Initialize A/B Testing using existing GrowthBook config and auto-loading script
-async function initializeABTesting() {{
-    const {{ engagement }} = SITE_CONFIG;
-    const gbConfig = engagement.ab_testing.growthbook;
-
-    if (!gbConfig.enabled) return;
-
-    // Wait for GrowthBook auto-loading script to be ready
-    const waitForGrowthBook = () => {{
-        return new Promise((resolve) => {{
-            if (window.growthbook) {{
-                resolve(window.growthbook);
-            }} else {{
-                const checkInterval = setInterval(() => {{
-                    if (window.growthbook) {{
-                        clearInterval(checkInterval);
-                        resolve(window.growthbook);
-                    }}
-                }}, 100);
-
-                // Timeout after 10 seconds
-                setTimeout(() => {{
-                    clearInterval(checkInterval);
-                    console.warn('[Universal] GrowthBook auto-loading script timeout');
-                    resolve(null);
-                }}, 10000);
-            }}
-        }});
-    }};
-
-    try {{
-        const growthbook = await waitForGrowthBook();
-
-        if (!growthbook) {{
-            console.warn('[Universal] GrowthBook not available');
-            return;
-        }}
-
-        // Set user attributes for targeting
-        growthbook.setAttributes(projectConfig.userAttributes);
-
-        // Set up tracking callback for A/B test events
-        growthbook.setTrackingCallback((experiment, result) => {{
-            // Use universal tracking function
-            trackUniversalEvent('ab_test_view', {{
-                experiment_id: experiment.key,
-                variant_id: result.variationId,
-                project: '{project_name}'
-            }});
-        }});
-
-        // Run comprehensive A/B tests
-        runUniversalABTests(growthbook);
-
-        console.log('[Universal] GrowthBook initialized via auto-loading script');
-    }} catch (error) {{
-        console.error('[Universal] GrowthBook initialization failed:', error);
-    }}
-}}
-
-// Universal event tracking function that sends to all enabled platforms
-function trackUniversalEvent(eventName, properties = {{}}) {{
-    const eventData = {{
-        ...properties,
-        project: '{project_name}',
-        timestamp: new Date().toISOString(),
-        url: window.location.href
-    }};
-
-    // Track to GA4 if available
-    if (typeof gtag !== 'undefined') {{
-        gtag('event', eventName, eventData);
-    }}
-
-    // Track to Clarity if available
-    if (typeof clarity !== 'undefined') {{
-        clarity('event', eventName, eventData);
-    }}
-
-    // Track to Mixpanel if available
-    if (typeof mixpanel !== 'undefined') {{
-        mixpanel.track(eventName, eventData);
-    }}
-
-    console.log('[Universal Event]', eventName, eventData);
-}}
-
-// A/B testing using existing config
-function runUniversalABTests(growthbook) {{
-    // Button color test
-    const buttonColorTest = growthbook.getFeatureValue('button_color_test', 'default');
-    if (buttonColorTest !== 'default') {{
-        document.querySelectorAll('button, .btn, input[type="submit"], [role="button"]').forEach(btn => {{
-            switch(buttonColorTest) {{
-                case 'variant_a':
-                    btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                    btn.style.boxShadow = '0 8px 32px rgba(102, 126, 234, 0.4)';
-                    break;
-                case 'variant_b':
-                    btn.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
-                    btn.style.boxShadow = '0 8px 32px rgba(240, 147, 251, 0.4)';
-                    break;
-                case 'variant_c':
-                    btn.style.background = 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
-                    btn.style.boxShadow = '0 8px 32px rgba(79, 172, 254, 0.4)';
-                    break;
-            }}
-        }});
-    }}
-
-    // Layout test
-    const layoutTest = growthbook.getFeatureValue('layout_test', 'default');
-    if (layoutTest === 'compact') {{
-        document.body.style.fontSize = '0.9rem';
-        document.body.style.lineHeight = '1.4';
-    }} else if (layoutTest === 'spacious') {{
-        document.body.style.fontSize = '1.1rem';
-        document.body.style.lineHeight = '1.8';
-    }}
-
-    // CTA text test
-    const ctaTest = growthbook.getFeatureValue('cta_text_test', 'default');
-    if (ctaTest !== 'default') {{
-        document.querySelectorAll('[data-cta], .cta, button').forEach(el => {{
-            const originalText = el.textContent.trim();
-            switch(ctaTest) {{
-                case 'urgent':
-                    el.textContent = originalText.replace(/Get|Start|Try|Download|Use/, 'Get Instant');
-                    break;
-                case 'benefit':
-                    el.textContent = originalText.replace(/Get|Start|Try|Download|Use/, 'Unlock Free');
-                    break;
-            }}
-        }});
-    }}
-}}
-
-// Auto-track interactions using universal system
-function setupUniversalTracking() {{
-    // Track clicks
-    document.addEventListener('click', (e) => {{
-        const element = e.target;
-
-        if (element.matches('button, .btn, input[type="submit"], [role="button"]')) {{
-            trackUniversalEvent('button_click', {{
-                element_text: element.textContent.trim().substring(0, 50),
-                element_type: element.tagName.toLowerCase()
-            }});
-        }}
-
-        if (element.matches('a[href*="download"], [data-download]')) {{
-            trackUniversalEvent('download_click', {{
-                element_text: element.textContent.trim(),
-                href: element.href || 'none'
-            }});
-        }}
-    }});
-
-    // Track file uploads
-    document.addEventListener('change', (e) => {{
-        if (e.target.type === 'file' && e.target.files.length > 0) {{
-            trackUniversalEvent('file_upload', {{
-                file_count: e.target.files.length,
-                file_types: Array.from(e.target.files).map(f => f.type).join(',')
-            }});
-        }}
-    }});
-
-    // Track engagement metrics
-    let timeOnPage = 0;
-    setInterval(() => {{
-        timeOnPage += 15;
-        if (timeOnPage === 30) trackUniversalEvent('engaged_30s');
-        if (timeOnPage === 60) trackUniversalEvent('engaged_60s');
-        if (timeOnPage === 120) trackUniversalEvent('engaged_2min');
-    }}, 15000);
-
-    // Track scroll depth
-    let maxScroll = 0;
-    window.addEventListener('scroll', () => {{
-        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-        if (scrollPercent > maxScroll) {{
-            maxScroll = scrollPercent;
-            if (maxScroll >= 25 && maxScroll < 50) trackUniversalEvent('scroll_25');
-            if (maxScroll >= 50 && maxScroll < 75) trackUniversalEvent('scroll_50');
-            if (maxScroll >= 75 && maxScroll < 90) trackUniversalEvent('scroll_75');
-            if (maxScroll >= 90) trackUniversalEvent('scroll_90');
-        }}
-    }});
-}}
-
-// Initialize everything using the universal config system
-document.addEventListener('DOMContentLoaded', async () => {{
-    console.log('[Universal] Starting initialization for {project_name}');
-
-    // Initialize in priority order
-    await initializeTracking();
-    await initializeABTesting();
-    setupUniversalTracking();
-
-    console.log('[Universal] All systems initialized for {project_name}');
-}});
-</script>
-"""
-    """
-    Generate comprehensive GrowthBook A/B testing integration script.
-
-    Features:
-    - Automatic A/B testing for all elements
-    - Conversion tracking (clicks, engagement, time on page)
-    - Multi-armed bandit optimization
-    - Client-side only (no backend required)
-    """
-    return f"""
-<!-- GrowthBook A/B Testing Integration -->
-<script src="https://cdn.jsdelivr.net/npm/@growthbook/growthbook@latest/dist/bundles/auto.min.js"></script>
-<script>
-// Initialize GrowthBook with comprehensive tracking
-const growthbook = new GrowthBook({{
-    apiHost: "https://cdn.growthbook.io",
-    clientKey: "sdk-BamkgvyjaSFKa0m6",
-    enableDevMode: true,
-    trackingCallback: (experiment, result) => {{
-        // Track to all analytics platforms
-        if (typeof gtag !== 'undefined') {{
-            gtag('event', 'ab_test_view', {{
-                experiment_id: experiment.key,
-                variant_id: result.variationId,
-                project: '{project_name}'
-            }});
-        }}
-
-        if (typeof clarity !== 'undefined') {{
-            clarity('set', 'ab_test', `${{experiment.key}}_${{result.variationId}}`);
-        }}
-
-        console.log('[A/B Test]', experiment.key, 'variant:', result.variationId);
-    }}
-}});
-
-// Wait for features to be available
-growthbook.init({{ streaming: true }}).then(() => {{
-    console.log('[GrowthBook] Initialized for {project_name}');
-
-    // Set user attributes for targeting
-    growthbook.setAttributes({{
-        id: localStorage.getItem('visitor_id') || 'anonymous_' + Math.random().toString(36).substr(2, 9),
-        url: window.location.pathname,
-        project: '{project_name}',
-        device: /Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'mobile' : 'desktop',
-        browser: navigator.userAgent.includes('Chrome') ? 'chrome' :
-                navigator.userAgent.includes('Firefox') ? 'firefox' :
-                navigator.userAgent.includes('Safari') ? 'safari' : 'other'
-    }});
-
-    // A/B test everything automatically
-    runComprehensiveABTests();
-}});
-
-function runComprehensiveABTests() {{
-    // Test 1: Button colors and styles
-    const buttonColorTest = growthbook.getFeatureValue('button_color_test', 'default');
-    if (buttonColorTest !== 'default') {{
-        document.querySelectorAll('button, .btn, input[type="submit"]').forEach(btn => {{
-            switch(buttonColorTest) {{
-                case 'variant_a':
-                    btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                    break;
-                case 'variant_b':
-                    btn.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
-                    break;
-                case 'variant_c':
-                    btn.style.background = 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
-                    break;
-            }}
-        }});
-    }}
-
-    // Test 2: Layout variations
-    const layoutTest = growthbook.getFeatureValue('layout_test', 'default');
-    if (layoutTest === 'compact') {{
-        document.body.style.fontSize = '0.9rem';
-        document.body.style.lineHeight = '1.4';
-    }} else if (layoutTest === 'spacious') {{
-        document.body.style.fontSize = '1.1rem';
-        document.body.style.lineHeight = '1.8';
-    }}
-
-    // Test 3: Call-to-action text
-    const ctaTest = growthbook.getFeatureValue('cta_text_test', 'default');
-    if (ctaTest !== 'default') {{
-        document.querySelectorAll('[data-cta]').forEach(el => {{
-            switch(ctaTest) {{
-                case 'urgent':
-                    el.textContent = el.textContent.replace(/Get|Start|Try/, 'Get Instant');
-                    break;
-                case 'benefit':
-                    el.textContent = el.textContent.replace(/Get|Start|Try/, 'Unlock Free');
-                    break;
-            }}
-        }});
-    }}
-
-    // Test 4: Color scheme variations
-    const colorSchemeTest = growthbook.getFeatureValue('color_scheme_test', 'default');
-    if (colorSchemeTest !== 'default') {{
-        const root = document.documentElement;
-        switch(colorSchemeTest) {{
-            case 'warm':
-                root.style.setProperty('--primary-color', '#ff6b6b');
-                root.style.setProperty('--secondary-color', '#feca57');
-                break;
-            case 'cool':
-                root.style.setProperty('--primary-color', '#3742fa');
-                root.style.setProperty('--secondary-color', '#2ed573');
-                break;
-            case 'monochrome':
-                root.style.setProperty('--primary-color', '#2f3542');
-                root.style.setProperty('--secondary-color', '#57606f');
-                break;
-        }}
-    }}
-}}
-
-// Conversion tracking
-function trackConversion(event, value = 1) {{
-    growthbook.track(event, {{ value, project: '{project_name}' }});
-
-    // Also track to other analytics
-    if (typeof gtag !== 'undefined') {{
-        gtag('event', 'conversion', {{
-            event_category: 'ab_test',
-            event_label: event,
-            value: value,
-            project: '{project_name}'
-        }});
-    }}
-}}
-
-// Auto-track common conversions
-document.addEventListener('click', (e) => {{
-    if (e.target.matches('button, .btn, input[type="submit"], a[href*="download"]')) {{
-        trackConversion('button_click');
-    }}
-    if (e.target.matches('a[href^="mailto:"], a[href^="tel:"]')) {{
-        trackConversion('contact_click');
-    }}
-}});
-
-// Track time on page
-let timeOnPage = 0;
-setInterval(() => {{
-    timeOnPage += 10;
-    if (timeOnPage === 30) trackConversion('engaged_30s');
-    if (timeOnPage === 60) trackConversion('engaged_60s');
-    if (timeOnPage === 120) trackConversion('engaged_2min');
-}}, 10000);
-
-// Track scroll depth
-let maxScroll = 0;
-window.addEventListener('scroll', () => {{
-    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-    if (scrollPercent > maxScroll) {{
-        maxScroll = scrollPercent;
-        if (maxScroll >= 25 && maxScroll < 50) trackConversion('scroll_25');
-        if (maxScroll >= 50 && maxScroll < 75) trackConversion('scroll_50');
-        if (maxScroll >= 75 && maxScroll < 90) trackConversion('scroll_75');
-        if (maxScroll >= 90) trackConversion('scroll_90');
-    }}
-}});
-</script>
-"""
-
-
-# =============================================================================
-# COMPREHENSIVE TRACKING INTEGRATION
-# =============================================================================
-
-def generate_comprehensive_tracking(tool: dict) -> str:
-    """
-    Generate comprehensive tracking integration for all analytics platforms.
-
-    Includes:
-    - Google Analytics 4 (GA4)
-    - Microsoft Clarity
-    - Mixpanel
-    - Amplitude
-    - PostHog
-    - Heap Analytics
-    - Custom event tracking
-    """
-    project_name = tool["name"]
-    title = tool.get("title", project_name)
-    category = tool.get("category", "Utilities")
-
-    return f"""
-<!-- Comprehensive Analytics & Tracking Integration -->
-
-<!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){{dataLayer.push(arguments);}}
-gtag('js', new Date());
-gtag('config', 'G-XXXXXXXXXX', {{
-    custom_map: {{
-        'custom_parameter_1': 'project_name',
-        'custom_parameter_2': 'tool_category'
-    }},
-    project_name: '{project_name}',
-    tool_category: '{category}'
-}});
-
-// Enhanced ecommerce tracking for tool usage
-gtag('event', 'page_view', {{
-    page_title: '{title}',
-    page_location: window.location.href,
-    content_group1: '{category}',
-    content_group2: '{project_name}'
-}});
-</script>
-
-<!-- Microsoft Clarity -->
-<script type="text/javascript">
-(function(c,l,a,r,i,t,y){{
-    c[a]=c[a]||function(){{(c[a].q=c[a].q||[]).push(arguments)}};
-    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-}})(window, document, "clarity", "script", "XXXXXXXXX");
-
-clarity('set', 'project', '{project_name}');
-clarity('set', 'category', '{category}');
-</script>
-
-<!-- Mixpanel -->
-<script type="text/javascript">
-(function(f,b){{if(!b.__SV){{var e,g,i,h;window.mixpanel=b;b._i=[];b.init=function(e,f,c){{function g(a,d){{var b=d.split(".");2==b.length&&(a=a[b[0]],d=b[1]);a[d]=function(){{a.push([d].concat(Array.prototype.slice.call(arguments,0)))}}}}var a=b;"undefined"!==typeof c?a=b[c]=[]:c="mixpanel";a.people=a.people||[];a.toString=function(a){{var d="mixpanel";"mixpanel"!==c&&(d+="."+c);a||(d+=" (stub)");return d}};a.people.toString=function(){{return a.toString(1)+".people (stub)"}};i="disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");for(h=0;h<i.length;h++)g(a,i[h]);var j="set set_once union unset remove delete".split(" ");a.get_group=function(){{function b(c){{d[c]=function(){{call2_args=arguments;call2=[c].concat(Array.prototype.slice.call(call2_args,0));a.push([e,call2])}}}}for(var d={{}},e=["get_group"].concat(Array.prototype.slice.call(arguments,0)),c=0;c<j.length;c++)b(j[c]);return d}};b._i.push([e,f,c])}};b.__SV=1.7}})(document,window.mixpanel||[]);
-
-mixpanel.init('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', {{
-    debug: false,
-    track_pageview: true,
-    persistence: 'localStorage'
-}});
-
-mixpanel.track('Tool Loaded', {{
-    'Tool Name': '{project_name}',
-    'Tool Title': '{title}',
-    'Category': '{category}',
-    'URL': window.location.href
-}});
-</script>
-
-<!-- PostHog -->
-<script>
-!function(t,e){{var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){{function g(t,e){{var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]);t[e]=function(){{t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){{var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e}},u.people.toString=function(){{return u.toString(1)+".people (stub)"}},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])}},e.__SV=1)}}(document,window.posthog||[]);
-posthog.init('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', {{api_host: 'https://app.posthog.com'}});
-
-posthog.capture('tool_loaded', {{
-    tool_name: '{project_name}',
-    tool_title: '{title}',
-    category: '{category}'
-}});
-</script>
-
-<!-- Custom Event Tracking System -->
-<script>
-// Unified event tracking function
-function trackEvent(eventName, properties = {{}}) {{
-    const eventData = {{
-        ...properties,
-        project: '{project_name}',
-        category: '{category}',
-        timestamp: new Date().toISOString(),
-        url: window.location.href,
-        user_agent: navigator.userAgent,
-        screen_resolution: `${{screen.width}}x${{screen.height}}`,
-        viewport_size: `${{window.innerWidth}}x${{window.innerHeight}}`
-    }};
-
-    // Track to all platforms
-    if (typeof gtag !== 'undefined') {{
-        gtag('event', eventName, eventData);
-    }}
-
-    if (typeof clarity !== 'undefined') {{
-        clarity('event', eventName, eventData);
-    }}
-
-    if (typeof mixpanel !== 'undefined') {{
-        mixpanel.track(eventName, eventData);
-    }}
-
-    if (typeof posthog !== 'undefined') {{
-        posthog.capture(eventName, eventData);
-    }}
-
-    console.log('[Analytics]', eventName, eventData);
-}}
-
-// Auto-track common interactions
-document.addEventListener('DOMContentLoaded', function() {{
-    // Track file uploads
-    document.querySelectorAll('input[type="file"]').forEach(input => {{
-        input.addEventListener('change', (e) => {{
-            if (e.target.files.length > 0) {{
-                trackEvent('file_uploaded', {{
-                    file_count: e.target.files.length,
-                    file_types: Array.from(e.target.files).map(f => f.type).join(',')
-                }});
-            }}
-        }});
-    }});
-
-    // Track downloads
-    document.querySelectorAll('a[download], button[data-download]').forEach(el => {{
-        el.addEventListener('click', () => {{
-            trackEvent('file_downloaded', {{
-                element_type: el.tagName.toLowerCase(),
-                element_text: el.textContent.trim()
-            }});
-        }});
-    }});
-
-    // Track form submissions
-    document.querySelectorAll('form').forEach(form => {{
-        form.addEventListener('submit', (e) => {{
-            trackEvent('form_submitted', {{
-                form_id: form.id || 'unnamed',
-                form_action: form.action || 'none'
-            }});
-        }});
-    }});
-
-    // Track tool usage (processing buttons)
-    document.querySelectorAll('button[data-action], .process-btn, .convert-btn').forEach(btn => {{
-        btn.addEventListener('click', () => {{
-            trackEvent('tool_used', {{
-                action: btn.dataset.action || btn.textContent.trim(),
-                button_text: btn.textContent.trim()
-            }});
-        }});
-    }});
-
-    // Track errors
-    window.addEventListener('error', (e) => {{
-        trackEvent('javascript_error', {{
-            error_message: e.message,
-            error_filename: e.filename,
-            error_line: e.lineno,
-            error_column: e.colno
-        }});
-    }});
-
-    // Track performance metrics
-    window.addEventListener('load', () => {{
-        setTimeout(() => {{
-            const perfData = performance.getEntriesByType('navigation')[0];
-            if (perfData) {{
-                trackEvent('page_performance', {{
-                    load_time: Math.round(perfData.loadEventEnd - perfData.fetchStart),
-                    dom_content_loaded: Math.round(perfData.domContentLoadedEventEnd - perfData.fetchStart),
-                    first_paint: Math.round(performance.getEntriesByType('paint')[0]?.startTime || 0)
-                }});
-            }}
-        }}, 1000);
-    }});
-}});
-
-// Track engagement metrics
-let engagementStartTime = Date.now();
-let isEngaged = true;
-
-// Track when user becomes inactive
-document.addEventListener('visibilitychange', () => {{
-    if (document.hidden) {{
-        if (isEngaged) {{
-            const engagementTime = Date.now() - engagementStartTime;
-            trackEvent('engagement_session', {{
-                duration_seconds: Math.round(engagementTime / 1000),
-                session_type: 'active'
-            }});
-            isEngaged = false;
-        }}
-    }} else {{
-        engagementStartTime = Date.now();
-        isEngaged = true;
-    }}
-}});
-
-// Track before page unload
-window.addEventListener('beforeunload', () => {{
-    if (isEngaged) {{
-        const engagementTime = Date.now() - engagementStartTime;
-        trackEvent('engagement_session', {{
-            duration_seconds: Math.round(engagementTime / 1000),
-            session_type: 'final'
-        }});
-    }}
-}});
-</script>
-"""
 
 
 # =============================================================================
 # ENHANCED HTML INJECTION SYSTEM
 # =============================================================================
 
-def inject_all_enhancements(html_content: str, schema_html: str, universal_script: str) -> str:
+def inject_all_enhancements(html_content: str, schema_html: str, tool: dict) -> str:
     """
     Inject all enhancements into HTML content using the universal config system.
 
     Order:
     1. Schema and meta tags in <head>
-    2. Universal config integration (replaces separate tracking/AB testing)
-    3. Service Worker registration before </body>
+    2. Universal config injection (minimal JS)
+    3. PWA Service Worker registration
     """
     enhanced_html = html_content
+    project_name = tool["name"]
+    title = tool.get("title", project_name)
+    category = tool.get("category", "Utilities")
 
-    # 1. Inject schema and manifest in <head>
+    # 1. Inject schema, manifest, and Universal Core in <head>
     if "</head>" in enhanced_html:
-        head_injection = f"{schema_html}\n<link rel=\"manifest\" href=\"manifest.json\">\n"
+        head_injection = f"""
+{schema_html}
+<link rel="manifest" href="manifest.json">
+<script type="module" src="{CENTRAL_HUB}/universal/core.js"></script>
+"""
         enhanced_html = enhanced_html.replace("</head>", f"{head_injection}</head>")
 
-    # 2. Inject Universal integration and SW registration before </body>
-    sw_script = f"""
+    # 2. Inject Universal Config and SW registration before </body>
+    # We only inject the CONFIG object. Logic is handled by universal/core.js and modules.
+    universal_injection = f"""
+<script>
+window.SITE_CONFIG = window.SITE_CONFIG || {{}};
+window.SITE_CONFIG.project = {{
+    name: '{project_name}',
+    title: '{title}',
+    category: '{category}',
+    timestamp: new Date().toISOString()
+}};
+</script>
 <script>
 if ('serviceWorker' in navigator) {{
   window.addEventListener('load', () => {{
@@ -1793,8 +1080,7 @@ if ('serviceWorker' in navigator) {{
 """
 
     if "</body>" in enhanced_html:
-        body_injection = f"{universal_script}\n{sw_script}\n"
-        enhanced_html = enhanced_html.replace("</body>", f"{body_injection}</body>")
+        enhanced_html = enhanced_html.replace("</body>", f"{universal_injection}\n</body>")
 
     return enhanced_html
 
@@ -1878,7 +1164,7 @@ def generate_tool_concurrent(tool: dict, ai: UnifiedAIClient, state: dict, searc
     main_html_content = generate_single_html(tool, ai, search_client)
 
     # Enhanced Universal Integration (replaces separate GrowthBook + tracking)
-    universal_script = generate_universal_integration(tool["name"])
+    # universal_script generation removed - handled by inject_all_enhancements via tool dict
 
     # Generate SEO Schema
     schema_html = generate_software_schema(
@@ -1893,7 +1179,7 @@ def generate_tool_concurrent(tool: dict, ai: UnifiedAIClient, state: dict, searc
     enhanced_html = inject_all_enhancements(
         main_html_content,
         schema_html,
-        universal_script
+        tool
     )
 
     files = {
