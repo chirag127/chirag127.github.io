@@ -5,23 +5,34 @@
  */
 
 export const ads_text = {
-    // SAFE - Only display contextual ads, don't modify links
-    // Infolinks
-    // Feature: In-Fold, In-Text ads
-    // Requirement: 1000 pageviews/month
-    infolinks: { publisherId: '', websiteId: '', enabled: false },  // Enable when needed
+    // ============================================================================
+    // INFOLINKS - Contextual Text Ads
+    // ============================================================================
+    // Description:
+    // Turn keywords in your text into ad links.
+    //
+    // Requirements:
+    // - ~1000 Pageviews/month normally required.
+    // - Content must be text-heavy.
+    //
+    // Payout:
+    // - Min $50 (PayPal).
+    //
+    infolinks: { publisherId: '', websiteId: '', enabled: false },
 
-    // Media.net
-    // Feature: Yahoo/Bing contextual ads (AdSense alternative)
-    // Requirement: High traffic from US/UK/CA
-    mediaNet: { siteId: '', enabled: false },  // Yahoo/Bing network
+    // ============================================================================
+    // MEDIA.NET - The Yahoo/Bing Alternative
+    // ============================================================================
+    // Description:
+    // High quality contextual ads.
+    //
+    // Requirements:
+    // - High Traffic (Major portion from US/UK/Canada).
+    // - English content only.
+    //
+    mediaNet: { siteId: '', enabled: false }
 
-    // ⛔ LINK HIJACKERS - PERMANENTLY DISABLED
-    // These services automatically convert ALL your links to affiliate links
-    // This includes navigation links, social links, and legitimate non-affiliate content
-    viglink: { key: '', enabled: false, _warning: 'LINK HIJACKER - Modifies all links' },
-    skimlinks: { publisherId: '', enabled: false, _warning: 'LINK HIJACKER - Modifies all links' }
+    // Removed: VigLink / Skimlinks (Link Hijackers) per user instruction to prioritize UX.
 };
 
 export const ads_text_priority = ['infolinks', 'mediaNet'];
-// Never add viglink/skimlinks to priority - they hijack links

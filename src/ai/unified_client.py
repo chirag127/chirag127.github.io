@@ -253,6 +253,58 @@ class UnifiedAIClient:
             error=f"All models failed. Last error: {last_error}",
         )
 
+    def generate_with_tier(
+        self,
+        prompt: str,
+        system_prompt: str = "",
+        max_tokens: int = 4096,
+        temperature: float = 0.7,
+        start_tier: int = 0,
+    ) -> CompletionResult:
+        """
+        Generate text completion starting from a specific tier (index) in the model chain.
+        Useful for saving the largest models for critical tasks.
+        """
+        available_models = [
+            m for m in self.model_chain
+            if self._is_model_available(m)
+        ]
+
+        # Apply tier offset (skip top N models)
+        if start_tier > 0 and start_tier < len(available_models):
+            available_models = available_models[start_tier:]
+
+        if not available_models:
+            return CompletionResult(
+                success=False,
+                error="No AI models available for this tier. Check API keys or reduce start_tier.",
+            )
+
+        logger.info(f"[UnifiedClient] Tier {start_tier} generation, {len(available_models)} models available")
+
+        last_error = ""
+
+        for model in available_models:
+            result = self._call_model(
+                model=model,
+                prompt=prompt,
+                system_prompt=system_prompt,
+                max_tokens=max_tokens,
+                temperature=temperature,
+                json_mode=False,
+            )
+
+            if result.success:
+                return result
+
+            last_error = result.error or "Unknown error"
+            time.sleep(0.5)
+
+        return CompletionResult(
+            success=False,
+            error=f"All models failed. Last error: {last_error}",
+        )
+
     def generate_json(
         self,
         prompt: str,

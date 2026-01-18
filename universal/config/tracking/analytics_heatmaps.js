@@ -5,35 +5,47 @@
  */
 
 export const analytics_heatmaps = {
-    // BIG TECH - ENABLED (Microsoft, completely free)
+    // ============================================================================
+    // MICROSOFT CLARITY - The King of Free Heatmaps
+    // ============================================================================
+    // Description:
+    // Heatmaps, Scrollmaps, and Session Recordings.
+    //
+    // Free Limits:
+    // - 100% Free Forever.
+    // - No traffic limits.
+    // - No sampling.
+    //
+    // Best For:
+    // - EVERYONE. There is no better free option.
+    //
     clarity: { id: 'v1u8hhnpw2', enabled: true },
 
-    // ALTERNATIVES - Disabled (pick one if Clarity doesn't meet needs)
-    // ALTERNATIVES - Disabled (pick one if Clarity doesn't meet needs)
-    // Hotjar
-    // Feature: The original heatmap tool
-    // Free Limit: 35 daily sessions
-    hotjar: { siteId: '', enabled: false },  // Free tier limited
+    // ============================================================================
+    // HOTJAR - The Original (Limited Free Tier)
+    // ============================================================================
+    // Description:
+    // Heatmaps and Recordings + Surveys.
+    //
+    // Free Limits:
+    // - 35 daily sessions (Very low).
+    // - Unlimited heatmaps (but limited data within them).
+    //
+    // Best For:
+    // - Very small sites or specific studies.
+    //
+    hotjar: { siteId: '', enabled: false },
 
-    // Smartlook
-    // Feature: Mobile app recording support
-    // Free Limit: 3,000 sessions/month
-    smartlook: { projectKey: '', enabled: false },
-
-    // Lucky Orange
-    // Feature: Chat + Heatmaps
-    // Free Limit: 7 day trial (Paid)
-    luckyOrange: { siteId: '', enabled: false },
-
-    // Inspectlet
-    // Feature: Eye tracking heatmaps
-    // Free Limit: 2,500 sessions/month
-    inspectlet: { webId: '', enabled: false },
-
-    // CrazyEgg
-    // Feature: Snapshot testing
-    // Free Limit: 30 day trial
-    crazyegg: { accountNumber: '', enabled: false }  // Trial only
+    // ============================================================================
+    // SMARTLOOK - Mobile App Focus
+    // ============================================================================
+    // Description:
+    // Session recording for Websites & Mobile Apps.
+    //
+    // Free Limits:
+    // - 3,000 sessions/month.
+    //
+    smartlook: { projectKey: '', enabled: false }
 };
 
-export const analytics_heatmaps_priority = ['clarity', 'hotjar', 'smartlook', 'luckyOrange', 'inspectlet', 'crazyegg'];
+export const analytics_heatmaps_priority = ['clarity', 'hotjar'];

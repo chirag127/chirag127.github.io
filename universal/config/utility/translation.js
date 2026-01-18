@@ -5,15 +5,28 @@
  */
 
 export const translation = {
-    // Google Translate
-    // Feature: Simple drop-down widget
-    // Free Limit: 100% Free (Legacy Widget)
-    googleTranslate: { pageLanguage: 'en', enabled: true },  // Free, easy
+    // ============================================================================
+    // GOOGLE TRANSLATE - Simple Widget
+    // ============================================================================
+    // Description:
+    // Simple drop-down widget to translate the page.
+    //
+    // Limits:
+    // - 100% Free (Legacy Widget).
+    //
+    googleTranslate: { pageLanguage: 'en', enabled: true },
 
-    // Weglot
-    // Feature: SEO optimized translation (Subdomains)
-    // Free Limit: 2,000 translated words, 1 language
-    weglot: { apiKey: '', enabled: false }  // Better but paid
+    // ============================================================================
+    // WEGLOT - SEO Optimized
+    // ============================================================================
+    // Description:
+    // Creates translated versions of your site (subdomains) for SEO.
+    //
+    // Free Limits:
+    // - 2,000 translated words.
+    // - 1 translated language.
+    //
+    weglot: { apiKey: '', enabled: false }
 };
 
-export const translation_priority = ['googleTranslate'];
+export const translation_priority = ['googleTranslate', 'weglot'];

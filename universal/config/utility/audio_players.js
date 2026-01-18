@@ -5,15 +5,33 @@
  */
 
 export const audio_players = {
-    // SoundCloud
-    // Feature: Audio hosting & embedding
-    // Limit: Free uploads restricted
-    soundcloud: { enabled: true },  // Embed supported
+    // ============================================================================
+    // HOWLER.JS - The Audio Standard
+    // ============================================================================
+    // Description:
+    // Modern Web Audio library. Defaults to Web Audio API and falls back to HTML5 Audio.
+    //
+    // License:
+    // - MIT (100% Free).
+    //
+    howler: { enabled: true },
 
-    // Spotify
-    // Feature: Music streaming embeds
-    // Limit: 30s preview for non-logged users
+    // ============================================================================
+    // SOUNDCLOUD - Embeds
+    // ============================================================================
+    // Description:
+    // Audio hosting & embedding.
+    //
+    soundcloud: { enabled: true },
+
+    // ============================================================================
+    // SPOTIFY - Streaming Embeds
+    // ============================================================================
+    // Description:
+    // Music streaming embeds.
+    // Limits: 30s preview for non-logged users.
+    //
     spotify: { enabled: true }
 };
 
-export const audio_players_priority = ['spotify', 'soundcloud'];
+export const audio_players_priority = ['howler', 'spotify', 'soundcloud'];

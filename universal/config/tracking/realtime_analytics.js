@@ -4,15 +4,17 @@
  */
 
 export const realtime_analytics = {
-    // Clicky
-    // Feature: Real-time spy view
-    // Free Limit: 3,000 daily pageviews
-    clicky: { siteId: '', enabled: false },
-
-    // LiveSession
-    // Feature: High fidelity session replay
-    // Free Limit: 1,000 sessions/month
-    livesession: { trackId: '', enabled: false }
+    // ============================================================================
+    // CLICKY
+    // ============================================================================
+    // Description:
+    // Real-time "spy view" of visitors.
+    //
+    // Free Limits:
+    // - 3,000 Daily Pageviews.
+    // - 1 Website.
+    //
+    clicky: { siteId: '', enabled: false }
 };
 
 export const realtime_analytics_priority = ['clicky'];

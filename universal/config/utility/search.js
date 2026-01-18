@@ -5,15 +5,29 @@
  */
 
 export const search = {
-    // GOOGLE PROGRAMMABLE SEARCH - Free, reliable
-    // Feature: Uses Google's index of your site
-    // Free Limit: Unlimited (Ad-supported), or 100 queries/day (API)
+    // ============================================================================
+    // GOOGLE PROGRAMMABLE SEARCH (CSE)
+    // ============================================================================
+    // Description:
+    // Uses Google's index of your site.
+    //
+    // Free Limits:
+    // - Unlimited queries (Ad-supported version).
+    // - 100 queries/day (JSON API version without ads).
+    //
     googleSearch: { cx: '', enabled: true },
 
-    // Algolia
-    // Feature: Instant search-as-you-type, typo tolerance
-    // Free Limit: 10k records, 10k requests/month
-    algolia: { appId: '', searchKey: '', indexName: '', enabled: false }  // Needs setup
+    // ============================================================================
+    // ALGOLIA - Instant Search
+    // ============================================================================
+    // Description:
+    // Fast, typo-tolerant search-as-you-type.
+    //
+    // Free Limits:
+    // - 10,000 Records.
+    // - 10,000 requests/month.
+    //
+    algolia: { appId: '', searchKey: '', indexName: '', enabled: false }
 };
 
 export const search_priority = ['googleSearch', 'algolia'];

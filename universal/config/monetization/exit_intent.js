@@ -5,14 +5,37 @@
  */
 
 export const exit_intent = {
-    // Ouibounce
-    // Feature: Library to detect exit intent
-    // Cost: Open Source (Free)
-    ouibounce: { enabled: false },  // Library
+    // ============================================================================
+    // OUIBOUNCE - Open Source Freedom
+    // ============================================================================
+    // Description:
+    // A free, open-source JavaScript library to detect exit intent.
+    //
+    // Features:
+    // - 100% Free Forever.
+    // - Adjustable sensitivity.
+    // - Zero external dependencies.
+    //
+    // Best For:
+    // - Developers who can code their own modal/popup HTML/CSS.
+    //
+    ouibounce: { enabled: true },
 
-    // Poptin Exit
-    // Feature: Smart exit popup builder
-    // Cost: Free tier available
+    // ============================================================================
+    // POPTIN - Smart Popups
+    // ============================================================================
+    // Description:
+    // Zero-code popup builder with advanced exit intent triggers.
+    //
+    // Free Tier Limits:
+    // - 1,000 Visitors/month.
+    // - 1 Domain.
+    // - Unlimited Poptins (Popups).
+    // - Branding present on free tier.
+    //
+    // Best For:
+    // - Small sites wanting a polished, no-code solution.
+    //
     poptin_exit: { siteKey: '', enabled: false }
 };
 

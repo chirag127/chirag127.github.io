@@ -5,35 +5,28 @@
  */
 
 export const ads_pop = {
-    // ⚠️ ALL DISABLED - Pop-unders destroy user experience and SEO
-    // PopAds
-    // Feature: The biggest pop-under network
-    popads: { publisherId: '', enabled: false },
-
-    // PopCash
-    // Feature: Fast approval, reliable
-    popcash: { publisherId: '', enabled: false },
-
-    // Clickadu
-    // Feature: Multi-format ad network
-    clickadu: { siteId: '', enabled: false },
-
-    // AdMaven
-    // Feature: Aggressive monetization
-    admaven: { publisherId: '', enabled: false },
-
-    // ExoClick
-    // Feature: Adult/Lifestyle friendly
-    exoclick: { publisherId: '', zoneId: '', enabled: false },
-
-    // JuicyAds
-    // Feature: "Sexy" mainstream allowed
-    juicyads: { siteId: '', enabled: false },
-
-    // TrafficForce
-    // Feature: High volume traffic
-    trafficforce: { publisherId: '', enabled: false }
+    // ============================================================================
+    // POP-UNDER ADS - USE WITH CAUTION
+    // ============================================================================
+    // Description:
+    // Ads that open in a new window behind the main browser window.
+    //
+    // WARNING:
+    // - High revenue potential but VERY BAD for User Experience.
+    // - Can negatively impact SEO (Google "Intrusive Interstitials" penalty).
+    // - Chrome/Firefox often block these by default.
+    //
+    // Best "Generous Free Tier" Provider:
+    // - Adsterra (See ads_display.js).
+    //   Adsterra has no minimum traffic, pays well, and is reliable.
+    //
+    // Configs below are for specific networks if Adsterra is not enough.
+    //
+    popads: { publisherId: '', enabled: false, _warning: 'AGGRESSIVE FORMAT' },
+    popcash: { publisherId: '', enabled: false, _warning: 'AGGRESSIVE FORMAT' },
+    clickadu: { siteId: '', enabled: false, _warning: 'AGGRESSIVE FORMAT' }
 };
 
+export const ads_pop_priority = [];
+
 export const ads_pop_limits = { maxPopsPerDay: 0, daysBetweenPops: 7 };  // Effectively disabled
-export const ads_pop_priority = ['popads', 'popcash', 'clickadu', 'admaven', 'exoclick', 'juicyads', 'trafficforce'];

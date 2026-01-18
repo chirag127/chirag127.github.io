@@ -3,18 +3,31 @@
  * @module config/utility/video_players
  */
 export const video_players = {
-    // YouTube
-    // Feature: Infinite hosting, massive reach
-    // Limit: Ad supported
+    // ============================================================================
+    // YOUTUBE
+    // ============================================================================
+    // Description:
+    // Infinite hosting, massive reach.
+    //
     youtube: { enabled: true },
 
-    // Vimeo
-    // Feature: Clean, professional player
-    // Limit: Weekly upload limits on free
+    // ============================================================================
+    // VIMEO
+    // ============================================================================
+    // Description:
+    // Clean, professional player.
+    // Limits: Basic ("Free") plan has strict weekly upload limits.
+    //
     vimeo: { enabled: true },
 
-    // Wistia
-    // Feature: Marketing video hosting
-    // Limit: 3 videos on free plan
+    // ============================================================================
+    // WISTIA
+    // ============================================================================
+    // Description:
+    // Marketing video hosting.
+    // Free Limits: 3 videos / channel.
+    //
     wistia: { enabled: false }
 };
+
+export const video_players_priority = ['youtube', 'vimeo', 'wistia'];

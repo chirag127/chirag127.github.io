@@ -5,20 +5,39 @@
  */
 
 export const icons = {
-    // FontAwesome
-    // Feature: The web's most popular icon set
-    // Free Limit: Free CDN (Basic icons)
+    // ============================================================================
+    // FONTAWESOME - The Standard
+    // ============================================================================
+    // Description:
+    // The web's most popular icon set.
+    //
+    // Free Limits:
+    // - Free CDN usage (Basic Free icons).
+    // - Thousands of icons available.
+    //
     fontAwesome: { kitCode: '', cdnFallback: true, enabled: true },
 
-    // Ionicons
-    // Feature: Premium SVG icons for Ionic framework
-    // Free Limit: Open Source (Free)
-    ionicons: { enabled: false },
+    // ============================================================================
+    // GOOGLE MATERIAL ICONS
+    // ============================================================================
+    // Description:
+    // Clean, standardized Google look.
+    //
+    // Limits:
+    // - 100% Free (Open Source).
+    //
+    materialIcons: { enabled: true },
 
-    // Material Icons (Google)
-    // Feature: Clean, standardized Google look
-    // Free Limit: Open Source (Free)
-    materialIcons: { enabled: true }  // Google - pairs with Fonts
+    // ============================================================================
+    // IONICONS
+    // ============================================================================
+    // Description:
+    // Premium SVG icons for Ionic framework.
+    //
+    // Limits:
+    // - 100% Free (MIT).
+    //
+    ionicons: { enabled: false }
 };
 
-export const icons_priority = ['fontAwesome', 'materialIcons'];
+export const icons_priority = ['fontAwesome', 'materialIcons', 'ionicons'];

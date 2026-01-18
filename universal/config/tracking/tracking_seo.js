@@ -5,30 +5,54 @@
  */
 
 export const tracking_seo = {
-    // ALL MAJOR SEARCH ENGINES ENABLED
-    // Google Search Console
-    // Feature: Essential for Google indexing
-    // Free Limit: Unlimited
+    // ============================================================================
+    // GOOGLE SEARCH CONSOLE
+    // ============================================================================
+    // Description:
+    // The most critical SEO tool. Monitor indexing, performance, and issues on Google.
+    //
+    // Limits:
+    // - 100% Free.
+    //
     googleSearchConsole: { verificationTag: '', enabled: true },
 
-    // Bing Webmaster Tools
-    // Feature: Essential for Bing/Yahoo/DuckDuckGo
-    // Free Limit: Unlimited
+    // ============================================================================
+    // BING WEBMASTER TOOLS
+    // ============================================================================
+    // Description:
+    // Essential for Bing, Yahoo, and DuckDuckGo visibility.
+    //
+    // Limits:
+    // - 100% Free.
+    //
     bingWebmaster: { verificationTag: '', enabled: true },
 
-    // Yandex Webmaster
-    // Feature: Essential for Russia/Eastern Europe
-    // Free Limit: Unlimited
+    // ============================================================================
+    // YANDEX WEBMASTER
+    // ============================================================================
+    // Description:
+    // Essential for Russia, Turkey, and Eastern Europe traffic.
+    //
+    // Limits:
+    // - 100% Free.
+    //
     yandexWebmaster: { verificationTag: '', enabled: true },
 
-    // ADDITIONAL VISIBILITY
-    // Pinterest
-    // Feature: Verification for Rich Pins
-    pinterest: { verificationTag: '', enabled: true },  // Image SEO
+    // ============================================================================
+    // PINTEREST VERIFICATION
+    // ============================================================================
+    // Description:
+    // Verifies website for Pinterest "Rich Pins" (Image SEO).
+    //
+    pinterest: { verificationTag: '', enabled: true },
 
-    // Baidu
-    // Feature: Essential for China
-    baidu: { verificationTag: '', enabled: false }  // China only
+    // ============================================================================
+    // BAIDU
+    // ============================================================================
+    // Description:
+    // Essential for China.
+    //
+    baidu: { verificationTag: '', enabled: false }
 };
 
 export const tracking_seo_priority = ['googleSearchConsole', 'bingWebmaster', 'yandexWebmaster', 'pinterest'];

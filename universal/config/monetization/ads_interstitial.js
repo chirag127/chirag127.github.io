@@ -5,22 +5,23 @@
  */
 
 export const ads_interstitial = {
-    // All disabled - very aggressive format
-    // Adsterra Interstitial
-    // Feature: High CPM, frequency capped
-    // Aggression: High
-    adsterra_interstitial: { zoneId: '', enabled: false },
-
-    // Monetag Vignette
-    // Feature: Google-compliant interstitial styling
-    // Aggression: Medium
-    monetag_vignette: { zoneId: '', enabled: false },
-
-    // Infolinks
-    // Feature: "InScreen" ads between page views
-    // Aggression: Low
-    infolinks_inscreen: { publisherId: '', enabled: false }
+    // ============================================================================
+    // INTERSTITIALS / VIGNETTES
+    // ============================================================================
+    // Description:
+    // Full screen ads that appear between page loads.
+    //
+    // Best Provider (Generous & Compliant):
+    // - Google AdSense (Vignette Ads): Automatically handles frequency capping and UX.
+    //   Enable "Auto Ads" in ads_display.js for this.
+    //
+    // Alternatives:
+    //
+    adsterra_interstitial: { zoneId: '', enabled: false }, // High CPM, typically safe.
+    infolinks_inscreen: { publisherId: '', enabled: false } // "InScreen" format.
 };
 
-export const ads_interstitial_priority = ['infolinks_inscreen', 'monetag_vignette', 'adsterra_interstitial'];  // Ordered by least aggressive
+export const ads_interstitial_priority = ['adsterra_interstitial', 'infolinks_inscreen'];
+
+
 export const ads_interstitial_frequency = { maxPerSession: 1, secondsBetween: 300 };

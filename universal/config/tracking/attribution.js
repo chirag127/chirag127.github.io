@@ -5,15 +5,28 @@
  */
 
 export const attribution = {
-    // Branch.io
-    // Feature: Deep linking for mobile apps
-    // Free Limit: 10,000 MAUs (Launch Plan)
-    branch: { key: '', enabled: false },  // Deep linking
+    // ============================================================================
+    // BRANCH.IO
+    // ============================================================================
+    // Description:
+    // Deep linking and attribution for mobile apps.
+    //
+    // Free Limits:
+    // - 10,000 MAUs (Launch Plan).
+    // - Deep linking is free.
+    //
+    branch: { key: '', enabled: false },
 
-    // AppsFlyer
-    // Feature: Marketing attribution
-    // Free Limit: 12,000 conversions (Zero Plan)
-    appsflyer: { devKey: '', enabled: false }  // App attribution
+    // ============================================================================
+    // APPSFLYER
+    // ============================================================================
+    // Description:
+    // Marketing attribution for apps.
+    //
+    // Free Limits:
+    // - 12,000 conversions (Zero Plan).
+    //
+    appsflyer: { devKey: '', enabled: false }
 };
 
-export const attribution_priority = ['branch'];
+export const attribution_priority = ['branch', 'appsflyer'];

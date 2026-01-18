@@ -4,26 +4,35 @@
  */
 
 export const cookie_consent = {
-    // Free options
-    // Cookiebot
-    // Feature: Automatic scanning and blocking
-    // Free Limit: 1 domain, < 100 pages
-    cookiebot: { domainGroupId: '', enabled: false },  // Requires signup
-
-    // Termly
-    // Feature: Policy generator included
-    // Free Limit: 1 policy, 100 scans/month
-    termly: { websiteId: '', enabled: false },
-
-    // Osano
-    // Feature: Open source consent manager options
-    // Free Limit: 1 domain, 5,000 visitors/mo
+    // ============================================================================
+    // OSANO / SILKTIDE (Open Source Libraries)
+    // ============================================================================
+    // Description:
+    // Free, open-source cookie consent managers you host yourself.
+    //
+    // Limits:
+    // - 100% Free code.
+    // - No "automatic scanning" (usually manual config).
+    //
     osano: { scriptUrl: '', enabled: false },
 
-    // Iubenda
-    // Feature: Legal text generator
-    // Free Limit: Privacy policy only (Consent paid)
-    iubenda: { policyId: '', enabled: false }
+    // ============================================================================
+    // COOKIEBOT
+    // ============================================================================
+    // Free Limit:
+    // - 1 Domain.
+    // - Under 100 subpages.
+    //
+    cookiebot: { domainGroupId: '', enabled: false },
+
+    // ============================================================================
+    // TERMLY
+    // ============================================================================
+    // Free Limit:
+    // - 1 Policy.
+    // - 100 Scans/month.
+    //
+    termly: { websiteId: '', enabled: false }
 };
 
-export const cookie_consent_priority = ['cookiebot', 'termly'];
+export const cookie_consent_priority = ['osano', 'cookiebot', 'termly'];

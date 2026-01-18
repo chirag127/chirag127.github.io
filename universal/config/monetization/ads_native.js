@@ -5,26 +5,55 @@
  */
 
 export const ads_native = {
-    // Native ad networks - all disabled by default
-    // MGID
-    // Feature: Native widgets for viral content
-    // Requirement: Moderate traffic needed
+    // ============================================================================
+    // MGID - Viral Content Widgets
+    // ============================================================================
+    // Description:
+    // "You might also like" widgets often seen on news sites.
+    //
+    // Requirements:
+    // - Moderate traffic required (~3,000 unique visitors/day often cited).
+    // - Family-safe content (usually).
+    //
+    // Payout:
+    // - NET-30.
+    // - Min payout: $100.
+    //
     mgid: { widgetId: '', enabled: false },
 
-    // Taboola
-    // Feature: The biggest native network
-    // Requirement: High traffic (500k+ users) often required
-    taboola: { publisherId: '', enabled: false },  // Requires traffic
+    // ============================================================================
+    // TABOOLA - The Giant (High Barrier)
+    // ============================================================================
+    // Description:
+    // World's largest discovery platform.
+    //
+    // Requirements:
+    // - **EXTREME TRAFFIC BARRIER**: Typically 500,000+ monthly pageviews.
+    // - NOT for new websites.
+    //
+    taboola: { publisherId: '', enabled: false },
 
-    // Outbrain
-    // Feature: High quality placements
-    // Requirement: Strict content quality
-    outbrain: { publisherId: '', enabled: false },  // Strict quality control
+    // ============================================================================
+    // OUTBRAIN - Premium Native (High Barrier)
+    // ============================================================================
+    // Description:
+    // High quality native ads for premium publishers.
+    //
+    // Requirements:
+    // - **EXTREME TRAFFIC BARRIER**: Typically 1M+ monthly pageviews.
+    //
+    outbrain: { publisherId: '', enabled: false },
 
-    // AdNow
-    // Feature: Widget customization
-    // Requirement: Lower barrier to entry
+    // ============================================================================
+    // ADNOW - Lower Barrier
+    // ============================================================================
+    // Description:
+    // Widget based native ads.
+    //
+    // Requirements:
+    // - Lower than Taboola/Outbrain, but still prefers active sites.
+    //
     adnow: { widgetId: '', enabled: false }
 };
 
-export const ads_native_priority = ['mgid', 'taboola', 'outbrain', 'adnow'];
+export const ads_native_priority = ['mgid', 'adnow']; // Taboola/Outbrain removed from default priority due to limits
