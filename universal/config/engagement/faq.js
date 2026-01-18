@@ -6,13 +6,8 @@
 export const faq = {
     // Help Scout
     // Feature: Clean, beautiful Beacon widget
-    // Free Limit: 15 day trial only (Paid tool)
-    helpscout: { beaconId: '', enabled: false },
-
-    // Document360
-    // Feature: Enterprise grade knowledge base
-    // Free Limit: Paid only
-    document360: { projectId: '', enabled: false }
+    // Free Limit: 1 mailbox, 5 users, 100 contacts/month (Generous Basic Plan)
+    helpscout: { beaconId: '', enabled: false }
 };
 
-export const faq_priority = ['helpscout', 'document360'];
+export const faq_priority = ['helpscout'];

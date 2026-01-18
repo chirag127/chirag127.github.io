@@ -7,8 +7,8 @@
 export const popups = {
     // Sumo
     // Feature: Powerful popups and welcome mats
-    // Free Limit: Basic tools free (Branded)
-    sumo: { siteId: '', enabled: false },  // Heavy
+    // Free Limit: 10,000 emails/month (Generous)
+    sumo: { siteId: '', enabled: true },  // Heavy
 
     // HelloBar
     // Feature: High converting sticky bars
@@ -21,4 +21,4 @@ export const popups = {
     poptin: { siteKey: '', enabled: false }
 };
 
-export const popups_priority = ['poptin', 'sumo'];
+export const popups_priority = ['sumo', 'hellobar', 'poptin'];

@@ -5,31 +5,100 @@
  */
 
 export const donation_fiat = {
-    // ALL ENABLED - Non-intrusive, shows you care about community
-    // BuyMeACoffee
-    // Feature: Friendly, social donation widget
-    // Fees: 5% transaction fee (Free Standard)
-    buymeacoffee: { username: 'chirag127', enabled: true },  // YOUR USERNAME
+    // ============================================================================
+    // BUY ME A COFFEE - The Creator Favorite
+    // ============================================================================
+    // Description:
+    // A friendly, simple way for fans to support you.
+    // Replaces the "Donate" button with something more personal.
+    //
+    // Key Features:
+    // - One-off donations ("coffees").
+    // - Memberships (recurring monthly/yearly support).
+    // - "Extras" (Sell digital downloads or services).
+    // - No account needed for supporters (Guest checkout).
+    // - Instant payout options.
+    //
+    // Fees & Limits:
+    // - Platform Fee: 5% flat fee on all income.
+    // - Processor Fee: Standard Stripe/PayPal fees (~2.9% + $0.30).
+    // - No monthly fee for you.
+    //
+    // Best For:
+    // - Creators, artists, developers, writers.
+    // - Casual support without feeling like "begging".
+    //
+    buymeacoffee: { username: 'chirag127', enabled: true },
 
-    // Ko-fi
-    // Feature: 0% fee on donations (Direct to PayPal/Stripe)
-    // Free Limit: Free Gold features with Monthly Subs
+    // ============================================================================
+    // KO-FI - 0% Fee Donations
+    // ============================================================================
+    // Description:
+    // Similar to BuyMeACoffee but focuses on keeping more of your money.
+    // "Gold" plan available but the free version is extremely powerful.
+    //
+    // Key Features:
+    // - 0% Platform Fee on Donations (You keep 100% of the tip!).
+    // - Ko-fi Shop (Sell physical/digital items) - 5% fee on free plan.
+    // - Commissions (Take custom orders) - 5% fee on free plan.
+    // - Memberships (Recurring support) - 5% fee on free plan.
+    // - Gallery to showcase work.
+    //
+    // Fees & Limits:
+    // - Donations: 0% Platform Fee (Free Plan).
+    // - Shop/Commissions/Memberships: 5% Platform Fee (Free Plan) or 0% (Gold Plan @ $6/mo).
+    // - Processor Fee: Standard PayPal/Stripe fees apply.
+    //
+    // Best For:
+    // - Artists and creators wanting maximum donation revenue.
+    //
     kofi: { username: '', enabled: true },
 
-    // PayPal
-    // Feature: The global standard
-    // Fees: Standard transaction fees applied
+    // ============================================================================
+    // GITHUB SPONSORS - For Developers
+    // ============================================================================
+    // Description:
+    // The native way to support developers on GitHub.
+    //
+    // Key Features:
+    // - ZERO FEES: GitHub covers all processing fees for individual accounts!
+    // - Displays a "Sponsor" button on your repositories.
+    // - Tiers and rewards system.
+    //
+    // Fees & Limits:
+    // - 0% Platform Fee.
+    // - 0% Processor Fee (GitHub pays this!).
+    // - 100% of the money goes to you (Best deal in the industry).
+    // - Requires application and approval.
+    //
+    // Best For:
+    // - Open source developers and maintainers.
+    //
+    github_sponsors: { username: 'chirag127', enabled: true },
+
+    // ============================================================================
+    // PAYPAL - The Standard (Fallback)
+    // ============================================================================
+    // Description:
+    // Direct link to pay via PayPal.
+    //
+    // Fees:
+    // - Standard commercial transaction fees (~2.9% + $0.30 for domestic).
+    // - International fees are higher.
+    //
     paypal: { buttonId: '', enabled: false },
 
-    // Liberapay
-    // Feature: Recurrent donations, Open Source funded
-    // Fees: 0% platform fee coverage model
-    liberapay: { username: '', enabled: false },
-
-    // GitHub Sponsors
-    // Feature: Zero fees for individuals!
-    // Free Limit: Best for dev projects
-    github_sponsors: { username: 'chirag127', enabled: true }  // GitHub integration
+    // ============================================================================
+    // LIBERAPAY - Recurrent Open Source Funding
+    // ============================================================================
+    // Description:
+    // A non-profit platform for recurrent donations.
+    //
+    // Fees:
+    // - 0% Platform Fee (Funded by donations to Liberapay itself).
+    // - You pay processor fees.
+    //
+    liberapay: { username: '', enabled: false }
 };
 
 export const donation_fiat_priority = ['buymeacoffee', 'kofi', 'github_sponsors'];

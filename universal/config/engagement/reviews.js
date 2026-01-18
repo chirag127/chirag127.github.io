@@ -6,19 +6,19 @@
 
 export const reviews = {
     // Trustpilot
-    // Feature: High trust signal, automated invites
-    // Free Limit: 100 invites/month, Review Box widget
-    trustpilot: { businessUnitId: '', enabled: true },
+    // Feature: The most trusted review platform
+    // Free Limit: 50 review invitations/month
+    trustpilot: { businessId: '', enabled: true },
 
-    // Google Reviews (via Elfsight/Widget)
-    // Feature: Displays your G-Business reviews
-    // Free Limit: Managed by Elfsight (200 views) or Free API
-    googleReviews: { placeId: '', enabled: true },  // Via Elfsight
+    // Google Reviews (via Widget)
+    // Feature: Embed Google Maps reviews
+    // Free Limit: Depends on widget provider (e.g., Elfsight 200 views)
+    google_reviews: { placeId: '', enabled: false },
 
-    // Yelp Reviews
-    // Feature: Restaurant/Local service focus
-    // Free Limit: Embeds are free
-    yelpReviews: { businessId: '', enabled: false }
+    // Yelp Reviews (via Widget)
+    // Feature: Embed Yelp reviews
+    // Free Limit: Depends on widget provider
+    yelp_reviews: { businessId: '', enabled: false }
 };
 
-export const reviews_priority = ['trustpilot', 'googleReviews', 'yelpReviews'];
+export const reviews_priority = ['trustpilot', 'google_reviews'];

@@ -3,25 +3,25 @@
  * @module config/engagement/email_capture
  */
 export const email_capture = {
+    // ConvertKit
+    // Feature: Creator-focused, unlimited broadcasts
+    // Free Limit: 1,000 subscribers, unlimited emails
+    convertkit: { formId: '', enabled: true },
+
     // Mailchimp
     // Feature: Industry leader in email marketing
-    // Free Limit: 500 contacts, 1000 sends/month
-    mailchimp: { formAction: '', enabled: true },
+    // Free Limit: 250 contacts, 500 sends/month (Very restrictive)
+    mailchimp: { formAction: '', enabled: false },
 
     // Sumo - List Building Tools
     // Feature: Simple bars and popups
-    // Free Limit: Free basic email collection
-    sumo: { siteId: '', enabled: true },
+    // Free Limit: 10,000 emails/month (Generous for capture)
+    sumo: { siteId: '', enabled: false },
 
     // HelloBar
     // Feature: Top bars, sliders, modals
     // Free Limit: 5,000 views/month
-    hellobar: { scriptId: '', enabled: true },
-
-    // ConvertKit
-    // Feature: Creator-focused, simple automation
-    // Free Limit: 1,000 subscribers, unlimited broadcasts
-    convertkit: { formId: '', enabled: true }
+    hellobar: { scriptId: '', enabled: false }
 };
 
-export const email_capture_priority = ['mailchimp', 'sumo', 'hellobar', 'convertkit'];
+export const email_capture_priority = ['convertkit', 'sumo', 'mailchimp', 'hellobar'];

@@ -5,20 +5,21 @@
  */
 
 export const social_share = {
-    // AddThis (Oracle) - Legacy
-    // Feature: Comprehensive analytics & tools
-    // Free Limit: Free (End of Life - use caution)
-    addthis: { profileId: '', enabled: false },
-
     // AddToAny
-    // Feature: Lightweight, no tracking, vector icons
-    // Free Limit: 100% Free
-    addtoany: { enabled: true },
+    // Feature: Lightweight, SVG icons, no account needed
+    // Free Limit: 100% FREE (No limits found)
+    addtoany: { script: true, enabled: true },
 
     // ShareThis
-    // Feature: Sticky bars, inline, image sharing
-    // Free Limit: Free (Data collection model)
-    sharethis: { propertyId: '', enabled: false }
+    // Feature: Analytics dashboard and sticky bars
+    // Free Limit: 100% FREE (Data collection model)
+    sharethis: { propertyId: '', enabled: false },
+
+    // AddThis
+    // Feature: WAS popular sharing tool
+    // Free Limit: TERMINATED / EOL (Service shut down May 2023)
+    // WARNING: EOL / SHUT DOWN
+    addthis: { pubId: '', enabled: false }
 };
 
-export const social_share_priority = ['addtoany'];
+export const social_share_priority = ['addtoany', 'sharethis', 'addthis'];

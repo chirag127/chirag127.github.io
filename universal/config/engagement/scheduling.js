@@ -4,15 +4,15 @@
  */
 
 export const scheduling = {
-    // Calendly
-    // Feature: The scheduling standard, very reliable
-    // Free Limit: 1 Event Type, unlimited meetings
-    calendly: { username: '', enabled: true },
-
     // Cal.com
     // Feature: Open source, developer friendly
     // Free Limit: Unlimited event types for individuals (Generous)
-    calcom: { username: '', enabled: false }
+    calcom: { username: '', enabled: true },
+
+    // Calendly
+    // Feature: The scheduling standard, very reliable
+    // Free Limit: 1 Event Type, unlimited meetings
+    calendly: { username: '', enabled: false }
 };
 
-export const scheduling_priority = ['calendly', 'calcom'];
+export const scheduling_priority = ['calcom', 'calendly'];
