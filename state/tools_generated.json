@@ -2,7 +2,8 @@
   "generated": [
     "text-case-converter",
     "word-counter",
-    "character-counter"
+    "character-counter",
+    "line-counter"
   ],
   "failed": [],
   "metadata_cache": {

@@ -338,10 +338,10 @@ def research_tool(name: str, search_client: WebSearchClient) -> dict:
         return research
 
     try:
-        # 1. Start with Implementation Resources (Free/APIs)
+        # 1. Start with Implementation Resources (Free/APIs) - Get more results
         logger.info(f"  📚 Searching free implementation resources for: {topic}")
-        # Strictly search for free resources/APIs as requested
-        lib_results = search_client.search(f"how to implement {topic} javascript free open source library api", limit=3)
+        # Search for more comprehensive results
+        lib_results = search_client.search(f"how to implement {topic} javascript free open source library api", limit=10)
         if lib_results:
             research['libraries'] = [
                 {'title': r.title, 'url': r.url, 'content': r.description[:200]}
@@ -351,9 +351,9 @@ def research_tool(name: str, search_client: WebSearchClient) -> dict:
         else:
             logger.warning(f"  ⚠️ No library results")
 
-        # 2. Search for Advanced Core Extensions
+        # 2. Search for Advanced Core Extensions - Get more results
         logger.info(f"  ⭐ Searching advanced core extensions for: {topic}")
-        feature_results = search_client.search(f"advanced {topic} algorithms implementation javascript free", limit=3)
+        feature_results = search_client.search(f"advanced {topic} algorithms implementation javascript free", limit=10)
         if feature_results:
             research['features'] = [
                 {'title': r.title, 'content': r.description[:300]}
@@ -363,10 +363,35 @@ def research_tool(name: str, search_client: WebSearchClient) -> dict:
         else:
             logger.warning(f"  ⚠️ No feature results")
 
+        # 3. Search for Best Practices and Examples - Additional search
+        logger.info(f"  🔧 Searching best practices for: {topic}")
+        practice_results = search_client.search(f"{topic} best practices examples tutorial javascript", limit=8)
+        if practice_results:
+            research['best_practices'] = [
+                {'title': r.title, 'content': r.description[:250]}
+                for r in practice_results
+            ]
+            logger.info(f"  ✅ Found {len(research['best_practices'])} practice sources")
+        else:
+            logger.warning(f"  ⚠️ No practice results")
+
+        # 4. Search for Existing Tools and Competitors - Market research
+        logger.info(f"  🏆 Searching competitor analysis for: {topic}")
+        competitor_results = search_client.search(f"online {topic} tool free website", limit=5)
+        if competitor_results:
+            research['examples'] = [
+                {'title': r.title, 'url': r.url, 'content': r.description[:200]}
+                for r in competitor_results
+            ]
+            logger.info(f"  ✅ Found {len(research['examples'])} competitor examples")
+        else:
+            logger.warning(f"  ⚠️ No competitor results")
+
         research['search_successful'] = True
 
     except Exception as e:
         logger.error(f"  ❌ Research failed: {e}")
+        # Continue with empty research - the system will use fallback prompts
 
     return research
 
@@ -380,17 +405,21 @@ def format_research_context(research: dict) -> str:
 
     # Include discovered features first (most important)
     if research.get('features'):
-        feature_text = "\n".join([f"  - {f['content'][:150]}..." for f in research['features'][:3] if f.get('content')])
+        feature_text = "\n".join([f"  - {f['content'][:150]}..." for f in research['features'][:5] if f.get('content')])
         if feature_text:
             context_parts.append(f"COMPETITOR FEATURES (implement these):\n{feature_text}")
 
     if research.get('libraries'):
-        libs = "\n".join([f"  - {l['title']}: {l['url']}" for l in research['libraries'][:3]])
+        libs = "\n".join([f"  - {l['title']}: {l['url']}" for l in research['libraries'][:5]])
         context_parts.append(f"RECOMMENDED LIBRARIES:\n{libs}")
 
     if research.get('best_practices'):
-        practices = "\n".join([f"  - {p['title']}" for p in research['best_practices'][:3]])
+        practices = "\n".join([f"  - {p['title']}: {p['content'][:100]}..." for p in research['best_practices'][:5]])
         context_parts.append(f"IMPLEMENTATION GUIDES:\n{practices}")
+
+    if research.get('examples'):
+        examples = "\n".join([f"  - {e['title']}: {e['url']}" for e in research['examples'][:3]])
+        context_parts.append(f"COMPETITOR EXAMPLES:\n{examples}")
 
     return "\n\n".join(context_parts) if context_parts else "Use common JavaScript libraries."
 
@@ -444,11 +473,11 @@ Your output should be the EXACT PROMPT string I will paste to the coding AI.
 Start with "Role: Expert..." and end with "...implementation."
 """
 
-    # Use tier 4 (4th largest model) to reserve largest for main generation
+    # Use tier 4 (smaller models) to reserve largest for main generation
     result = ai.generate_with_tier(
         prompt=meta_prompt,
         max_tokens=2000,
-        start_tier=1  # Use Tier 2 models (300B-400B range) as requested
+        start_tier=4  # Use Tier 4+ models (100B-200B range) to save largest for main generation
     )
 
     if result.success:
@@ -573,7 +602,7 @@ REQUIREMENTS:
         prompt=prompt,
         system_prompt=agents_context,
         max_tokens=32000,  # Large buffer for complete single file
-        min_model_size=200,  # Use 200B+ models (God-class preferred)
+        min_model_size=400,  # Use 400B+ models (Tier 1 - largest available)
         temperature=0.7
     )
 

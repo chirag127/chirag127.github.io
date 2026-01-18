@@ -17,6 +17,7 @@ Providers:
 import logging
 import os
 import requests
+import time
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass, field
 
@@ -123,16 +124,18 @@ class WebSearchClient:
         self,
         query: str,
         limit: int = 10,
-        backend: str = "auto"
+        backend: str = "auto",
+        max_retries: int = 3
     ) -> List[SearchResult]:
         """
-        Perform web search using available providers in priority order.
+        Perform web search using available providers in priority order with retry logic.
 
         Args:
             query: Search query string
             limit: Maximum number of results to return
             backend: DDGS backend(s) - "auto", or specific backends like
                      "bing,google,duckduckgo" (comma-separated)
+            max_retries: Maximum number of retry attempts for failed searches
 
         Returns:
             List of SearchResult objects
@@ -141,38 +144,53 @@ class WebSearchClient:
 
         # Priority 1: Tavily (Best for RAG/AI)
         if self.tavily_key:
-            try:
-                results = self._search_tavily(query, limit)
-                if results:
-                    return results
-            except Exception as e:
-                logger.warning(f"Tavily search failed: {e}")
+            for attempt in range(max_retries):
+                try:
+                    results = self._search_tavily(query, limit)
+                    if results:
+                        return results
+                except Exception as e:
+                    logger.warning(f"Tavily search attempt {attempt + 1} failed: {e}")
+                    if attempt < max_retries - 1:
+                        time.sleep(1)
 
         # Priority 2: Exa (Good for semantic search)
         if self.exa_key:
-            try:
-                results = self._search_exa(query, limit)
-                if results:
-                    return results
-            except Exception as e:
-                logger.warning(f"Exa search failed: {e}")
+            for attempt in range(max_retries):
+                try:
+                    results = self._search_exa(query, limit)
+                    if results:
+                        return results
+                except Exception as e:
+                    logger.warning(f"Exa search attempt {attempt + 1} failed: {e}")
+                    if attempt < max_retries - 1:
+                        time.sleep(1)
 
         # Priority 3: Brave (Good for general web)
         if self.brave_key:
+            for attempt in range(max_retries):
+                try:
+                    results = self._search_brave(query, limit)
+                    if results:
+                        return results
+                except Exception as e:
+                    logger.warning(f"Brave search attempt {attempt + 1} failed: {e}")
+                    if attempt < max_retries - 1:
+                        time.sleep(1)
+
+        # Priority 4: DDGS Metasearch (Fallback with multi-backend support and retry)
+        for attempt in range(max_retries):
             try:
-                results = self._search_brave(query, limit)
+                results = self._search_ddgs_text(query, limit, backend=backend)
                 if results:
                     return results
             except Exception as e:
-                logger.warning(f"Brave search failed: {e}")
-
-        # Priority 4: DDGS Metasearch (Fallback with multi-backend support)
-        try:
-            results = self._search_ddgs_text(query, limit, backend=backend)
-            if results:
-                return results
-        except Exception as e:
-            logger.warning(f"DDGS text search failed: {e}")
+                logger.warning(f"DDGS text search attempt {attempt + 1} failed: {e}")
+                if attempt < max_retries - 1:
+                    # Try different backends on retry
+                    if backend == "auto":
+                        backend = "bing,duckduckgo,google"  # Skip problematic backends
+                    time.sleep(2)
 
         return []
 
