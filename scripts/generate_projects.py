@@ -1156,42 +1156,64 @@ async function initializeTracking() {{
     // Initialize other analytics platforms using existing config...
 }}
 
-// Initialize A/B Testing using existing GrowthBook config
+// Initialize A/B Testing using existing GrowthBook config and auto-loading script
 async function initializeABTesting() {{
     const {{ engagement }} = SITE_CONFIG;
     const gbConfig = engagement.ab_testing.growthbook;
 
     if (!gbConfig.enabled) return;
 
-    // Load GrowthBook SDK
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/@growthbook/growthbook@latest/dist/bundles/auto.min.js';
-    document.head.appendChild(script);
+    // Wait for GrowthBook auto-loading script to be ready
+    const waitForGrowthBook = () => {{
+        return new Promise((resolve) => {{
+            if (window.growthbook) {{
+                resolve(window.growthbook);
+            }} else {{
+                const checkInterval = setInterval(() => {{
+                    if (window.growthbook) {{
+                        clearInterval(checkInterval);
+                        resolve(window.growthbook);
+                    }}
+                }}, 100);
 
-    script.onload = async () => {{
-        // Initialize GrowthBook with existing config
-        const growthbook = new GrowthBook({{
-            apiHost: gbConfig.apiHost,
-            clientKey: gbConfig.clientKey,
-            enableDevMode: gbConfig.enableDevMode,
-            trackingCallback: (experiment, result) => {{
-                // Use universal tracking function
-                trackUniversalEvent('ab_test_view', {{
-                    experiment_id: experiment.key,
-                    variant_id: result.variationId,
-                    project: '{project_name}'
-                }});
+                // Timeout after 10 seconds
+                setTimeout(() => {{
+                    clearInterval(checkInterval);
+                    console.warn('[Universal] GrowthBook auto-loading script timeout');
+                    resolve(null);
+                }}, 10000);
             }}
         }});
+    }};
 
-        await growthbook.init({{ streaming: true }});
+    try {{
+        const growthbook = await waitForGrowthBook();
+
+        if (!growthbook) {{
+            console.warn('[Universal] GrowthBook not available');
+            return;
+        }}
+
+        // Set user attributes for targeting
         growthbook.setAttributes(projectConfig.userAttributes);
+
+        // Set up tracking callback for A/B test events
+        growthbook.setTrackingCallback((experiment, result) => {{
+            // Use universal tracking function
+            trackUniversalEvent('ab_test_view', {{
+                experiment_id: experiment.key,
+                variant_id: result.variationId,
+                project: '{project_name}'
+            }});
+        }});
 
         // Run comprehensive A/B tests
         runUniversalABTests(growthbook);
 
-        console.log('[Universal] GrowthBook initialized');
-    }};
+        console.log('[Universal] GrowthBook initialized via auto-loading script');
+    }} catch (error) {{
+        console.error('[Universal] GrowthBook initialization failed:', error);
+    }}
 }}
 
 // Universal event tracking function that sends to all enabled platforms
