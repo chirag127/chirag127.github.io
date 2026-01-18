@@ -1,6 +1,10 @@
 /* UNIVERSAL CONFIGURATION
    Hosted at: /universal/config.js
    Defines the SITE_CONFIG global object.
+
+   NOTE: This file contains ONLY the runtime configuration values.
+   The modular configuration structure is in /universal/config/ directory.
+   For A/B testing config, see: /universal/config/engagement/ab_testing.js
 */
 
 window.SITE_CONFIG = {

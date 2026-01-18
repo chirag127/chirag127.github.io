@@ -385,6 +385,24 @@
       transform: translateY(-2px);
     }
 
+    /* A/B Test Badge */
+    .ab-badge {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.7);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: none;
+    }
+
+    .ab-badge.visible { display: block; }
+
     /* Loading / Empty States */
     .state-msg {
       text-align: center;
@@ -410,6 +428,7 @@
       .hero h1 { font-size: 2rem; }
       .stats { gap: 1.5rem; }
       .stat-val { font-size: 1.75rem; }
+      .ab-badge { display: none !important; }
     }
   </style>
 </head>
@@ -472,10 +491,321 @@
     </div>
   </main>
 
+  <!-- A/B Test Badge (debug) -->
+  <div class="ab-badge" id="abBadge"></div>
+
   <script>
     (function() {
       'use strict';
 
+      // ============================================================
+      // A/B TESTING SYSTEM - Multi-Armed Bandit for Polymorphs
+      // ============================================================
+      const ABTest = {
+        STORAGE_KEYS: {
+          visitorId: 'gb_visitor_id',
+          experimentData: 'gb_polymorph_ab',
+          manualOverride: 'gb_polymorph_override',
+          variantsCache: 'gb_variants_cache'
+        },
+
+        experimentId: 'polymorph_ab_v1',
+        currentVariant: null,
+
+        // Variants will be discovered dynamically
+        variants: [{ id: 'control', slug: null, weight: 1 }],
+        variantsLoaded: false,
+
+        enableBandit: true,
+        explorationThreshold: 50, // Use pure random for first N impressions
+        polymorphsPath: '/polymorphs/',
+
+        // Discover available polymorphs from the polymorphs folder
+        async discoverPolymorphs() {
+          // Check cache first (valid for 1 hour)
+          const cached = localStorage.getItem(this.STORAGE_KEYS.variantsCache);
+          if (cached) {
+            try {
+              const { variants, timestamp } = JSON.parse(cached);
+              if (Date.now() - timestamp < 3600000) { // 1 hour
+                this.variants = variants;
+                this.variantsLoaded = true;
+                console.log('[AB] Using cached variants:', variants.length);
+                return;
+              }
+            } catch (e) { /* ignore invalid cache */ }
+          }
+
+          // Try to fetch polymorphs via GitHub API for this repo
+          try {
+            const response = await fetch(
+              'https://api.github.com/repos/chirag127/chirag127.github.io/contents/polymorphs'
+            );
+            if (response.ok) {
+              const files = await response.json();
+              const htmlFiles = files
+                .filter(f => f.name.endsWith('.html'))
+                .map(f => f.name.replace('.html', ''));
+
+              // Build variants array with control first
+              this.variants = [{ id: 'control', slug: null, weight: 1 }];
+              for (const slug of htmlFiles) {
+                this.variants.push({ id: slug, slug: slug, weight: 1 });
+              }
+
+              // Cache the result
+              localStorage.setItem(this.STORAGE_KEYS.variantsCache, JSON.stringify({
+                variants: this.variants,
+                timestamp: Date.now()
+              }));
+
+              console.log('[AB] Discovered polymorphs via API:', htmlFiles.length);
+              this.variantsLoaded = true;
+              return;
+            }
+          } catch (e) {
+            console.warn('[AB] API discovery failed, using fallback');
+          }
+
+          // Fallback: try fetching known polymorphs via HEAD requests
+          const knownSlugs = [
+            'glm-4-7-1t-moe-cerebras',
+            'mistral-large-3-675b-instruct-nvidia',
+            'mistral-large-3-675b-instruct-mistral',
+            'deepseek-r1t2-chimera-openrouter',
+            'deepseek-v3-2-nvidia',
+            'qwen3-coder-480b-moe-openrouter'
+          ];
+
+          const available = [];
+          for (const slug of knownSlugs) {
+            try {
+              const res = await fetch(`${this.polymorphsPath}${slug}.html`, { method: 'HEAD' });
+              if (res.ok) available.push(slug);
+            } catch (e) { /* file doesn't exist */ }
+          }
+
+          this.variants = [{ id: 'control', slug: null, weight: 1 }];
+          for (const slug of available) {
+            this.variants.push({ id: slug, slug: slug, weight: 1 });
+          }
+
+          // Cache the result
+          localStorage.setItem(this.STORAGE_KEYS.variantsCache, JSON.stringify({
+            variants: this.variants,
+            timestamp: Date.now()
+          }));
+
+          console.log('[AB] Discovered polymorphs via HEAD:', available.length);
+          this.variantsLoaded = true;
+        },
+
+        // Generate UUID v4
+        generateVisitorId() {
+          return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = Math.random() * 16 | 0;
+            const v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+          });
+        },
+
+        getVisitorId() {
+          let id = localStorage.getItem(this.STORAGE_KEYS.visitorId);
+          if (!id) {
+            id = this.generateVisitorId();
+            localStorage.setItem(this.STORAGE_KEYS.visitorId, id);
+          }
+          return id;
+        },
+
+        getExperimentData() {
+          try {
+            const data = localStorage.getItem(this.STORAGE_KEYS.experimentData);
+            return data ? JSON.parse(data) : null;
+          } catch (e) {
+            return null;
+          }
+        },
+
+        saveExperimentData(data) {
+          try {
+            localStorage.setItem(this.STORAGE_KEYS.experimentData, JSON.stringify(data));
+          } catch (e) {
+            console.warn('[AB] Failed to save:', e);
+          }
+        },
+
+        // Thompson Sampling for Multi-Armed Bandit
+        thompsonSample(successes, failures) {
+          const alpha = successes + 1;
+          const beta = failures + 1;
+          // Beta distribution approximation
+          let sum = 0;
+          for (let i = 0; i < alpha; i++) sum += -Math.log(Math.random());
+          let sum2 = 0;
+          for (let i = 0; i < beta; i++) sum2 += -Math.log(Math.random());
+          return sum / (sum + sum2);
+        },
+
+        selectVariantBandit(stats) {
+          let bestScore = -1;
+          let bestVariant = this.variants[0];
+
+          for (const variant of this.variants) {
+            const s = stats[variant.id] || { impressions: 0, conversions: 0 };
+            const score = this.thompsonSample(s.conversions, s.impressions - s.conversions);
+            if (score > bestScore) {
+              bestScore = score;
+              bestVariant = variant;
+            }
+          }
+          return bestVariant;
+        },
+
+        selectVariantRandom() {
+          const total = this.variants.reduce((sum, v) => sum + (v.weight || 1), 0);
+          let r = Math.random() * total;
+          for (const v of this.variants) {
+            r -= v.weight || 1;
+            if (r <= 0) return v;
+          }
+          return this.variants[0];
+        },
+
+        async init() {
+          // First, discover available polymorphs
+          await this.discoverPolymorphs();
+
+          // Check for manual override
+          const override = localStorage.getItem(this.STORAGE_KEYS.manualOverride);
+          if (override) {
+            console.log('[AB] Manual override:', override);
+            this.currentVariant = this.variants.find(v => v.id === override) || this.variants[0];
+            this.showBadge();
+            return;
+          }
+
+          let data = this.getExperimentData();
+          const visitorId = this.getVisitorId();
+
+          if (!data) {
+            data = {
+              visitorId,
+              experimentId: this.experimentId,
+              assignedVariant: null,
+              stats: {},
+              createdAt: Date.now()
+            };
+          }
+
+          // Check sticky assignment
+          if (data.assignedVariant && data.visitorId === visitorId) {
+            this.currentVariant = this.variants.find(v => v.id === data.assignedVariant);
+            if (this.currentVariant) {
+              console.log('[AB] Returning visitor:', this.currentVariant.id);
+              this.trackImpression(data);
+              this.maybeRedirect();
+              this.showBadge();
+              return;
+            }
+          }
+
+          // New visitor - select variant
+          const totalImpressions = Object.values(data.stats).reduce(
+            (sum, s) => sum + (s.impressions || 0), 0
+          );
+
+          if (this.enableBandit && totalImpressions > this.explorationThreshold) {
+            this.currentVariant = this.selectVariantBandit(data.stats);
+            console.log('[AB] Bandit selected:', this.currentVariant.id);
+          } else {
+            this.currentVariant = this.selectVariantRandom();
+            console.log('[AB] Random selected:', this.currentVariant.id);
+          }
+
+          data.assignedVariant = this.currentVariant.id;
+          data.visitorId = visitorId;
+          this.saveExperimentData(data);
+
+          this.trackImpression(data);
+          this.maybeRedirect();
+          this.showBadge();
+        },
+
+        trackImpression(data) {
+          if (!this.currentVariant) return;
+          const id = this.currentVariant.id;
+          if (!data.stats[id]) data.stats[id] = { impressions: 0, conversions: 0 };
+          data.stats[id].impressions++;
+          this.saveExperimentData(data);
+        },
+
+        trackConversion() {
+          if (!this.currentVariant) return;
+          const data = this.getExperimentData();
+          if (!data) return;
+
+          const id = this.currentVariant.id;
+          if (!data.stats[id]) data.stats[id] = { impressions: 1, conversions: 0 };
+          data.stats[id].conversions++;
+          this.saveExperimentData(data);
+
+          console.log('[AB] Conversion:', id);
+
+          // Fire to analytics
+          if (window.gtag) {
+            window.gtag('event', 'ab_conversion', {
+              experiment_id: this.experimentId,
+              variant_id: id
+            });
+          }
+          if (window.posthog) {
+            window.posthog.capture('ab_conversion', {
+              experiment_id: this.experimentId,
+              variant_id: id
+            });
+          }
+        },
+
+        maybeRedirect() {
+          if (!this.currentVariant || !this.currentVariant.slug) return;
+          const path = window.location.pathname;
+          if (!path.includes('/polymorphs/')) {
+            window.location.href = `/polymorphs/${this.currentVariant.slug}.html`;
+          }
+        },
+
+        showBadge() {
+          const badge = document.getElementById('abBadge');
+          if (badge && this.currentVariant) {
+            badge.textContent = `A/B: ${this.currentVariant.id}`;
+            badge.classList.add('visible');
+          }
+        },
+
+        setOverride(variantId) {
+          if (variantId) {
+            localStorage.setItem(this.STORAGE_KEYS.manualOverride, variantId);
+          } else {
+            localStorage.removeItem(this.STORAGE_KEYS.manualOverride);
+          }
+        },
+
+        getStats() {
+          const data = this.getExperimentData();
+          return data ? data.stats : {};
+        }
+      };
+
+      // Make ABTest available globally for sidebar integration
+      window.ABTest = ABTest;
+
+      // Initialize A/B test (async - discovers polymorphs from folder)
+      ABTest.init().catch(err => console.warn('[AB] Init error:', err));
+
+      // ============================================================
+      // HUB FUNCTIONALITY
+      // ============================================================
       const CONFIG = {
         user: 'chirag127',
         exclude: ['chirag127.github.io', 'chirag127', '.github'],
@@ -483,7 +813,6 @@
         maxPages: 10
       };
 
-      // Category keyword mapping
       const CATEGORIES = {
         pdf: ['pdf', 'document', 'split', 'merge'],
         image: ['image', 'photo', 'png', 'jpg', 'svg', 'icon', 'blur', 'crop', 'resize', 'webp', 'heic'],
@@ -507,18 +836,14 @@
       let allRepos = [];
       let currentCategory = 'all';
 
-      // Detect category from repo text
       function detectCategory(text) {
         const lower = text.toLowerCase();
         for (const [cat, keywords] of Object.entries(CATEGORIES)) {
-          if (keywords.some(kw => lower.includes(kw))) {
-            return cat;
-          }
+          if (keywords.some(kw => lower.includes(kw))) return cat;
         }
         return 'other';
       }
 
-      // Fetch all repos with pagination
       async function fetchAllRepos() {
         const repos = [];
         let page = 1;
@@ -529,10 +854,8 @@
               `https://api.github.com/users/${CONFIG.user}/repos?per_page=${CONFIG.perPage}&page=${page}&sort=pushed`
             );
             if (!response.ok) break;
-
             const data = await response.json();
             if (!data.length) break;
-
             repos.push(...data);
             page++;
           } catch (error) {
@@ -540,11 +863,9 @@
             break;
           }
         }
-
         return repos;
       }
 
-      // Process repos into tool objects
       function processRepos(rawRepos) {
         return rawRepos
           .filter(repo => !repo.fork && !CONFIG.exclude.includes(repo.name))
@@ -566,7 +887,6 @@
           });
       }
 
-      // Render tools
       function renderTools(tools) {
         const grid = document.getElementById('toolsGrid');
         const countEl = document.getElementById('resultCount');
@@ -579,18 +899,16 @@
         }
 
         grid.innerHTML = tools.map(tool => {
-          // Primary action: GitHub Pages if available, otherwise GitHub repo
           const primaryHref = tool.hasPages ? tool.pagesUrl : tool.repoUrl;
           const primaryText = tool.hasPages ? '🚀 Open Website' : '💻 View Repo';
           const primaryTarget = tool.hasPages ? '' : 'target="_blank" rel="noopener"';
 
-          // Secondary action: GitHub repo (only show if tool has pages)
           const secondaryBtn = tool.hasPages
             ? `<a href="${tool.repoUrl}" class="action-btn secondary" target="_blank" rel="noopener">💻 GitHub</a>`
             : '';
 
           return `
-            <div class="tool-card">
+            <div class="tool-card" data-tool="${tool.name}">
               <div class="card-header">
                 <div class="tool-icon-box">${ICONS[tool.category] || ICONS.other}</div>
                 <div class="tool-info">
@@ -604,15 +922,21 @@
                 <div class="stat-pill">📅 ${tool.updated}</div>
               </div>
               <div class="card-actions">
-                <a href="${primaryHref}" class="action-btn primary" ${primaryTarget}>${primaryText}</a>
+                <a href="${primaryHref}" class="action-btn primary ab-track-btn" ${primaryTarget}>${primaryText}</a>
                 ${secondaryBtn}
               </div>
             </div>
           `;
         }).join('');
+
+        // Add conversion tracking to all action buttons
+        document.querySelectorAll('.ab-track-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            ABTest.trackConversion();
+          });
+        });
       }
 
-      // Filter and render
       function filterAndRender() {
         const query = document.getElementById('searchInput').value.toLowerCase().trim();
 
@@ -628,7 +952,6 @@
         renderTools(filtered);
       }
 
-      // Initialize
       async function init() {
         try {
           const rawRepos = await fetchAllRepos();
@@ -668,7 +991,7 @@
         });
       });
 
-      // Polymorphs model data (generated from Python)
+      // Polymorphs model data
       const POLYMORPHS_MODELS = [
         { name: "GLM 4.7 1T MoE Cerebras", slug: "glm-4-7-1t-moe-cerebras", size: 1000.0, provider: "Cerebras" },
         { name: "Mistral Large 3 675B Nvidia", slug: "mistral-large-3-675b-instruct-nvidia", size: 675.0, provider: "Nvidia" },
