@@ -21,7 +21,7 @@ class Settings:
     """
 
     # === SITE CONFIGURATION (Static - shared across instances) ===
-    SITE_BASE_URL: str = "https://chirag127.github.io"
+    SITE_BASE_URL: str = os.getenv("SITE_BASE_URL", "https://chirag127.github.io")
     GH_REPO_SLUG: str = "chirag127/chirag127.github.io"
 
     def __init__(self) -> None:

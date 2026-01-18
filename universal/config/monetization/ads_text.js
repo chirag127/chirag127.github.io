@@ -6,7 +6,14 @@
 
 export const ads_text = {
     // SAFE - Only display contextual ads, don't modify links
+    // Infolinks
+    // Feature: In-Fold, In-Text ads
+    // Requirement: 1000 pageviews/month
     infolinks: { publisherId: '', websiteId: '', enabled: false },  // Enable when needed
+
+    // Media.net
+    // Feature: Yahoo/Bing contextual ads (AdSense alternative)
+    // Requirement: High traffic from US/UK/CA
     mediaNet: { siteId: '', enabled: false },  // Yahoo/Bing network
 
     // ⛔ LINK HIJACKERS - PERMANENTLY DISABLED

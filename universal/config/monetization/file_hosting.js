@@ -5,9 +5,17 @@
  */
 
 export const file_hosting = {
+    // Upload4ever
+    // Feature: Pay per download
     upload4ever: { apiKey: '', enabled: false },
+
+    // Up-Files
+    // Feature: File sharing monetization
     upfiles: { apiKey: '', enabled: false },
+
+    // DaUpload
+    // Feature: High storage limits
     daupload: { apiKey: '', enabled: false }
 };
 
-export const file_hosting_priority = [];
+export const file_hosting_priority = ['upload4ever', 'upfiles', 'daupload'];

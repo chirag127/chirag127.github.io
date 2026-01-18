@@ -112,12 +112,47 @@
         return 'Custom Domain';
     }
 
+    /**
+     * Update/Inject Canonical and Open Graph URL tags
+     * specific to the current origin.
+     */
+    function updateMetadata() {
+        const origin = window.location.origin;
+        const fullUrl = origin + pathname;
+
+        // Update Canonical
+        let canonical = document.querySelector('link[rel="canonical"]');
+        if (!canonical) {
+            canonical = document.createElement('link');
+            canonical.rel = 'canonical';
+            document.head.appendChild(canonical);
+        }
+        canonical.href = fullUrl;
+
+        // Update OG:URL
+        let ogUrl = document.querySelector('meta[property="og:url"]');
+        if (!ogUrl) {
+            ogUrl = document.createElement('meta');
+            ogUrl.setAttribute('property', 'og:url');
+            document.head.appendChild(ogUrl);
+        }
+        ogUrl.setAttribute('content', fullUrl);
+
+        // Log for debugging
+        if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            console.log(`[SiteConfig] Updated Metadata URL: ${fullUrl}`);
+        }
+    }
+
     // Export to global scope
     window.SiteConfig = window.SiteConfig || {};
     window.SiteConfig.BASE_URL = detectBaseUrl();
     window.SiteConfig.getAssetUrl = getAssetUrl;
     window.SiteConfig.getPlatformName = getPlatformName;
     window.SiteConfig.hostname = hostname;
+
+    // Run updates
+    updateMetadata();
 
     // Log platform detection in development
     if (hostname === 'localhost' || hostname === '127.0.0.1') {

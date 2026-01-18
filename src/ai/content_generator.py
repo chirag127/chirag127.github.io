@@ -27,7 +27,8 @@ logger = logging.getLogger("ApexContentGenerator")
 # CENTRAL HUB CONFIGURATION
 # =============================================================================
 
-CENTRAL_HUB = Settings.SITE_BASE_URL
+CENTRAL_HUB = ""  # Force relative paths for shared resources
+
 SHARED_ANALYTICS = f"{CENTRAL_HUB}/shared/analytics.js"
 SHARED_MONETIZATION = f"{CENTRAL_HUB}/shared/monetization.js"
 SHARED_PROFILE = f"{CENTRAL_HUB}/shared/profile.json"

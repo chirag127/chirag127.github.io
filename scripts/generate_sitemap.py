@@ -124,7 +124,14 @@ def main():
     print(f"📦 Found {len(repos)} repositories")
 
     print("📝 Generating sitemap...")
-    sitemap = generate_sitemap(repos)
+
+    # Sitemap requires absolute URL. Use env var or default to main domain.
+    base_url = Settings.SITE_BASE_URL
+    if not base_url:
+        base_url = "https://chirag127.github.io"
+        print(f"⚠️ SITE_BASE_URL not set, using fallback for sitemap: {base_url}")
+
+    sitemap = generate_sitemap(repos, base_url)
 
     # Save sitemap
     output_path = Path(__file__).parent / "sitemap.xml"
