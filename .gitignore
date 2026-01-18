@@ -154,6 +154,7 @@ $RECYCLE.BIN/
 .env.local
 .env.*.local
 !.env.example
+!.env.deployment.example
 
 # API keys / secrets
 secrets/

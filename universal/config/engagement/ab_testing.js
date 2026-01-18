@@ -7,3 +7,5 @@ export const ab_testing = {
     crazyegg: { accountNumber: '', enabled: true },
     abtasty: { accountId: '', enabled: false }
 };
+
+export const ab_testing_priority = ['vwo', 'crazyegg', 'abtasty'];

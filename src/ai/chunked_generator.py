@@ -18,10 +18,15 @@ import re
 import time
 from typing import TYPE_CHECKING
 
+from src.core.config import Settings
+
 if TYPE_CHECKING:
     from .unified_client import UnifiedAIClient
 
 logger = logging.getLogger("AI.ChunkedGenerator")
+
+# Central hub URL for prompt templates
+CENTRAL_HUB = Settings.SITE_BASE_URL
 
 
 # =============================================================================
@@ -38,8 +43,8 @@ REQUIREMENTS:
 2. NO INLINE CSS - Use class names for styling (will be styled separately)
 3. NO INLINE JS - Use id attributes for DOM interaction (will be scripted separately)
 4. UNIVERSAL ARCHITECTURE (CRITICAL):
-   - MUST include in <head>: <script src="https://chirag127.github.io/universal/config.js"></script>
-   - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>
+   - MUST include in <head>: <script src="{CENTRAL_HUB}/universal/config.js"></script>
+   - MUST include in <head>: <script src="{CENTRAL_HUB}/universal/core.js"></script>
    - DO NOT generate <header> or <footer> tags (The Universal Engine injects them)
    - ALL content must be wrapped in <main> tag
 5. Use meaningful class names (e.g., .tool-container, .input-section, .result-display)
@@ -367,8 +372,8 @@ Features: {', '.join(tool.get('features', []))}
 REQUIREMENTS:
 1. OUTPUT: A SINGLE `index.html` file containing ALL HTML, CSS, and JavaScript.
 2. UNIVERSAL ARCHITECTURE (CRITICAL):
-   - MUST include in <head>: <script src="https://chirag127.github.io/universal/config.js"></script>
-   - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>
+   - MUST include in <head>: <script src="{CENTRAL_HUB}/universal/config.js"></script>
+   - MUST include in <head>: <script src="{CENTRAL_HUB}/universal/core.js"></script>
    - DO NOT generate <header> or <footer> tags (The Universal Engine injects them).
    - ALL content must be wrapped in <main> tag.
 3. AESTHETICS: **Apex 2026 Spatial-Adaptive** design.

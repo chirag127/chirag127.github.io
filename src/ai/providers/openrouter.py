@@ -2,6 +2,7 @@ import logging
 import os
 import requests
 from ..base import AIProvider, CompletionResult, ProviderStatus, ProviderConfig
+from src.core.config import Settings
 
 logger = logging.getLogger("AI.Providers.OpenRouter")
 
@@ -33,7 +34,7 @@ class OpenRouterProvider(AIProvider):
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
-            "HTTP-Referer": "https://chirag127.github.io",
+            "HTTP-Referer": Settings.SITE_BASE_URL,
             "X-Title": "UnifiedAIClient"
         }
 

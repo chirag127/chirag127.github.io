@@ -10,6 +10,8 @@ Simplified for tool website generation:
 
 import logging
 
+from src.core.config import Settings
+
 logger = logging.getLogger("PromptGenerator")
 
 
@@ -19,7 +21,7 @@ class PromptGenerator:
     Aligned with central hub architecture.
     """
 
-    CENTRAL_HUB = "https://chirag127.github.io"
+    CENTRAL_HUB = Settings.SITE_BASE_URL
 
     def __init__(self, agents_md_content: str = "") -> None:
         self.agents_md = agents_md_content

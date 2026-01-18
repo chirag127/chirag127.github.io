@@ -63,7 +63,7 @@ sys.excepthook = handle_exception
 # CENTRAL HUB CONFIGURATION
 # =============================================================================
 
-CENTRAL_HUB = "https://chirag127.github.io"
+CENTRAL_HUB = Settings.SITE_BASE_URL
 SHARED_ANALYTICS = f"{CENTRAL_HUB}/shared/analytics.js"
 SHARED_MONETIZATION = f"{CENTRAL_HUB}/shared/monetization.js"
 

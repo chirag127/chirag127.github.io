@@ -374,27 +374,27 @@ tests/
 ```
 
 ### 3.5. CENTRAL HUB INTEGRATION (MANDATORY)
-ALL repositories MUST load shared resources from the central hub at chirag127.github.io.
+ALL repositories MUST load shared resources from the central hub at {Settings.SITE_BASE_URL}.
 This allows changing analytics/profile/monetization once and updating all sites.
 
 **In every index.html <head>:**
 ```html
 <!-- Centralized Analytics (10 trackers) - DO NOT duplicate -->
-<script src="https://chirag127.github.io/shared/analytics.js" defer></script>
+<script src="{Settings.SITE_BASE_URL}/shared/analytics.js" defer></script>
 ```
 
 **Before </body>:**
 ```html
 <!-- Centralized Monetization (A-Ads, BMC) -->
-<script src="https://chirag127.github.io/shared/monetization.js" defer></script>
+<script src="{Settings.SITE_BASE_URL}/shared/monetization.js" defer></script>
 
 <!-- Load shared header/footer from hub -->
 <script>
   async function loadShared() {{
     try {{
-      const h = await fetch('https://chirag127.github.io/shared/header.html').then(r => r.text());
+      const h = await fetch('{Settings.SITE_BASE_URL}/shared/header.html').then(r => r.text());
       document.getElementById('central-header').innerHTML = h;
-      const f = await fetch('https://chirag127.github.io/shared/footer.html').then(r => r.text());
+      const f = await fetch('{Settings.SITE_BASE_URL}/shared/footer.html').then(r => r.text());
       document.getElementById('central-footer').innerHTML = f;
     }} catch (e) {{ console.warn('Shared load failed'); }}
   }}

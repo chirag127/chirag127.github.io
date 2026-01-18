@@ -16,6 +16,7 @@ import logging
 import os
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import List, Optional
 
@@ -36,6 +37,7 @@ from src.ai.models import (
     get_sidebar_models_for_html,
     UnifiedModel,
 )
+from src.core.config import Settings
 
 # Configure logging
 logging.basicConfig(
@@ -97,9 +99,9 @@ REQUIREMENTS:
 5. CRITICAL REQUIREMENTS:
    - Single index.html file (inline CSS in <style>, JS in <script>)
    - Include Universal Engine scripts in <head>:
-     <script src="https://chirag127.github.io/universal/config.js" defer></script>
-     <script src="https://chirag127.github.io/universal/core.js" defer></script>
-     <script src="https://chirag127.github.io/universal/sidebar.js" defer></script>
+     <script src="../universal/config.js" defer></script>
+     <script src="../universal/core.js" defer></script>
+     <script src="../universal/sidebar.js" defer></script>
    - NO <header> or <footer> tags (Universal Engine injects them)
    - Wrap content in <main> element
    - Use IIFE pattern for JavaScript (no global variables)
@@ -134,7 +136,7 @@ def get_sidebar_injection_script(sidebar_data: str, current_slug: str) -> str:
     """
     return f"""
 <!-- Polymorphs Sidebar Injection -->
-<script src="https://chirag127.github.io/universal/sidebar.js" defer></script>
+<script src="{Settings.SITE_BASE_URL}/universal/sidebar.js" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {{
   if (typeof Polymorphs !== 'undefined') {{
@@ -276,16 +278,24 @@ def generate_hub_for_model(
 
 def generate_all_hubs(
     models: Optional[List[str]] = None,
-    dry_run: bool = False
+    dry_run: bool = False,
+    max_workers: int = 5,
 ) -> dict:
     """
-    Generate hub homepages for all sidebar-enabled models.
+    Generate hub homepages for all sidebar-enabled models CONCURRENTLY.
 
+    Uses ThreadPoolExecutor to parallelize model generation.
     Each model generates its own content.
     On failure, falls back to main index.html.
+
+    Args:
+        models: Optional list of model names/slugs to filter
+        dry_run: If True, skip actual generation
+        max_workers: Maximum concurrent AI calls (default: 5)
     """
     logger.info("=" * 60)
-    logger.info("POLYMORPHS HUB GENERATOR")
+    logger.info("POLYMORPHS HUB GENERATOR (CONCURRENT)")
+    logger.info(f"Max Workers: {max_workers}")
     logger.info("=" * 60)
 
     # Get sidebar-enabled models (sorted largest first)
@@ -304,7 +314,7 @@ def generate_all_hubs(
     # Ensure polymorphs directory exists
     POLYMORPHS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Initialize AI client
+    # Initialize AI client (shared across threads - HTTP clients are thread-safe)
     if not dry_run:
         ai = UnifiedAIClient()
     else:
@@ -313,35 +323,53 @@ def generate_all_hubs(
     # Get sidebar data (same for all)
     sidebar_data = get_sidebar_html_data()
 
-    # Generate for each model
+    # Results tracking (thread-safe via GIL for simple operations)
     results = {"success": 0, "failed": 0, "models": []}
+    start_time = time.time()
 
-    for i, model in enumerate(all_models, 1):
-        logger.info(f"\n[{i}/{len(all_models)}] Processing {model.name}...")
+    def process_model(model_with_index):
+        """Worker function to process a single model."""
+        idx, model = model_with_index
+        logger.info(f"[{idx}/{len(all_models)}] Starting {model.name}...")
+        try:
+            success, content = generate_hub_for_model(
+                model=model,
+                ai=ai,
+                sidebar_data=sidebar_data,
+                dry_run=dry_run
+            )
+            return model, success
+        except Exception as e:
+            logger.error(f"[{idx}] Error processing {model.name}: {e}")
+            return model, False
 
-        success, content = generate_hub_for_model(
-            model=model,
-            ai=ai,
-            sidebar_data=sidebar_data,
-            dry_run=dry_run
-        )
+    # Use ThreadPoolExecutor for concurrent generation
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        # Submit all tasks
+        futures = {
+            executor.submit(process_model, (i, model)): model
+            for i, model in enumerate(all_models, 1)
+        }
 
-        if success:
-            results["success"] += 1
-            results["models"].append({"name": model.name, "status": "success"})
-        else:
-            results["failed"] += 1
-            results["models"].append({"name": model.name, "status": "failed"})
+        # Collect results as they complete
+        for future in as_completed(futures):
+            model, success = future.result()
+            if success:
+                results["success"] += 1
+                results["models"].append({"name": model.name, "status": "success"})
+            else:
+                results["failed"] += 1
+                results["models"].append({"name": model.name, "status": "failed"})
 
-        # Rate limiting between generations
-        if not dry_run and i < len(all_models):
-            time.sleep(2)
+    elapsed = time.time() - start_time
 
     # Summary
     logger.info("\n" + "=" * 60)
-    logger.info("GENERATION COMPLETE")
+    logger.info("GENERATION COMPLETE (CONCURRENT)")
     logger.info(f"Success: {results['success']}")
     logger.info(f"Failed: {results['failed']}")
+    logger.info(f"Total Time: {elapsed:.1f}s")
+    logger.info(f"Avg per model: {elapsed/len(all_models):.1f}s")
     logger.info("=" * 60)
 
     return results
@@ -350,8 +378,9 @@ def generate_all_hubs(
 def main():
     parser = argparse.ArgumentParser(description="Generate Polymorphs Hub homepages")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be done without generating")
-    parser.add_argument("--model", type=str, help="Generate for specific model name or slug")
+    parser.add_argument("--model", type=str, action="append", help="Generate for specific model name or slug (can specify multiple)")
     parser.add_argument("--list-models", action="store_true", help="List all sidebar-enabled models")
+    parser.add_argument("--workers", type=int, default=5, help="Number of concurrent workers (default: 5)")
 
     args = parser.parse_args()
 
@@ -367,10 +396,11 @@ def main():
         return
 
     # Generate
-    models_to_generate = [args.model] if args.model else None
+    models_to_generate = args.model if args.model else None
     results = generate_all_hubs(
         models=models_to_generate,
-        dry_run=args.dry_run
+        dry_run=args.dry_run,
+        max_workers=args.workers
     )
 
     # Exit code based on results

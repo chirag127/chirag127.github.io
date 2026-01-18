@@ -12,10 +12,18 @@ Usage:
 """
 
 import json
+import sys
 from datetime import datetime
 from pathlib import Path
 
 import requests
+
+# Setup paths for imports
+SCRIPT_DIR = Path(__file__).parent.absolute()
+ROOT_DIR = SCRIPT_DIR.parent
+sys.path.insert(0, str(ROOT_DIR))
+
+from src.core.config import Settings
 
 
 def fetch_all_repos(username: str = "chirag127") -> list[dict]:
@@ -49,7 +57,7 @@ def fetch_all_repos(username: str = "chirag127") -> list[dict]:
     return repos
 
 
-def generate_sitemap(repos: list[dict], base_url: str = "https://chirag127.github.io") -> str:
+def generate_sitemap(repos: list[dict], base_url: str = Settings.SITE_BASE_URL) -> str:
     """Generate XML sitemap."""
     today = datetime.now().strftime("%Y-%m-%d")
 

@@ -12,8 +12,16 @@ Key Features:
 
 import logging
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import List, Dict, Any, Optional
+
+import sys
+SCRIPT_DIR = Path(__file__).parent.absolute()
+ROOT_DIR = SCRIPT_DIR.parent
+sys.path.insert(0, str(ROOT_DIR))
+
+from src.core.config import Settings
 
 logger = logging.getLogger('PolymorphsTool')
 
@@ -43,7 +51,7 @@ def generate_sidebar_html(models: List[dict], current_slug: str, is_hub: bool = 
     base_url = "polymorphs"
 
     return f"""
-<script src="https://chirag127.github.io/universal/sidebar.js"></script>
+<script src="{Settings.SITE_BASE_URL}/universal/sidebar.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {{
   if (typeof Polymorphs !== 'undefined') {{
@@ -100,8 +108,8 @@ REQUIREMENTS:
 
 2. UNIVERSAL ENGINE INTEGRATION:
    - Include in <head>:
-     <script src="https://chirag127.github.io/universal/config.js" defer></script>
-     <script src="https://chirag127.github.io/universal/core.js" defer></script>
+     <script src="../universal/config.js" defer></script>
+     <script src="../universal/core.js" defer></script>
    - DO NOT create <header> or <footer> tags (injected by Universal Engine)
    - Wrap ALL content in <main> with padding-top: 80px
 
@@ -241,16 +249,20 @@ class PolymorphsToolGenerator:
         tool: dict,
         models: List,
         output_dir: Path,
-        main_html: str
+        main_html: str,
+        max_workers: int = 5,
     ) -> Dict[str, Any]:
         """
-        Generate all polymorphs variants for a tool.
+        Generate all polymorphs variants for a tool CONCURRENTLY.
+
+        Uses ThreadPoolExecutor to parallelize variant generation.
 
         Args:
             tool: Tool metadata dict
             models: List of UnifiedModel objects to generate variants for
             output_dir: Directory to save variants (e.g., .temp/polymorphs)
             main_html: Main HTML content (used as fallback)
+            max_workers: Maximum concurrent AI calls (default: 5)
 
         Returns:
             Dict with files to be added to git push (flat structure)
@@ -258,26 +270,47 @@ class PolymorphsToolGenerator:
         from src.ai.models import generate_model_slug
 
         files = {}
+        models_to_process = models[:10]  # Limit to 10 variants
+        total = len(models_to_process)
+        start_time = time.time()
 
-        for i, model in enumerate(models[:10], 1):  # Limit to 10 variants
+        logger.info(f"\n  🔮 Generating {total} variants concurrently (workers: {max_workers})...")
+
+        def process_variant(model_with_index):
+            """Worker function to generate a single variant."""
+            idx, model = model_with_index
             slug = generate_model_slug(model)
-            logger.info(f"\n  [{i}/{min(len(models), 10)}] {model.name}")
+            logger.info(f"  [{idx}/{total}] Starting {model.name}...")
 
-            success, content = self.generate_variant(
-                tool=tool,
-                model=model,
-                fallback_html=main_html
-            )
+            try:
+                success, content = self.generate_variant(
+                    tool=tool,
+                    model=model,
+                    fallback_html=main_html
+                )
+                return slug, success, content, model.name
+            except Exception as e:
+                logger.error(f"  [{idx}] Error generating {model.name}: {e}")
+                return slug, False, "", model.name
 
-            if success and content:
-                # Flat file structure: polymorphs/{slug}.html
-                file_path = f"polymorphs/{slug}.html"
-                files[file_path] = content
-                logger.info(f"    + Added: {file_path}")
+        # Use ThreadPoolExecutor for concurrent generation
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = {
+                executor.submit(process_variant, (i, model)): model
+                for i, model in enumerate(models_to_process, 1)
+            }
 
-            # Rate limiting
-            if i < len(models):
-                time.sleep(1)
+            for future in as_completed(futures):
+                slug, success, content, name = future.result()
+                if success and content:
+                    file_path = f"polymorphs/{slug}.html"
+                    files[file_path] = content
+                    logger.info(f"    ✅ Added: {file_path}")
+                else:
+                    logger.warning(f"    ⚠️ Failed: {name}")
+
+        elapsed = time.time() - start_time
+        logger.info(f"  ⏱️ Generated {len(files)} variants in {elapsed:.1f}s")
 
         return files
 

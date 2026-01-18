@@ -8,6 +8,8 @@ Includes ads, donations, affiliate links, and crypto wallets.
 from dataclasses import dataclass, field
 from typing import Dict, Any
 
+from src.core.config import Settings
+
 
 @dataclass
 class UserProfile:
@@ -15,7 +17,7 @@ class UserProfile:
     name: str = "Chirag Singhal"
     email: str = "whyiswhen@gmail.com"
     github_username: str = "chirag127"
-    website_url: str = "https://chirag127.github.io"
+    website_url: str = Settings.SITE_BASE_URL
     role: str = "Software Engineer · Backend & GenAI Specialist"
     location: str = "Bhubaneswar, Odisha, India"
     education: str = "B.Tech in CSE (8.81 CGPA) from Dr. A.P.J. Abdul Kalam Technical University (2020-2024)"

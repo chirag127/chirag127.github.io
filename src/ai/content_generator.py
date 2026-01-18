@@ -17,6 +17,7 @@ import logging
 from typing import Any
 
 from src.ai.unified_client import UnifiedAIClient
+from src.core.config import Settings
 from src.core.monetization import MONETIZATION
 
 logger = logging.getLogger("ApexContentGenerator")
@@ -26,7 +27,7 @@ logger = logging.getLogger("ApexContentGenerator")
 # CENTRAL HUB CONFIGURATION
 # =============================================================================
 
-CENTRAL_HUB = "https://chirag127.github.io"
+CENTRAL_HUB = Settings.SITE_BASE_URL
 SHARED_ANALYTICS = f"{CENTRAL_HUB}/shared/analytics.js"
 SHARED_MONETIZATION = f"{CENTRAL_HUB}/shared/monetization.js"
 SHARED_PROFILE = f"{CENTRAL_HUB}/shared/profile.json"

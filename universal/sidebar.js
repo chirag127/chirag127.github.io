@@ -193,10 +193,8 @@ const Polymorphs = (function() {
         let itemsHtml = '';
         models.forEach((model, index) => {
             const isActive = model.slug === currentSlug;
-            // Flat file structure: {baseUrl}/{slug}.html (no subfolders)
-            const href = isHub
-                ? `${baseUrl}/${model.slug}.html`
-                : `polymorphs/${model.slug}.html`;
+            // Use absolute paths from root to prevent double-nesting
+            const href = `/${baseUrl}/${model.slug}.html`;
 
             itemsHtml += `
                 <a href="${href}"

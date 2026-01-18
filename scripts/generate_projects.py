@@ -24,6 +24,7 @@ import sys
 import time
 import argparse
 import asyncio
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Dict, Any, List
 
@@ -41,6 +42,7 @@ sys.path.append(str(ROOT_DIR))
 # Update imports for new structure
 from src.ai.unified_client import UnifiedAIClient
 from src.clients import WebSearchClient
+from src.core.config import Settings
 from src.ai.prompts import (
     get_tool_metadata_prompt,
     get_tool_logic_prompt,
@@ -75,7 +77,7 @@ logger = logging.getLogger('ToolGenerator')
 
 GH_TOKEN = os.getenv("GH_TOKEN")
 GH_USERNAME = "chirag127"
-CENTRAL_HUB = "https://chirag127.github.io"
+CENTRAL_HUB = Settings.SITE_BASE_URL
 
 # Use ROOT_DIR defined at top of file
 TOOLS_FILE = ROOT_DIR / "config" / "ar.txt"
@@ -491,8 +493,8 @@ CRITICAL OVERRIDE:
   - JavaScript MUST be inside <script> tags at the end of <body>.
   - NO external .css or .js files (except the Universal Config/Core scripts below).
 - UNIVERSAL ARCHITECTURE:
-  - MUST include in <head>: <script src="https://chirag127.github.io/universal/config.js"></script>
-  - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>
+  - MUST include in <head>: <script src="{CENTRAL_HUB}/universal/config.js"></script>
+  - MUST include in <head>: <script src="{CENTRAL_HUB}/universal/core.js"></script>
   - DO NOT generate <header> or <footer> tags (the Universal Engine injects them).
   - Wrap ALL content in <main> tag.
 - CRITICAL CSS FIX (HEADER OVERLAP PREVENTION):
@@ -521,8 +523,8 @@ Features: {json.dumps(tool.get('features', []), indent=2)}
 REQUIREMENTS:
 1. OUTPUT: A SINGLE `index.html` file containing ALL HTML, CSS, and JavaScript.
 2. UNIVERSAL ARCHITECTURE (CRITICAL):
-   - MUST include in <head>: <script src="https://chirag127.github.io/universal/config.js"></script>
-   - MUST include in <head>: <script src="https://chirag127.github.io/universal/core.js"></script>
+   - MUST include in <head>: <script src="{CENTRAL_HUB}/universal/config.js"></script>
+   - MUST include in <head>: <script src="{CENTRAL_HUB}/universal/core.js"></script>
    - DO NOT generate <header> or <footer> tags (The Universal Engine injects them).
    - ALL content must be wrapped in <main> tag.
 3. CRITICAL CSS FIX (HEADER OVERLAP PREVENTION):
@@ -887,9 +889,48 @@ def main():
 
     if "--all" in args:
         remaining = [t for t in tools if t["name"] not in state["generated"]]
-        for tool in remaining:
-            generate_tool(tool, ai, state, search_client, multiverse=multiverse_mode)
-            time.sleep(5)
+
+        # Check for concurrent mode
+        concurrent_mode = "--concurrent" in args
+        workers = 3  # Default for tools (lower due to GitHub API limits)
+
+        # Parse --workers if provided
+        if "--workers" in args:
+            try:
+                idx = args.index("--workers")
+                workers = int(args[idx + 1])
+            except (IndexError, ValueError):
+                pass
+
+        if concurrent_mode and len(remaining) > 1:
+            logger.info(f"\n🚀 CONCURRENT MODE: Generating {len(remaining)} tools with {workers} workers")
+            start_time = time.time()
+
+            def generate_tool_wrapper(tool):
+                """Wrapper for thread pool execution."""
+                try:
+                    return tool["name"], generate_tool(tool, ai, state, search_client, multiverse=multiverse_mode)
+                except Exception as e:
+                    logger.error(f"Error generating {tool['name']}: {e}")
+                    return tool["name"], False
+
+            with ThreadPoolExecutor(max_workers=workers) as executor:
+                futures = {executor.submit(generate_tool_wrapper, tool): tool for tool in remaining}
+
+                for future in as_completed(futures):
+                    name, success = future.result()
+                    if success:
+                        logger.info(f"✅ Completed: {name}")
+                    else:
+                        logger.warning(f"⚠️ Failed: {name}")
+
+            elapsed = time.time() - start_time
+            logger.info(f"\n⏱️ Total time: {elapsed:.1f}s for {len(remaining)} tools")
+        else:
+            # Sequential mode (original behavior)
+            for tool in remaining:
+                generate_tool(tool, ai, state, search_client, multiverse=multiverse_mode)
+                time.sleep(5)
         return
 
     # Default: generate next tool
