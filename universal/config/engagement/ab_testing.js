@@ -56,10 +56,26 @@ export const ab_testing = {
     //
     growthbook: {
         enabled: true,
-        // API key only needed for cloud-hosted features
-        apiKey: '',
+        // Your specific API key
+        apiKey: 'sdk-BamkgvyjaSFKa0m6',
+        clientKey: 'sdk-BamkgvyjaSFKa0m6',
+        apiHost: 'https://cdn.growthbook.io',
         // Client-side polymorph A/B testing (no API key required)
-        clientSideEnabled: true
+        clientSideEnabled: true,
+        // Enhanced tracking integration
+        trackingIntegration: {
+            ga4: true,
+            gtm: true,
+            clarity: true,
+            mixpanel: true,
+            amplitude: true,
+            posthog: true,
+            heap: true
+        },
+        // Auto-optimization settings
+        enableDevMode: true,
+        enableAutoOptimization: true,
+        plugins: ['autoAttributesPlugin', 'thirdPartyTrackingPlugin']
     },
 
     // ============================================================================
