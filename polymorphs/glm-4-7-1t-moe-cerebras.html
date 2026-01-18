@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chirag Hub | Premium Tools</title>
-    
+
     <!-- Universal Engine Scripts -->
-    <script src="../universal/config.js" defer></script>
-    <script src="../universal/core.js" defer></script>
-    <script src="../universal/sidebar.js" defer></script>
+    <script src="/universal/config.js" defer></script>
+    <script src="/universal/core.js" defer></script>
+    <script src="/universal/sidebar.js" defer></script>
 
     <style>
         /* 2026 SPATIAL-GLASS DESIGN SYSTEM */
@@ -193,7 +193,7 @@
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none; /* Firefox */
         }
-        
+
         .filter-scroll::-webkit-scrollbar {
             display: none;
         }
@@ -259,7 +259,7 @@
         .card:hover {
             transform: translateY(-6px) scale(1.02);
             border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
                         0 0 20px rgba(99, 102, 241, 0.1);
             background: var(--surface-hover);
             z-index: 2;
@@ -338,7 +338,7 @@
             justify-content: center;
             padding: 4rem;
         }
-        
+
         .spinner {
             width: 40px;
             height: 40px;
@@ -485,7 +485,7 @@
         // --- Logic: Categorization ---
         function getCategory(repo) {
             const text = `${repo.name} ${repo.description} ${(repo.topics || []).join(' ')}`.toLowerCase();
-            
+
             for (const [cat, keywords] of Object.entries(state.categories)) {
                 for (const kw of keywords) {
                     if (text.includes(kw)) return cat;
@@ -506,7 +506,7 @@
                             .then(res => res.json())
                     );
                 }
-                
+
                 const results = await Promise.all(promises);
                 results.forEach(pageData => {
                     if (Array.isArray(pageData)) {
@@ -536,7 +536,7 @@
 
                 // Calculate total stars
                 const totalStars = processed.reduce((acc, curr) => acc + curr.stars, 0);
-                
+
                 return { repos: processed, stars: totalStars };
 
             } catch (error) {
@@ -568,9 +568,9 @@
             const card = document.createElement('div');
             card.className = 'card';
             card.style.animationDelay = `${index * 50}ms`; // Stagger effect
-            
+
             const iconSvg = state.icons[repo.category] || state.icons['default'];
-            
+
             // Format date nicely
             const dateStr = new Date(repo.pushed_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
@@ -601,7 +601,7 @@
 
         function renderGrid(repos) {
             gridEl.innerHTML = '';
-            
+
             if (repos.length === 0) {
                 gridEl.innerHTML = `<div class="empty-state">No tools found matching your criteria.</div>`;
                 return;
@@ -623,10 +623,10 @@
 
             // Filter logic
             const term = searchInput.value.toLowerCase();
-            
+
             state.filteredRepos = state.allRepos.filter(repo => {
                 const matchesCategory = category === 'All' || repo.category === category;
-                const matchesSearch = repo.name.toLowerCase().includes(term) || 
+                const matchesSearch = repo.name.toLowerCase().includes(term) ||
                                       repo.description.toLowerCase().includes(term);
                 return matchesCategory && matchesSearch;
             });
@@ -637,7 +637,7 @@
         // --- Initialization ---
         async function init() {
             renderFilters();
-            
+
             // Initial Loading State
             gridEl.innerHTML = '<div class="loader-container"><div class="spinner"></div></div>';
 
@@ -661,7 +661,7 @@
         // --- Polymorphs Sidebar Initialization ---
         // Ensure Polymorphs object is available before calling
         window.addEventListener('load', () => {
-             // Small delay to ensure external scripts might have loaded, 
+             // Small delay to ensure external scripts might have loaded,
              // though typically the sidebar script handles its own init timing if it listens to load.
              // However, the prompt asks to include this JS at the end.
              setTimeout(() => {

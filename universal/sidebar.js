@@ -193,8 +193,16 @@ const Polymorphs = (function() {
         let itemsHtml = '';
         models.forEach((model, index) => {
             const isActive = model.slug === currentSlug;
-            // Use absolute paths from root to prevent double-nesting
-            const href = `/${baseUrl}/${model.slug}.html`;
+
+            // Smart path resolution based on current location
+            const currentPath = window.location.pathname;
+            const isInPolymorphs = currentPath.includes('/polymorphs/');
+
+            // If we're in polymorphs directory, use relative paths
+            // Otherwise use absolute paths from root
+            const href = isInPolymorphs
+                ? `${model.slug}.html`
+                : `/${baseUrl}/${model.slug}.html`;
 
             itemsHtml += `
                 <a href="${href}"

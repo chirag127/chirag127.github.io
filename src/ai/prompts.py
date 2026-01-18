@@ -29,8 +29,8 @@ Output: EXECUTION-ONLY. Production-ready code. No placeholders. No chatter."""
 # CATEGORY DETECTION & SPECIALIZED PROMPTS (NEW)
 # =============================================================================
 
-# Tool category detection based on name prefixes
-TOOL_CATEGORIES = {
+# Website category detection based on name prefixes
+WEBSITE_CATEGORIES = {
     "pdf": ["PDF-", "Document-", "Merge-", "Split-", "Compress-PDF", "Extract-PDF"],
     "image": ["Image-", "Photo-", "Background-", "Crop-", "Resize-", "Convert-JPG", "Convert-PNG", "HEIC-", "SVG-", "Base64-Image", "Meme-", "Watermark-", "Color-Palette", "Blur-", "Pixelate-"],
     "video": ["Video-", "Screen-", "Record-", "Trim-Video", "Convert-MP4", "Convert-MOV", "Convert-AVI", "Convert-MKV", "Convert-WEBM", "GIF-"],
@@ -105,9 +105,9 @@ CATEGORY_CONFIGS = {
 
 
 def detect_category(tool_name: str) -> str:
-    """Detect tool category from its name."""
+    """Detect website category from its name."""
     name_upper = tool_name.upper()
-    for category, prefixes in TOOL_CATEGORIES.items():
+    for category, prefixes in WEBSITE_CATEGORIES.items():
         for prefix in prefixes:
             if name_upper.startswith(prefix.upper()) or prefix.upper() in name_upper:
                 return category
@@ -115,7 +115,7 @@ def detect_category(tool_name: str) -> str:
 
 
 def get_category_config(category: str) -> dict:
-    """Get configuration for a tool category."""
+    """Get configuration for a website category."""
     return CATEGORY_CONFIGS.get(category, CATEGORY_CONFIGS["utility"])
 
 
@@ -129,9 +129,9 @@ REPO_NAME_ONLY_PROMPT = """You are the Apex Technical Authority. Generate comple
 REPOSITORY NAME: {repo_name}
 
 CRITICAL: Derive ALL information from the repository name alone. Infer:
-1. What the tool does (from name)
+1. What the website does (from name)
 2. What category it belongs to (PDF, Image, Text, Dev, Calculator, etc.)
-3. What features it should have (based on tool type)
+3. What features it should have (based on website type)
 4. What keywords users would search for
 
 OUTPUT JSON FORMAT:
@@ -151,7 +151,7 @@ OUTPUT JSON FORMAT:
 
 RULES:
 1. ONLY use the repository name as input - no additional context needed
-2. Infer the tool's purpose from naming (e.g., "pdf-merge" = PDF merger tool)
+2. Infer the website's purpose from naming (e.g., "pdf-merge" = PDF merger website)
 3. Generate realistic, production-ready metadata
 4. Output ONLY valid JSON, no markdown code blocks."""
 
@@ -162,19 +162,19 @@ def get_repo_name_only_prompt(repo_name: str) -> str:
 
 
 # =============================================================================
-# TOOL METADATA GENERATION PROMPT
+# WEBSITE METADATA GENERATION PROMPT
 # =============================================================================
 
-TOOL_METADATA_PROMPT = """You are the Apex Technical Authority generating metadata for a web tool.
+WEBSITE_METADATA_PROMPT = """You are the Apex Technical Authority generating metadata for a website.
 
-TOOL NAME: {tool_name}
+WEBSITE NAME: {tool_name}
 
-TASK: Generate professional, SEO-optimized metadata for this tool.
+TASK: Generate professional, SEO-optimized metadata for this website.
 
 CONTEXT (Jan 2026):
-- All tools are frontend-only (client-side processing)
+- All websites are frontend-only (client-side processing)
 - Users value privacy (files never leave device)
-- Target: High traffic, monetizable utility tools
+- Target: High traffic, monetizable utility websites
 - Deployed on GitHub Pages
 
 OUTPUT JSON FORMAT:
@@ -201,12 +201,12 @@ RULES:
 
 
 # =============================================================================
-# TOOL LOGIC GENERATION PROMPT (2026 UI STANDARDS)
+# WEBSITE LOGIC GENERATION PROMPT (2026 UI STANDARDS)
 # =============================================================================
 
-TOOL_LOGIC_PROMPT = """You are the Apex Technical Authority (Jan 2026 Standards).
+WEBSITE_LOGIC_PROMPT = """You are the Apex Technical Authority (Jan 2026 Standards).
 
-TASK: Write production-ready JavaScript for: "{title}"
+TASK: Write production-ready JavaScript for website: "{title}"
 
 DESCRIPTION: {description}
 FEATURES TO IMPLEMENT: {features}
@@ -289,7 +289,7 @@ RULES:
 
 TOPICS_PROMPT = """Generate GitHub repository topics (tags) for SEO.
 
-TOOL: {tool_name}
+WEBSITE: {tool_name}
 DESCRIPTION: {description}
 
 OUTPUT: JSON array of 5-10 lowercase topic strings.
@@ -307,14 +307,14 @@ OUTPUT ONLY the JSON array, no other text."""
 # HELPER FUNCTIONS
 # =============================================================================
 
-def get_tool_metadata_prompt(tool_name: str) -> str:
-    """Generate prompt for tool metadata generation."""
-    return TOOL_METADATA_PROMPT.format(tool_name=tool_name)
+def get_website_metadata_prompt(tool_name: str) -> str:
+    """Generate prompt for website metadata generation."""
+    return WEBSITE_METADATA_PROMPT.format(tool_name=tool_name)
 
 
-def get_tool_logic_prompt(title: str, description: str, features: list,
+def get_website_logic_prompt(title: str, description: str, features: list,
                           research_context: str = "", tool_name: str = "") -> str:
-    """Generate prompt for tool JavaScript logic with research context and category-specific info."""
+    """Generate prompt for website JavaScript logic with research context and category-specific info."""
 
     # Detect category and get config
     category = detect_category(tool_name) if tool_name else "utility"
@@ -329,7 +329,7 @@ FILE TYPES: {config['file_types']}"""
 
     full_research = f"{research_context}\n{category_context}" if research_context else category_context
 
-    return TOOL_LOGIC_PROMPT.format(
+    return WEBSITE_LOGIC_PROMPT.format(
         title=title,
         description=description,
         features=", ".join(features),

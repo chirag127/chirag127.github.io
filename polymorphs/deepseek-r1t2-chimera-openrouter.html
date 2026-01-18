@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chirag Hub - Free Private Tools Forever</title>
-    <script src="../universal/config.js" defer></script>
-    <script src="../universal/core.js" defer></script>
-    <script src="../universal/sidebar.js" defer></script>
+    <script src="/universal/config.js" defer></script>
+    <script src="/universal/core.js" defer></script>
+    <script src="/universal/sidebar.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -224,13 +224,13 @@
             .gradient-text {
                 font-size: 2.5rem;
             }
-            
+
             .stats {
                 flex-direction: column;
                 align-items: center;
                 gap: 1rem;
             }
-            
+
             .filters {
                 flex-direction: column;
             }
@@ -284,7 +284,7 @@
     <script>
         (function() {
             'use strict';
-            
+
             const EXCLUDED_REPOS = ['chirag127.github.io', 'chirag127'];
             const CATEGORIES = {
                 pdf: ['pdf', 'document', 'merge', 'split'],
@@ -316,13 +316,13 @@
 
             let allTools = [];
             let filteredTools = [];
-            
+
             // DOM Elements
             const toolContainer = document.getElementById('tool-container');
             const toolCount = document.getElementById('tool-count');
             const searchInput = document.getElementById('search-input');
             const pills = document.querySelectorAll('.pill');
-            
+
             // Fetch all repositories
             async function fetchAllRepos() {
                 let repos = [];
@@ -371,7 +371,7 @@
             // Render tool cards
             function renderTools(tools) {
                 toolContainer.innerHTML = '';
-                
+
                 if (tools.length === 0) {
                     toolContainer.innerHTML = `<div class="empty-state fade-in-up">
                         <h3>No tools found</h3>
@@ -400,11 +400,11 @@
                             <div>Updated ${tool.pushed_at}</div>
                         </div>
                     `;
-                    
+
                     card.addEventListener('click', () => {
                         window.open(tool.url, '_blank');
                     });
-                    
+
                     toolContainer.appendChild(card);
                 });
             }
@@ -413,14 +413,14 @@
             function filterTools() {
                 const searchTerm = searchInput.value.toLowerCase();
                 const activeCategory = document.querySelector('.pill.active').dataset.category;
-                
+
                 filteredTools = allTools.filter(tool => {
-                    const matchesSearch = tool.name.toLowerCase().includes(searchTerm) || 
+                    const matchesSearch = tool.name.toLowerCase().includes(searchTerm) ||
                                          tool.description.toLowerCase().includes(searchTerm);
                     const matchesCategory = activeCategory === 'all' || tool.category === activeCategory;
                     return matchesSearch && matchesCategory;
                 });
-                
+
                 toolCount.textContent = `${filteredTools.length} ${filteredTools.length === 1 ? 'Tool' : 'Tools'}`;
                 renderTools(filteredTools);
             }
@@ -431,7 +431,7 @@
                 allTools = processRepos(repos);
                 filteredTools = [...allTools];
                 filterTools();
-                
+
                 // Event listeners
                 searchInput.addEventListener('input', filterTools);
                 pills.forEach(pill => {
@@ -468,13 +468,13 @@
             // Wait for Universal Engine to load
             document.addEventListener('DOMContentLoaded', () => {
                 if (window.Polymorphs) {
-                    Polymorphs.init(POLYMORPHS_MODELS, { 
-                        isHub: true, 
-                        baseUrl: 'polymorphs', 
-                        currentSlug: 'deepseek-r1t2-chimera-openrouter' 
+                    Polymorphs.init(POLYMORPHS_MODELS, {
+                        isHub: true,
+                        baseUrl: 'polymorphs',
+                        currentSlug: 'deepseek-r1t2-chimera-openrouter'
                     });
                 }
-                
+
                 // Initialize our app
                 init();
             });

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate Projects - Tool Website Generator
+Generate Projects - Website Generator
 
 Creates single-file HTML tools (inline CSS + JS):
 - All code in one index.html
@@ -10,8 +10,8 @@ Creates single-file HTML tools (inline CSS + JS):
 - AI-generated metadata (title, description, keywords, features)
 
 Usage:
-  python generate_projects.py                    # Generate next tool
-  python generate_projects.py --tool pdf-merger  # Generate specific
+  python generate_projects.py                    # Generate next website
+  python generate_projects.py --website pdf-merger  # Generate specific website
   python generate_projects.py --status           # Show progress
 """
 
@@ -44,10 +44,10 @@ from src.ai.unified_client import UnifiedAIClient
 from src.clients import WebSearchClient
 from src.core.config import Settings
 from src.ai.prompts import (
-    get_tool_metadata_prompt,
-    get_tool_logic_prompt,
+    get_website_metadata_prompt,
+    get_website_logic_prompt,
     detect_category,
-    TOOL_CATEGORIES,
+    WEBSITE_CATEGORIES,
     CATEGORY_CONFIGS
 )
 
@@ -126,7 +126,7 @@ def generate_tool_metadata(name: str, ai: UnifiedAIClient, state: dict) -> dict:
         return state["metadata_cache"][name]
 
     print(f"  Generating metadata for {name}...")
-    prompt = get_tool_metadata_prompt(name)
+    prompt = get_website_metadata_prompt(name)
 
     result = ai.generate_json(prompt=prompt, max_tokens=1000, min_model_size=8)
 
@@ -598,7 +598,7 @@ def generate_comprehensive_readme(tool: dict) -> str:
     description = tool.get("description", "")
     features = tool.get("features", [])
     keywords = tool.get("keywords", [])
-    category = tool.get("category", "Tool")
+    category = tool.get("category", "Website")
 
     # Generate feature list
     feature_list = "\n".join(f"- ✅ {f}" for f in features) if features else "- ✅ Easy to use interface"
@@ -892,8 +892,8 @@ def main():
 
     tools = parse_tools()
 
-    if "--tool" in args:
-        idx = args.index("--tool")
+    if "--website" in args:
+        idx = args.index("--website")
         if idx + 1 < len(args):
             name = args[idx + 1]
             tool = next((t for t in tools if t["name"] == name), None)

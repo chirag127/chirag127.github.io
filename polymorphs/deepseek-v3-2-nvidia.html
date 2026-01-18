@@ -6,9 +6,9 @@
     <title>Chirag Hub - Every Tool You Need. Free. Private. Forever.</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛠️</text></svg>">
     <!-- Universal Engine Scripts -->
-    <script src="../universal/config.js" defer></script>
-    <script src="../universal/core.js" defer></script>
-    <script src="../universal/sidebar.js" defer></script>
+    <script src="/universal/config.js" defer></script>
+    <script src="/universal/core.js" defer></script>
+    <script src="/universal/sidebar.js" defer></script>
     <style>
         :root {
             --bg-primary: #030712;
@@ -45,7 +45,7 @@
             color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 55%),
                 radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.05) 0%, transparent 55%);
         }
@@ -399,7 +399,7 @@
         <section class="hero">
             <h1 class="hero-title">Every Tool You Need.<br>Free. Private. Forever.</h1>
             <p class="hero-subtitle">A curated collection of powerful, open-source tools for everyday tasks. No sign-ups, no tracking, just utility.</p>
-            
+
             <div class="stats-bar">
                 <div class="stat">
                     <div class="stat-value" id="tool-count">0</div>
@@ -424,7 +424,7 @@
                 </svg>
                 <input type="text" class="search-input" id="search-input" placeholder="Search tools by name, description, or category...">
             </div>
-            
+
             <div class="categories" id="category-container">
                 <!-- Categories injected by JS -->
             </div>
@@ -447,7 +447,7 @@
             const EXCLUDED_REPOS = ['chirag127.github.io', 'chirag127'];
             const PER_PAGE = 100;
             const MAX_PAGES = 10;
-            
+
             const CATEGORIES = [
                 { id: 'all', label: 'All', keywords: [] },
                 { id: 'pdf', label: 'PDF', keywords: ['pdf', 'document', 'merge', 'split', 'compress', 'extract'] },
@@ -509,20 +509,20 @@
             // Fetch repositories with pagination
             async function fetchAllRepos() {
                 let allRepos = [];
-                
+
                 for (let page = 1; page <= MAX_PAGES; page++) {
                     try {
                         const response = await fetch(
                             `https://api.github.com/users/${GITHUB_USER}/repos?per_page=${PER_PAGE}&page=${page}&sort=updated`
                         );
-                        
+
                         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                        
+
                         const repos = await response.json();
                         if (repos.length === 0) break;
-                        
-                        const filtered = repos.filter(repo => 
-                            !EXCLUDED_REPOS.includes(repo.name) && 
+
+                        const filtered = repos.filter(repo =>
+                            !EXCLUDED_REPOS.includes(repo.name) &&
                             !repo.fork
                         ).map(repo => ({
             name: repo.name,
@@ -533,27 +533,27 @@
                             topics: repo.topics || [],
                             category: detectCategory(repo.name, repo.description || '', repo.topics || [])
                         }));
-                        
+
                         allRepos.push(...filtered);
                     } catch (error) {
                         console.warn(`Failed to fetch page ${page}:`, error);
                         break;
                     }
                 }
-                
+
                 return allRepos.sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at));
             }
 
             // Detect category from name, description, and topics
             function detectCategory(name, description, topics) {
                 const text = `${name.toLowerCase()} ${description.toLowerCase()} ${topics.join(' ')}`;
-                
+
                 for (const cat of CATEGORIES.slice(1)) {
                     if (cat.keywords.some(keyword => text.includes(keyword))) {
                         return cat.id;
                     }
                 }
-                
+
                 return 'dev'; // Default to Dev category
             }
 
@@ -564,7 +564,7 @@
                     if (activeCategory !== 'all' && tool.category !== activeCategory) {
                         return false;
                     }
-                    
+
                     // Search filter
                     if (searchQuery) {
                         const query = searchQuery.toLowerCase();
@@ -572,7 +572,7 @@
                                tool.description.toLowerCase().includes(query) ||
                                tool.category.includes(query);
                     }
-                    
+
                     return true;
                 });
             }
@@ -636,7 +636,7 @@
                 const now = new Date();
                 const diffMs = now - date;
                 const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-                
+
                 if (diffDays === 0) return 'Today';
                 if (diffDays === 1) return 'Yesterday';
                 if (diffDays < 7) return `${diffDays} days ago`;
@@ -661,14 +661,14 @@
                 categoryContainer.addEventListener('click', (e) => {
                     const pill = e.target.closest('.category-pill');
                     if (!pill) return;
-                    
+
                     const category = pill.dataset.category;
                     if (category === activeCategory) return;
-                    
+
                     // Update active state
                     document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
                     pill.classList.add('active');
-                    
+
                     activeCategory = category;
                     filterTools();
                     renderTools();
@@ -718,13 +718,13 @@
             // Initialize when Universal Engine is ready
             document.addEventListener('DOMContentLoaded', () => {
                 init();
-                
+
                 // Initialize Polymorphs sidebar if available
                 if (typeof Polymorphs !== 'undefined') {
-                    Polymorphs.init(POLYMORPHS_MODELS, { 
-                        isHub: true, 
-                        baseUrl: 'polymorphs', 
-                        currentSlug: 'deepseek-v3-2-nvidia' 
+                    Polymorphs.init(POLYMORPHS_MODELS, {
+                        isHub: true,
+                        baseUrl: 'polymorphs',
+                        currentSlug: 'deepseek-v3-2-nvidia'
                     });
                 } else {
                     console.warn('Polymorphs sidebar engine not loaded');

@@ -5,10 +5,20 @@
  */
 
 export const social_share = {
-    // ENABLE ONE - AddToAny is lightest
-    addtoany: { enabled: true },  // Lightweight, no tracking
-    sharethis: { propertyId: '', enabled: false },  // Alternative
-    addthis: { pubId: '', enabled: false }  // Oracle - heavier
+    // AddThis (Oracle) - Legacy
+    // Feature: Comprehensive analytics & tools
+    // Free Limit: Free (End of Life - use caution)
+    addthis: { profileId: '', enabled: false },
+
+    // AddToAny
+    // Feature: Lightweight, no tracking, vector icons
+    // Free Limit: 100% Free
+    addtoany: { enabled: true },
+
+    // ShareThis
+    // Feature: Sticky bars, inline, image sharing
+    // Free Limit: Free (Data collection model)
+    sharethis: { propertyId: '', enabled: false }
 };
 
 export const social_share_priority = ['addtoany'];

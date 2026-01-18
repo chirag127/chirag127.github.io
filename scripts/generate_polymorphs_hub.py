@@ -98,10 +98,11 @@ REQUIREMENTS:
 
 5. CRITICAL REQUIREMENTS:
    - Single index.html file (inline CSS in <style>, JS in <script>)
-   - Include Universal Engine scripts in <head>:
+   - Include Universal Engine scripts in <head> with ABSOLUTE PATHS:
      <script src="/universal/config.js" defer></script>
      <script src="/universal/core.js" defer></script>
      <script src="/universal/sidebar.js" defer></script>
+   - IMPORTANT: Use absolute paths starting with / (NOT ../universal/)
    - NO <header> or <footer> tags (Universal Engine injects them)
    - Wrap content in <main> element
    - Use IIFE pattern for JavaScript (no global variables)

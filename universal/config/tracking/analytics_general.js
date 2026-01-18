@@ -6,13 +6,35 @@
 
 export const analytics_general = {
     // BIG TECH - ALL ENABLED (Free, unlimited)
+    // GA4
+    // Feature: The industry standard
+    // Free Limit: Unlimited events (Sampling applied at scale)
     ga4: { id: 'G-PQ26TN1XJ4', enabled: true, lazyLoad: false },  // Google - Primary
+
+    // Yandex Metrica
+    // Feature: Session Replay, Heatmaps included free
+    // Free Limit: Unlimited data retention
     yandex: { id: 106273806, enabled: true, webvisor: true, clickmap: true },  // Session replay
+
+    // Clarity (Microsoft)
+    // Feature: Heatmaps & Session Recording, no sampling
+    // Free Limit: 100% Free forever
     clarity: { id: 'v1u8hhnpw2', enabled: true },  // Microsoft heatmaps
 
     // PRODUCT ANALYTICS - Enable one for deep insights
+    // Mixpanel
+    // Feature: Event-based funnel analysis
+    // Free Limit: 20 Million events/month (Generous)
     mixpanel: { token: '8d06e28c86c9b01865d866d0ac4982af', enabled: true },  // User journeys
+
+    // Amplitude
+    // Feature: Product intelligence & behavioral cohorts
+    // Free Limit: 100,000 Monthly Tracked Users
     amplitude: { apiKey: 'd1733215e7a8236a73912adf86ac450b', enabled: false },  // Alternative
+
+    // PostHog
+    // Feature: Open Source, Session Recording, Feature Flags
+    // Free Limit: 1 Million events/month (Cloud)
     posthog: { key: 'phc_P9VZ5bjyFoWrIUbecuFTUN2oKavGQYqT3rVSxX8Kqn8', host: 'https://us.i.posthog.com', enabled: false },
 
     // PRIVACY-FOCUSED - Enable for EU visibility

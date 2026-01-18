@@ -10,6 +10,17 @@ export function init(config, loadScript) {
     if (!config.enabled) return;
     console.log('[BaaS] Initializing forms/formsubmit');
 
-    // Implementation placeholder for formsubmit
-    // const { ...credentials } = config;
+    // Auto-configure forms marked for Formsubmit
+    if (config.email) {
+        const forms = document.querySelectorAll('form[data-provider="formsubmit"]');
+        forms.forEach(form => {
+            form.action = `https://formsubmit.co/${config.email}`;
+            form.method = 'POST';
+        });
+    }
+
+    // Expose helper
+    window.formsubmit = {
+        getEndpoint: () => config.email ? `https://formsubmit.co/${config.email}` : null
+    };
 }
