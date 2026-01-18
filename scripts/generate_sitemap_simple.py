@@ -1,14 +1,7 @@
 #!/usr/bin/env python3
 """
-Sitemap Generator - Auto-generate sitemap.xml from GitHub repos.
-
-Creates comprehensive sitemap for SEO:
-- Main site pages (index, about, privacy, terms, cookies)
-- All tool pages from GitHub repos
-- Priorities based on stars/activity
-
-Usage:
-  python generate_sitemap.py
+Simple Sitemap Generator - Auto-generate sitemap.xml from GitHub repos.
+Windows-compatible version without Unicode characters.
 """
 
 import json
@@ -58,7 +51,7 @@ def fetch_all_repos(username: str = "chirag127") -> list[dict]:
 
 
 def generate_sitemap(repos: list[dict], base_url: str = Settings.SITE_BASE_URL) -> str:
-    """Generate comprehensive XML sitemap with polymorphs and enhanced SEO."""
+    """Generate comprehensive XML sitemap."""
     today = datetime.now().strftime("%Y-%m-%d")
 
     # Static pages with enhanced priorities
@@ -139,30 +132,6 @@ def generate_sitemap(repos: list[dict], base_url: str = Settings.SITE_BASE_URL) 
             "changefreq": changefreq
         })
 
-    # Guide pages
-    guide_pages = []
-    guides_dir = ROOT_DIR / "guides"
-    if guides_dir.exists():
-        for guide_file in guides_dir.glob("*.html"):
-            guide_pages.append({
-                "loc": f"{base_url}/guides/{guide_file.name}",
-                "lastmod": today,
-                "priority": "0.6",
-                "changefreq": "monthly"
-            })
-
-    # Documentation pages
-    docs_pages = []
-    docs_dir = ROOT_DIR / "docs"
-    if docs_dir.exists():
-        for doc_file in docs_dir.glob("*.html"):
-            docs_pages.append({
-                "loc": f"{base_url}/docs/{doc_file.name}",
-                "lastmod": today,
-                "priority": "0.6",
-                "changefreq": "monthly"
-            })
-
     # Generate XML with enhanced structure
     xml_parts = [
         '<?xml version="1.0" encoding="UTF-8"?>',
@@ -173,7 +142,7 @@ def generate_sitemap(repos: list[dict], base_url: str = Settings.SITE_BASE_URL) 
     ]
 
     # Add all pages in priority order
-    all_pages = static_pages + polymorph_pages + tool_pages + guide_pages + docs_pages
+    all_pages = static_pages + polymorph_pages + tool_pages
 
     # Sort by priority (highest first) for better SEO
     all_pages.sort(key=lambda x: float(x['priority']), reverse=True)
@@ -193,7 +162,7 @@ def generate_sitemap(repos: list[dict], base_url: str = Settings.SITE_BASE_URL) 
 
 
 def main():
-    """Generate and save comprehensive sitemap.xml with enhanced SEO."""
+    """Generate and save comprehensive sitemap.xml."""
     print("Fetching repositories...")
     repos = fetch_all_repos()
     print(f"Found {len(repos)} repositories")
@@ -207,44 +176,42 @@ def main():
 
     print("Generating comprehensive sitemap...")
 
-    # Sitemap requires absolute URL. Use env var or default to main domain.
+    # Sitemap requires absolute URL
     base_url = Settings.SITE_BASE_URL
     if not base_url:
         base_url = "https://chirag127.github.io"
-        print(f"SITE_BASE_URL not set, using fallback for sitemap: {base_url}")
+        print(f"Using fallback URL: {base_url}")
 
     sitemap = generate_sitemap(repos, base_url)
 
     # Save sitemap to root directory
     output_path = ROOT_DIR / "sitemap.xml"
     output_path.write_text(sitemap, encoding="utf-8")
-    print(f"✅ Saved: {output_path}")
+    print(f"Saved: {output_path}")
 
     # Count URLs by type
     url_count = sitemap.count("<url>")
-    static_count = sitemap.count("/about.html") + sitemap.count("/contact.html") + sitemap.count("/privacy.html") + sitemap.count("/terms.html") + sitemap.count("/cookies.html") + sitemap.count("/voters.html") + sitemap.count("/contractors.html") + 1  # +1 for homepage
+    static_count = 8  # Known static pages
     polymorph_count = sitemap.count("/polymorphs/")
     tool_count = url_count - static_count - polymorph_count
 
-    print(f"📊 Sitemap Statistics:")
-    print(f"   📄 Static pages: {static_count}")
-    print(f"   🔮 Polymorph pages: {polymorph_count}")
-    print(f"   🛠️ Tool pages: {tool_count}")
-    print(f"   📈 Total URLs: {url_count}")
+    print("Sitemap Statistics:")
+    print(f"  Static pages: {static_count}")
+    print(f"  Polymorph pages: {polymorph_count}")
+    print(f"  Tool pages: {tool_count}")
+    print(f"  Total URLs: {url_count}")
 
-    # Validate sitemap size (should be under 50MB and 50k URLs)
+    # Validate sitemap size
     sitemap_size = len(sitemap.encode('utf-8'))
-    print(f"   💾 Sitemap size: {sitemap_size / 1024:.1f} KB")
+    print(f"  Sitemap size: {sitemap_size / 1024:.1f} KB")
 
     if url_count > 50000:
-        print("⚠️ WARNING: Sitemap has >50k URLs, consider splitting")
+        print("WARNING: Sitemap has >50k URLs")
     if sitemap_size > 50 * 1024 * 1024:
-        print("⚠️ WARNING: Sitemap >50MB, consider compression")
+        print("WARNING: Sitemap >50MB")
 
-    print("🎯 SEO Optimization complete!")
-    print(f"   Submit to: {base_url}/sitemap.xml")
-    print("   Google Search Console: https://search.google.com/search-console")
-    print("   Bing Webmaster Tools: https://www.bing.com/webmasters")
+    print("SEO Optimization complete!")
+    print(f"Submit to: {base_url}/sitemap.xml")
 
 
 if __name__ == "__main__":

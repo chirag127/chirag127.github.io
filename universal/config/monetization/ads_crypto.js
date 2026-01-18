@@ -35,7 +35,7 @@ export const ads_crypto = {
     // - Established crypto news sites, blogs, and tools.
     // - Publishers wanting premium, clean ads.
     //
-    coinzilla: { zoneId: '04f0bcb8c5793e809c1b6d64b32b5772', format: 'banner', enabled: false },
+    coinzilla: { zoneId: '04f0bcb8c5793e809c1b6d64b32b5772', format: 'banner', enabled: true },
 
     // ============================================================================
     // A-ADS (Anonymous Ads) - Privacy First

@@ -6,7 +6,7 @@
    - Orchestrates ALL Integrations with Fallback Support
 */
 
-(async function() {
+(async function () {
   console.log("🚀 Launching Universal Engine v2.1 (Comprehensive)...");
 
   // 1. Determine Base URL
@@ -94,29 +94,29 @@
     document.documentElement.setAttribute('data-theme', savedTheme);
 
     const updateIcons = (theme) => {
-        const sun = toggle.querySelector('.sun-icon');
-        const moon = toggle.querySelector('.moon-icon');
-        if (theme === 'light') {
-            document.body.classList.add('light-theme');
-            sun.style.display = 'none';
-            moon.style.display = 'block';
-        } else {
-            document.body.classList.remove('light-theme');
-            sun.style.display = 'block';
-            moon.style.display = 'none';
-        }
+      const sun = toggle.querySelector('.sun-icon');
+      const moon = toggle.querySelector('.moon-icon');
+      if (theme === 'light') {
+        document.body.classList.add('light-theme');
+        sun.style.display = 'none';
+        moon.style.display = 'block';
+      } else {
+        document.body.classList.remove('light-theme');
+        sun.style.display = 'block';
+        moon.style.display = 'none';
+      }
     };
 
     updateIcons(savedTheme);
 
-    if(toggle) {
-        toggle.addEventListener('click', () => {
-          const current = document.documentElement.getAttribute('data-theme');
-          const next = current === 'dark' ? 'light' : 'dark';
-          document.documentElement.setAttribute('data-theme', next);
-          localStorage.setItem('theme', next);
-          updateIcons(next);
-        });
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateIcons(next);
+      });
     }
   }
 
@@ -266,10 +266,141 @@
       if (fb) console.log("🔥 Firebase Modules Loaded");
     });
 
-  // 10. Report loaded stats
+  // 10. Universal Polymorph Button Injection
+  await injectPolymorphButton();
+
+  // 11. Report loaded stats
   console.log(`✨ Universal Engine v2.1 initialized!`);
   console.log(`   📊 Tracking: ${trackingCount} providers`);
   console.log(`   💰 Monetization: ${monetizationCount} providers`);
   console.log(`   🎯 Engagement: ${engagementCount} providers`);
+
+  // 12. Universal Polymorph Button Function
+  async function injectPolymorphButton() {
+    try {
+      // Check if we're on the main hub or a polymorph page
+      const currentPath = window.location.pathname;
+      const isMainHub = currentPath === '/' || currentPath === '/index.html';
+      const isPolymorphPage = currentPath.includes('/polymorphs/');
+
+      // Discover available polymorphs from GitHub API
+      const polymorphs = await discoverPolymorphs();
+
+      if (polymorphs.length > 0) {
+        // Determine current slug for active state
+        let currentSlug = '';
+        if (isPolymorphPage) {
+          const filename = currentPath.split('/').pop();
+          currentSlug = filename.replace('.html', '');
+        }
+
+        // Initialize polymorphs sidebar with discovered models
+        if (window.Polymorphs && typeof window.Polymorphs.init === 'function') {
+          window.Polymorphs.init(polymorphs, {
+            currentSlug: currentSlug,
+            baseUrl: 'polymorphs',
+            isHub: isMainHub
+          });
+          console.log(`🔮 Polymorphs button injected with ${polymorphs.length} variants`);
+        } else {
+          // Fallback: Load sidebar.js if not already loaded
+          await loadScript(`${U_PATH}/sidebar.js`);
+          setTimeout(() => {
+            if (window.Polymorphs) {
+              window.Polymorphs.init(polymorphs, {
+                currentSlug: currentSlug,
+                baseUrl: 'polymorphs',
+                isHub: isMainHub
+              });
+              console.log(`🔮 Polymorphs button injected (fallback) with ${polymorphs.length} variants`);
+            }
+          }, 100);
+        }
+      }
+    } catch (error) {
+      console.warn('⚠️ Polymorph button injection failed:', error.message);
+    }
+  }
+
+  // 13. Discover Polymorphs Function
+  async function discoverPolymorphs() {
+    try {
+      // Try to get from cache first (1 hour cache)
+      const cacheKey = 'polymorphs_cache';
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < 3600000) { // 1 hour
+          return data;
+        }
+      }
+
+      // Fetch from GitHub API
+      const response = await fetch('https://api.github.com/repos/chirag127/chirag127.github.io/contents/polymorphs');
+      if (!response.ok) throw new Error('Failed to fetch polymorphs');
+
+      const files = await response.json();
+      const htmlFiles = files.filter(file => file.name.endsWith('.html'));
+
+      // Map to polymorph model format
+      const polymorphs = htmlFiles.map(file => {
+        const slug = file.name.replace('.html', '');
+        return mapSlugToModel(slug);
+      }).filter(Boolean);
+
+      // Cache the results
+      localStorage.setItem(cacheKey, JSON.stringify({
+        data: polymorphs,
+        timestamp: Date.now()
+      }));
+
+      return polymorphs;
+    } catch (error) {
+      console.warn('Failed to discover polymorphs:', error.message);
+      // Return fallback models if API fails
+      return getFallbackPolymorphs();
+    }
+  }
+
+  // 14. Map slug to model info
+  function mapSlugToModel(slug) {
+    const modelMap = {
+      'deepseek-r1t2-chimera-openrouter': { name: 'DeepSeek R1T2 Chimera', size: 671, provider: 'OpenRouter' },
+      'deepseek-v3-2-nvidia': { name: 'DeepSeek V3.2', size: 671, provider: 'NVIDIA' },
+      'glm-4-7-1t-moe-cerebras': { name: 'GLM 4.7 1T MoE', size: 1000, provider: 'Cerebras' },
+      'mistral-large-3-675b-instruct-mistral': { name: 'Mistral Large 3', size: 675, provider: 'Mistral' },
+      'mistral-large-3-675b-instruct-nvidia': { name: 'Mistral Large 3', size: 675, provider: 'NVIDIA' },
+      'qwen3-coder-480b-moe-openrouter': { name: 'Qwen3 Coder 480B MoE', size: 480, provider: 'OpenRouter' }
+    };
+
+    const model = modelMap[slug];
+    if (model) {
+      return {
+        slug: slug,
+        name: model.name,
+        size: model.size,
+        provider: model.provider
+      };
+    }
+
+    // Fallback parsing for unknown slugs
+    const parts = slug.split('-');
+    return {
+      slug: slug,
+      name: parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' '),
+      size: 70, // Default size
+      provider: 'AI'
+    };
+  }
+
+  // 15. Fallback polymorphs if API fails
+  function getFallbackPolymorphs() {
+    return [
+      { slug: 'glm-4-7-1t-moe-cerebras', name: 'GLM 4.7 1T MoE', size: 1000, provider: 'Cerebras' },
+      { slug: 'deepseek-r1t2-chimera-openrouter', name: 'DeepSeek R1T2 Chimera', size: 671, provider: 'OpenRouter' },
+      { slug: 'mistral-large-3-675b-instruct-nvidia', name: 'Mistral Large 3', size: 675, provider: 'NVIDIA' },
+      { slug: 'qwen3-coder-480b-moe-openrouter', name: 'Qwen3 Coder 480B MoE', size: 480, provider: 'OpenRouter' }
+    ];
+  }
 
 })();

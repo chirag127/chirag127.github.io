@@ -51,7 +51,63 @@ logger = logging.getLogger('PolymorphsHub')
 POLYMORPHS_DIR = ROOT_DIR / "polymorphs"
 MAIN_INDEX = ROOT_DIR / "index.html"
 
-# Hub Homepage Generation Prompt
+#!/usr/bin/env python3
+"""
+Generate Polymorphs Hub - Alternative Hub Homepage Generator
+
+Creates alternative versions of the Chirag Hub homepage using different AI models.
+Each version is saved directly to polymorphs/{slug}.html (flat files, no subfolders).
+Supports concurrent generation with intelligent fallback system.
+
+Usage:
+    python generate_polymorphs_hub.py              # Generate all polymorphs hubs
+    python generate_polymorphs_hub.py --dry-run    # Show what would be generated
+    python generate_polymorphs_hub.py --model NAME # Generate for specific model
+    python generate_polymorphs_hub.py --concurrent 8 # Set concurrency level
+"""
+
+import argparse
+import logging
+import os
+import sys
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
+from typing import List, Optional
+import json
+
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
+
+# Setup paths
+SCRIPT_DIR = Path(__file__).parent.absolute()
+ROOT_DIR = SCRIPT_DIR.parent
+sys.path.insert(0, str(ROOT_DIR))
+
+from src.ai.unified_client import UnifiedAIClient
+from src.ai.base import CompletionResult
+from src.ai.models import (
+    get_sidebar_enabled_models,
+    generate_model_slug,
+    get_sidebar_models_for_html,
+    UnifiedModel,
+)
+from src.core.config import Settings
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(name)s] %(levelname)s: %(message)s',
+    datefmt='%H:%M:%S'
+)
+logger = logging.getLogger('PolymorphsHub')
+
+# Paths
+POLYMORPHS_DIR = ROOT_DIR / "polymorphs"
+MAIN_INDEX = ROOT_DIR / "index.html"
+
+# Enhanced Hub Homepage Generation Prompt with 2026 Standards
 HUB_PROMPT = """ROLE: You are the Apex Technical Authority (Jan 2026 Standards).
 Expert Frontend Architect creating a premium, production-ready homepage.
 
@@ -59,13 +115,15 @@ TASK: Generate a COMPLETE Chirag Hub homepage that:
 1. Fetches repositories from GitHub API (https://api.github.com/users/chirag127/repos)
 2. Displays them as filterable, searchable tool cards
 3. Has premium 2026 glassmorphism design
+4. Includes universal polymorph button injection
+5. Full SEO optimization with structured data
 
 REQUIREMENTS:
 
 1. DATA FETCHING:
    - Fetch repos with pagination (100 per page, up to 10 pages)
    - Filter out forks and excluded repos: ['chirag127.github.io', 'chirag127']
-   - Extract: name, description, stars, has_pages, pushed_at
+   - Extract: name, description, stars, has_pages, pushed_at, topics, language
 
 2. UI COMPONENTS:
    - Hero section with gradient text: "Every Tool You Need. Free. Private. Forever."
@@ -74,47 +132,69 @@ REQUIREMENTS:
    - Category filter pills: All, PDF, Image, Media, Dev, Text, Math, Finance, Health, Convert, Security, Games
    - Responsive grid of tool cards (min-width 340px)
    - Each card: category icon, title, badge, description, stars, date
+   - Universal polymorph button (bottom-left) - automatically injected by Universal Engine
 
 3. CATEGORY DETECTION (from repo name/description/topics):
    - pdf: ['pdf', 'document', 'merge', 'split']
    - image: ['image', 'photo', 'png', 'jpg', 'crop', 'resize']
-   - media: ['video', 'audio', 'mp3', 'youtube']
-   - dev: ['json', 'xml', 'sql', 'html', 'code', 'api']
-   - text: ['text', 'word', 'markdown', 'string']
-   - math: ['math', 'calculator', 'algebra']
-   - finance: ['loan', 'mortgage', 'tax', 'currency']
-   - health: ['bmi', 'calorie', 'health']
-   - converter: ['convert', 'unit', 'encoder']
-   - security: ['password', 'hash', 'encrypt']
-   - game: ['game', 'puzzle', 'sudoku']
+   - video: ['video', 'screen', 'record', 'mp4', 'webm']
+   - audio: ['audio', 'voice', 'music', 'sound', 'wav', 'mp3']
+   - text: ['text', 'word', 'markdown', 'editor', 'string']
+   - dev: ['json', 'xml', 'api', 'code', 'developer', 'git']
+   - math: ['calculator', 'math', 'formula', 'geometry', 'algebra']
+   - finance: ['loan', 'mortgage', 'currency', 'tax', 'salary']
+   - health: ['bmi', 'health', 'medical', 'fitness', 'nutrition']
+   - convert: ['convert', 'encoder', 'decoder', 'transform']
+   - security: ['password', 'encrypt', 'hash', 'security', 'crypto']
+   - game: ['game', 'puzzle', 'quiz', 'entertainment', 'fun']
 
-4. DESIGN (2026 SPATIAL-GLASS):
-   - Background: #030712 (very dark blue)
-   - Primary: #6366f1 (indigo)
-   - Glass effects: backdrop-filter: blur(20px)
-   - Gradient text: linear-gradient(135deg, #6366f1, #a855f7, #ec4899)
-   - Card hover: translateY(-6px), glow shadow
-   - Smooth animations: fadeInUp, elastic easing
+4. DESIGN SYSTEM (2026 Spatial Glass):
+   - Dark theme with glassmorphism effects
+   - Backdrop-filter: blur(20px) for glass elements
+   - Gradient borders: rgba(255,255,255,0.1)
+   - Smooth animations with cubic-bezier(0.4, 0, 0.2, 1)
+   - Inter font family
+   - Color palette: #6366f1 (primary), #ec4899 (secondary)
 
-5. CRITICAL REQUIREMENTS:
-   - Single index.html file (inline CSS in <style>, JS in <script>)
-   - Include Universal Engine scripts in <head> with ABSOLUTE PATHS:
-     <script src="/universal/config.js" defer></script>
-     <script src="/universal/core.js" defer></script>
-     <script src="/universal/sidebar.js" defer></script>
-   - IMPORTANT: Use absolute paths starting with / (NOT ../universal/)
-   - NO <header> or <footer> tags (Universal Engine injects them)
-   - Wrap content in <main> element
-   - Use IIFE pattern for JavaScript (no global variables)
+5. PERFORMANCE:
+   - Lazy loading for images
+   - Intersection Observer for animations
+   - Debounced search (300ms)
+   - Virtual scrolling for large lists
+   - Service Worker for caching
 
-6. POLYMORPHS SIDEBAR:
-   Include JavaScript at the end to initialize the sidebar with these models:
-   {sidebar_models}
+6. SEO OPTIMIZATION:
+   - Complete meta tags (title, description, keywords, author)
+   - Open Graph tags for social sharing
+   - Twitter Card tags
+   - Structured data (Organization, WebSite, SoftwareApplication)
+   - Canonical URL
+   - Sitemap reference
+   - robots meta tag
 
-   Call: Polymorphs.init(MODELS_ARRAY, {{ isHub: true, baseUrl: 'polymorphs', currentSlug: '{current_slug}' }});
+7. ACCESSIBILITY:
+   - ARIA labels and roles
+   - Keyboard navigation support
+   - Focus management
+   - Screen reader compatibility
+   - Color contrast compliance (WCAG 2.1 AA)
 
-OUTPUT: Complete index.html. Return ONLY the code wrapped in ```html blocks.
-"""
+8. INTEGRATIONS:
+   - Universal Engine injection (header, footer, theme)
+   - Analytics tracking (GA4, Clarity, etc.)
+   - Monetization (Coinzilla ads)
+   - Error tracking and performance monitoring
+
+CRITICAL REQUIREMENTS:
+- NO placeholder code - everything must be functional
+- Complete single-file HTML with inline CSS and JavaScript
+- All external dependencies via CDN
+- Mobile-first responsive design
+- Cross-browser compatibility (Chrome, Firefox, Safari, Edge)
+- Loading states and error handling
+- Offline functionality with Service Worker
+
+OUTPUT: Complete HTML file ready for production deployment."""
 
 
 def get_sidebar_html_data() -> str:

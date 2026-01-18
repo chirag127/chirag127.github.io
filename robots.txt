@@ -7,10 +7,46 @@ Sitemap: https://chirag127.github.io/sitemap.xml
 # Crawl-delay (be nice to servers)
 Crawl-delay: 1
 
-# Disallow system files
+# Disallow system files and directories
 Disallow: /.git/
 Disallow: /.github/
 Disallow: /state/
 Disallow: /.temp/
 Disallow: /apex_optimizer/
 Disallow: /tests/
+Disallow: /scripts/
+Disallow: /src/
+Disallow: /.kiro/
+Disallow: /.bob/
+
+# Allow important directories
+Allow: /polymorphs/
+Allow: /universal/
+Allow: /docs/
+
+# Disallow query parameters and fragments
+Disallow: /*?
+Disallow: /*#
+
+# Specific bot instructions
+User-agent: Googlebot
+Crawl-delay: 1
+Allow: /
+
+User-agent: Bingbot
+Crawl-delay: 2
+Allow: /
+
+User-agent: Slurp
+Crawl-delay: 3
+Allow: /
+
+# Block aggressive crawlers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
