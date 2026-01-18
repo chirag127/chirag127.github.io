@@ -307,7 +307,7 @@ def git_push(name: str, files: dict[str, str]) -> bool:
 
 
 # =============================================================================
-# WEB SEARCH RESEARCH (SearXNG Integration)
+# WEB SEARCH RESEARCH
 # =============================================================================
 
 def research_tool(name: str, search_client: WebSearchClient) -> dict:

@@ -99,9 +99,9 @@ REQUIREMENTS:
 5. CRITICAL REQUIREMENTS:
    - Single index.html file (inline CSS in <style>, JS in <script>)
    - Include Universal Engine scripts in <head>:
-     <script src="../universal/config.js" defer></script>
-     <script src="../universal/core.js" defer></script>
-     <script src="../universal/sidebar.js" defer></script>
+     <script src="/universal/config.js" defer></script>
+     <script src="/universal/core.js" defer></script>
+     <script src="/universal/sidebar.js" defer></script>
    - NO <header> or <footer> tags (Universal Engine injects them)
    - Wrap content in <main> element
    - Use IIFE pattern for JavaScript (no global variables)
@@ -136,7 +136,7 @@ def get_sidebar_injection_script(sidebar_data: str, current_slug: str) -> str:
     """
     return f"""
 <!-- Polymorphs Sidebar Injection -->
-<script src="{Settings.SITE_BASE_URL}/universal/sidebar.js" defer></script>
+<script src="/universal/sidebar.js" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {{
   if (typeof Polymorphs !== 'undefined') {{

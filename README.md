@@ -1,48 +1,114 @@
-# Chirag Hub
+# Chirag Hub (chirag127.github.io)
 
-**Every tool you need. Free. Private. Forever.**
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" alt="Status">
+  <img src="https://img.shields.io/badge/Tools-450+-blue?style=for-the-badge" alt="Tools Count">
+  <img src="https://img.shields.io/badge/Privacy-100%25-green?style=for-the-badge" alt="Privacy">
+  <br>
+  <strong>The Infinite Toolset: Free, Private, Browser-Based Utilities.</strong>
+</p>
 
-This repository is the central hub powering an ever-growing ecosystem of browser-based utilities. PDF editing, image conversion, developer tools, calculators, games—all running 100% in your browser with zero uploads.
+[Chirag Hub](https://chirag127.github.io/) is a centralized platform hosting a vast collection of browser-based tools. From PDF manipulation and image conversion to developer utilities and games, every tool runs 100% client-side, ensuring your data never leaves your device.
 
-## Universal Architecture
-This project utilizes a unique **Frontend-Only Universal Architecture** to ensure consistency, privacy, and zero server management across hundreds of repositories.
+This repository serves as the **central command center** for the Chirag Hub ecosystem. It hosts the main landing page, the "Universal Engine" shared library, and the AI-powered automation scripts that generate and manage the individual tool repositories.
 
-### Core Components
-- **`public/universal/config.js`**: The central brain. Defines keys/tokens for all 20+ tracked SaaS services (Analytics, Auth, Ads).
-- **`public/universal/core.js`**: The engine. Injected into every satellite tool site. It dynamically builds the Header/Footer and loads the services defined in `config.js`.
-- **`public/universal/style.css`**: The skin. Provides the shared "Spatial Glass" design system and dark mode logic.
-- **`public/universal/firebase-modules.js`**: The spine. Handles complex Firebase logic (Auth/Firestore) as a native ES Module.
+---
 
-### How it Works
-1.  **Hub (`chirag127.github.io`)**: Loads the universal engine to render itself.
-2.  **Satellites (e.g., `pdf-merge`)**: Import the engine via `<script src="https://chirag127.github.io/universal/core.js"></script>`.
-3.  **Updates**: A single change propagates across the entire network instantly.
+## ✨ Key Features
 
-## The Complete Toolkit
-From PDF manipulation to code formatting—if you need a browser tool, it's here.
+### 1. The Universal Engine (`universal/`)
+A powerful, modular JavaScript framework that unifies the user experience across all tools.
+-   **Consistent UI**: Automatically pushes a shared header, footer, and theme system (Dark/Light mode) to every tool.
+-   **Global Styling**: Injects premium "Spatial Glass" design tokens.
+-   **Integration Stack**: Manages analytics, monetization, and engagement features centrally.
 
-| Category | Example Tools |
-| :--- | :--- |
-| **PDF** | Merge, Split, Compress, OCR, Convert |
-| **Image** | Converter, Resize, Crop, SVG Editor, Palette |
-| **Dev** | JSON Formatter, Regex Tester, Base64, Cron |
-| **Audio** | Cutter, Recorder, BPM Counter |
+### 2. Polymorphs (The Multiverse)
+A cutting-edge feature where tools are generated in multiple "variants" by different AI models (e.g., GPT-4, Claude 3.5, Llama 3).
+-   **Compare Models**: See how different AIs solve the same coding problem.
+-   **AI Native**: The UI allows seamless switching between these AI-generated realities.
 
-## Development
-To run locally:
-```bash
-# Clone
-git clone https://github.com/chirag127/chirag127.github.io.git
-cd chirag127.github.io
+### 3. AI-Native "Factory"
+The entire ecosystem is self-expanding. Python scripts (`scripts/generate_projects.py`) leverage LLMs to:
+-   **Research**: Analyze requirements using web search.
+-   **Generate**: Write complete, single-file HTML/JS applications.
+-   **Deploy**: Automate GitHub repository creation and Pages deployment.
 
-# Serve (e.g., using Python)
-python -m http.server 8000
+---
+
+## 🛠️ Architecture
+
+The project follows a **Hub-and-Spoke** model:
+
+```mermaid
+graph TD
+    A[This Repo (Hub)] -->|Universal Engine| B[Tool A]
+    A -->|Universal Engine| C[Tool B]
+    A -->|Universal Engine| D[Tool C]
+    E[Python Scripts] -->|Generates| B
+    E -->|Generates| C
+    E -->|Generates| D
+    F[index.html] -->|Fetches| B
+    F -->|Fetches| C
+    F -->|Fetches| D
 ```
-Open `http://localhost:8000`. The Universal Engine detects `localhost` and loads assets relatively.
 
-## Privacy
-- **Client-Side First**: File processing (PDF merging, Image conversion) happens in the browser via WebAssembly/JS libraries. Files are NOT uploaded to our servers.
-- **Analytics**: We use privacy-friendly analytics (Plausible, Umami) alongside standard ones to improve the tools.
+-   **Frontend**: Vanilla HTML5/CSS3/JS. No heavy frameworks.
+-   **Automation**: Python 3.10+ (AsyncIO, Pydantic).
+-   **Data Source**: GitHub API (The hub fetches your repos dynamically).
 
-## License
-MIT (c) 2026 Chirag Singhal
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+-   Python 3.10+
+-   Node.js (optional, for some specific internal tools)
+-   GitHub Personal Access Token (for the generator scripts)
+
+### Installation
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/chirag127/chirag127.github.io.git
+    cd chirag127.github.io
+    ```
+
+2.  **Install Python dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3.  **Set up Environment**:
+    Create a `.env` file (see `.env.example`) with your `GH_TOKEN`.
+
+### Usage
+-   **Run the Hub Locally**:
+    ```bash
+    npx serve .
+    ```
+    Visit `http://localhost:3000` to see the hub.
+
+-   **Generate a New Tool** (for authorized users):
+    ```bash
+    python scripts/generate_projects.py --tool "image-compressor"
+    ```
+
+---
+
+## 📚 Documentation
+For a detailed deep-dive into the repository structure and analysis, see:
+👉 [**Repository Review**](docs/REPOSITORY_REVIEW.md)
+
+---
+
+## 🤝 Contributing
+We welcome contributions! Please see `CONTRIBUTING.md` (if available) or open an issue to discuss your ideas.
+Since this is an automated repo, please be careful when modifying the `scripts/` directory.
+
+## 📜 License
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+<p align="center">
+  Made with ❤️ & 🤖 by <a href="https://github.com/chirag127">Chirag Singhal</a>
+</p>

@@ -51,7 +51,7 @@ def generate_sidebar_html(models: List[dict], current_slug: str, is_hub: bool = 
     base_url = "polymorphs"
 
     return f"""
-<script src="{Settings.SITE_BASE_URL}/universal/sidebar.js"></script>
+<script src="/universal/sidebar.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {{
   if (typeof Polymorphs !== 'undefined') {{
@@ -108,8 +108,8 @@ REQUIREMENTS:
 
 2. UNIVERSAL ENGINE INTEGRATION:
    - Include in <head>:
-     <script src="../universal/config.js" defer></script>
-     <script src="../universal/core.js" defer></script>
+     <script src="/universal/config.js" defer></script>
+     <script src="/universal/core.js" defer></script>
    - DO NOT create <header> or <footer> tags (injected by Universal Engine)
    - Wrap ALL content in <main> with padding-top: 80px
 

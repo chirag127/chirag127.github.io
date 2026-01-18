@@ -29,7 +29,7 @@
   <title>Tool Name - Chirag Hub</title>
   <!-- UNIVERSAL ENGINE -->
   <script src="https://chirag127.github.io/universal/config.js"></script>
-  <script src="https://chirag127.github.io/public/universal/core.js"></script>
+  <script src="https://chirag127.github.io/universal/core.js"></script>
   <style>
     .tool-container { max-width: 800px; margin: 4rem auto; text-align: center; }
   </style>

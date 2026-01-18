@@ -170,7 +170,4 @@ class Settings:
         if self.SEMANTIC_SCHOLAR_API_KEY:
             sources.append("semantic_scholar")
 
-        # SearXNG always available (no key needed)
-        sources.append("searxng")
-
         return sources
