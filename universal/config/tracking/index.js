@@ -1,11 +1,11 @@
-import * as analytics_general from './analytics_general.js';
-import * as analytics_heatmaps from './analytics_heatmaps.js';
-import * as attribution from './attribution.js';
-import * as auth from './auth.js';
-import * as realtime_analytics from './realtime_analytics.js';
-import * as tracking_bugs from './tracking_bugs.js';
-import * as tracking_performance from './tracking_performance.js';
-import * as tracking_seo from './tracking_seo.js';
+import { analytics_general } from './analytics_general.js';
+import { analytics_heatmaps } from './analytics_heatmaps.js';
+import { attribution } from './attribution.js';
+import { auth } from './auth.js';
+import { realtime_analytics } from './realtime_analytics.js';
+import { tracking_bugs } from './tracking_bugs.js';
+import { tracking_performance } from './tracking_performance.js';
+import { tracking_seo } from './tracking_seo.js';
 
 export const tracking = {
     analytics_general, analytics_heatmaps, attribution, auth,

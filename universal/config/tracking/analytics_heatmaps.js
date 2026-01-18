@@ -54,7 +54,7 @@ export const analytics_heatmaps = {
     // Best For:
     // - Debugging complex web apps where you need to see the console/network logs.
     //
-    logrocket: { appId: '', enabled: false },
+    logrocket: { appId: 'nshsif/github-hub', enabled: true },
 
     // ============================================================================
     // SMARTLOOK - Cross-Platform Replay

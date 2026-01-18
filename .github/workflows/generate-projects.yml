@@ -2,7 +2,7 @@ name: Generate Projects
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Daily at midnight UTC
+    - cron: '0 * * * *'  # Hourly at minute 0
   workflow_dispatch:
     inputs:
       tool_name:
@@ -28,6 +28,7 @@ env:
   NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
   CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
 
   # === TREND DISCOVERY APIS ===
   PRODUCT_HUNT_API_KEY: ${{ secrets.PRODUCT_HUNT_API_KEY }}
@@ -61,7 +62,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests pydantic httpx aiohttp tiktoken
+          pip install -r requirements.txt
           pip install -e . || true
 
       - name: Verify API Keys

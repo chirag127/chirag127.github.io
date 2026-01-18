@@ -23,10 +23,13 @@ export const offerwalls = {
     // - Minimum Payout: $1 (Very low).
     // - Methods: PayPal, Payoneer, Wire, Bitcoin.
     //
+    // ⚠️ DISABLED: Content locker blocks access to content behind offerwalls
+    // Reason: Prevents users from seeing content until they complete offers.
+    // Re-enable only for appropriate "locked premium content" scenarios.
     cpalead: {
         publisherId: '264708',
         directLink: 'https://cpalead.com/get-offers.php?id=264708',
-        enabled: true
+        enabled: false
     },
 
     // ============================================================================

@@ -26,7 +26,10 @@ export const url_shortener = {
     // Best For:
     // - General download links and high-traffic portals where stability is #1.
     //
-    ouoio: { apiToken: '', enabled: true },
+    // ⚠️ DISABLED: Shows interstitial ads and redirects before destination
+    // Reason: Users must wait through ads/redirects to reach target links.
+    // Re-enable only for download/link monetization where expected.
+    ouoio: { apiToken: '', enabled: false },
 
     // ============================================================================
     // SHRINKME.IO - Top CPM earner (2025)

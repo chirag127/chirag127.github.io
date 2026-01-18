@@ -1,15 +1,15 @@
-import * as ab_testing from './ab_testing.js';
-import * as comments from './comments.js';
-import * as email_capture from './email_capture.js';
-import * as faq from './faq.js';
-import * as notification_bells from './notification_bells.js';
-import * as popups from './popups.js';
-import * as push_marketing from './push_marketing.js';
-import * as reviews from './reviews.js';
-import * as rewards from './rewards.js';
-import * as scheduling from './scheduling.js';
-import * as social_feeds from './social_feeds.js';
-import * as social_share from './social_share.js';
+import { ab_testing } from './ab_testing.js';
+import { comments } from './comments.js';
+import { email_capture } from './email_capture.js';
+import { faq } from './faq.js';
+import { notification_bells } from './notification_bells.js';
+import { popups } from './popups.js';
+import { push_marketing } from './push_marketing.js';
+import { reviews } from './reviews.js';
+import { rewards } from './rewards.js';
+import { scheduling } from './scheduling.js';
+import { social_feeds } from './social_feeds.js';
+import { social_share } from './social_share.js';
 
 export const engagement = {
     ab_testing, comments, email_capture, faq, notification_bells,

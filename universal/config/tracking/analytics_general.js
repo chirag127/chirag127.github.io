@@ -94,7 +94,7 @@ export const analytics_general = {
     // - **5,000 Session Recordings / month**.
     // - **Requires Credit Card** for overflow (use spend caps to stay free).
     //
-    posthog: { key: 'phc_P9VZ5bjyFoWrIUbecuFTUN2oKavGQYqT3rVSxX8Kqn8', host: 'https://us.i.posthog.com', enabled: false },
+    posthog: { key: 'phc_P9VZ5bjyFoWrIUbecuFTUN2oKavGQYqT3rVSxX8Kqn8', host: 'https://us.i.posthog.com', enabled: true },
 
     // ============================================================================
     // UMAMI - Privacy-First & Simple
@@ -130,8 +130,65 @@ export const analytics_general = {
     // Free Limits:
     // - **Totally Free** (Unlimited traffic).
     //
-    cloudflare: { token: '333c0705152b4949b3eb0538cd4c2296', enabled: true }
+    cloudflare: { token: '333c0705152b4949b3eb0538cd4c2296', enabled: true },
+
+    // ============================================================================
+    // AMPLITUDE - Product Analytics
+    // ============================================================================
+    // Description:
+    // Enterprise-grade product analytics for understanding user behavior.
+    //
+    // Free Limits (2025):
+    // - **50,000 MTUs (Monthly Tracked Users)** on Starter plan.
+    // - Unlimited team members.
+    //
+    amplitude: { apiKey: 'd1733215e7a8236a73912adf86ac450b', enabled: true },
+
+    // ============================================================================
+    // HEAP - Automatic Event Capture
+    // ============================================================================
+    // Description:
+    // Automatically captures every user interaction without manual tagging.
+    //
+    // Free Limits (2025):
+    // - **10,000 Sessions/month**.
+    // - 1 year data retention.
+    //
+    heap: { id: '3491046690', enabled: true },
+
+    // ============================================================================
+    // BEAM ANALYTICS - Simple Privacy-First
+    // ============================================================================
+    // Description:
+    // Lightweight, privacy-focused analytics.
+    //
+    // Free Limits:
+    // - **100,000 Pageviews/month**.
+    //
+    beam: { token: '1148dc4c-933b-4fd2-ba28-a0bb56f78978', enabled: true },
+
+    // ============================================================================
+    // COUNTER.DEV - Developer Analytics
+    // ============================================================================
+    // Description:
+    // Analytics for developers, focused on referrers and screen sizes.
+    //
+    // Free Limits:
+    // - **Unlimited** (Open source).
+    //
+    counter_dev: { id: '5c0f4066-d78f-4cd8-a31d-40448c2f2749', enabled: true },
+
+    // ============================================================================
+    // CRONITOR RUM - Real User Monitoring
+    // ============================================================================
+    // Description:
+    // Real user monitoring for performance and uptime.
+    //
+    // Free Limits:
+    // - **100,000 Events/month**.
+    //
+    cronitor: { key: '205a4c0b70da8fb459aac415c1407b4d', enabled: true }
 };
 
-export const analytics_general_priority = ['ga4', 'yandex', 'clarity', 'mixpanel', 'umami', 'goatcounter', 'cloudflare'];
+export const analytics_general_priority = ['ga4', 'yandex', 'clarity', 'mixpanel', 'amplitude', 'umami', 'goatcounter', 'cloudflare', 'heap', 'beam', 'counter_dev', 'cronitor'];
 export const analytics_lazyLoad = true;

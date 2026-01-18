@@ -175,17 +175,27 @@
   window.CONFIG_PRIORITIES = priorities;
 
   // Helper: Flatten nested config objects into provider-keyed object
+  // Handles: stack -> subCategory -> provider structure
   function flattenConfig(config) {
     const flat = {};
-    for (const [stackName, stack] of Object.entries(config || {})) {
-      if (stack && typeof stack === 'object') {
-        for (const [providerName, providerConfig] of Object.entries(stack)) {
-          if (providerConfig && typeof providerConfig === 'object' && 'enabled' in providerConfig) {
-            flat[providerName] = providerConfig;
+
+    function extractProviders(obj, depth = 0) {
+      if (!obj || typeof obj !== 'object') return;
+
+      for (const [key, value] of Object.entries(obj)) {
+        if (value && typeof value === 'object') {
+          // If this looks like a provider config (has 'enabled' property), add it
+          if ('enabled' in value) {
+            flat[key] = value;
+          } else if (depth < 3) {
+            // Otherwise recurse deeper (but limit depth to prevent infinite loops)
+            extractProviders(value, depth + 1);
           }
         }
       }
     }
+
+    extractProviders(config);
     return flat;
   }
 

@@ -37,7 +37,7 @@ export const live_chat = {
     // Website: https://www.tawk.to
     // Note: Best free live chat - truly unlimited with no catches
     tawkto: {
-        source: 'https://embed.tawk.to/YOUR_PROPERTY_ID/default',
+        source: 'https://embed.tawk.to/6968e3ea8783b31983eb190b/1jf0rkjhp',
         enabled: true
     },
 

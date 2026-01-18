@@ -159,7 +159,9 @@ export const ads_display = {
     // - Minimum Payout: $5.
     // - Frequency: Weekly.
     //
-    propeller: { zoneId: '', multiTagId: '', enabled: false },
+    // ⚠️ DISABLED: Uses aggressive pop-under/pop-up ads that interrupt user experience
+    // Reason: Pop-up ads overlay content and disrupt UX. Re-enable if acceptable.
+    propeller: { zoneId: '202358', multiTagId: '', enabled: false },
 
     yllix: { siteId: '', enabled: false }
 };

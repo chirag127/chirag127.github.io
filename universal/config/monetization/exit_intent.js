@@ -19,7 +19,10 @@ export const exit_intent = {
     // Best For:
     // - Default recommendation for custom tools.
     //
-    ouibounce: { enabled: true },
+    // ⚠️ DISABLED: Creates pop-up overlay when user tries to leave
+    // Reason: Overlays content and interrupts exit flow. Considered intrusive UX.
+    // Re-enable for newsletter signups or specific exit messaging.
+    ouibounce: { enabled: false },
 
     // ============================================================================
     // POPTIN - Interactive Popups

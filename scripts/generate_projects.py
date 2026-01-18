@@ -129,7 +129,7 @@ def generate_tool_metadata(name: str, ai: UnifiedAIClient, state: dict) -> dict:
     print(f"  Generating metadata for {name}...")
     prompt = get_website_metadata_prompt(name)
 
-    result = ai.generate_json(prompt=prompt, max_tokens=1000, start_tier=1)
+    result = ai.generate_json(prompt=prompt, max_tokens=1000, start_tier=3)
 
     if result.success and result.json_content:
         metadata = {

@@ -1,0 +1,89 @@
+{
+  "generated": [
+    "text-case-converter",
+    "word-counter",
+    "character-counter"
+  ],
+  "failed": [],
+  "metadata_cache": {
+    "text-case-converter": {
+      "title": "Text Case Converter: Transform Text Instantly & Privately",
+      "description": "Free, privacy-focused text case converter. Change text case instantly\u2014no uploads, no ads, 100% client-side. Works offline!",
+      "features": [
+        "Transform text case in seconds\u2014uppercase, lowercase, title case & more",
+        "100% private: No data leaves your device\u2014files stay local",
+        "No sign-up, no ads, no limits\u2014just fast, free text conversion",
+        "Works offline: Perfect for sensitive documents or spotty connections",
+        "Supports all devices & browsers\u2014no downloads or installations needed"
+      ],
+      "keywords": [
+        "text case converter",
+        "free online text tool",
+        "privacy-friendly text editor",
+        "client-side text converter",
+        "uppercase lowercase converter",
+        "offline text transformer"
+      ],
+      "category": "Utility"
+    },
+    "word-counter": {
+      "title": "Word Counter Pro: Instant Text Analysis Tool",
+      "description": "Free browser-based word counter with real-time results. No upload required \u2013 your documents stay private. Count words, characters & sentences instantly!",
+      "features": [
+        "Instant word, character, and sentence counting",
+        "Real-time analysis updates as you type",
+        "Simple, clutter-free interface for quick use",
+        "100% private processing (no data leaves your device)",
+        "Works offline and on all modern browsers/devices"
+      ],
+      "keywords": [
+        "word counter",
+        "character count tool",
+        "free online word counter",
+        "privacy-focused text analysis",
+        "browser-based word count"
+      ],
+      "category": "Utility"
+    },
+    "character-counter": {
+      "title": "Character Counter Pro: Instant Text Analysis",
+      "description": "Free online character counter with real-time analysis. No upload needed\u2014100% private. Count letters, words, and spaces instantly!",
+      "features": [
+        "Real-time counting as you type",
+        "No file uploads\u2014processes entirely in your browser",
+        "Simple one-click text analysis",
+        "Military-grade privacy (data never leaves your device)",
+        "Works on all devices\u2014mobile, tablet & desktop"
+      ],
+      "keywords": [
+        "character counter",
+        "word counter",
+        "online text analysis",
+        "privacy-focused tool",
+        "free character count",
+        "client-side processing"
+      ],
+      "category": "Utility"
+    },
+    "line-counter": {
+      "title": "Line Counter Pro: Instant File & Text Analysis",
+      "description": "Free online tool to count lines in any file or text instantly. No upload required\u2014100% private processing on your device. Secure, fast, and accurate!",
+      "features": [
+        "Instant line counting with real-time results",
+        "Complete privacy\u2014files never leave your device",
+        "Simple drag-and-drop or text paste interface",
+        "No file uploads required for processing",
+        "Works with all text formats and code files"
+      ],
+      "keywords": [
+        "line counter",
+        "file line count",
+        "text line analyzer",
+        "privacy-first tool",
+        "client-side processing",
+        "free line counter"
+      ],
+      "category": "Utility"
+    }
+  }
+}

@@ -37,11 +37,15 @@ export const smart_links = {
     //
     // ⚠️ WARNING: Potentially aggressive redirects.
     //
+    // ⚠️ DISABLED: Link hijacking - redirects ALL user clicks through ad waterfalls
+    // Reason: Severely damages UX and trust. Never recommended.
     losPollos: { publisherId: '', enabled: false, _warning: 'HIJACKS ALL CLICKS' },
 
     // ============================================================================
     // SMARTYADS
     // ============================================================================
+    // ⚠️ DISABLED: Link hijacking - redirects ALL user clicks through ad waterfalls
+    // Reason: Severely damages UX and trust. Never recommended.
     smartyAds: { publisherId: '', enabled: false, _warning: 'HIJACKS ALL CLICKS' }
 };
 
