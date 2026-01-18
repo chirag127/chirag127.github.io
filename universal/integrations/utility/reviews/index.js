@@ -1,7 +1,7 @@
 /**
  * Reviews Index
  */
-import { trustpilot } from './trustpilot.js';
-import { googleReviews } from './googleReviews.js';
+import * as trustpilot from './trustpilot.js';
+import * as googleReviews from './googleReviews.js';
 
 export const reviews = { trustpilot, googleReviews };

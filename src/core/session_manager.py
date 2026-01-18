@@ -7,10 +7,12 @@ for stuck sessions using the UnifiedAIClient.
 
 import logging
 import time
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
-from src.ai.unified_client import UnifiedAIClient
 from src.clients.jules import JulesClient
+
+if TYPE_CHECKING:
+    from src.ai.unified_client import UnifiedAIClient
 
 logger = logging.getLogger("SessionManager")
 
@@ -20,7 +22,7 @@ class SessionManager:
     Manages Jules session lifecycle with intelligent recovery.
     """
 
-    def __init__(self, jules: JulesClient, ai: UnifiedAIClient) -> None:
+    def __init__(self, jules: JulesClient, ai: "UnifiedAIClient") -> None:
         self.jules = jules
         self.ai = ai
 

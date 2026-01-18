@@ -1,9 +1,9 @@
 /**
  * Comments Index
  */
-import { disqus } from './disqus.js';
-import { graphcomment } from './graphcomment.js';
-import { hyvorTalk } from './hyvorTalk.js';
-import { facebookComments } from './facebookComments.js';
+import * as disqus from './disqus.js';
+import * as graphcomment from './graphcomment.js';
+import * as hyvorTalk from './hyvorTalk.js';
+import * as facebookComments from './facebookComments.js';
 
 export const comments = { disqus, graphcomment, hyvorTalk, facebookComments };

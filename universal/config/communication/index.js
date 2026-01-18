@@ -1,15 +1,6 @@
-/**
- * Part 4: Communication - Index
- * @module config/communication
- */
-import { live_chat } from './live_chat.js';
-import { feedback_surveys } from './feedback_surveys.js';
-
-export const communication = { ...live_chat, ...feedback_surveys };
+export * as feedback_surveys from './feedback_surveys.js';
+export * as live_chat from './live_chat.js';
 
 export const communication_priorities = {
-    live_chat: ['tawk', 'crisp', 'tidio'],
-    feedback_surveys: ['typeform', 'googleForms']
+    // Default priorities
 };
-
-export { live_chat, feedback_surveys };

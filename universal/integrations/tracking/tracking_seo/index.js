@@ -1,8 +1,8 @@
 /**
  * SEO Tracking Index
  */
-import { googleSearchConsole } from './googleSearchConsole.js';
-import { bingWebmaster } from './bingWebmaster.js';
-import { yandexWebmaster } from './yandexWebmaster.js';
+import * as googleSearchConsole from './googleSearchConsole.js';
+import * as bingWebmaster from './bingWebmaster.js';
+import * as yandexWebmaster from './yandexWebmaster.js';
 
 export const tracking_seo = { googleSearchConsole, bingWebmaster, yandexWebmaster };

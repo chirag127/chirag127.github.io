@@ -1,33 +1,16 @@
-/**
- * Part 3: Utility - Index
- * @module config/utility
- */
-
-import { cookie_consent, cookie_consent_priority } from './cookie_consent.js';
-import { captcha, captcha_priority } from './captcha.js';
-import { fonts, fonts_priority } from './fonts.js';
-import { icons, icons_priority } from './icons.js';
-import { video_players, video_players_priority } from './video_players.js';
-import { maps, maps_priority } from './maps.js';
-import { search, search_priority } from './search.js';
-import { translation, translation_priority } from './translation.js';
-import { reviews as utility_reviews } from './reviews.js';
-import { audio_players, audio_players_priority } from './audio_players.js';
-import { animations, animations_priority } from './animations.js';
-import { geolocation, geolocation_priority } from './geolocation.js';
-
-export const utility = {
-    ...cookie_consent, ...captcha, ...fonts, ...icons, ...video_players,
-    ...maps, ...search, ...translation, ...utility_reviews,
-    ...audio_players, ...animations, ...geolocation
-};
+export * as animations from './animations.js';
+export * as audio_players from './audio_players.js';
+export * as captcha from './captcha.js';
+export * as cookie_consent from './cookie_consent.js';
+export * as fonts from './fonts.js';
+export * as geolocation from './geolocation.js';
+export * as icons from './icons.js';
+export * as maps from './maps.js';
+export * as reviews from './reviews.js';  // Note: reviews is also in engagement?
+export * as search from './search.js';
+export * as translation from './translation.js';
+export * as video_players from './video_players.js';
 
 export const utility_priorities = {
-    cookie_consent: cookie_consent_priority, captcha: captcha_priority,
-    fonts: fonts_priority, icons: icons_priority, video_players: video_players_priority,
-    maps: maps_priority, search: search_priority, translation: translation_priority,
-    audio_players: audio_players_priority, animations: animations_priority,
-    geolocation: geolocation_priority
+    // Default priorities
 };
-
-export { cookie_consent, captcha, fonts, icons, video_players, maps, search, translation, audio_players, animations, geolocation };

@@ -8,3 +8,5 @@ export const email_capture = {
     hellobar: { scriptId: '', enabled: true },
     convertkit: { formId: '', enabled: true }
 };
+
+export const email_capture_priority = ['mailchimp', 'sumo', 'hellobar', 'convertkit'];

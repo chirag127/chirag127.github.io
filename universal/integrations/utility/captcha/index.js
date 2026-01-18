@@ -2,9 +2,9 @@
  * Utility - Captcha Integrations
  * @module integrations/utility/captcha
  */
-import { recaptcha } from './recaptcha.js';
-import { hcaptcha } from './hcaptcha.js';
-import { turnstile } from './turnstile.js';
+import * as recaptcha from './recaptcha.js';
+import * as hcaptcha from './hcaptcha.js';
+import * as turnstile from './turnstile.js';
 
 export const captcha = {
     recaptcha, hcaptcha, turnstile

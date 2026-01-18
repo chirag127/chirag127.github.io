@@ -2,7 +2,10 @@
 # Multi-Platform Deployment - GitHub Actions Workflow
 # ==============================================================================
 # Deploys static site to 10+ hosting platforms simultaneously.
-# Add secrets to GitHub Repository Settings > Secrets and Variables > Actions
+#
+# ENABLE FLAGS: Set in GitHub Repository Variables (not Secrets)
+# - All platforms disabled by default for safety
+# - GitHub Pages is ALWAYS enabled (priority)
 # ==============================================================================
 
 name: Deploy to All Platforms
@@ -10,7 +13,16 @@ name: Deploy to All Platforms
 on:
   push:
     branches: [main]
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:
+    inputs:
+      force_all:
+        description: 'Force deploy to all platforms (ignore ENABLE flags)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
 
 # Cancel previous runs on same branch
 concurrency:
@@ -38,10 +50,12 @@ jobs:
             !node_modules
             !scripts
             !.env*
+            !__pycache__
+            !*.pyc
           retention-days: 1
 
   # ==========================================================================
-  # GITHUB PAGES (Primary)
+  # GITHUB PAGES (ALWAYS ENABLED - Priority 1)
   # ==========================================================================
   deploy-github-pages:
     needs: build
@@ -73,12 +87,12 @@ jobs:
         uses: actions/deploy-pages@v4
 
   # ==========================================================================
-  # NETLIFY
+  # NETLIFY (Priority 2)
   # ==========================================================================
   deploy-netlify:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ vars.ENABLE_NETLIFY != 'false' }}
+    if: ${{ vars.ENABLE_NETLIFY == 'true' || github.event.inputs.force_all == 'true' }}
     continue-on-error: true
     steps:
       - name: Download artifact
@@ -98,12 +112,12 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
   # ==========================================================================
-  # VERCEL
+  # VERCEL (Priority 3)
   # ==========================================================================
   deploy-vercel:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ vars.ENABLE_VERCEL != 'false' }}
+    if: ${{ vars.ENABLE_VERCEL == 'true' || github.event.inputs.force_all == 'true' }}
     continue-on-error: true
     steps:
       - name: Download artifact
@@ -123,12 +137,12 @@ jobs:
           vercel-args: '--prod'
 
   # ==========================================================================
-  # CLOUDFLARE PAGES
+  # CLOUDFLARE PAGES (Priority 4)
   # ==========================================================================
   deploy-cloudflare:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ vars.ENABLE_CLOUDFLARE != 'false' }}
+    if: ${{ vars.ENABLE_CLOUDFLARE == 'true' || github.event.inputs.force_all == 'true' }}
     continue-on-error: true
     steps:
       - name: Download artifact
@@ -146,12 +160,12 @@ jobs:
           command: pages deploy ./dist --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME || 'chirag-hub' }}
 
   # ==========================================================================
-  # SURGE.SH
+  # SURGE.SH (Priority 5)
   # ==========================================================================
   deploy-surge:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ vars.ENABLE_SURGE != 'false' }}
+    if: ${{ vars.ENABLE_SURGE == 'true' || github.event.inputs.force_all == 'true' }}
     continue-on-error: true
     steps:
       - name: Download artifact
@@ -167,12 +181,12 @@ jobs:
           surge ./dist ${{ vars.SURGE_DOMAIN || 'chirag127.surge.sh' }} --token ${{ secrets.SURGE_TOKEN }}
 
   # ==========================================================================
-  # RENDER (Deploy Hook)
+  # RENDER (Priority 6)
   # ==========================================================================
   deploy-render:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ vars.ENABLE_RENDER != 'false' }}
+    if: ${{ vars.ENABLE_RENDER == 'true' || github.event.inputs.force_all == 'true' }}
     continue-on-error: true
     steps:
       - name: Trigger Render Deploy
@@ -180,12 +194,12 @@ jobs:
         run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
 
   # ==========================================================================
-  # NEOCITIES
+  # NEOCITIES (Priority 7)
   # ==========================================================================
   deploy-neocities:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ vars.ENABLE_NEOCITIES != 'false' }}
+    if: ${{ vars.ENABLE_NEOCITIES == 'true' || github.event.inputs.force_all == 'true' }}
     continue-on-error: true
     steps:
       - name: Download artifact
@@ -203,12 +217,12 @@ jobs:
           dist_dir: ./dist
 
   # ==========================================================================
-  # FIREBASE HOSTING
+  # FIREBASE HOSTING (Priority 8)
   # ==========================================================================
   deploy-firebase:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ vars.ENABLE_FIREBASE != 'false' }}
+    if: ${{ vars.ENABLE_FIREBASE == 'true' || github.event.inputs.force_all == 'true' }}
     continue-on-error: true
     steps:
       - name: Download artifact
@@ -238,12 +252,12 @@ jobs:
           channelId: live
 
   # ==========================================================================
-  # DENO DEPLOY
+  # DENO DEPLOY (Priority 9)
   # ==========================================================================
   deploy-deno:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ vars.ENABLE_DENO != 'false' }}
+    if: ${{ vars.ENABLE_DENO == 'true' || github.event.inputs.force_all == 'true' }}
     continue-on-error: true
     steps:
       - name: Download artifact
@@ -272,14 +286,16 @@ jobs:
         run: |
           echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Platform | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|----------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| GitHub Pages | ${{ needs.deploy-github-pages.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Netlify | ${{ needs.deploy-netlify.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Vercel | ${{ needs.deploy-vercel.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Cloudflare | ${{ needs.deploy-cloudflare.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Surge.sh | ${{ needs.deploy-surge.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Render | ${{ needs.deploy-render.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Neocities | ${{ needs.deploy-neocities.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Firebase | ${{ needs.deploy-firebase.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Deno Deploy | ${{ needs.deploy-deno.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Platform | Status | Priority |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|--------|----------|" >> $GITHUB_STEP_SUMMARY
+          echo "| GitHub Pages | ${{ needs.deploy-github-pages.result }} ✅ | 1 (Always) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Netlify | ${{ needs.deploy-netlify.result }} | 2 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Vercel | ${{ needs.deploy-vercel.result }} | 3 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Cloudflare | ${{ needs.deploy-cloudflare.result }} | 4 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Surge.sh | ${{ needs.deploy-surge.result }} | 5 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Render | ${{ needs.deploy-render.result }} | 6 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Neocities | ${{ needs.deploy-neocities.result }} | 7 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Firebase | ${{ needs.deploy-firebase.result }} | 8 |" >> $GITHUB_STEP_SUMMARY
+          echo "| Deno Deploy | ${{ needs.deploy-deno.result }} | 9 |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Note:** Skipped = Platform disabled via ENABLE_* variable" >> $GITHUB_STEP_SUMMARY

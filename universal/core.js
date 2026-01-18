@@ -158,58 +158,96 @@
     }
   }
 
-  // 7. Load Modular Configuration
-  const configModule = await safeImport(`${U_PATH}/config/index.js`);
-  if (!configModule) {
-    console.error("❌ Failed to load configuration");
-    return;
-  }
+  // 7. Load Configuration (with fallback support)
+  let SITE_CONFIG = window.SITE_CONFIG || {};  // Use existing from config.js if present
+  let priorities = {};
 
-  const { SITE_CONFIG, priorities } = configModule;
+  const configModule = await safeImport(`${U_PATH}/config/index.js`);
+  if (configModule) {
+    // Merge modular config with any existing window.SITE_CONFIG
+    const modularConfig = configModule.SITE_CONFIG || {};
+    SITE_CONFIG = { ...SITE_CONFIG, ...flattenConfig(modularConfig) };
+    priorities = configModule.priorities || {};
+  }
 
   // Make config globally available
   window.SITE_CONFIG = SITE_CONFIG;
   window.CONFIG_PRIORITIES = priorities;
 
+  // Helper: Flatten nested config objects into provider-keyed object
+  function flattenConfig(config) {
+    const flat = {};
+    for (const [stackName, stack] of Object.entries(config || {})) {
+      if (stack && typeof stack === 'object') {
+        for (const [providerName, providerConfig] of Object.entries(stack)) {
+          if (providerConfig && typeof providerConfig === 'object' && 'enabled' in providerConfig) {
+            flat[providerName] = providerConfig;
+          }
+        }
+      }
+    }
+    return flat;
+  }
+
+  // Helper: Initialize a stack of integrations
+  async function initStack(integrations, config, loadScript, stackName) {
+    if (!integrations) return 0;
+    let count = 0;
+
+    for (const [subCategory, subIntegrations] of Object.entries(integrations)) {
+      if (subIntegrations && typeof subIntegrations === 'object') {
+        for (const [providerName, provider] of Object.entries(subIntegrations)) {
+          try {
+            // Get config for this provider
+            const providerConfig = config[providerName] || config[provider?.configKey];
+
+            // Skip if not configured or disabled
+            if (!providerConfig || providerConfig.enabled === false) continue;
+
+            // Call init if available
+            if (typeof provider?.init === 'function') {
+              await provider.init(providerConfig, loadScript);
+              count++;
+              console.log(`   ✓ ${stackName}/${providerName} initialized`);
+            }
+          } catch (e) {
+            console.warn(`   ⚠ ${stackName}/${providerName} failed:`, e.message);
+          }
+        }
+      }
+    }
+    return count;
+  }
+
   // 8. Load and Initialize All Integrations
   const integrationsModule = await safeImport(`${U_PATH}/integrations/index.js`);
 
+  let trackingCount = 0, monetizationCount = 0, engagementCount = 0;
+
   if (integrationsModule) {
-    const {
-      analyticsProviders,
-      monitoringProviders,
-      adsProviders,
-      chatProviders,
-      engagementProviders,
-      initCategory,
-      initWithFallback
-    } = integrationsModule;
+    const { tracking, monetization, engagement, communication, utility } = integrationsModule;
 
-    // Initialize all analytics (ALL enabled for maximum data)
-    console.log("📊 Loading Analytics...");
-    initCategory(analyticsProviders, SITE_CONFIG, loadScript, 'Analytics');
+    // Initialize tracking integrations (analytics, heatmaps, error tracking)
+    console.log("📊 Loading Tracking & Analytics...");
+    trackingCount = await initStack(tracking, SITE_CONFIG, loadScript, 'Tracking');
 
-    // Initialize all monitoring (redundancy is good)
-    console.log("🔍 Loading Monitoring...");
-    initCategory(monitoringProviders, SITE_CONFIG, loadScript, 'Monitoring');
-
-    // Initialize all ads (maximize revenue)
+    // Initialize monetization (ads, donations)
     console.log("💰 Loading Monetization...");
-    initCategory(adsProviders, SITE_CONFIG, loadScript, 'Ads');
+    monetizationCount = await initStack(monetization, SITE_CONFIG, loadScript, 'Monetization');
 
-    // Chat - use fallback pattern (only one widget)
-    console.log("💬 Loading Chat...");
-    if (priorities?.chat) {
-      initWithFallback(priorities.chat, chatProviders, SITE_CONFIG, loadScript, 'Chat');
-    } else {
-      initCategory(chatProviders, SITE_CONFIG, loadScript, 'Chat');
-    }
-
-    // Engagement
+    // Initialize engagement
     console.log("🎯 Loading Engagement...");
-    if (engagementProviders) {
-      initCategory(engagementProviders, SITE_CONFIG, loadScript, 'Engagement');
-    }
+    engagementCount = await initStack(engagement, SITE_CONFIG, loadScript, 'Engagement');
+
+    // Initialize communication (chat, feedback)
+    console.log("💬 Loading Communication...");
+    await initStack(communication, SITE_CONFIG, loadScript, 'Communication');
+
+    // Initialize utility (performance, CDN, etc.)
+    console.log("⚙️ Loading Utility...");
+    await initStack(utility, SITE_CONFIG, loadScript, 'Utility');
+  } else {
+    console.warn("⚠️ Modular integrations not loaded, using fallback config.js only");
   }
 
   // 9. Load Firebase (ES Module) - Optional
@@ -219,13 +257,9 @@
     });
 
   // 10. Report loaded stats
-  const countEnabled = (config) => {
-    return Object.values(config || {}).filter(v => v && typeof v === 'object' && v.enabled).length;
-  };
-
   console.log(`✨ Universal Engine v2.1 initialized!`);
-  console.log(`   📊 Analytics: ${countEnabled(SITE_CONFIG)} providers`);
-  console.log(`   💰 Monetization active`);
-  console.log(`   🔍 Monitoring active`);
+  console.log(`   📊 Tracking: ${trackingCount} providers`);
+  console.log(`   💰 Monetization: ${monetizationCount} providers`);
+  console.log(`   🎯 Engagement: ${engagementCount} providers`);
 
 })();

@@ -63,6 +63,14 @@ try:
 except ImportError:
     POLYMORPHS_AVAILABLE = False
 
+# Multi-platform deployment
+try:
+    sys.path.append(str(SCRIPT_DIR))
+    from multi_platform_deploy import deploy_to_all_platforms
+    MULTI_DEPLOY_AVAILABLE = True
+except ImportError:
+    MULTI_DEPLOY_AVAILABLE = False
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -820,6 +828,14 @@ def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict, search_client: W
     time.sleep(2)
     enable_pages(tool["name"])
 
+    # Deploy to other platforms if enabled
+    if MULTI_DEPLOY_AVAILABLE:
+        logger.info("\n  🌐 Multi-Platform Deployment...")
+        try:
+            deploy_to_all_platforms(TEMP_DIR, tool["name"])
+        except Exception as e:
+            logger.error(f"  ❌ Multi-platform deploy failed: {e}")
+
     # Set GitHub topics from keywords
     topics = tool.get("keywords", []) + [tool.get("category", "").lower()]
     set_github_topics(tool["name"], topics)
@@ -889,48 +905,9 @@ def main():
 
     if "--all" in args:
         remaining = [t for t in tools if t["name"] not in state["generated"]]
-
-        # Check for concurrent mode
-        concurrent_mode = "--concurrent" in args
-        workers = 3  # Default for tools (lower due to GitHub API limits)
-
-        # Parse --workers if provided
-        if "--workers" in args:
-            try:
-                idx = args.index("--workers")
-                workers = int(args[idx + 1])
-            except (IndexError, ValueError):
-                pass
-
-        if concurrent_mode and len(remaining) > 1:
-            logger.info(f"\n🚀 CONCURRENT MODE: Generating {len(remaining)} tools with {workers} workers")
-            start_time = time.time()
-
-            def generate_tool_wrapper(tool):
-                """Wrapper for thread pool execution."""
-                try:
-                    return tool["name"], generate_tool(tool, ai, state, search_client, multiverse=multiverse_mode)
-                except Exception as e:
-                    logger.error(f"Error generating {tool['name']}: {e}")
-                    return tool["name"], False
-
-            with ThreadPoolExecutor(max_workers=workers) as executor:
-                futures = {executor.submit(generate_tool_wrapper, tool): tool for tool in remaining}
-
-                for future in as_completed(futures):
-                    name, success = future.result()
-                    if success:
-                        logger.info(f"✅ Completed: {name}")
-                    else:
-                        logger.warning(f"⚠️ Failed: {name}")
-
-            elapsed = time.time() - start_time
-            logger.info(f"\n⏱️ Total time: {elapsed:.1f}s for {len(remaining)} tools")
-        else:
-            # Sequential mode (original behavior)
-            for tool in remaining:
-                generate_tool(tool, ai, state, search_client, multiverse=multiverse_mode)
-                time.sleep(5)
+        for tool in remaining:
+            generate_tool(tool, ai, state, search_client, multiverse=multiverse_mode)
+            time.sleep(5)
         return
 
     # Default: generate next tool

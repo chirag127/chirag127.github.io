@@ -1,8 +1,8 @@
 /**
  * Maps Index
  */
-import { openStreetMap } from './openStreetMap.js';
-import { googleMaps } from './googleMaps.js';
-import { mapbox } from './mapbox.js';
+import * as openStreetMap from './openStreetMap.js';
+import * as googleMaps from './googleMaps.js';
+import * as mapbox from './mapbox.js';
 
 export const maps = { openStreetMap, googleMaps, mapbox };

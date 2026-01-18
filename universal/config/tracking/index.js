@@ -1,27 +1,12 @@
-/**
- * Part 2: Tracking - Index
- * @module config/tracking
- */
-
-import { analytics_general, analytics_general_priority } from './analytics_general.js';
-import { analytics_heatmaps, analytics_heatmaps_priority } from './analytics_heatmaps.js';
-import { tracking_bugs, tracking_bugs_priority } from './tracking_bugs.js';
-import { tracking_performance, tracking_performance_priority } from './tracking_performance.js';
-import { tracking_seo, tracking_seo_priority } from './tracking_seo.js';
-import { auth, auth_priority } from './auth.js';
-import { attribution, attribution_priority } from './attribution.js';
-import { realtime_analytics, realtime_analytics_priority } from './realtime_analytics.js';
-
-export const tracking = {
-    ...analytics_general, ...analytics_heatmaps, ...tracking_bugs,
-    ...tracking_performance, ...tracking_seo, ...auth, ...attribution, ...realtime_analytics
-};
+export * as analytics_general from './analytics_general.js';
+export * as analytics_heatmaps from './analytics_heatmaps.js';
+export * as attribution from './attribution.js';
+export * as auth from './auth.js';
+export * as realtime_analytics from './realtime_analytics.js';
+export * as tracking_bugs from './tracking_bugs.js';
+export * as tracking_performance from './tracking_performance.js';
+export * as tracking_seo from './tracking_seo.js';
 
 export const tracking_priorities = {
-    analytics_general: analytics_general_priority, analytics_heatmaps: analytics_heatmaps_priority,
-    tracking_bugs: tracking_bugs_priority, tracking_performance: tracking_performance_priority,
-    tracking_seo: tracking_seo_priority, auth: auth_priority,
-    attribution: attribution_priority, realtime_analytics: realtime_analytics_priority
+    // Default priorities
 };
-
-export { analytics_general, analytics_heatmaps, tracking_bugs, tracking_performance, tracking_seo, auth, attribution, realtime_analytics };

@@ -2,18 +2,18 @@
  * Monetization - Display Ads Integrations
  * @module integrations/monetization/ads_display
  */
-import { adsense } from './adsense.js';
-import { aads } from './aads.js';
-import { adsterra } from './adsterra.js';
-import { monetag } from './monetag.js';
-import { propeller } from './propeller.js';
-import { yllix } from './yllix.js';
-import { revenuehits } from './revenuehits.js';
-import { bidvertiser } from './bidvertiser.js';
-import { hilltopads } from './hilltopads.js';
-import { adcash } from './adcash.js';
-import { buysellads } from './buysellads.js';
-import { carbon } from './carbon.js';
+import * as adsense from './adsense.js';
+import * as aads from './aads.js';
+import * as adsterra from './adsterra.js';
+import * as monetag from './monetag.js';
+import * as propeller from './propeller.js';
+import * as yllix from './yllix.js';
+import * as revenuehits from './revenuehits.js';
+import * as bidvertiser from './bidvertiser.js';
+import * as hilltopads from './hilltopads.js';
+import * as adcash from './adcash.js';
+import * as buysellads from './buysellads.js';
+import * as carbon from './carbon.js';
 
 export const ads_display = {
     adsense, aads, adsterra, monetag, propeller, yllix,

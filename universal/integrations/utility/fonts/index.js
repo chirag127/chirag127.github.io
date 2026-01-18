@@ -1,7 +1,7 @@
 /**
  * Utility - Fonts Index
  */
-import { googleFonts } from './googleFonts.js';
-import { adobeFonts } from './adobeFonts.js';
+import * as googleFonts from './googleFonts.js';
+import * as adobeFonts from './adobeFonts.js';
 
 export const fonts = { googleFonts, adobeFonts };

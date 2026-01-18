@@ -1,8 +1,8 @@
 /**
  * Cookie Consent Index
  */
-import { cookiebot } from './cookiebot.js';
-import { osano } from './osano.js';
-import { onetrust } from './onetrust.js';
+import * as cookiebot from './cookiebot.js';
+import * as osano from './osano.js';
+import * as onetrust from './onetrust.js';
 
 export const cookie_consent = { cookiebot, osano, onetrust };

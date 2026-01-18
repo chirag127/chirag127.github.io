@@ -1,4 +1,4 @@
-import { gleam } from './gleam.js';
-import { rafflepress } from './rafflepress.js';
+import * as gleam from './gleam.js';
+import * as rafflepress from './rafflepress.js';
 
 export const rewards = { gleam, rafflepress };
