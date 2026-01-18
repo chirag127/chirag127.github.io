@@ -5,7 +5,8 @@
 import * as addthis from './addthis.js';
 import * as addtoany from './addtoany.js';
 import * as sharethis from './sharethis.js';
+import * as native from './native.js';
 
 export const social_share = {
-    addthis, addtoany, sharethis
+    addthis, addtoany, sharethis, native
 };

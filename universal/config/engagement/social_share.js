@@ -19,7 +19,12 @@ export const social_share = {
     // Feature: WAS popular sharing tool
     // Free Limit: TERMINATED / EOL (Service shut down May 2023)
     // WARNING: EOL / SHUT DOWN
-    addthis: { pubId: '', enabled: false }
+    addthis: { pubId: '', enabled: false },
+
+    // Native Web Share
+    // Feature: Uses OS-native share sheet for high conversion/privacy
+    // Free Limit: 100% FREE
+    native: { enabled: true }
 };
 
-export const social_share_priority = ['addtoany', 'sharethis', 'addthis'];
+export const social_share_priority = ['native', 'addtoany', 'sharethis', 'addthis'];

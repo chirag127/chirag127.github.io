@@ -1,42 +1,51 @@
 /**
- * Part 2: Tracking - Performance (RUM) & SEO
+ * Part 2: Tracking - Performance (RUM) & Vitals
+ * SPEED FOCUS: Measuring the Pulse of your site
  * @module config/tracking/tracking_performance
  */
 
 export const tracking_performance = {
     // ============================================================================
-    // WEB VITALS (Google)
+    // WEB VITALS (Google Native)
     // ============================================================================
     // Description:
-    // Captures Core Web Vitals (LCP, FID, CLS) using the standard browser API.
-    // Data can be sent to GA4 or custom endpoints.
+    // Measures the user experience metrics that Google uses for search rankings.
+    // LCP (Loading), FID/INP (Interactivity), CLS (Stability).
+    //
+    // Key Features:
+    // - Built-in browser support.
+    // - Zero external weight (if using native Observer).
     //
     // Limits:
-    // - 100% Free (Native API).
+    // - **100% Free** (Unlimited).
     //
     webVitals: { enabled: true, sendToAnalytics: true },
 
     // ============================================================================
-    // NEW RELIC
+    // NEW RELIC - Full Stack Observability
     // ============================================================================
     // Description:
-    // Full stack observability.
+    // Advanced performance monitoring for frontend and backend.
     //
-    // Free Limits:
-    // - 100 GB Data Ingest / month (Generous).
+    // Free Limits (2025):
+    // - **100 GB Data Ingest / month** (Very generous).
     // - 1 Full Platform User.
+    // - Unlimited basic users.
+    //
+    // Best For:
+    // - Large-scale monitoring and detailed transaction tracing.
     //
     newRelic: { licenseKey: '', applicationId: '', enabled: false },
 
     // ============================================================================
-    // DATADOG
+    // DATADOG - Infrastructure & RUM
     // ============================================================================
     // Description:
-    // Infrastructure monitoring.
+    // Cloud-scale monitoring.
     //
-    // Free Limits:
-    // - "Free" tier is very limited ( Infrastructure only, up to 5 hosts).
-    // - RUM (Real User Monitoring) is paid.
+    // ⚠️ FREE LIMITS NOTE:
+    // - DataDog's "Free" tier is for Infrastructure only (up to 5 hosts).
+    // - **RUM (Real User Monitoring) is NOT free**.
     //
     datadog: { clientToken: '', applicationId: '', enabled: false }
 };

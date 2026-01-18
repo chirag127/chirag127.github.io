@@ -39,7 +39,7 @@ const Polymorphs = (function() {
         #pm-toggle {
             position: fixed;
             bottom: 20px;
-            right: 20px;
+            left: 20px;
             z-index: 10000;
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
             backdrop-filter: blur(10px);

@@ -1,24 +1,38 @@
 /**
- * Part 4: Engagement - Popups & Lead Magnets
- * Email capture popups
+ * Part 3: Engagement - Popups & Lead Magnets
  * @module config/engagement/popups
  */
 
 export const popups = {
-    // Sumo
-    // Feature: Powerful popups and welcome mats
-    // Free Limit: 10,000 emails/month (Generous)
-    sumo: { siteId: '', enabled: true },  // Heavy
+    // ============================================================================
+    // POPTIN - Interactive Visual Builder
+    // ============================================================================
+    // Description:
+    // Create professional-looking popups, overlays, and sticky bars.
+    //
+    // Free Tier Limits (2025):
+    // - **1,000 Visitors / month**.
+    // - Unlimited Poptins.
+    // - Poptin branding included.
+    //
+    poptin: { siteKey: '', enabled: false },
 
-    // HelloBar
-    // Feature: High converting sticky bars
-    // Free Limit: 5,000 views/month
-    hellobar: { scriptId: '', enabled: false },
+    // ============================================================================
+    // WISERPOST - Smart Popups
+    // ============================================================================
+    // Free Limits:
+    // - 5,000 Pageviews / month.
+    //
+    wiserpost: { apiKey: '', enabled: false },
 
-    // Poptin
-    // Feature: Smart exit-intent popups
-    // Free Limit: 1,000 visitors/month, 1 domain
-    poptin: { siteKey: '', enabled: false }
+    // ============================================================================
+    // NATIVE POPUP (Core Engine)
+    // ============================================================================
+    // Description:
+    // Built-in simple popup system within the Universal Core.
+    // **100% Free** and lightweight.
+    //
+    native_popup: { enabled: true }
 };
 
-export const popups_priority = ['sumo', 'hellobar', 'poptin'];
+export const popups_priority = ['native_popup', 'poptin'];

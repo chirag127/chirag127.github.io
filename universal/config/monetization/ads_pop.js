@@ -6,27 +6,66 @@
 
 export const ads_pop = {
     // ============================================================================
-    // POP-UNDER ADS - USE WITH CAUTION
+    // POPADS - The Market Leader
     // ============================================================================
     // Description:
-    // Ads that open in a new window behind the main browser window.
+    // Specialized pop-under network running since 2010.
     //
-    // WARNING:
-    // - High revenue potential but VERY BAD for User Experience.
-    // - Can negatively impact SEO (Google "Intrusive Interstitials" penalty).
-    // - Chrome/Firefox often block these by default.
+    // Key Features:
+    // - Real-time bidding (High CPM).
+    // - Bid control (Set minimum CPM).
+    // - Instant payments.
     //
-    // Best "Generous Free Tier" Provider:
-    // - Adsterra (See ads_display.js).
-    //   Adsterra has no minimum traffic, pays well, and is reliable.
+    // Requirements:
+    // - No minimum traffic.
+    // - Accepts almost all sites.
     //
-    // Configs below are for specific networks if Adsterra is not enough.
+    // Payout Details:
+    // - Minimum Payout: $5.
+    // - Frequency: Daily / On Request (Instant).
+    // - Methods: PayPal, AlertPay, Wire.
     //
     popads: { publisherId: '', enabled: false, _warning: 'AGGRESSIVE FORMAT' },
+
+    // ============================================================================
+    // POPCASH - Fast & Simple
+    // ============================================================================
+    // Description:
+    // User-friendly pop-under network with daily payments.
+    //
+    // Key Features:
+    // - Fast approval (often 1 hour).
+    // - 24/7 Support.
+    //
+    // Requirements:
+    // - No minimum traffic.
+    //
+    // Payout Details:
+    // - Minimum Payout: $10.
+    // - Frequency: Daily (24-48h processing).
+    // - Methods: PayPal, Paxum, Skrill, Bitcoin.
+    //
     popcash: { publisherId: '', enabled: false, _warning: 'AGGRESSIVE FORMAT' },
+
+    // ============================================================================
+    // CLICKADU - Multi-Format Premium
+    // ============================================================================
+    // Description:
+    // Premium ad network offering pops along with video/push.
+    //
+    // Key Features:
+    // - 100% Fill rate.
+    // - Clean ads (strong anti-fraud).
+    //
+    // Requirements:
+    // - No strict minimum (5k+ daily recommended).
+    //
+    // Payout Details:
+    // - Minimum Payout: ~$50 (varies by method).
+    // - Frequency: Net-7 / Net-30.
+    //
     clickadu: { siteId: '', enabled: false, _warning: 'AGGRESSIVE FORMAT' }
 };
 
 export const ads_pop_priority = [];
-
 export const ads_pop_limits = { maxPopsPerDay: 0, daysBetweenPops: 7 };  // Effectively disabled

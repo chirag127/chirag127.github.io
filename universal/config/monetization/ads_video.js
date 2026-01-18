@@ -5,19 +5,51 @@
  */
 
 export const ads_video = {
-    // Video ad networks - all disabled
-    // Vidoomy
-    // Feature: Slider video formats
-    // Requirement: 300,000 pageviews/month
+    // ============================================================================
+    // VIDOOMY - Premium Video Slider
+    // ============================================================================
+    // Description:
+    // High-impact sliding video ads for premium publishers.
+    //
+    // Requirements:
+    // - **VERY HIGH**: 3 Million+ pageviews/month often cited.
+    // - 500+ Original articles.
+    // - Top-level domains only.
+    //
+    // Best For:
+    // - Large media houses and viral news sites.
+    //
     vidoomy: { publisherId: '', enabled: false },
 
-    // Primis
-    // Feature: Discover video player
-    // Requirement: High engagement metrics
+    // ============================================================================
+    // PRIMIS - Video Discovery
+    // ============================================================================
+    // Description:
+    // A video player that recommends content to users and runs ads.
+    //
+    // Requirements:
+    // - ~200,000 monthly pageviews.
+    // - High engagement metrics.
+    //
+    // Payout Details:
+    // - Minimum Payout: $50.
+    // - Frequency: Net-15.
+    //
     primis: { widgetId: '', enabled: false },
 
-    // AdPlayer.Pro
-    // Feature: Outstream video player technology
+    // ============================================================================
+    // ADPLAYER.PRO - Outstream Technology
+    // ============================================================================
+    // Description:
+    // Professional video player with built-in monetization.
+    //
+    // Requirements:
+    // - Variable, generally strictly for established sites.
+    //
+    // Payout Details:
+    // - Minimum Payout: $100.
+    // - Frequency: Net-30.
+    //
     adplayerPro: { publisherId: '', enabled: false }
 };
 

@@ -9,14 +9,25 @@ export const ads_text = {
     // INFOLINKS - Contextual Text Ads
     // ============================================================================
     // Description:
-    // Turn keywords in your text into ad links.
+    // Scans your page content and hyperlinks specific keywords to relevant ads.
+    // Very effective for text-heavy blogs.
+    //
+    // Key Features:
+    // - InText: Double underline links.
+    // - InTag: Tag cloud style ads.
+    // - InFold: Footer sticky ads.
     //
     // Requirements:
-    // - ~1000 Pageviews/month normally required.
-    // - Content must be text-heavy.
+    // - No strict minimum traffic (Content Quality is key).
+    // - Must have substantial text content.
     //
-    // Payout:
-    // - Min $50 (PayPal).
+    // Payout Details:
+    // - Minimum Payout: $50.
+    // - Frequency: Net-45.
+    // - Methods: PayPal, Payoneer, Wire.
+    //
+    // Best For:
+    // - Blogs with long-form articles.
     //
     infolinks: { publisherId: '', websiteId: '', enabled: false },
 
@@ -24,15 +35,27 @@ export const ads_text = {
     // MEDIA.NET - The Yahoo/Bing Alternative
     // ============================================================================
     // Description:
-    // High quality contextual ads.
+    // The biggest competitor to AdSense for contextual ads.
+    // Powered by the Bing & Yahoo network.
+    //
+    // Key Features:
+    // - Contextual Specialists: Ads are highly relevant to text.
+    // - Premium Advertisers: Access to large search budgets.
     //
     // Requirements:
-    // - High Traffic (Major portion from US/UK/Canada).
+    // - **HIGH TRAFFIC**: Generally looks for 10k+ monthly visitors.
+    // - Traffic **MUST** be primarily from US, UK, Canada (Tier 1).
     // - English content only.
     //
+    // Payout Details:
+    // - Minimum Payout: $100.
+    // - Frequency: Net-30.
+    // - Methods: PayPal, Wire Transfer.
+    //
+    // Best For:
+    // - Established US-focused blogs in Finance, Tech, or Lifestyle.
+    //
     mediaNet: { siteId: '', enabled: false }
-
-    // Removed: VigLink / Skimlinks (Link Hijackers) per user instruction to prioritize UX.
 };
 
 export const ads_text_priority = ['infolinks', 'mediaNet'];

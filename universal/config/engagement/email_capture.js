@@ -1,27 +1,47 @@
 /**
- * Part 3: Engagement - Email Capture
+ * Part 3: Engagement - Email Capture & Marketing
  * @module config/engagement/email_capture
  */
+
 export const email_capture = {
-    // ConvertKit
-    // Feature: Creator-focused, unlimited broadcasts
-    // Free Limit: 1,000 subscribers, unlimited emails
-    convertkit: { formId: '', enabled: true },
+    // ============================================================================
+    // MAILERLITE - The Best Free Generosity (2025)
+    // ============================================================================
+    // Description:
+    // Clean, modern, and high-deliverability email marketing.
+    //
+    // Key Features:
+    // - **FREE Automations** (Unlike Mailchimp).
+    // - Landing pages and popups.
+    //
+    // Free Tier Limits (Updated Sept 2025):
+    // - **500 Subscribers** (Reduced from 1,000).
+    // - **12,000 Emails / month**.
+    // - Full Automation features included.
+    //
+    mailerlite: { apiKey: '', enabled: true },
 
-    // Mailchimp
-    // Feature: Industry leader in email marketing
-    // Free Limit: 250 contacts, 500 sends/month (Very restrictive)
-    mailchimp: { formAction: '', enabled: false },
+    // ============================================================================
+    // MAILCHIMP - The Big Brand
+    // ============================================================================
+    // Description:
+    // The most recognizable name in email.
+    //
+    // Free Tier Limits (2025):
+    // - **500 Contacts**.
+    // - **1,000 Emails / month** (Very low limit).
+    // - **NO Automation** on free plan (as of June 2025).
+    //
+    mailchimp: { apiKey: '', serverPrefix: '', enabled: false },
 
-    // Sumo - List Building Tools
-    // Feature: Simple bars and popups
-    // Free Limit: 10,000 emails/month (Generous for capture)
-    sumo: { siteId: '', enabled: false },
-
-    // HelloBar
-    // Feature: Top bars, sliders, modals
-    // Free Limit: 5,000 views/month
-    hellobar: { scriptId: '', enabled: false }
+    // ============================================================================
+    // CONVERTKIT (SEVA)
+    // ============================================================================
+    // Free Tier:
+    // - 1,000 Subscribers.
+    // - Unlimited landing pages.
+    //
+    convertkit: { apiKey: '', enabled: false }
 };
 
-export const email_capture_priority = ['convertkit', 'sumo', 'mailchimp', 'hellobar'];
+export const email_capture_priority = ['mailerlite', 'convertkit', 'mailchimp'];

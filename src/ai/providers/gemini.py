@@ -89,12 +89,22 @@ class GeminiProvider(AIProvider):
 
             if response.status_code == 200:
                 data = response.json()
-                content = data["candidates"][0]["content"]["parts"][0]["text"]
-                import json
-                json_obj = json.loads(content)
-                usage = data.get("usageMetadata", {})
-                tokens = usage.get("totalTokenCount", 0)
-                return CompletionResult(success=True, content=content, json_content=json_obj, tokens_used=tokens, model_used=model)
+                try:
+                    candidates = data.get("candidates")
+                    if not candidates or len(candidates) == 0:
+                        return CompletionResult(success=False, error=f"Gemini JSON Error: No candidates: {data}")
+
+                    content = candidates[0].get("content", {}).get("parts", [{}])[0].get("text")
+                    if not content:
+                        return CompletionResult(success=False, error=f"Gemini JSON Error: No text in response: {data}")
+
+                    import json
+                    json_obj = json.loads(content)
+                    usage = data.get("usageMetadata", {})
+                    tokens = usage.get("totalTokenCount", 0)
+                    return CompletionResult(success=True, content=content, json_content=json_obj, tokens_used=tokens, model_used=model)
+                except (KeyError, IndexError, json.JSONDecodeError) as e:
+                    return CompletionResult(success=False, error=f"Gemini JSON Parsing Error: {e}")
             else:
                 return CompletionResult(success=False, error=f"Gemini JSON Error {response.status_code}: {response.text}")
 

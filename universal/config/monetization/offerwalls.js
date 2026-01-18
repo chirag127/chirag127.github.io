@@ -1,92 +1,66 @@
 /**
- * Part 1: Monetization - Offerwalls (CPA)
- * Content lockers - user completes task to unlock content
+ * Part 1: Monetization - Offerwalls & Content Locking
  * @module config/monetization/offerwalls
  */
 
 export const offerwalls = {
     // ============================================================================
-    // CPALEAD - The Beginner Friendly Giant
+    // CPALEAD - User Example (Industry Leader)
     // ============================================================================
     // Description:
-    // A massive CPA/CPI network known for having the lowest payout threshold.
-    // Perfect for new publishers who want to see their first dollar quickly.
+    // A premier CPA (Cost Per Action) network specializing in content locking.
     //
     // Key Features:
-    // - Fast Pay: Select offers pay Daily (Net-0).
-    // - Content Lockers: Lock files/links until user completes an offer.
-    // - Offer Wall: Rewards users for installing apps/surveys.
-    // - Mobile App Installs (CPI): specialized focus.
-    //
-    // Monetization Model:
-    // - CPA (Cost Per Action) & CPI (Cost Per Install).
-    // - Rates vary by geo (Tier 1 countries pay significantly more).
+    // - Content Locker: Lock premium content behind an offerwall.
+    // - Mobile App Installs, Surveys, and Email Submits.
+    // - Daily Payouts available.
     //
     // Requirements:
-    // - Instant Approval (usually).
-    // - No minimum traffic requirements.
+    // - No traffic minimum.
+    // - Instant approval for most countries.
     //
     // Payout Details:
-    // - Minimum Payout: $1 (Fast Pay via PayPal), $10 (Standard), $50 (Wire).
-    // - Frequency: Daily, Weekly, Net-15, Net-30 (depends on offer status).
+    // - Minimum Payout: $1 (Very low).
+    // - Methods: PayPal, Payoneer, Wire, Bitcoin.
     //
-    // Best For:
-    // - Locking game mods, eBooks, or premium content.
-    // - Publishers wanting DAILY payments.
-    // - Mobile traffic.
-    //
-    cpalead: { publisherId: '', enabled: false },
+    cpalead: {
+        publisherId: '264708',
+        directLink: 'https://cpalead.com/get-offers.php?id=264708',
+        enabled: true
+    },
 
     // ============================================================================
-    // OGADS - Mobile Content Locking King
+    // OGADS - Mobile Tier 1 King
     // ============================================================================
     // Description:
-    // The #1 network for Mobile Content Locking.
-    // Highly optimized for iOS/Android traffic.
+    // The most trusted network for Mobile Content Locking.
     //
     // Key Features:
-    // - Custom landing pages provided.
-    // - Highest converting mobile offers in the industry.
-    // - "Content Locker" optimized for touch screens.
-    //
-    // Requirements:
-    // - Approval required (can be strict).
-    // - Good social media traffic preferred (TikTok/Instagram/YouTube).
+    // - High-converting landing pages.
+    // - Premium mobile app offers.
+    // - Excellent support and dedicated managers.
     //
     // Payout Details:
     // - Minimum Payout: $50.
-    // - Frequency: Net-30, Net-7 (for higher earners).
-    // - Methods: PayPal, Payoneer, Wire, Crypto (USDC/Bitcoin).
-    //
-    // Best For:
-    // - Mobile game hacks/tweaks niche (Game niche).
-    // - Social media traffic sources.
+    // - Frequency: Weekly / Net-7.
+    // - Reliability: 5/5 (Consistently pays on time).
     //
     ogads: { publisherId: '', enabled: false },
 
     // ============================================================================
-    // ADWORKMEDIA - Global Performance
+    // ADWORKMEDIA - Multi-Tool Platform
     // ============================================================================
     // Description:
-    // A long-standing CPA affiliate network.
+    // Content lockers, offerwalls, and smart links.
     //
-    // Key Features:
-    // - Product Lockers (Shopping style).
-    // - Global Reach (Offers for almost every country).
-    //
-    // Review Note (2024):
-    // - Some reports of slow support/payout delays recently.
-    // - Still widely widely used, but proceed with caution compared to CPALead.
+    // ⚠️ WARNING (2025):
+    // - Increasing reports of payment delays and "scam" warnings in Recent Reviews.
+    // - Use with caution compared to OGAds or CPALead.
     //
     // Payout Details:
     // - Minimum Payout: $35.
-    // - Frequency: Net-30, Net-15, Net-7.
-    // - Methods: PayPal, Check, Wire, Payoneer, Crypto.
     //
-    // Best For:
-    // - General international traffic.
-    //
-    adworkMedia: { publisherId: '', enabled: false }
+    adworkmedia: { publisherId: '', enabled: false }
 };
 
-export const offerwalls_priority = ['cpalead', 'ogads', 'adworkMedia'];
+export const offerwalls_priority = ['cpalead', 'ogads', 'adworkmedia'];

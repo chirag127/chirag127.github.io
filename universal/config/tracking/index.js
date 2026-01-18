@@ -17,6 +17,17 @@ export {
     realtime_analytics, tracking_bugs, tracking_performance, tracking_seo
 };
 
+/**
+ * GLOBAL TRACKING PRIORITIES
+ * Defines the initialization order for analytics scripts to minimize impact.
+ */
 export const tracking_priorities = {
-    // Default priorities
+    // CRITICAL - Load Immediately
+    critical: ['tracking_seo', 'analytics_general'],
+
+    // VISUAL - Load after first paint
+    visual: ['analytics_heatmaps'],
+
+    // SYSTEMS - Load when idle or background
+    systems: ['tracking_bugs', 'tracking_performance', 'attribution', 'auth', 'realtime_analytics']
 };

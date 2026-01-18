@@ -1,19 +1,28 @@
 /**
- * Part 4: Engagement - Notification Bells
- * In-app notification center
+ * Part 3: Engagement - Notification Bells & Widgets
  * @module config/engagement/notification_bells
  */
 
 export const notification_bells = {
-    // SuprSend
-    // Feature: Multi-channel workflow (Email + In-app)
-    // Free Limit: 10,000 notifications/month (Generous)
-    suprsend: { workspaceKey: '', enabled: true },
+    // ============================================================================
+    // MAGIC BELL - Real-time Notifications
+    // ============================================================================
+    // Description:
+    // A notification inbox for your website.
+    //
+    // Free Tier Limits:
+    // - **10,000 Monthly Active Users**.
+    // - Real-time push, email, and mobile notifications.
+    //
+    magicbell: { apiKey: '', enabled: false },
 
-    // MagicBell
-    // Feature: Retro-fit notification center to any app
-    // Free Limit: 1,000 notifications/month
-    magicbell: { apiKey: '', userExternalId: '', enabled: false }
+    // ============================================================================
+    // NOVU - Open Source Infrastructure
+    // ============================================================================
+    // Description:
+    // Notification engine that connects to multiple providers.
+    //
+    novu: { apiKey: '', enabled: false }
 };
 
-export const notification_bells_priority = ['suprsend', 'magicbell'];
+export const notification_bells_priority = ['magicbell', 'novu'];

@@ -50,6 +50,7 @@ from src.ai.prompts import (
     WEBSITE_CATEGORIES,
     CATEGORY_CONFIGS
 )
+from src.core.seo_schema import generate_software_schema
 
 # Polymorphs generation support
 try:
@@ -128,7 +129,7 @@ def generate_tool_metadata(name: str, ai: UnifiedAIClient, state: dict) -> dict:
     print(f"  Generating metadata for {name}...")
     prompt = get_website_metadata_prompt(name)
 
-    result = ai.generate_json(prompt=prompt, max_tokens=1000, min_model_size=8)
+    result = ai.generate_json(prompt=prompt, max_tokens=1000, start_tier=1)
 
     if result.success and result.json_content:
         metadata = {
@@ -447,7 +448,7 @@ Start with "Role: Expert..." and end with "...implementation."
     result = ai.generate_with_tier(
         prompt=meta_prompt,
         max_tokens=2000,
-        start_tier=4  # Use 4th largest model (e.g., Mistral Large 123B)
+        start_tier=1  # Use Tier 2 models (300B-400B range) as requested
     )
 
     if result.success:
@@ -524,7 +525,7 @@ CRITICAL OVERRIDE:
   - Use `console.error()` for debugging, show user-friendly error messages in UI.
 - PDF/WORKER SAFETY:
   - DO NOT pass non-transferable types (like Objects/Functions) in the transfer list of `postMessage`.
-  - CORRECT: `worker.postMessage({ pdfData: arrayBuffer }, [arrayBuffer])`
+  - CORRECT: `worker.postMessage({{ pdfData: arrayBuffer }}, [arrayBuffer])`
   - INCORRECT: `worker.postMessage(complextObject, [complexObject])` -> This causes CRASH.
   - If using PDF-lib, serialize to Uint8Array before sending to worker.
 - FORMAT: Return ONLY the HTML code block within ```html flags.
@@ -805,9 +806,62 @@ def generate_tool(tool: dict, ai: UnifiedAIClient, state: dict, search_client: W
     # Generate main HTML with web research
     html_content = generate_single_html(tool, ai, search_client)
 
+    # Generate SEO Schema
+    schema_html = generate_software_schema(
+        name=tool["name"],
+        title=tool.get("title", tool["name"]),
+        description=tool.get("description", ""),
+        keywords=tool.get("keywords", []),
+        base_url=CENTRAL_HUB
+    )
+
+    # Inject Schema and Manifest Link into <head>
+    if "</head>" in html_content:
+        injection = f"{schema_html}\n<link rel=\"manifest\" href=\"manifest.json\">\n"
+        html_content = html_content.replace("</head>", f"{injection}</head>")
+
+    # Inject SW Registration
+    sw_script = f"""
+<script>
+if ('serviceWorker' in navigator) {{
+  window.addEventListener('load', () => {{
+    navigator.serviceWorker.register('{CENTRAL_HUB}/sw.js', {{ scope: '/' }})
+      .then(reg => console.log('[PWA] ServiceWorker registered'))
+      .catch(err => console.log('[PWA] ServiceWorker failed', err));
+  }});
+}}
+</script>
+"""
+    if "</body>" in html_content:
+        html_content = html_content.replace("</body>", f"{sw_script}</body>")
+
+    # Generate PWA Manifest
+    manifest = {
+        "name": tool.get("title", tool["name"]),
+        "short_name": tool["name"],
+        "description": tool.get("description", ""),
+        "start_url": "./index.html",
+        "display": "standalone",
+        "background_color": "#0a0a0a",
+        "theme_color": "#007bff",
+        "icons": [
+            {
+                "src": f"{CENTRAL_HUB}/universal/icons/icon-192.png",
+                "sizes": "192x192",
+                "type": "image/png"
+            },
+            {
+                "src": f"{CENTRAL_HUB}/universal/icons/icon-512.png",
+                "sizes": "512x512",
+                "type": "image/png"
+            }
+        ]
+    }
+
     files = {
         "index.html": html_content,
         "README.md": generate_comprehensive_readme(tool),
+        "manifest.json": json.dumps(manifest, indent=2)
     }
 
     # Generate polymorphs variants if enabled
@@ -893,11 +947,14 @@ def main():
     args = sys.argv[1:]
     state = load_state()
 
-    # Check for polymorphs mode
-    multiverse_mode = "--multiverse" in args or "--polymorphs" in args
+    # Check for polymorphs mode (Enabled by default as per Armstrong initiative)
+    multiverse_mode = True
+    if "--no-multiverse" in args:
+        multiverse_mode = False
+
     if multiverse_mode:
         if POLYMORPHS_AVAILABLE:
-            logger.info("🔮 POLYMORPHS MODE: Will generate alternative versions")
+            logger.info("🔮 POLYMORPHS MODE: Enabled by default")
         else:
             logger.warning("⚠️ Polymorphs module not available, falling back to standard mode")
             multiverse_mode = False

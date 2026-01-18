@@ -1,13 +1,17 @@
 /**
- * Part 4: Engagement - FAQ / Knowledge Base
+ * Part 3: Engagement - FAQ & Knowledge Base
  * @module config/engagement/faq
  */
 
 export const faq = {
-    // Help Scout
-    // Feature: Clean, beautiful Beacon widget
-    // Free Limit: 1 mailbox, 5 users, 100 contacts/month (Generous Basic Plan)
-    helpscout: { beaconId: '', enabled: false }
+    // ============================================================================
+    // ACCORDION - Native JS
+    // ============================================================================
+    // Description:
+    // Simple, SEO-friendly FAQ generated on the fly.
+    // Uses JSON-LD for rich snippets in Google.
+    //
+    accordion: { enabled: true, style: 'bento' }
 };
 
-export const faq_priority = ['helpscout'];
+export const faq_priority = ['accordion'];

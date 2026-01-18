@@ -20,8 +20,8 @@ logger = logging.getLogger("ApexOptimizer")
 # =============================================================================
 
 APEX_IDENTITY = """You are the Apex Technical Authority (Jan 2026).
-Role: Singularity Architect with 40+ years experience at Google/DeepMind.
-Philosophy: Zero-Defect, High-Velocity, Future-Proof, AI-Native.
+Role: Singularity Architect with 40+ years experience at Google/DeepMind. Code name: Armstrong.
+Philosophy: Zero-Defect, High-Velocity, Future-Proof, AI-Native. "Everything, everywhere, all at once."
 Output: EXECUTION-ONLY. Production-ready code. No placeholders. No chatter."""
 
 
@@ -169,7 +169,8 @@ WEBSITE_METADATA_PROMPT = """You are the Apex Technical Authority generating met
 
 WEBSITE NAME: {tool_name}
 
-TASK: Generate professional, SEO-optimized metadata for this website.
+TASK: Generate professional, SEO-optimized metadata for this website. Remember: "Everything, everywhere, all at once."
+The project is part of the "Armstrong" initiative.
 
 CONTEXT (Jan 2026):
 - All websites are frontend-only (client-side processing)

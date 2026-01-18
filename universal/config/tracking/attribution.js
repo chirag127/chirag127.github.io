@@ -1,32 +1,49 @@
 /**
- * Part 2: Tracking - Attribution
- * Deep linking and attribution tracking
+ * Part 2: Tracking - Attribution & Deep Linking
+ * GROWTH FOCUS: Understanding where your users came from
  * @module config/tracking/attribution
  */
 
 export const attribution = {
     // ============================================================================
-    // BRANCH.IO
+    // BRANCH.IO - Deep Linking Leader
     // ============================================================================
     // Description:
-    // Deep linking and attribution for mobile apps.
+    // Turns web visitors into app users with seamless links.
     //
-    // Free Limits:
-    // - 10,000 MAUs (Launch Plan).
-    // - Deep linking is free.
+    // Key Features:
+    // - Cross-platform attribution.
+    // - Persona-based deep linking.
+    //
+    // Free Limits (2025 - "Launch" Plan):
+    // - **10,000 Monthly Active Users (MAUs)**.
+    // - Unlimited Deep Linking.
     //
     branch: { key: '', enabled: false },
 
     // ============================================================================
-    // APPSFLYER
+    // JITSU (Formerly EventNative) - Open Source CDP
     // ============================================================================
     // Description:
-    // Marketing attribution for apps.
+    // Collect events and sync them to your data warehouse.
     //
     // Free Limits:
-    // - 12,000 conversions (Zero Plan).
+    // - **10,000 Events / month** (Cloud).
+    // - **Unlimited (Self-hosted)**.
     //
-    appsflyer: { devKey: '', enabled: false }
+    jitsu: { writeKey: '', enabled: false },
+
+    // ============================================================================
+    // SEGMENT (Twilio) - The Original CDP
+    // ============================================================================
+    // Description:
+    // Standard API for collecting data and sending it to 100+ destinations.
+    //
+    // Free Limits (2025):
+    // - **1,000 Monthly Tracked Users (MTUs)**.
+    // - 2 Destinations.
+    //
+    segment: { writeKey: '', enabled: false }
 };
 
-export const attribution_priority = ['branch', 'appsflyer'];
+export const attribution_priority = ['segment', 'branch', 'jitsu'];

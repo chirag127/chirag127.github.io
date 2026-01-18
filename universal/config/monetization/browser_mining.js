@@ -5,10 +5,21 @@
  */
 
 export const browser_mining = {
-    // ⛔ NEVER ENABLE - Destroys reputation
-    // WebMinePool (Monero Mining)
-    // Feature: Uses visitor CPU to mine crypto
-    // Warning: Detected as malware by AV, drains battery, kills SEO
+    // ============================================================================
+    // ⛔ WEB MINE POOL - DO NOT USE
+    // ============================================================================
+    // Description:
+    // Uses visitor's CPU to mine cryptocurrency (Monero) while they are on the site.
+    //
+    // ⚠️ CRITICAL WARNINGS:
+    // - Detected as MALWARE by almost all Antivirus software.
+    // - DESTROYS battery life of mobile users.
+    // - KILLS SEO: Google penalizes sites with high CPU usage/mining scripts.
+    // - UNETHICAL: Unless you explicitly ask for consent (which 99% will deny).
+    //
+    // Status:
+    // - PERMANENTLY DISABLED in this configuration.
+    //
     webminepool: { siteKey: '', enabled: false, _warning: 'KILLS SEO' }
 };
 

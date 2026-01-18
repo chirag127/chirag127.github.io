@@ -3,6 +3,7 @@
  * @module config/monetization/affiliates
  */
 
+export const affiliates = {
     // ============================================================================
     // AMAZON ASSOCIATES - The Everything Store
     // ============================================================================
@@ -101,27 +102,13 @@
     // - Content Certified program for top publishers.
     //
     // Payout Details:
-    // - Minimum Payout: $50 (Main), $100 (Check).
+    // - Minimum Payout: $50 (Direct Deposit), $100 (Check).
+    // - Frequency: Net-20.
     //
     // Best For:
     // - Established sites with professional content.
     //
     cjAffiliate: { websiteId: '', enabled: false },
-
-    // ============================================================================
-    // RAKUTEN ADVERTISING - Top Tier
-    // ============================================================================
-    // Description:
-    // Voted #1 Affiliate Network for many years. Premium fashion and retail brands.
-    //
-    // Key Features:
-    // - Exclusive brands: Sephora, New Balance, Udemy.
-    // - Deep linking and rotating banner tools.
-    //
-    // Requirements:
-    // - Approval can be strict. High-quality site required.
-    //
-    rakuten: { publisherId: '', enabled: false },
 
     // ============================================================================
     // AWIN - Global Coverage
@@ -134,10 +121,63 @@
     // - Browser extension for generating links.
     //
     // Requirements:
-    // - **Sign-up Fee**: $5 / £5 / €5 deposit (Refundable upon first payout).
-    // - Verification purpose only to prevent fraud.
+    // - **Sign-up Deposit**: ~$1 / £1 / €1 (REFUNDABLE upon first payout).
+    // - Used to verify identity and bank details.
     //
-    awin: { publisherId: '', enabled: false }
+    // Payout Details:
+    // - Minimum Payout: $20 / £20 / €20.
+    // - Frequency: Twice monthly (1st and 15th).
+    //
+    awin: { publisherId: '', enabled: false },
+
+    // ============================================================================
+    // RAKUTEN ADVERTISING - Top Tier
+    // ============================================================================
+    // Description:
+    // Voted #1 Affiliate Network for many years. Premium fashion and retail brands.
+    //
+    // Key Features:
+    // - Exclusive brands: Sephora, New Balance, Udemy.
+    //
+    // Requirements:
+    // - Approval can be strict. High-quality site required.
+    //
+    // Payout Details:
+    // - Minimum Payout: $50.
+    // - Frequency: Net-60.
+    //
+    rakuten: { publisherId: '', enabled: false },
+    // ============================================================================
+    // SOFTWARE & TOOLS (Direct Upsells)
+    // ============================================================================
+    // Description:
+    // High-converting affiliate programs specifically for utility tool users.
+    //
+    // Programs:
+    // - Adobe Creative Cloud (Premium PDF tools)
+    // - Nitro PDF (PDF editing alternative)
+    // - NordVPN (Privacy/Security for IP tools)
+    //
+    software: {
+        adobe: {
+            name: 'Adobe Acrobat',
+            trackingId: '',
+            baseUrl: 'https://www.adobe.com/acrobat/online.html',
+            enabled: true
+        },
+        nitro: {
+            name: 'Nitro PDF',
+            trackingId: '',
+            baseUrl: 'https://www.gonitro.com/',
+            enabled: true
+        },
+        nordvpn: {
+            name: 'NordVPN',
+            trackingId: '',
+            baseUrl: 'https://nordvpn.com/',
+            enabled: true
+        }
+    }
 };
 
-export const affiliates_priority = ['amazon', 'shareasale', 'clickbank', 'cjAffiliate', 'rakuten', 'awin'];
+export const affiliates_priority = ['software', 'amazon', 'shareasale', 'clickbank', 'cjAffiliate', 'awin', 'rakuten'];

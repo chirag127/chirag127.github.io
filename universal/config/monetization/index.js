@@ -35,6 +35,20 @@ export {
     url_shortener
 };
 
+/**
+ * GLOBAL MONETIZATION PRIORITIES
+ * Defines which methods to try first in the waterfall system.
+ */
 export const monetization_priorities = {
-    // Default priorities
+    // Primary - Non-intrusive
+    primary: ['donation_fiat', 'affiliates', 'ads_display'],
+
+    // Secondary - Contextual
+    secondary: ['ads_native', 'ads_text', 'sponsored_content'],
+
+    // Tertiary - Aggressive (Disabled by default)
+    aggressive: ['ads_pop', 'ads_interstitial', 'ads_push', 'url_shortener', 'offerwalls'],
+
+    // Specialty
+    specialty: ['ads_crypto', 'merch', 'file_hosting', 'donation_crypto']
 };

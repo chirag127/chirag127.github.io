@@ -1,38 +1,35 @@
 /**
  * Part 1: Monetization - File Hosting (PPD)
- * Pay Per Download - disabled by default
+ * Pay Per Download
  * @module config/monetization/file_hosting
  */
 
+export const file_hosting = {
     // ============================================================================
-    // UPLOAD-4EVER - Pay Per Download (PPD)
+    // UPLOAD-4EVER - Low Threshold Leader
     // ============================================================================
     // Description:
-    // A reliable file hosting service that pays you when people download your files.
+    // Monetize your file downloads with high rates.
     //
     // Key Features:
-    // - Payout Rates: Tiered system.
-    //   - Tier 1 (US/Canada): Up to $7.00 per 1000 downloads.
-    //   - Tier 2/3: ~$3.00 - $4.00 per 1000 downloads.
-    // - Storage: Generous free storage limits.
-    // - Payment Methods: Huge variety (PayPal, Payeer, WebMoney, Crypto, Skrill).
+    // - Rates: Up to $7 per 1000 downloads for Tier 1 traffic.
+    // - Referral: 10% commission.
     //
     // Payout Details:
-    // - Minimum: $1 (Very low barrier).
-    //
-    // Best For:
-    // - Sharing software, e-books, resource packs, mods.
+    // - **Minimum Payout: $1** (Extremely accessible).
+    // - Methods: PayPal, Payeer, Bitcoin, Skrill, Neteller.
     //
     upload4ever: { apiKey: '', enabled: false },
 
     // ============================================================================
-    // UP-FILES
+    // UP-FILES - High Reliability
     // ============================================================================
     // Description:
-    // Another popular PPD host.
+    // Professional file storage with monetization.
     //
-    // Key Features:
-    // - Competitive rates.
+    // Payout Details:
+    // - Minimum Payout: $5.
+    // - Rates: Competitive global rates.
     //
     upfiles: { apiKey: '', enabled: false }
 };

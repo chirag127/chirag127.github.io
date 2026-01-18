@@ -1,51 +1,68 @@
 /**
  * Part 2: Tracking - Heatmaps & Session Recording
- * BIG TECH PREFERRED: Microsoft Clarity enabled (100% free)
+ * UI/UX FOCUS: Visualizing the user journey
  * @module config/tracking/analytics_heatmaps
  */
 
 export const analytics_heatmaps = {
     // ============================================================================
-    // MICROSOFT CLARITY - The King of Free Heatmaps
+    // MICROSOFT CLARITY - The Gold Standard for Free Behavior Analysis
     // ============================================================================
     // Description:
-    // Heatmaps, Scrollmaps, and Session Recordings.
+    // Visual data tool that reveals where users are clicking and scrolling.
     //
-    // Free Limits:
-    // - 100% Free Forever.
-    // - No traffic limits.
-    // - No sampling.
+    // Key Features:
+    // - Instant Heatmaps: See where users click, scroll, and move their mouse.
+    // - Session Recordings: Watch anonymous replays of user visits.
+    // - Insights: Identify rage clicks, dead clicks, and excessive scrolling.
+    //
+    // Free Limits (2025):
+    // - **100% Free Forever** (No traffic limits, no data limits).
+    // - GDPR & CCPA compliant.
     //
     // Best For:
-    // - EVERYONE. There is no better free option.
+    // - Every website. Clarity is arguably the best value-for-money (free) tool.
     //
     clarity: { id: 'v1u8hhnpw2', enabled: true },
 
     // ============================================================================
-    // HOTJAR - The Original (Limited Free Tier)
+    // HOTJAR - The Premium Choice (Limited Free Tier)
     // ============================================================================
     // Description:
-    // Heatmaps and Recordings + Surveys.
+    // One of the most famous tools for UX research.
     //
-    // Free Limits:
-    // - 35 daily sessions (Very low).
-    // - Unlimited heatmaps (but limited data within them).
+    // Free Limits (2025):
+    // - **35 Daily Sessions** (Very small for high traffic sites).
+    // - Continuous Heatmaps: Unlimited for up to 35 sessions a day.
+    // - Basic filtering and surveys.
     //
     // Best For:
-    // - Very small sites or specific studies.
+    // - Very small projects or testing specific funnel steps.
     //
     hotjar: { siteId: '', enabled: false },
 
     // ============================================================================
-    // SMARTLOOK - Mobile App Focus
+    // LOGROCKET - Developer Focused Replay
     // ============================================================================
     // Description:
-    // Session recording for Websites & Mobile Apps.
+    // Combined session replay with error tracking and network monitoring.
     //
+    // Free Limits (2025):
+    // - **1,000 Sessions / month**.
+    // - 30-day data retention.
+    //
+    // Best For:
+    // - Debugging complex web apps where you need to see the console/network logs.
+    //
+    logrocket: { appId: '', enabled: false },
+
+    // ============================================================================
+    // SMARTLOOK - Cross-Platform Replay
+    // ============================================================================
     // Free Limits:
     // - 3,000 sessions/month.
     //
     smartlook: { projectKey: '', enabled: false }
 };
 
-export const analytics_heatmaps_priority = ['clarity', 'hotjar'];
+export const analytics_heatmaps_priority = ['clarity', 'logrocket', 'hotjar'];

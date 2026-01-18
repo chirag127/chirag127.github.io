@@ -1,104 +1,80 @@
 /**
  * Part 1: Monetization - Fiat Donations
- * ENABLED - Non-intrusive, builds community
+ * ENABLED - Highly recommended as first monetization step.
  * @module config/monetization/donation_fiat
  */
 
 export const donation_fiat = {
     // ============================================================================
-    // BUY ME A COFFEE - The Creator Favorite
+    // KO-FI - The Best for Small Creators (2025 Favorite)
     // ============================================================================
     // Description:
-    // A friendly, simple way for fans to support you.
-    // Replaces the "Donate" button with something more personal.
+    // The most creator-friendly tipping platform.
     //
     // Key Features:
-    // - One-off donations ("coffees").
-    // - Memberships (recurring monthly/yearly support).
-    // - "Extras" (Sell digital downloads or services).
-    // - No account needed for supporters (Guest checkout).
-    // - Instant payout options.
+    // - **0% Platform Fee on Tips**: You keep 100% of one-time donations.
+    // - Instant Payouts: Money goes directly to PayPal/Stripe immediately.
+    // - No Minimum Payout: Access your money from $1.
+    // - Digital Shop (5% fee on free tier, 0% on Gold).
     //
-    // Fees & Limits:
-    // - Platform Fee: 5% flat fee on all income.
-    // - Processor Fee: Standard Stripe/PayPal fees (~2.9% + $0.30).
-    // - No monthly fee for you.
-    //
-    // Best For:
-    // - Creators, artists, developers, writers.
-    // - Casual support without feeling like "begging".
-    //
-    buymeacoffee: { username: 'chirag127', enabled: true },
-
-    // ============================================================================
-    // KO-FI - 0% Fee Donations
-    // ============================================================================
-    // Description:
-    // Similar to BuyMeACoffee but focuses on keeping more of your money.
-    // "Gold" plan available but the free version is extremely powerful.
-    //
-    // Key Features:
-    // - 0% Platform Fee on Donations (You keep 100% of the tip!).
-    // - Ko-fi Shop (Sell physical/digital items) - 5% fee on free plan.
-    // - Commissions (Take custom orders) - 5% fee on free plan.
-    // - Memberships (Recurring support) - 5% fee on free plan.
-    // - Gallery to showcase work.
-    //
-    // Fees & Limits:
-    // - Donations: 0% Platform Fee (Free Plan).
-    // - Shop/Commissions/Memberships: 5% Platform Fee (Free Plan) or 0% (Gold Plan @ $6/mo).
-    // - Processor Fee: Standard PayPal/Stripe fees apply.
+    // Fees (2025):
+    // - One-time Tips: 0%.
+    // - Memberships/Shop: 5% (Free plan).
+    // - Processor Fee: Standard Stripe/PayPal (~2.9% + $0.30).
     //
     // Best For:
-    // - Artists and creators wanting maximum donation revenue.
+    // - MAXIMUM revenue from tips. Best alternative to BuyMeACoffee.
     //
     kofi: { username: '', enabled: true },
 
     // ============================================================================
-    // GITHUB SPONSORS - For Developers
+    // BUY ME A COFFEE - The Polish & Simplicity Leader
     // ============================================================================
     // Description:
-    // The native way to support developers on GitHub.
+    // Elegant, simple UI that users love.
     //
     // Key Features:
-    // - ZERO FEES: GitHub covers all processing fees for individual accounts!
-    // - Displays a "Sponsor" button on your repositories.
-    // - Tiers and rewards system.
+    // - Single-page checkout.
+    // - "Extras" for selling simple digital products.
     //
-    // Fees & Limits:
-    // - 0% Platform Fee.
-    // - 0% Processor Fee (GitHub pays this!).
-    // - 100% of the money goes to you (Best deal in the industry).
-    // - Requires application and approval.
+    // Fees (2025):
+    // - **Flat 5% Fee** on everything (Donations, Memberships, Extras).
+    // - Processor Fee: Standard Stripe/PayPal.
+    //
+    // Payout Details:
+    // - Minimum Payout: $10.
+    // - Frequency: Weekly (or instant review for first $20).
     //
     // Best For:
-    // - Open source developers and maintainers.
+    // - Users who want the highest "support conversion" due to trusted branding.
+    //
+    buymeacoffee: { username: 'chirag127', enabled: true },
+
+    // ============================================================================
+    // GITHUB SPONSORS - Best for Open Source
+    // ============================================================================
+    // Description:
+    // Native GitHub integration.
+    //
+    // Fees:
+    // - **0% Platform Fee**.
+    // - **0% Processing Fee** (GitHub pays it!).
+    // - 100% of the support reaches you.
     //
     github_sponsors: { username: 'chirag127', enabled: true },
 
     // ============================================================================
-    // PAYPAL - The Standard (Fallback)
+    // LIBERAPAY - Non-Profit Model
     // ============================================================================
     // Description:
-    // Direct link to pay via PayPal.
+    // Peer-to-peer recurrent funding. No platform fees.
     //
-    // Fees:
-    // - Standard commercial transaction fees (~2.9% + $0.30 for domestic).
-    // - International fees are higher.
-    //
-    paypal: { buttonId: '', enabled: false },
+    liberapay: { username: '', enabled: false },
 
     // ============================================================================
-    // LIBERAPAY - Recurrent Open Source Funding
+    // PAYPAL - Direct Fallback
     // ============================================================================
-    // Description:
-    // A non-profit platform for recurrent donations.
-    //
-    // Fees:
-    // - 0% Platform Fee (Funded by donations to Liberapay itself).
-    // - You pay processor fees.
-    //
-    liberapay: { username: '', enabled: false }
+    paypal: { buttonId: '', enabled: false }
 };
 
-export const donation_fiat_priority = ['buymeacoffee', 'kofi', 'github_sponsors'];
+export const donation_fiat_priority = ['kofi', 'buymeacoffee', 'github_sponsors'];

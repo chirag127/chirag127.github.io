@@ -1,44 +1,50 @@
 /**
- * Part 2: Tracking - Error Monitoring
- * BIG TECH: Sentry has best free tier
+ * Part 2: Tracking - Error Monitoring & Bug Tracking
+ * RELIABILITY FOCUS: Catching crashes before users report them
  * @module config/tracking/tracking_bugs
  */
 
 export const tracking_bugs = {
     // ============================================================================
-    // SENTRY - Industry Standard
+    // SENTRY - The Industry Leader
     // ============================================================================
     // Description:
-    // Full-stack error monitoring and performance tracing.
+    // Full-stack error monitoring that provides deep context for every crash.
     //
-    // Free Limits:
-    // - 5,000 Errors / month.
-    // - 10,000 Performance Units / month.
-    // - 50 Repays / month.
+    // Key Features:
+    // - Stack traces with source maps.
+    // - Performance monitoring and vitals.
+    // - Session Replay (Error-focused).
+    //
+    // Free Limits (2025 - "Developer" Plan):
+    // - **5,000 Errors / month**.
+    // - **10,000 Performance Units / month**.
+    // - **50 Session Replays / month**.
+    // - 1 User.
     //
     // Best For:
-    // - Serious production apps.
+    // - Professional apps needing production-grade monitoring.
     //
-    sentry: { dsn: 'https://1fb29d2d71eb3c24afd3d9edfb1c6413@o4509296467812352.ingest.us.sentry.io/4509296468533248', enabled: true },
+    sentry: {
+        dsn: 'https://1fb29d2d71eb3c24afd3d9edfb1c6413@o4509296467812352.ingest.us.sentry.io/4509296468533248',
+        enabled: true
+    },
 
     // ============================================================================
-    // GLITCHTIP - Open Source Sentry
+    // GLITCHTIP - Open Source & Sentry Compatible
     // ============================================================================
     // Description:
-    // Sentry-compatible API but open source.
+    // An open-source alternative that implements the Sentry API.
     //
-    // Free Limits:
-    // - 1,000 Events (Hosted).
-    // - UNLIMITED (Self-hosted).
+    // Free Limits (Hosted):
+    // - **1,000 Events / month**.
+    // - **Unlimited (if self-hosted)**.
     //
     glitchtip: { dsn: '', enabled: false },
 
     // ============================================================================
-    // ROLLBAR
+    // ROLLBAR - Real-time error grouping
     // ============================================================================
-    // Description:
-    // Real-time error grouping.
-    //
     // Free Limits:
     // - 5,000 events/month.
     //

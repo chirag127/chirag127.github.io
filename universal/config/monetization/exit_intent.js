@@ -1,6 +1,6 @@
 /**
  * Part 1: Monetization - Exit Intent
- * Popup when mouse leaves window
+ * Catching users before they leave
  * @module config/monetization/exit_intent
  */
 
@@ -9,32 +9,31 @@ export const exit_intent = {
     // OUIBOUNCE - Open Source Freedom
     // ============================================================================
     // Description:
-    // A free, open-source JavaScript library to detect exit intent.
+    // A library that detects when a mouse leaves the viewport.
     //
-    // Features:
-    // - 100% Free Forever.
-    // - Adjustable sensitivity.
-    // - Zero external dependencies.
+    // Advantages:
+    // - 100% Free - No limits.
+    // - Privacy-first (No external tracking).
+    // - Lightweight.
     //
     // Best For:
-    // - Developers who can code their own modal/popup HTML/CSS.
+    // - Default recommendation for custom tools.
     //
     ouibounce: { enabled: true },
 
     // ============================================================================
-    // POPTIN - Smart Popups
+    // POPTIN - Interactive Popups
     // ============================================================================
     // Description:
-    // Zero-code popup builder with advanced exit intent triggers.
+    // Visual builder for high-converting popups.
     //
-    // Free Tier Limits:
-    // - 1,000 Visitors/month.
-    // - 1 Domain.
-    // - Unlimited Poptins (Popups).
-    // - Branding present on free tier.
+    // Free Tier Limits (2025):
+    // - 1,000 Visitors per month.
+    // - Unlimited Poptins.
+    // - Includes Poptin branding.
     //
     // Best For:
-    // - Small sites wanting a polished, no-code solution.
+    // - Beginners wanting a visual editor.
     //
     poptin_exit: { siteKey: '', enabled: false }
 };

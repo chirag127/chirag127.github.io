@@ -26,6 +26,18 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://chirag127.github.io/pdf-compressor/</loc>
+    <lastmod>2026-01-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://chirag127.github.io/pdf-merger/</loc>
+    <lastmod>2026-01-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://chirag127.github.io/AlgoFlow-Core-Algorithmic-Implementations-C-Library/</loc>
     <lastmod>2026-01-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -68,12 +80,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chirag127.github.io/FluentPDF-TTS-Converter-Web-App/</loc>
-    <lastmod>2026-01-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://chirag127.github.io/StreamAudio-YouTube-Audio-Extractor-Web-App/</loc>
     <lastmod>2026-01-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -99,12 +105,6 @@
   </url>
   <url>
     <loc>https://chirag127.github.io/MomentumTracker-Web-Performance-Monitoring-HTML/</loc>
-    <lastmod>2026-01-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://chirag127.github.io/Spokable-PDF-AI-Driven-Text-to-Speech-Web-App/</loc>
     <lastmod>2026-01-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -147,12 +147,6 @@
   </url>
   <url>
     <loc>https://chirag127.github.io/SecurePass-Password-Generator-Web-App/</loc>
-    <lastmod>2026-01-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://chirag127.github.io/FluentPDF-AI-Powered-Text-to-Speech-Web-App/</loc>
     <lastmod>2026-01-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -226,12 +220,6 @@
   <url>
     <loc>https://chirag127.github.io/TextWarden-AI-Real-Time-Writing-Assistant-Browser-Extension/</loc>
     <lastmod>2025-12-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://chirag127.github.io/FluentPDF-AI-PDF-To-Audio-Web-Platform/</loc>
-    <lastmod>2025-12-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -332,15 +320,39 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://chirag127.github.io/all-pdf-tools-nextjs/</loc>
-    <lastmod>2025-05-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://chirag127.github.io/AI-Powered-Bookmark-Organizer-extension/</loc>
     <lastmod>2025-08-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chirag127.github.io/guides/how-to-markdown-to-html-preview.html</loc>
+    <lastmod>2026-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://chirag127.github.io/guides/how-to-pdf-compressor.html</loc>
+    <lastmod>2026-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://chirag127.github.io/guides/how-to-pdf-merge-and-split.html</loc>
+    <lastmod>2026-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://chirag127.github.io/guides/how-to-pdf-merger.html</loc>
+    <lastmod>2026-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://chirag127.github.io/guides/how-to-pdf-splitter.html</loc>
+    <lastmod>2026-01-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>

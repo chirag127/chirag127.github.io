@@ -1,24 +1,37 @@
 /**
- * Part 4: Engagement - Reviews / Social Proof
- * Display reviews and testimonials
+ * Part 3: Engagement - User Reviews & Social Proof
  * @module config/engagement/reviews
  */
 
 export const reviews = {
-    // Trustpilot
-    // Feature: The most trusted review platform
-    // Free Limit: 50 review invitations/month
-    trustpilot: { businessId: '', enabled: true },
+    // ============================================================================
+    // TRUSTPILOT - High Trust Badge
+    // ============================================================================
+    // Description:
+    // The most recognized independent review platform.
+    //
+    // Free Limits (2025):
+    // - 50 Review invitations per month.
+    // - Basic profile and trust box.
+    //
+    trustpilot: { businessId: '', enabled: false },
 
-    // Google Reviews (via Widget)
-    // Feature: Embed Google Maps reviews
-    // Free Limit: Depends on widget provider (e.g., Elfsight 200 views)
-    google_reviews: { placeId: '', enabled: false },
+    // ============================================================================
+    // G2 - Software Focus
+    // ============================================================================
+    // Free Limits:
+    // - Basic profile listing.
+    //
+    g2: { productId: '', enabled: false },
 
-    // Yelp Reviews (via Widget)
-    // Feature: Embed Yelp reviews
-    // Free Limit: Depends on widget provider
-    yelp_reviews: { businessId: '', enabled: false }
+    // ============================================================================
+    // CROWDSOURCE - Native Review System
+    // ============================================================================
+    // Description:
+    // Internal simple rating system for the tool.
+    // **100% Free**.
+    //
+    native_reviews: { enabled: true }
 };
 
-export const reviews_priority = ['trustpilot', 'google_reviews'];
+export const reviews_priority = ['native_reviews', 'trustpilot'];

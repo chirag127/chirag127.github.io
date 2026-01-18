@@ -3,88 +3,75 @@
  * @module config/monetization/url_shortener
  */
 
+export const url_shortener = {
     // ============================================================================
-    // OUO.IO - Reliable & Consistent
+    // OUO.IO - The Reliable Veteran
     // ============================================================================
     // Description:
-    // A long-standing, legitimate URL shortener service.
-    // Known for actually paying on time for years.
+    // One of the longest-running and most stable URL shorteners in the industry.
     //
     // Key Features:
-    // - Multi-count: Counts multiple views from the same IP (up to 3).
-    // - Clean Interface: User dashboard is simple and effective.
-    // - Mass Shrinker tool.
+    // - High Payout Stability: Known for years of on-time payments.
+    // - Multi-View Counting: Counts up to 3 views per IP.
+    // - Mass Shrinker: Easily shorten many links at once.
     //
     // Monetization Model:
     // - CPM (Cost Per 1000 Views).
-    // - Rates: $1.50 - $5.00+ depending on country (Tier 1 pays highest).
+    // - Rates: ~$1.50 - $5.00+ (Varies by country).
     //
     // Payout Details:
-    // - Minimum: $5 (PayPal/Payeer), $50 (Payoneer), $20 (Bitcoin).
-    // - Frequency: 1st and 15th of every month (Net-15ish).
+    // - Minimum Payout: $5 (PayPal, Payeer), $20 (Bitcoin, USDT TRC-20), $50 (Payoneer).
+    // - Frequency: 1st and 15th of every month.
     //
     // Best For:
-    // - General traffic, download links.
+    // - General download links and high-traffic portals where stability is #1.
     //
     ouoio: { apiToken: '', enabled: true },
 
     // ============================================================================
-    // SHRINKME.IO - High Payout Rates
+    // SHRINKME.IO - Top CPM earner (2025)
     // ============================================================================
     // Description:
-    // One of the highest paying URL shorteners currently active.
+    // Currently offers some of the highest CPM rates in the market.
     //
     // Key Features:
-    // - High CPM rates (up to $220/10,000 views for Greenland, ~$3-$10 for others).
-    // - Low minimum payout.
-    // - Daily payments.
+    // - **Aggressive Rates**: Up to $22 CPM (Greenland), ~$14 (US), ~$3.50 (Worldwide).
+    // - Multiple Gateways: Supports UPI/Paytm (India), Cards, and Crypto.
     //
     // Payout Details:
-    // - Minimum: $5.
-    // - Frequency: Daily.
-    // - Methods: PayPal, Bitcoin, Payeer, Skrill, UPI (India), Bank Transfer.
+    // - Minimum Payout: $5.
+    // - Frequency: Daily (Extremely fast).
     //
     shrinkMe: { apiToken: '', enabled: false },
 
     // ============================================================================
-    // AROLINKS - High Rates (India/Global)
+    // GPLINKS - Professional Analytical Platform
     // ============================================================================
     // Description:
-    // Popular for high CPM rates and trusted reputation.
+    // Modern UI with advanced tracking and higher-tier CPM for premium publishers.
     //
     // Key Features:
-    // - CPM up to $8.
-    // - Very low minimum withdrawal which is great for starters.
+    // - Standard & Premium Plans.
+    // - High Tier CPM: Up to $25 for certain premium traffic.
     //
     // Payout Details:
-    // - Minimum: $0.50 (some methods) - $2.00.
-    // - Support for UPI, PhonePe (Great for Indian traffic).
+    // - Minimum Payout: $5.
+    //
+    gplinks: { apiKey: '', enabled: false },
+
+    // ============================================================================
+    // AROLINKS - Optimized for India
+    // ============================================================================
+    // Payout Details:
+    // - Minimum Payout: $0.50 (Some methods).
+    // - Supports UPI / PhonePe.
     //
     arolinks: { apiToken: '', enabled: false },
 
     // ============================================================================
-    // SHRINKEARN
+    // SHRINKEARN - Long Term Trusted
     // ============================================================================
-    // Description:
-    // Established in 2018, legit paying network.
-    //
-    // Key Features:
-    // - Competitive rates ($3 - $20 CPM).
-    // - Referral program (20%).
-    //
-    shrinkEarn: { apiKey: '', enabled: false },
-
-    // ============================================================================
-    // GPLINKS - Modern & High Performance
-    // ============================================================================
-    // Description:
-    // Modern UI and distinct from the "retro" look of others.
-    //
-    // Key Features:
-    // - High performance and detailed analytics.
-    // - Rates: Competitive.
-    //
-    gplinks: { apiKey: '', enabled: false }
+    shrinkEarn: { apiKey: '', enabled: false }
 };
 
-export const url_shortener_priority = ['ouoio', 'shrinkMe', 'arolinks', 'shrinkEarn', 'gplinks'];
+export const url_shortener_priority = ['ouoio', 'shrinkMe', 'gplinks', 'arolinks', 'shrinkEarn'];

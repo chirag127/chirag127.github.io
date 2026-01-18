@@ -311,12 +311,17 @@ class UnifiedAIClient:
         system_prompt: str = "",
         max_tokens: int = 4096,
         min_model_size: float = 0,
+        start_tier: int = 0,
     ) -> CompletionResult:
         """Generate JSON-structured completion using MODEL-SIZE-BASED fallback."""
         available_models = [
             m for m in self.model_chain
             if self._is_model_available(m) and m.size_billions >= min_model_size
         ]
+
+        # Apply tier offset
+        if start_tier > 0 and start_tier < len(available_models):
+            available_models = available_models[start_tier:]
 
         if not available_models:
             return CompletionResult(

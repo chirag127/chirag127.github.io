@@ -53,7 +53,14 @@ class CloudflareProvider(AIProvider):
             if response.status_code == 200:
                 data = response.json()
                 if data.get("success"):
-                    content = data["result"]["response"]
+                    result = data.get("result")
+                    if not result:
+                        return CompletionResult(success=False, error=f"Cloudflare Error: Missing 'result' in successful response: {data}")
+
+                    content = result.get("response")
+                    if content is None:
+                        return CompletionResult(success=False, error=f"Cloudflare Error: Missing 'response' in result: {data}")
+
                     return CompletionResult(success=True, content=content, tokens_used=0, model_used=model)
                 else:
                     return CompletionResult(success=False, error=f"Cloudflare API Error: {data.get('errors')}")

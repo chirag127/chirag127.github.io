@@ -105,24 +105,64 @@ export const ads_display = {
     aads: { unitId: '', size: '728x90', enabled: false },
 
     // ============================================================================
-    // YLLIX - Aggressive Monetization
+    // YLLIX (Transitioning to ADVERTICA) - Aggressive Monetization
     // ============================================================================
     // Description:
-    // Global ad network with 100% fill rate worldwide.
+    // Global ad network known for extremely low entry barriers and strict daily payouts.
+    // *NOTE*: Currently transitioning to Advertica platform (2025).
     //
     // Key Features:
-    // - Daily payments (minimum $1).
-    // - Easy approval.
+    // - 100% Fill Rate (International).
+    // - Daily Payments.
+    // - Aggressive ad formats available.
+    //
+    // Requirements:
+    // - None. Accepting new/small sites.
     //
     // Payout Details:
-    // - Minimum Payout: $1 (PayPal).
+    // - Minimum Payout: $1 - $5 (Depending on method).
     // - Frequency: Daily.
+    // - Methods: PayPal, Bitcoin, Litecoin, DASH, ZCash, Wire.
     //
     // Best For:
     // - Traffic sources that AdSense rejects.
+    // - Publishers needing immediate cash flow (Daily Pay).
     //
+    // ============================================================================
+    // EZOIC - AI-Driven Optimization (Target: 10k+ Sessions)
+    // ============================================================================
+    // Description:
+    // An intelligent technology platform that automates ad revenue optimization.
+    // Uses AI to test thousands of ad placements to find the best balance.
+    //
+    // Key Features:
+    // - Ad Tester: Automatically splits traffic to find winning layouts.
+    // - Mediation: Competes with AdSense to get the highest price.
+    //
+    // Payout Details:
+    // - Minimum Payout: $20.
+    // - Frequency: Net-30.
+    //
+    ezoic: { integrationId: '', enabled: false, aiPlaceholders: true },
+
+    // ============================================================================
+    // PROPELLERADS (MONETAG) - High-Performance Formats
+    // ============================================================================
+    // Description:
+    // Excellent for utility/software sites. Known for aggressive but high-paying formats.
+    //
+    // Key Features:
+    // - MultiTag: One tag solves all ad formats.
+    // - High CPM for Global traffic.
+    //
+    // Payout Details:
+    // - Minimum Payout: $5.
+    // - Frequency: Weekly.
+    //
+    propeller: { zoneId: '', multiTagId: '', enabled: false },
+
     yllix: { siteId: '', enabled: false }
 };
 
-export const ads_display_priority = ['adsense', 'adsterra', 'aads', 'yllix'];
+export const ads_display_priority = ['adsense', 'ezoic', 'adsterra', 'propeller', 'aads', 'yllix'];
 export const ads_display_lazyLoad = true;  // Load ads after page content

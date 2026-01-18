@@ -1,44 +1,61 @@
 /**
- * Part 3: Engagement - A/B Testing
- * Test different versions of your site to optimize conversions
+ * Part 3: Engagement - A/B Testing & Experimentation
  * @module config/engagement/ab_testing
  */
 
 export const ab_testing = {
     // ============================================================================
-    // VWO (Visual Website Optimizer) - Comprehensive A/B Testing
+    // VWO (Visual Website Optimizer) - Professional Choice
     // ============================================================================
-    // What it does:
-    // - Visual editor for creating test variations (no coding required)
-    // - A/B testing, multivariate testing, split URL testing
-    // - Heatmaps and session recordings included
-    // - Conversion funnel analysis
-    // - Targeting and segmentation
-    // - Statistical significance calculator
-    // - Mobile app testing
+    // Description:
+    // A comprehensive experimentation platform for small and medium sites.
     //
-    // What it doesn't do:
-    // - Free tier limited to low traffic sites
-    // - No advanced personalization in free tier
-    // - Limited integrations on free tier
+    // Key Features:
+    // - Visual Editor (No-code changes).
+    // - Split testing and multivariate testing.
+    // - Integrated heatmaps and recordings.
     //
-    // Free Tier Limits (Free Plan):
-    // - Up to 50,000 visitors per month
-    // - 1 website
-    // - Basic A/B testing
-    // - Heatmaps included
-    // - 30-day data retention
-    // - Community support
+    // Free Tier Limits (2025 - "Starter" Plan):
+    // - **50,000 Monthly Tracked Users (MTUs)**.
+    // - Unlimited experiments.
     //
-    // Best for: Small to medium sites, conversion optimization, UX testing
-    // Website: https://vwo.com
-    // Note: Good free tier for sites under 50k monthly visitors
-    vwo: { accountId: '', enabled: true },
+    // Best For:
+    // - Marketing teams wanting a visual interface.
+    //
+    vwo: { accountId: '', enabled: false },
 
+    // ============================================================================
+    // GROWTHBOOK - The Open Source Powerhouse
+    // ============================================================================
+    // Description:
+    // Fully featured feature flagging and A/B testing platform.
+    //
+    // Key Features:
+    // - Unlimited experiments and traffic.
+    // - Bayesian or Frequentist statistics.
+    // - Direct connection to your data warehouse.
+    //
+    // Free Limits (Cloud 2025):
+    // - **3 Users**.
+    // - 1 Million CDN requests/month.
+    // - **Unlimited (Self-hosted)**.
+    //
+    // Best For:
+    // - Developers who want the most control and "unlimited" feel.
+    //
+    growthbook: { apiKey: '', enabled: false },
+
+    // ============================================================================
+    // OPTIMIZELY - Enterprise Experimentation
+    // ============================================================================
+    // Description:
+    // High-end experimentation.
+    //
+    // ⚠️ FREE LIMITS NOTE:
+    // - **Standard A/B testing is NOT free** (Enterprise pricing).
+    // - "Rollouts" (Feature Flagging) has a free tier for 1 concurrent experiment.
+    //
+    optimizely: { sdkKey: '', enabled: false }
 };
 
-export const ab_testing_priority = ['vwo'];
-
-export const ab_testing_priority = ['vwo', 'crazyegg', 'abtasty'];
-
-// Made with Bob
+export const ab_testing_priority = ['growthbook', 'vwo'];

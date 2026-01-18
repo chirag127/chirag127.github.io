@@ -9,51 +9,54 @@ export const ads_native = {
     // MGID - Viral Content Widgets
     // ============================================================================
     // Description:
-    // "You might also like" widgets often seen on news sites.
+    // One of the world's largest native ad networks. Known for "You might also like"
+    // widgets often seen on news and viral sites.
+    //
+    // Key Features:
+    // - High CPMs for Tier 1 traffic.
+    // - Global advertiser coverage.
+    //
+    // Monetization Model:
+    // - CPC (Cost Per Click) & CPM models.
     //
     // Requirements:
-    // - Moderate traffic required (~3,000 unique visitors/day often cited).
-    // - Family-safe content (usually).
+    // - Minimum 3,000 unique visitors/day (or ~90k/month).
+    // - Clean, family-safe content (no illegal streams/downloads).
     //
-    // Payout:
-    // - NET-30.
-    // - Min payout: $100.
+    // Payout Details:
+    // - Minimum Payout: $100.
+    // - Frequency: Net-30.
+    // - Methods: PayPal, Payoneer, Tipalti, Wire.
+    //
+    // Best For:
+    // - News magazines, viral blogs, and high-traffic portals.
     //
     mgid: { widgetId: '', enabled: false },
 
     // ============================================================================
-    // TABOOLA - The Giant (High Barrier)
+    // ADNOW - Accessible Native Ads
     // ============================================================================
     // Description:
-    // World's largest discovery platform.
+    // A widget-based native ad network that is much easier to join than MGID/Taboola.
+    //
+    // Key Features:
+    // - Fast Approval (often instant/24h).
+    // - Weekly Payouts (Major advantage).
+    // - Widget customization.
     //
     // Requirements:
-    // - **EXTREME TRAFFIC BARRIER**: Typically 500,000+ monthly pageviews.
-    // - NOT for new websites.
+    // - No minimum traffic strict requirement (Quality content check).
+    // - Accepts newer sites.
     //
-    taboola: { publisherId: '', enabled: false },
-
-    // ============================================================================
-    // OUTBRAIN - Premium Native (High Barrier)
-    // ============================================================================
-    // Description:
-    // High quality native ads for premium publishers.
+    // Payout Details:
+    // - Minimum Payout: $20.
+    // - Frequency: Net-7 (Weekly).
+    // - Methods: PayPal, Wire, PM, Tether (USDT).
     //
-    // Requirements:
-    // - **EXTREME TRAFFIC BARRIER**: Typically 1M+ monthly pageviews.
-    //
-    outbrain: { publisherId: '', enabled: false },
-
-    // ============================================================================
-    // ADNOW - Lower Barrier
-    // ============================================================================
-    // Description:
-    // Widget based native ads.
-    //
-    // Requirements:
-    // - Lower than Taboola/Outbrain, but still prefers active sites.
+    // Best For:
+    // - Smaller blogs, niche sites, and publishers wanting weekly pay.
     //
     adnow: { widgetId: '', enabled: false }
 };
 
-export const ads_native_priority = ['mgid', 'adnow']; // Taboola/Outbrain removed from default priority due to limits
+export const ads_native_priority = ['mgid', 'adnow'];

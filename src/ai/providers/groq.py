@@ -52,7 +52,20 @@ class GroqProvider(AIProvider):
 
             if response.status_code == 200:
                 data = response.json()
-                content = data["choices"][0]["message"]["content"]
+
+                # Defensive check for response structure
+                choices = data.get("choices")
+                if not choices or not isinstance(choices, list) or len(choices) == 0:
+                    return CompletionResult(success=False, error=f"Groq Error: Invalid 'choices' in response: {data}")
+
+                message = choices[0].get("message")
+                if not message:
+                    return CompletionResult(success=False, error=f"Groq Error: Missing 'message' in first choice: {data}")
+
+                content = message.get("content")
+                if content is None:
+                    return CompletionResult(success=False, error=f"Groq Error: content is null in response: {data}")
+
                 usage = data.get("usage", {})
                 tokens = usage.get("total_tokens", 0)
                 return CompletionResult(success=True, content=content, tokens_used=tokens, model_used=model)
@@ -88,12 +101,27 @@ class GroqProvider(AIProvider):
 
             if response.status_code == 200:
                 data = response.json()
-                content = data["choices"][0]["message"]["content"]
+
+                choices = data.get("choices")
+                if not choices or len(choices) == 0:
+                    return CompletionResult(success=False, error=f"Groq JSON Error: No choices in response: {data}")
+
+                message = choices[0].get("message")
+                if not message:
+                    return CompletionResult(success=False, error=f"Groq JSON Error: Missing 'message' in response: {data}")
+
+                content = message.get("content")
+                if content is None:
+                    return CompletionResult(success=False, error=f"Groq JSON Error: content is null: {data}")
+
                 import json
-                json_obj = json.loads(content)
-                usage = data.get("usage", {})
-                tokens = usage.get("total_tokens", 0)
-                return CompletionResult(success=True, content=content, json_content=json_obj, tokens_used=tokens, model_used=model)
+                try:
+                    json_obj = json.loads(content)
+                    usage = data.get("usage", {})
+                    tokens = usage.get("total_tokens", 0)
+                    return CompletionResult(success=True, content=content, json_content=json_obj, tokens_used=tokens, model_used=model)
+                except json.JSONDecodeError as e:
+                    return CompletionResult(success=False, error=f"Groq JSON Parsing Error: {e}")
             else:
                 return CompletionResult(success=False, error=f"Groq Error {response.status_code}: {response.text}")
 

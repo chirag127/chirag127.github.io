@@ -5,53 +5,32 @@
 
 export const sponsored_content = {
     // ============================================================================
-    // PUBLISUITES - Accessible Sponsored Posts
+    // PUBLISUITES - Quality Focused Marketplace
     // ============================================================================
     // Description:
-    // A marketplace connecting bloggers with advertisers.
-    // Sell sponsored posts, press releases, or social media mentions.
-    //
-    // Key Features:
-    // - You set your own prices.
-    // - Accepts blogs with lower traffic as long as content is good.
-    // - "Managed Service" (Advertisers buy directly).
+    // Connects bloggers with advertisers for sponsored posts and press releases.
     //
     // Requirements:
-    // - Original content (No duplicate/spam).
-    // - Active blog (updated frequently).
-    // - 500+ words per sponsored post required.
+    // - **Quality Over Quantity**: No strict traffic minimum, but content must be original and high quality.
+    // - Must have an active blog section.
+    // - No link farms.
     //
     // Payout Details:
-    // - Minimum Payout: $5 / €5 (PayPal).
-    // - Frequency: On Request (Processed within 10 days).
-    //
-    // Best For:
-    // - Small to Medium bloggers wanting extra income.
+    // - Minimum Payout: $5.
+    // - Frequency: On demand (10-day process).
     //
     publisuites: { siteId: '', enabled: false },
 
     // ============================================================================
-    // FLYOUT.IO - Premium Blog Monetization
+    // FLYOUT.IO - High Traffic Automated Platform
     // ============================================================================
     // Description:
-    // Automated sponsored post platform.
+    // High-end marketplace for established blogs.
     //
-    // Key Features:
-    // - Automatic placement (sometimes).
-    // - Higher payouts per post.
-    //
-    // Requirements:
-    // - **HIGH TRAFFIC BARRIER**: Requires 10,000+ monthly organic visitors.
-    // - Must be WordPress blog (No Blogger/Wix).
-    // - Verified Google Analytics stats.
-    // - Detailed "About", "Contact", "Privacy" pages mandatory.
-    //
-    // Payout Details:
-    // - Instant deposit to Flyout account.
-    // - Monthly withdrawals (Net-30ish).
-    //
-    // Best For:
-    // - Established blogs with significant SEO traffic.
+    // Requirements (Strict):
+    // - **10,000+ Monthly Visitors** (Verified via GA).
+    // - 100+ High-quality original articles.
+    // - WordPress blogs preferred.
     //
     flyout: { publisherId: '', enabled: false }
 };

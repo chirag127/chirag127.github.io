@@ -1,19 +1,31 @@
 /**
- * Part 4: Engagement - Push Marketing (User Updates)
- * ENABLED for returning visitors
+ * Part 3: Engagement - Push Marketing (Direct to Browser)
  * @module config/engagement/push_marketing
  */
 
 export const push_marketing = {
-    // ONESIGNAL - Best free tier, great for engagement
-    // Feature: Unlimited subscribers, segmentation
-    // Free Limit: Unlimited web subscribers (Max 10k per send)
-    onesignal: { appId: '', enabled: true },  // Enable when you have appId
+    // ============================================================================
+    // ONESIGNAL - The Industry Leader
+    // ============================================================================
+    // Description:
+    // The most used push notification service for mobile and web.
+    //
+    // Free Tier Limits (2025):
+    // - **10,000 Subscriptions**.
+    // - Unlimited Web Push.
+    // - OneSignal Branding on some notifications.
+    //
+    onesignal: { appId: '', enabled: false },
 
-    // PushEngage
-    // Feature: Cart abandonment campaigns
-    // Free Limit: 200 subscribers, 30 campaigns
-    pushengage: { siteId: '', enabled: false }
+    // ============================================================================
+    // WEB PUSH SDK (Native)
+    // ============================================================================
+    // Description:
+    // Use the native Browser Push API.
+    // Requires a service worker and VAPID keys.
+    // **100% Free**.
+    //
+    web_push_native: { enabled: false }
 };
 
-export const push_marketing_priority = ['onesignal', 'pushengage'];
+export const push_marketing_priority = ['onesignal', 'web_push_native'];

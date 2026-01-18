@@ -1,18 +1,23 @@
 /**
- * Part 2: Tracking - SEO & Webmasters
- * ALL ENABLED for maximum search engine visibility
+ * Part 2: Tracking - SEO & Webmaster Verifications
+ * SEARCH FOCUS: Indexing and Search Engine Presence
  * @module config/tracking/tracking_seo
  */
 
 export const tracking_seo = {
     // ============================================================================
-    // GOOGLE SEARCH CONSOLE
+    // GOOGLE SEARCH CONSOLE (GSC)
     // ============================================================================
     // Description:
-    // The most critical SEO tool. Monitor indexing, performance, and issues on Google.
+    // The single most important tool for SEO on Google.
+    //
+    // Key Features:
+    // - Sitemaps submission.
+    // - Inspect URLs.
+    // - Track search queries and ranking.
     //
     // Limits:
-    // - 100% Free.
+    // - **100% Free**.
     //
     googleSearchConsole: { verificationTag: '', enabled: true },
 
@@ -20,10 +25,14 @@ export const tracking_seo = {
     // BING WEBMASTER TOOLS
     // ============================================================================
     // Description:
-    // Essential for Bing, Yahoo, and DuckDuckGo visibility.
+    // Powers search for Bing, Yahoo, and DuckDuckGo.
+    //
+    // Key Features:
+    // - URL submission.
+    // - Keyword research.
     //
     // Limits:
-    // - 100% Free.
+    // - **100% Free**.
     //
     bingWebmaster: { verificationTag: '', enabled: true },
 
@@ -31,10 +40,10 @@ export const tracking_seo = {
     // YANDEX WEBMASTER
     // ============================================================================
     // Description:
-    // Essential for Russia, Turkey, and Eastern Europe traffic.
+    // Dominant search engine in Russia and Turkey.
     //
     // Limits:
-    // - 100% Free.
+    // - **100% Free**.
     //
     yandexWebmaster: { verificationTag: '', enabled: true },
 
@@ -42,17 +51,17 @@ export const tracking_seo = {
     // PINTEREST VERIFICATION
     // ============================================================================
     // Description:
-    // Verifies website for Pinterest "Rich Pins" (Image SEO).
+    // Unlocks "Rich Pins" and analytics for image-heavy content.
     //
     pinterest: { verificationTag: '', enabled: true },
 
     // ============================================================================
-    // BAIDU
+    // AHREFS WEBMASTER TOOLS
     // ============================================================================
     // Description:
-    // Essential for China.
+    // In-depth backlink analysis and technical SEO audit (uses GSC data).
     //
-    baidu: { verificationTag: '', enabled: false }
+    ahrefs: { verificationTag: '', enabled: false }
 };
 
-export const tracking_seo_priority = ['googleSearchConsole', 'bingWebmaster', 'yandexWebmaster', 'pinterest'];
+export const tracking_seo_priority = ['googleSearchConsole', 'bingWebmaster', 'yandexWebmaster'];

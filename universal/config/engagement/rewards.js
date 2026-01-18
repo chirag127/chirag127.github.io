@@ -1,19 +1,26 @@
 /**
- * Part 4: Engagement - Loyalty / Rewards
- * Contests and giveaways
+ * Part 3: Engagement - Rewards & Gamification
  * @module config/engagement/rewards
  */
 
 export const rewards = {
-    // Gleam
-    // Feature: The king of viral giveaways
-    // Free Limit: Unlimited campaigns, 10 winners/campaign
-    gleam: { campaignId: '', enabled: true },
+    // ============================================================================
+    // GLEAM.IO - Giveaways & Competitions
+    // ============================================================================
+    // Description:
+    // Business growth platform using interactive campaigns.
+    //
+    // Free Limits (2025):
+    // - Unlimited campaigns.
+    // - Basic capture of entries.
+    // - Limited export and data features.
+    //
+    gleam: { campaignId: '', enabled: false },
 
-    // RafflePress
-    // Feature: WordPress focused (if using WP backend)
-    // Free Limit: Lite version available (Basic features)
-    rafflepress: { widgetId: '', enabled: false }
+    // ============================================================================
+    // VIRALSWEEP
+    // ============================================================================
+    viralsweep: { apiKey: '', enabled: false }
 };
 
-export const rewards_priority = ['gleam', 'rafflepress'];
+export const rewards_priority = ['gleam'];

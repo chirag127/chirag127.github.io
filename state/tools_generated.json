@@ -3,7 +3,8 @@
     "PDF-Merge-And-Split",
     "Markdown-To-HTML-Preview",
     "pdf-merger",
-    "pdf-splitter"
+    "pdf-splitter",
+    "pdf-compressor"
   ],
   "failed": [],
   "metadata_cache": {
@@ -85,6 +86,45 @@
         "client-side pdf"
       ],
       "category": "Document"
+    },
+    "pdf-compressor": {
+      "title": "Free PDF Compressor - Reduce File Size Instantly",
+      "description": "Free, private PDF compressor with no uploads. Shrink PDFs instantly without losing quality. 100% client-side, no data leaves your device.",
+      "features": [
+        "Compress PDFs in seconds without uploading files",
+        "100% private - files never leave your device",
+        "Preserve document quality while reducing file size",
+        "Works offline - no internet required after loading",
+        "Compatible with all modern browsers and devices"
+      ],
+      "keywords": [
+        "free pdf compressor",
+        "compress pdf online",
+        "reduce pdf size",
+        "private pdf tool",
+        "client-side pdf compression",
+        "no upload pdf compressor"
+      ],
+      "category": "Utility"
+    },
+    "pdf-optimizer": {
+      "title": "PDF Optimizer: Compress & Reduce File Size Instantly",
+      "description": "Free PDF optimizer tool to compress files without uploads. 100% private, no data leaves your device. Fast, secure, and easy to use.",
+      "features": [
+        "Reduce PDF file size by up to 90% without quality loss",
+        "100% client-side processing\u2014your files never leave your device",
+        "No sign-up or installation required\u2014use instantly in your browser",
+        "Supports batch processing for multiple PDFs at once",
+        "Works offline and on any device\u2014desktop, tablet, or mobile"
+      ],
+      "keywords": [
+        "PDF compressor",
+        "free PDF optimizer",
+        "compress PDF without upload",
+        "reduce PDF file size",
+        "private PDF tool"
+      ],
+      "category": "Utility"
     }
   }
 }

@@ -52,7 +52,24 @@ class CerebrasProvider(AIProvider):
 
             if response.status_code == 200:
                 data = response.json()
-                content = data["choices"][0]["message"]["content"]
+
+                # Defensive check for response structure
+                choices = data.get("choices")
+                if not choices or not isinstance(choices, list) or len(choices) == 0:
+                    return CompletionResult(success=False, error=f"Cerebras Error: Invalid 'choices' in response: {data}")
+
+                message = choices[0].get("message")
+                if not message:
+                    return CompletionResult(success=False, error=f"Cerebras Error: Missing 'message' in first choice: {data}")
+
+                content = message.get("content")
+                if content is None:
+                    # Check for refusal or other reasons content might be null
+                    refusal = message.get("refusal")
+                    if refusal:
+                        return CompletionResult(success=False, error=f"Cerebras Refusal: {refusal}")
+                    return CompletionResult(success=False, error=f"Cerebras Error: content is null in response: {data}")
+
                 usage = data.get("usage", {})
                 tokens = usage.get("total_tokens", 0)
                 return CompletionResult(success=True, content=content, tokens_used=tokens, model_used=model)

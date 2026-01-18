@@ -1,29 +1,56 @@
 /**
- * Part 4: Engagement - Comments
- * ENABLED for community building
+ * Part 3: Engagement - Comments & Community
  * @module config/engagement/comments
  */
 
 export const comments = {
-    // Giscus - GitHub Discussions (RECOMMENDED)
-    // Feature: No ads, no tracking, uses GitHub API, fully free
-    // Free Limit: 100% FREE (Open Source)
-    giscus: { repo: '', repoId: '', category: '', categoryId: '', enabled: true },
+    // ============================================================================
+    // GISCUS - The Best Free Choice for Tech Sites
+    // ============================================================================
+    // Description:
+    // A commenting system powered by GitHub Discussions.
+    //
+    // Key Features:
+    // - **100% Free** (No ads, no tracking).
+    // - Uses GitHub for authentication.
+    // - Markdown support.
+    //
+    // Requirements:
+    // - Users NEED a GitHub account to comment.
+    // - Public GitHub repository required.
+    //
+    // Best For:
+    // - Developer tools, documentation, and technical hubs.
+    //
+    giscus: { repoId: '', categoryId: '', enabled: true },
 
-    // Utterances - GitHub Issues
-    // Feature: Lightweight, stores comments as Issues
-    // Free Limit: 100% FREE (Open Source)
-    utterances: { repo: '', enabled: false },
+    // ============================================================================
+    // DISQUS - The Industry Standard
+    // ============================================================================
+    // Description:
+    // Most popular commenting widget on the web.
+    //
+    // ⚠️ FREE TIER NOTE (2025):
+    // - **Includes Ads** (Disqus "Reveal" system).
+    // - Tracks user data across the web.
+    // - Ad-free plans start at ~$18/month (Plus).
+    //
+    // Best For:
+    // - Sites wanting the lower friction of general social login.
+    //
+    disqus: { shortname: '', enabled: false },
 
-    // Facebook Comments
-    // Feature: Social proof via real profiles
-    // Free Limit: 100% FREE
-    facebook: { appId: '', enabled: false },
-
-    // Disqus - The standard
-    // Feature: Huge network, spam filtering included
-    // Free Limit: Free with MANDATORY ADS (Paid to remove)
-    disqus: { shortname: 'chirag127', enabled: false }
+    // ============================================================================
+    // COMMENTO - Privacy First
+    // ============================================================================
+    // Description:
+    // Lightweight, fast, and no-tracking comments.
+    //
+    // Free Limits:
+    // - **Unlimited (Self-hosted)**.
+    // - Cloud version is paid ($10+/mo).
+    //
+    commento: { siteId: '', enabled: false }
 };
 
-export const comments_priority = ['giscus', 'utterances', 'facebook', 'disqus'];
+export const comments_priority = ['giscus', 'disqus'];

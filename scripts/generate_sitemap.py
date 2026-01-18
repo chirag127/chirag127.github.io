@@ -97,13 +97,25 @@ def generate_sitemap(repos: list[dict], base_url: str = Settings.SITE_BASE_URL) 
             "changefreq": "weekly"
         })
 
+    # Guide pages
+    guide_pages = []
+    guides_dir = ROOT_DIR / "guides"
+    if guides_dir.exists():
+        for guide_file in guides_dir.glob("*.html"):
+            guide_pages.append({
+                "loc": f"{base_url}/guides/{guide_file.name}",
+                "lastmod": today,
+                "priority": "0.6",
+                "changefreq": "monthly"
+            })
+
     # Generate XML
     xml_parts = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ]
 
-    for page in static_pages + tool_pages:
+    for page in static_pages + tool_pages + guide_pages:
         xml_parts.append("  <url>")
         xml_parts.append(f"    <loc>{page['loc']}</loc>")
         if page.get("lastmod"):
