@@ -2,28 +2,28 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" alt="Status">
-  <img src="https://img.shields.io/badge/Tools-450+-blue?style=for-the-badge" alt="Tools Count">
+  <img src="https://img.shields.io/badge/Websites-450+-blue?style=for-the-badge" alt="Websites Count">
   <img src="https://img.shields.io/badge/Privacy-100%25-green?style=for-the-badge" alt="Privacy">
   <br>
-  <strong>The Infinite Toolset: Free, Private, Browser-Based Utilities.</strong>
+  <strong>The Infinite Website Collection: Free, Private, Browser-Based Generators.</strong>
 </p>
 
-[Chirag Hub](https://chirag127.github.io/) is a centralized platform hosting a vast collection of browser-based tools. From PDF manipulation and image conversion to developer utilities and games, every tool runs 100% client-side, ensuring your data never leaves your device.
+[Chirag Hub](https://chirag127.github.io/) is a centralized platform hosting a vast collection of browser-based websites. From PDF manipulation and image conversion to developer utilities and games, every website runs 100% client-side, ensuring your data never leaves your device.
 
-This repository serves as the **central command center** for the Chirag Hub ecosystem. It hosts the main landing page, the "Universal Engine" shared library, and the AI-powered automation scripts that generate and manage the individual tool repositories.
+This repository serves as the **central command center** for the Chirag Hub ecosystem. It hosts the main landing page, the "Universal Engine" shared library, and the AI-powered automation scripts that generate and manage the individual website repositories.
 
 ---
 
 ## ✨ Key Features
 
 ### 1. The Universal Engine (`universal/`)
-A powerful, modular JavaScript framework that unifies the user experience across all tools.
--   **Consistent UI**: Automatically pushes a shared header, footer, and theme system (Dark/Light mode) to every tool.
+A powerful, modular JavaScript framework that unifies the user experience across all websites.
+-   **Consistent UI**: Automatically pushes a shared header, footer, and theme system (Dark/Light mode) to every website.
 -   **Global Styling**: Injects premium "Spatial Glass" design tokens.
 -   **Integration Stack**: Manages analytics, monetization, and engagement features centrally.
 
 ### 2. Polymorphs (The Multiverse)
-A cutting-edge feature where tools are generated in multiple "variants" by different AI models (e.g., GPT-4, Claude 3.5, Llama 3).
+A cutting-edge feature where websites are generated in multiple "variants" by different AI models (e.g., GPT-4, Claude 3.5, Llama 3).
 -   **Compare Models**: See how different AIs solve the same coding problem.
 -   **AI Native**: The UI allows seamless switching between these AI-generated realities.
 
@@ -41,9 +41,9 @@ The project follows a **Hub-and-Spoke** model:
 
 ```mermaid
 graph TD
-    A[This Repo (Hub)] -->|Universal Engine| B[Tool A]
-    A -->|Universal Engine| C[Tool B]
-    A -->|Universal Engine| D[Tool C]
+    A[This Repo (Hub)] -->|Universal Engine| B[Website A]
+    A -->|Universal Engine| C[Website B]
+    A -->|Universal Engine| D[Website C]
     E[Python Scripts] -->|Generates| B
     E -->|Generates| C
     E -->|Generates| D
@@ -62,7 +62,7 @@ graph TD
 
 ### Prerequisites
 -   Python 3.10+
--   Node.js (optional, for some specific internal tools)
+-   Node.js (optional, for some specific internal scripts)
 -   GitHub Personal Access Token (for the generator scripts)
 
 ### Installation
@@ -87,9 +87,9 @@ graph TD
     ```
     Visit `http://localhost:3000` to see the hub.
 
--   **Generate a New Tool** (for authorized users):
+-   **Generate a New Website** (for authorized users):
     ```bash
-    python scripts/generate_projects.py --tool "image-compressor"
+    python scripts/generate_projects.py --website "image-compressor"
     ```
 
 ---

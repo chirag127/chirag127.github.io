@@ -2,13 +2,13 @@
 
 ## 1. Primary Purpose and Functionality
 **Chirag Hub** serves two distinct but interconnected roles:
-1.  **A Centralized Web Hub**: A public-facing portal (The "Infinite Toolset") that hosts and indexes a vast collection of browser-based utility tools (PDF mergers, image converters, calculators, games).
-2.  **An AI-Powered Tool Factory**: A sophisticated infrastructure for automatically generating, deploying, and managing these tools using advanced AI models. It acts as a "monorepo" for the central hub while orchestrating a constellation of separate repositories for individual tools.
+1.  **A Centralized Web Hub**: A public-facing portal (The "Infinite Website Collection") that hosts and indexes a vast collection of browser-based websites (PDF mergers, image converters, calculators, games).
+2.  **An AI-Powered Website Factory**: A sophisticated infrastructure for automatically generating, deploying, and managing these websites using advanced AI models. It acts as a "monorepo" for the central hub while orchestrating a constellation of separate repositories for individual websites.
 
 ## 2. Main Features and Capabilities
--   **Universal Engine**: A proprietary, modular JavaScript framework (`universal/core.js`) that injects a consistent UI (header, footer, theme toggle), global styles, and functionality (analytics, ads, sidebar) into every hosted tool. This ensures a unified brand and user experience across disparate projects.
--   **Polymorphs (The Multiverse)**: A unique feature that generates multiple "variants" of the same tool using different AI models (e.g., GPT-4, Claude, Llama 3). Users can switch between versions created by different "intelligences," allowing for a comparative analysis of AI coding capabilities.
--   **Automated Tool Generation**: Python scripts (`scripts/generate_projects.py`) that leverage AI (UnifiedAIClient) to research, prompt-engineer, and generate single-file HTML/JS tools with zero human intervention.
+-   **Universal Engine**: A proprietary, modular JavaScript framework (`universal/core.js`) that injects a consistent UI (header, footer, theme toggle), global styles, and functionality (analytics, ads, sidebar) into every hosted website. This ensures a unified brand and user experience across disparate projects.
+-   **Polymorphs (The Multiverse)**: A unique feature that generates multiple "variants" of the same website using different AI models (e.g., GPT-4, Claude, Llama 3). Users can switch between versions created by different "intelligences," allowing for a comparative analysis of AI coding capabilities.
+-   **Automated Website Generation**: Python scripts (`scripts/generate_projects.py`) that leverage AI (UnifiedAIClient) to research, prompt-engineer, and generate single-file HTML/JS websites with zero human intervention.
 -   **Centralized Management**: Scripts to automate GitHub repository creation, Pages enabling, topic tagging, and deployment across multiple platforms.
 -   **Privacy-First Architecture**: All tools are designed to run 100% client-side (in the browser), ensuring user data never leaves their device.
 
@@ -26,10 +26,10 @@
 
 ## 4. Architecture and Code Structure
 The repository follows a **Hub-and-Spoke** architecture:
--   **`universal/`**: The core library. Contains the "Universal Engine" code, styles, and configurations. This is the "DNA" shared by all tools.
+-   **`universal/`**: The core library. Contains the "Universal Engine" code, styles, and configurations. This is the "DNA" shared by all websites.
 -   **`scripts/`**: The "Factory Floor". Contains Python scripts for generating content (`generate_projects.py`), managing repos (`delete_empty_repos.py`), and ensuring consistency (`fix_integrations.py`).
--   **`polymorphs/`**: Hosting directory for the "Multiverse" variants of tools.
--   **`index.html`**: The main entry point (The Hub). It dynamically fetches the user's GitHub repositories via the GitHub API to populate the tool grid, effectively turning the user's GitHub profile into a CMS.
+-   **`polymorphs/`**: Hosting directory for the "Multiverse" variants of websites.
+-   **`index.html`**: The main entry point (The Hub). It dynamically fetches the user's GitHub repositories via the GitHub API to populate the website grid, effectively turning the user's GitHub profile into a CMS.
 -   **`docs/`**: Documentation and system prompts (`AGENTS.md`) that define the "personas" used by the AI to generate code.
 
 ## 5. Key Dependencies and Libraries
