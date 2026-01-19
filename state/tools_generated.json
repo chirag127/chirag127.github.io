@@ -4,7 +4,9 @@
     "word-counter",
     "character-counter",
     "line-counter",
-    "text-cleaner"
+    "text-cleaner",
+    "remove-duplicate-lines",
+    "text-diff-checker"
   ],
   "failed": [],
   "metadata_cache": {
@@ -104,6 +106,46 @@
         "format text online",
         "client-side text processing",
         "instant text optimization"
+      ],
+      "category": "Utility"
+    },
+    "remove-duplicate-lines": {
+      "title": "Duplicate Line Remover: Clean Text Instantly",
+      "description": "Free online tool to remove duplicate lines instantly. No upload required \u2013 your data stays private. Process text securely in your browser.",
+      "features": [
+        "Remove duplicates in seconds with one-click processing",
+        "100% client-side: Your files never leave your device",
+        "Simple paste-and-clean interface, no learning curve",
+        "Zero data tracking or server storage",
+        "Works with any text format (CSV, logs, lists)"
+      ],
+      "keywords": [
+        "remove duplicate lines",
+        "online duplicate remover",
+        "dedupe text tool",
+        "privacy-focused text cleaner",
+        "client-side line remover",
+        "free duplicate line tool"
+      ],
+      "category": "Utility"
+    },
+    "text-diff-checker": {
+      "title": "Text Diff Checker: Instant Compare Tool",
+      "description": "Free online tool to compare text differences instantly. No uploads needed\u2014100% private. Perfect for code, docs, and more!",
+      "features": [
+        "Instant results with client-side processing",
+        "Zero data transfer (files never leave your device)",
+        "Simple drag-and-drop interface",
+        "Military-grade privacy with no signup required",
+        "Works on all devices and browsers"
+      ],
+      "keywords": [
+        "text diff checker",
+        "compare text online",
+        "free diff tool",
+        "privacy-focused text compare",
+        "client-side text comparison",
+        "document difference checker"
       ],
       "category": "Utility"
     }
